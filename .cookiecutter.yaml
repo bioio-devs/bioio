@@ -7,5 +7,4 @@ default_context:
     python_slug: "bioio"
     project_short_description: "Image reading, metadata management, and image writing for Microscopy images in Python"
     hosting_pypi_username: "bioio-devs"
-    version: "0.0.0"
     license: "BSD License"

@@ -1,0 +1,11 @@
+default_context:
+    author_name: "Eva Maxfield Brown"
+    author_email: "evamaxfieldbrown@gmail.com"
+    hosting_github_username_or_org: "bioio-devs"
+    project_name: "BioIO"
+    project_slug: "bioio"
+    python_slug: "bioio"
+    project_short_description: "Image reading, metadata management, and image writing for Microscopy images in Python"
+    hosting_pypi_username: "bioio-devs"
+    version: "0.0.0"
+    license: "BSD License"

@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # <minute [0,59]> <hour [0,23]> <day of the month [1,31]>
+    # <month of the year [1,12]> <day of the week [0,6]>
+    # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/crontab.html#tag_20_25_07
+    # Run every Monday at 10:24:00 PST
+    # (Since these CRONs are used by a lot of people -
+    # let's be nice to the servers and schedule it _not_ on the hour)
+    - cron: "24 18 * * 1"
+  workflow_dispatch:
+
+jobs:
+  # Check that all files listed in manifest make it into build
+  check-manifest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - run: pip install check-manifest && check-manifest
+  
+  # Check tests pass on multiple Python and OS combinations
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8, 3.9, "3.10"]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install .[test]
+    - name: Run Tests
+      run: just test
+    - name: Upload Codecov
+      uses: codecov/codecov-action@v3
+
+  # Check linting, formating, types, etc.
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - uses: extractions/setup-just@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install .[lint]
+    - name: Lint
+      run: just lint
+
+  # Publish to PyPI if test, lint, and manifest checks passed
+  publish:
+    if: "success() && startsWith(github.ref, 'refs/tags/')"
+    needs: [check-manifest, test, lint]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build wheel
+    - name: Build Package
+      run: |
+        python -m build
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: bioio-devs
+        password: ${{ secrets.PYPI_TOKEN }}

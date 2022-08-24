@@ -181,6 +181,6 @@ texinfo_documents = [
         "bioio Documentation",
         author,
         "bioio",
-        "TODO: short description",
+        "Image reading, metadata management, and image writing for Microscopy images in Python",
     ),
 ]

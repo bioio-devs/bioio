@@ -53,7 +53,7 @@ def add_plugin(pluginentry: PluginEntry):
 
 
 def get_plugins():
-    plugins = entry_points(group="aicsimageio.readers")
+    plugins = entry_points(group="bioio.readers")
     for plugin in plugins:
         # ReaderMetadata knows how to instantiate the actual Reader
         reader_meta = plugin.load().ReaderMetadata

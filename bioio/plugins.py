@@ -12,8 +12,8 @@ else:
 
 from typing import Dict, List, NamedTuple, Optional
 
-from base_image_reader import ReaderMetadata
-from base_image_reader.reader import Reader
+from bioio_types.reader import Reader
+from bioio_types.reader_metadata import ReaderMetadata
 
 ###############################################################################
 

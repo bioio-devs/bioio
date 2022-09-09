@@ -9,5 +9,5 @@ try:
 except PackageNotFoundError:
     __version__ = "uninstalled"
 
-__author__ = "Eva Maxfield Brown"
-__email__ = "evamaxfieldbrown@gmail.com"
+__author__ = "Eva Maxfield Brown, Dan Toloudis, BioIO Contributors"
+__email__ = "evamaxfieldbrown@gmail.com, danielt@alleninstitute.org"

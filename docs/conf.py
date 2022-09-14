@@ -26,7 +26,6 @@ import bioio
 sys.path.insert(0, os.path.abspath(".."))
 
 
-
 # -- General configuration ---------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -45,7 +44,7 @@ extensions = [
     "sphinx_copybutton",
     # Doc installs
     "m2r2",
-    "numpydoc", 
+    "numpydoc",
 ]
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "

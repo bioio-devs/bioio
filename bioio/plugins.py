@@ -4,6 +4,7 @@
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
 if sys.version_info < (3, 10):
     from importlib_metadata import EntryPoint, entry_points
@@ -21,7 +22,7 @@ from bioio_types.reader_metadata import ReaderMetadata
 class PluginEntry(NamedTuple):
     entrypoint: EntryPoint
     metadata: ReaderMetadata
-    timestamp: datetime
+    timestamp: float
 
 
 # global cache of plugins
@@ -31,7 +32,7 @@ plugin_cache: List[PluginEntry] = []
 plugins_by_ext: Dict[str, List[PluginEntry]] = {}
 
 
-def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry):
+def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry) -> None:
     for i, other in enumerate(list):
         if item.timestamp > other.timestamp:
             list.insert(i, item)
@@ -39,7 +40,7 @@ def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry):
     list.append(item)
 
 
-def add_plugin(pluginentry: PluginEntry):
+def add_plugin(pluginentry: PluginEntry) -> None:
     plugin_cache.append(pluginentry)
     exts = pluginentry.metadata.get_supported_extensions()
     for ext in exts:
@@ -52,35 +53,54 @@ def add_plugin(pluginentry: PluginEntry):
         insert_sorted_by_timestamp(pluginlist, pluginentry)
 
 
-def get_plugins():
+def get_plugins() -> List[PluginEntry]:
     plugins = entry_points(group="bioio.readers")
     for plugin in plugins:
         # ReaderMetadata knows how to instantiate the actual Reader
         reader_meta = plugin.load().ReaderMetadata
-        if plugin.dist.files is not None:
-            firstfile = plugin.dist.files[0]
-            timestamp = os.path.getmtime(firstfile.locate().parent)
+        if plugin.dist is not None:
+            files = plugin.dist.files
+            if files is not None:
+                firstfile = files[0]
+                timestamp = os.path.getmtime(Path(firstfile.locate()).parent)
+            else:
+                print(f"No files found for plugin: '{plugin}'")
         else:
-            timestamp = 0
-        pluginentry = PluginEntry(plugin, reader_meta, timestamp)
-        add_plugin(pluginentry)
+            print(f"Could not find distribution for plugin: '{plugin}'")
+            timestamp = 0.0
+
+        # Add plugin entry
+        add_plugin(PluginEntry(plugin, reader_meta, timestamp))
 
     return plugin_cache
 
 
-def dump_plugins():
+def dump_plugins() -> None:
     # TODO don't call get_plugins every time
     get_plugins()
     for plugin in plugin_cache:
         ep = plugin.entrypoint
         print(ep.name)
-        print(f"  Author  : {ep.dist.metadata['author']}")
-        print(f"  Version : {ep.dist.version}")
-        print(f"  License : {ep.dist.metadata['license']}")
-        firstfile = ep.dist.files[0]
-        t = datetime.fromtimestamp(os.path.getmtime(firstfile.locate().parent))
-        print(f"  Date    : {t}")
-        # print(f"  Description : {ep.dist.metadata['description']}")
+
+        # Unpack dist
+        dist = ep.dist
+        if dist is not None:
+            print(f"  Author  : {dist.metadata['author']}")
+            print(f"  Version : {dist.version}")
+            print(f"  License : {dist.metadata['license']}")
+
+            # Unpack files
+            files = dist.files
+            if files is not None:
+                firstfile = files[0]
+                t = datetime.fromtimestamp(
+                    os.path.getmtime(Path(firstfile.locate()).parent)
+                )
+                print(f"  Date    : {t}")
+        else:
+            print("  No Distribution Found...")
+
+            # print(f"  Description : {ep.dist.metadata['description']}")
         reader_meta = plugin.metadata
         exts = ", ".join(reader_meta.get_supported_extensions())
         print(f"  Supported Extensions : {exts}")
@@ -114,7 +134,7 @@ def find_reader_for_path(path: str) -> Optional[Reader]:
 
 
 def find_readers_for_path(path: str) -> List[PluginEntry]:
-    candidates = []
+    candidates: List[PluginEntry] = []
     # try to match on the longest possible registered extension first
     exts = sorted(plugins_by_ext.keys(), key=len, reverse=True)
     for ext in exts:

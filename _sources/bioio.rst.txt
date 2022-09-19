@@ -1,21 +1,13 @@
 bioio package
 =============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   bioio.bin
-
 Submodules
 ----------
 
-bioio.example module
+bioio.plugins module
 --------------------
 
-.. automodule:: bioio.example
+.. automodule:: bioio.plugins
    :members:
    :undoc-members:
    :show-inheritance:

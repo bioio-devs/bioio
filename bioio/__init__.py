@@ -4,6 +4,8 @@
 
 from importlib.metadata import PackageNotFoundError, version
 
+from .bio_image import BioImage
+
 try:
     __version__ = version("bioio")
 except PackageNotFoundError:
@@ -11,3 +13,7 @@ except PackageNotFoundError:
 
 __author__ = "Eva Maxfield Brown, Dan Toloudis, BioIO Contributors"
 __email__ = "evamaxfieldbrown@gmail.com, danielt@alleninstitute.org"
+
+__all__ = [
+    "BioImage",
+]

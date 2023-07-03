@@ -16,11 +16,19 @@ Docs: https://docs.pytest.org/en/latest/example/simple.html
       https://docs.pytest.org/en/latest/plugins.html#requiring-loading-plugins-in-a-test-module-or-conftest-file
 """
 
-from pathlib import Path
+import pathlib
+import typing
 
 import pytest
 
+LOCAL_RESOURCES_DIR = pathlib.Path(__file__).parent / "resources"
+LOCAL_RESOURCES_WRITE_DIR = pathlib.Path(__file__).parent / "writer_products"
+
+
+def get_resource_full_path(filename: str) -> typing.Union[str, pathlib.Path]:
+    return LOCAL_RESOURCES_DIR / filename
+
 
 @pytest.fixture
-def data_dir() -> Path:
-    return Path(__file__).parent / "data"
+def data_dir() -> pathlib.Path:
+    return pathlib.Path(__file__).parent / "data"

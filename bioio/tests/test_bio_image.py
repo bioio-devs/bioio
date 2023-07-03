@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import bioio_types as biob
+import bioio_base as biob
 import pytest
 
 from bioio import BioImage

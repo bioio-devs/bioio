@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
-import bioio_types as biob
+import bioio_base as biob
 import dask.array as da
 import numpy as np
 import xarray as xr

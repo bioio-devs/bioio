@@ -2,7 +2,7 @@
 
 from typing import Any, Dict, List, Optional, Union
 
-import bioio_types as bb
+import bioio_base as bb
 import ome_types
 
 

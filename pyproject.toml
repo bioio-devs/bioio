@@ -28,7 +28,7 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-  "bioio-types",
+  "bioio-base>=0.1.1",
 ]
 
 [project.urls]

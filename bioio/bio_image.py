@@ -176,7 +176,8 @@ class BioImage(biob.image_container.ImageContainer):
             ),
         )
 
-    def generate_ome_channel_id(image_id: str, channel_id: Union[str, int]) -> str:
+    @staticmethod
+    def _generate_ome_channel_id(image_id: str, channel_id: Union[str, int]) -> str:
         """
         Naively generates the standard OME channel ID using a provided ID.
 

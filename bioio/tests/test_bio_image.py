@@ -8,6 +8,8 @@ from bioio import BioImage
 
 from .conftest import get_resource_full_path
 
+# TODO: Write out example.txt
+
 
 @pytest.mark.parametrize(
     "filename",

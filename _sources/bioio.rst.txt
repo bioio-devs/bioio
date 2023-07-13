@@ -1,8 +1,24 @@
 bioio package
 =============
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   bioio.writers
+
 Submodules
 ----------
+
+bioio.bio\_image module
+-----------------------
+
+.. automodule:: bioio.bio_image
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 bioio.plugins module
 --------------------

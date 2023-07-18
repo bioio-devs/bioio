@@ -50,6 +50,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
+# Unit test files
+bioio/tests/resources/
+
 # Translations
 *.mo
 *.pot

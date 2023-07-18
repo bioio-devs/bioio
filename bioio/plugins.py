@@ -16,8 +16,8 @@ else:
 
 from typing import Dict, List, NamedTuple, Optional, Tuple
 
-from bioio_types.reader import Reader
-from bioio_types.reader_metadata import ReaderMetadata
+from bioio_base.reader import Reader
+from bioio_base.reader_metadata import ReaderMetadata
 
 ###############################################################################
 

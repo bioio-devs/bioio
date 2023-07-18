@@ -37,6 +37,12 @@ build:
 	just lint
 	just test
 
+# install dependencies, setup pre-commit, download test resources
+setup-dev:
+	just install
+	pre-commit install
+	python scripts/download_test_resources.py
+
 # generate Sphinx HTML documentation
 generate-docs:
 	rm -f docs/bioio*.rst

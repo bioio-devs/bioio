@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
-        <title>bioio.plugins - bioio 0.1.dev1+g07f6d80 documentation</title>
+        <title>bioio.plugins - bioio 0.1.dev1+gdef6104 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g07f6d80 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+gdef6104 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g07f6d80 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gdef6104 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -204,21 +204,27 @@
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">importlib_metadata</span> <span class="kn">import</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">entry_points</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">EntryPoint</span>
+<span class="kn">import</span> <span class="nn">semver</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">importlib_metadata</span> <span class="kn">import</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">requires</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">requires</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">bioio_base.reader</span> <span class="kn">import</span> <span class="n">Reader</span>
 <span class="kn">from</span> <span class="nn">bioio_base.reader_metadata</span> <span class="kn">import</span> <span class="n">ReaderMetadata</span>
 
 <span class="c1">###############################################################################</span>
+
+<span class="n">BIOIO_DIST_NAME</span> <span class="o">=</span> <span class="s2">&quot;bioio&quot;</span>
+<span class="n">BIOIO_BASE_DIST_NAME</span> <span class="o">=</span> <span class="s2">&quot;bioio-types&quot;</span>  <span class="c1"># TODO: Rename to bioio-base</span>
 
 
 <div class="viewcode-block" id="PluginEntry"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginEntry">[docs]</a><span class="k">class</span> <span class="nc">PluginEntry</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -255,24 +261,105 @@
         <span class="n">insert_sorted_by_timestamp</span><span class="p">(</span><span class="n">pluginlist</span><span class="p">,</span> <span class="n">pluginentry</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="get_dependency_version_range_for_distribution"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_dependency_version_range_for_distribution">[docs]</a><span class="k">def</span> <span class="nf">get_dependency_version_range_for_distribution</span><span class="p">(</span>
+    <span class="n">distribution_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dependency_name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the minimum and maximum versions of the dependency as specified</span>
+<span class="sd">    by the given distribution.</span>
+<span class="sd">    `None` as the minimum or maximum represents no minimum or maximum (respectively)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_distribution_deps</span> <span class="o">=</span> <span class="n">requires</span><span class="p">(</span><span class="n">distribution_name</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+    <span class="n">matching_distribution_deps</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">dep</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">all_distribution_deps</span> <span class="k">if</span> <span class="n">dep</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">dependency_name</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_distribution_deps</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected to find 1 `</span><span class="si">{</span><span class="n">dependency_name</span><span class="si">}</span><span class="s2">` dependency for &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">distribution_name</span><span class="si">}</span><span class="s2">`, instead found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_distribution_deps</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Versions from importlib are formatted like &quot;&lt;dependency name&gt; (&lt;0.19,&gt;=0.18)&quot;</span>
+    <span class="c1"># so this regex needs to find the inner part of the parentheses to get the</span>
+    <span class="c1"># version specifications</span>
+    <span class="n">version_specification_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\(.*?\)&quot;</span><span class="p">,</span> <span class="n">matching_distribution_deps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">minimum_dependency_version</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">maximum_dependency_version</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">version_specification_match</span><span class="p">:</span>
+        <span class="c1"># A distribution can specify a minimum and maximum (or force an exact) version</span>
+        <span class="c1"># so multiple versions need to be parsed here</span>
+        <span class="n">version_specifications</span> <span class="o">=</span> <span class="n">version_specification_match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">version_specification</span> <span class="ow">in</span> <span class="n">version_specifications</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">char</span>
+                    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">version_specification</span>
+                    <span class="k">if</span> <span class="n">char</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span> <span class="ow">or</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Unfortunately not all versions are specified in full SemVer format</span>
+            <span class="c1"># and instead can be like &quot;0.19&quot; and the &quot;semver&quot; package does not</span>
+            <span class="c1"># handle these well so we can just fill in the missing .0</span>
+            <span class="c1"># to make 0.19 -&gt; 0.19.0</span>
+            <span class="k">while</span> <span class="n">version</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">version</span> <span class="o">+=</span> <span class="s2">&quot;.0&quot;</span>
+
+            <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span> <span class="ow">or</span> <span class="s2">&quot;==&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span><span class="p">:</span>
+                <span class="n">maximum_dependency_version</span> <span class="o">=</span> <span class="n">version</span>
+
+            <span class="k">if</span> <span class="s2">&quot;&gt;&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span> <span class="ow">or</span> <span class="s2">&quot;==&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span><span class="p">:</span>
+                <span class="n">minimum_dependency_version</span> <span class="o">=</span> <span class="n">version</span>
+
+    <span class="k">return</span> <span class="n">minimum_dependency_version</span><span class="p">,</span> <span class="n">maximum_dependency_version</span></div>
+
+
 <div class="viewcode-block" id="get_plugins"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]:</span>
     <span class="n">plugins</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">)</span>
+    <span class="p">(</span>
+        <span class="n">min_compatible_bioio_base_version</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">get_dependency_version_range_for_distribution</span><span class="p">(</span>
+        <span class="n">BIOIO_DIST_NAME</span><span class="p">,</span> <span class="n">BIOIO_BASE_DIST_NAME</span>
+    <span class="p">)</span>
     <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
-        <span class="c1"># ReaderMetadata knows how to instantiate the actual Reader</span>
-        <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="o">.</span><span class="n">ReaderMetadata</span>
-        <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">files</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">files</span>
-            <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">firstfile</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">timestamp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">firstfile</span><span class="o">.</span><span class="n">locate</span><span class="p">())</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No files found for plugin: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="p">(</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">max_bioio_base_version_for_plugin</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">get_dependency_version_range_for_distribution</span><span class="p">(</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">BIOIO_BASE_DIST_NAME</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">min_compatible_bioio_base_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">max_bioio_base_version_for_plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="n">semver</span><span class="o">.</span><span class="n">compare</span><span class="p">(</span>
+                <span class="n">max_bioio_base_version_for_plugin</span><span class="p">,</span>
+                <span class="n">min_compatible_bioio_base_version</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Plugin `</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` does not meet &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;minimum `</span><span class="si">{</span><span class="n">BIOIO_BASE_DIST_NAME</span><span class="si">}</span><span class="s2">` of &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">min_compatible_bioio_base_version</span><span class="si">}</span><span class="s2">, ignoring&quot;</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find distribution for plugin: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-            <span class="n">timestamp</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="c1"># ReaderMetadata knows how to instantiate the actual Reader</span>
+            <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="o">.</span><span class="n">ReaderMetadata</span>
+            <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">files</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">files</span>
+                <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">firstfile</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">firstfile</span><span class="o">.</span><span class="n">locate</span><span class="p">())</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No files found for plugin: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find distribution for plugin: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                <span class="n">timestamp</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-        <span class="c1"># Add plugin entry</span>
-        <span class="n">add_plugin</span><span class="p">(</span><span class="n">PluginEntry</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">reader_meta</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">))</span>
+            <span class="c1"># Add plugin entry</span>
+            <span class="n">add_plugin</span><span class="p">(</span><span class="n">PluginEntry</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">reader_meta</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">plugin_cache</span></div>
 

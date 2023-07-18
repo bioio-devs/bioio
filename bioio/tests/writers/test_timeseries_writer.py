@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pathlib
 from typing import Callable, Tuple
 
 import bioio_base as biob
@@ -11,7 +12,7 @@ import pytest
 from bioio.writers.timeseries_writer import TimeseriesWriter
 from bioio.writers.two_d_writer import TwoDWriter
 
-from ..conftest import array_constructor, get_resource_write_full_path
+from ..conftest import array_constructor
 
 
 @array_constructor
@@ -63,12 +64,13 @@ def test_timeseries_writer(
     write_dim_order: str,
     read_shape: Tuple[int, ...],
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Create array
     arr = array_constructor(write_shape, dtype=np.uint8)
 
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
 
     # Normal save
     TimeseriesWriter.save(arr, save_uri, write_dim_order)
@@ -145,12 +147,13 @@ def test_timeseries_writer_ffmpeg(
     write_dim_order: str,
     read_shape: Tuple[int, ...],
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Create array
     arr = array_constructor(write_shape, dtype=np.uint8)
 
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
 
     # Normal save
     TimeseriesWriter.save(arr, save_uri, write_dim_order)

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pathlib
 from typing import Callable, List, Optional, Tuple, Union
 
 import bioio_base as biob
-import lxml.etree
 import numpy as np
 import pytest
 import tifffile
@@ -13,7 +13,7 @@ from ome_types.model import OME
 
 from bioio.writers import OmeTiffWriter
 
-from ..conftest import array_constructor, get_resource_write_full_path
+from ..conftest import array_constructor
 
 
 @array_constructor
@@ -78,12 +78,13 @@ def test_ome_tiff_writer_no_meta(
     expected_read_shape: Tuple[int, ...],
     expected_read_dim_order: str,
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Create array
     arr = array_constructor(write_shape, dtype=np.uint8)
 
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
 
     # Normal save
     OmeTiffWriter.save(arr, save_uri, write_dim_order)
@@ -182,7 +183,7 @@ def test_ome_tiff_writer_no_meta(
             (2, 3, 4, 5),
             "CZYX",
             # raised from within ome-types
-            marks=pytest.mark.xfail(raises=lxml.etree.XMLSyntaxError),
+            marks=pytest.mark.xfail(raises=ValueError),
         ),
     ],
 )
@@ -194,12 +195,13 @@ def test_ome_tiff_writer_with_meta(
     expected_shape: Tuple[int, ...],
     expected_dim_order: Tuple[str, ...],
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Create array
     arr = array_constructor(shape_to_create, dtype=np.uint8)
 
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
 
     # Normal save
     OmeTiffWriter.save(arr, save_uri, dimension_order=None, ome_xml=ome_xml)
@@ -284,9 +286,10 @@ def test_ome_tiff_writer_multiscene(
     read_shapes: List[Tuple[int, ...]],
     read_dim_order: List[str],
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
 
     # Normal save
     OmeTiffWriter.save(array_data, save_uri, write_dim_order)
@@ -449,9 +452,10 @@ def test_ome_tiff_writer_common_metadata(
     read_shapes: List[Tuple[int, ...]],
     read_dim_order: List[str],
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
 
     # Normal save
     OmeTiffWriter.save(

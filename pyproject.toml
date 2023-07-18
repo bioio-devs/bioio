@@ -33,7 +33,7 @@ dependencies = [
   "fsspec>=2022.8.0",
   "imageio[ffmpeg]>=2.11.0,<2.28.0",
   "numpy>=1.16.0,<2.0.0",
-  "ome-types>=0.3.3",
+  "ome-types[lxml]>=0.4.0",
   "ome-zarr>=0.6.1",
   "tifffile>=2021.8.30",
   "zarr>=2.6.0,<3.0.0",
@@ -53,7 +53,6 @@ lint = [
 ]
 test = [
   "coverage>=5.1",
-  "lxml>=4.6.0,<5.0.0",
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",
   "pytest-raises>=0.11",

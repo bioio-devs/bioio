@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pathlib
 import shutil
 from typing import Callable, List, Optional, Tuple
 
@@ -12,7 +13,7 @@ from ome_zarr.reader import Reader
 
 from bioio.writers import OmeZarrWriter
 
-from ..conftest import array_constructor, get_resource_write_full_path
+from ..conftest import array_constructor
 
 
 @array_constructor
@@ -77,12 +78,13 @@ def test_ome_zarr_writer_dims(
     expected_read_shape: Tuple[int, ...],
     expected_read_dim_order: str,
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Create array
     arr = array_constructor(write_shape, dtype=np.uint8)
 
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
     # clear out anything left over
     shutil.rmtree(save_uri, ignore_errors=True)
 
@@ -140,12 +142,13 @@ def test_ome_zarr_writer_scaling(
     expected_read_shapes: List[Tuple[int, ...]],
     expected_read_scales: List[List[int]],
     filename: str,
+    tmp_path: pathlib.Path,
 ) -> None:
     # Create array
     arr = array_constructor(write_shape, dtype=np.uint8)
 
     # Construct save end point
-    save_uri = get_resource_write_full_path(filename)
+    save_uri = tmp_path / filename
     # clear out anything left over
     shutil.rmtree(save_uri, ignore_errors=True)
 

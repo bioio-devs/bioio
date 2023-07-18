@@ -18,7 +18,6 @@ Docs: https://docs.pytest.org/en/latest/example/simple.html
 
 import logging
 import pathlib
-import shutil
 import typing
 
 import dask.array as da
@@ -31,43 +30,12 @@ log = logging.getLogger(__name__)
 
 ###############################################################################
 
-LOCAL_RESOURCES_DIR = pathlib.Path(__file__).parent / "resources"
-LOCAL_RESOURCES_WRITE_DIR = pathlib.Path(__file__).parent / "writer_products"
-
-
-def pytest_sessionstart(session: pytest.Session) -> None:
-    """
-    Called after the Session object has been created and
-    before performing collection and entering the run test suite loop.
-    """
-    if LOCAL_RESOURCES_WRITE_DIR.exists():
-        log.warning(
-            f"{LOCAL_RESOURCES_WRITE_DIR.absolute} should not exist at "
-            "start of tests, deleting now"
-        )
-        shutil.rmtree(LOCAL_RESOURCES_WRITE_DIR)
-
-
-def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
-    """
-    Called after whole test suite run finished, right before
-    returning the exit status to the system.
-    """
-    shutil.rmtree(LOCAL_RESOURCES_WRITE_DIR)
-
 
 @pytest.fixture
-def data_dir() -> pathlib.Path:
-    return pathlib.Path(__file__).parent / "data"
-
-
-def get_resource_full_path(filename: str) -> typing.Union[str, pathlib.Path]:
-    return LOCAL_RESOURCES_DIR / filename
-
-
-def get_resource_write_full_path(filename: str) -> typing.Union[str, pathlib.Path]:
-    LOCAL_RESOURCES_WRITE_DIR.mkdir(parents=True, exist_ok=True)
-    return LOCAL_RESOURCES_WRITE_DIR / filename
+def sample_text_file(tmp_path: pathlib.Path) -> pathlib.Path:
+    example_file = tmp_path / "temp-example.txt"
+    example_file.write_text("just some example text here")
+    return example_file
 
 
 def np_random_from_shape(

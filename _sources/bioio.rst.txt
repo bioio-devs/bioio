@@ -20,6 +20,14 @@ bioio.bio\_image module
    :undoc-members:
    :show-inheritance:
 
+bioio.ome\_utils module
+-----------------------
+
+.. automodule:: bioio.ome_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 bioio.plugins module
 --------------------
 

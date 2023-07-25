@@ -4,11 +4,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
-        <title>bioio.bio_image - bioio 0.1.dev1+gdef6104 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <!-- Generated with Sphinx 7.1.0 and Furo 2023.05.20 -->
+        <title>bioio.bio_image - bioio 0.1.dev1+gd4fbe67 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+gdef6104 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+gd4fbe67 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+gdef6104 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gd4fbe67 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -213,6 +213,7 @@
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">from</span> <span class="nn">ome_types</span> <span class="kn">import</span> <span class="n">OME</span>
 
+<span class="kn">from</span> <span class="nn">.ome_utils</span> <span class="kn">import</span> <span class="n">generate_ome_channel_id</span>
 <span class="kn">from</span> <span class="nn">.plugins</span> <span class="kn">import</span> <span class="n">plugins_by_ext</span>
 
 <span class="c1">###############################################################################</span>
@@ -378,36 +379,6 @@
             <span class="p">),</span>
         <span class="p">)</span></div>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_generate_ome_channel_id</span><span class="p">(</span><span class="n">image_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Naively generates the standard OME channel ID using a provided ID.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        image_id: str</span>
-<span class="sd">            An image id to pull the image specific index from.</span>
-<span class="sd">            See: `generate_ome_image_id` for more details.</span>
-<span class="sd">        channel_id: Union[str, int]</span>
-<span class="sd">            A string or int representing the ID for a channel.</span>
-<span class="sd">            In the context of the usage of this function, this is usually used with the</span>
-<span class="sd">            index of the channel.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        ome_channel_id: str</span>
-<span class="sd">            The OME standard for channel IDs.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        ImageIds are usually: &quot;Image:0&quot;, &quot;Image:1&quot;, or &quot;Image:N&quot;,</span>
-<span class="sd">        ChannelIds are usually the combination of image index + channel index --</span>
-<span class="sd">        &quot;Channel:0:0&quot; for the first channel of the first image for example.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Remove the prefix &#39;Image:&#39; to get just the index</span>
-        <span class="n">image_index</span> <span class="o">=</span> <span class="n">image_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Image:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Channel:</span><span class="si">{</span><span class="n">image_index</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">channel_id</span><span class="si">}</span><span class="s2">&quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
@@ -551,7 +522,7 @@
         <span class="c1"># Add channel coordinate plane because it is required in BioImage</span>
         <span class="k">if</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Channel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coords</span><span class="p">:</span>
             <span class="n">coords</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Channel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">BioImage</span><span class="o">.</span><span class="n">_generate_ome_channel_id</span><span class="p">(</span>
+                <span class="n">generate_ome_channel_id</span><span class="p">(</span>
                     <span class="n">image_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="p">,</span>
                     <span class="n">channel_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -1346,11 +1317,11 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script src="../../_static/scripts/furo.js"></script>
-    <script src="../../_static/clipboard.min.js"></script>
-    <script src="../../_static/copybutton.js"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=692e2b5c"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=30646c52"></script>
     </body>
 </html>

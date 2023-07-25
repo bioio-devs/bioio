@@ -5,11 +5,11 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio package" href="bioio.html" /><link rel="prev" title="Installation" href="installation.html" />
 
-    <!-- Generated with Sphinx 7.0.1 and Furo 2023.05.20 -->
-        <title>bioio - bioio 0.1.dev1+gdef6104 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <!-- Generated with Sphinx 7.1.0 and Furo 2023.05.20 -->
+        <title>bioio - bioio 0.1.dev1+gd4fbe67 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=e6660623a769aa55fea372102b9bf3151b292993" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+gdef6104 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+gd4fbe67 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+gdef6104 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gd4fbe67 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -208,6 +208,12 @@
 <li class="toctree-l1"><a class="reference internal" href="bioio.html">bioio package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="bioio.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="bioio.writers.html">bioio.writers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#module-bioio.writers.ome_tiff_writer">bioio.writers.ome_tiff_writer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#module-bioio.writers.ome_zarr_writer">bioio.writers.ome_zarr_writer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#module-bioio.writers.timeseries_writer">bioio.writers.timeseries_writer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#module-bioio.writers.two_d_writer">bioio.writers.two_d_writer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#module-bioio.writers.writer">bioio.writers.writer module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bioio.writers.html#module-bioio.writers">Module contents</a></li>
 </ul>
 </li>
@@ -249,6 +255,13 @@
 <li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.bio_image.imread_dask"><code class="docutils literal notranslate"><span class="pre">imread_dask()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.bio_image.imread_xarray"><code class="docutils literal notranslate"><span class="pre">imread_xarray()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.bio_image.imread_xarray_dask"><code class="docutils literal notranslate"><span class="pre">imread_xarray_dask()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bioio.html#module-bioio.ome_utils">bioio.ome_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.ome_utils.dtype_to_ome_type"><code class="docutils literal notranslate"><span class="pre">dtype_to_ome_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.ome_utils.generate_ome_channel_id"><code class="docutils literal notranslate"><span class="pre">generate_ome_channel_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.ome_utils.generate_ome_image_id"><code class="docutils literal notranslate"><span class="pre">generate_ome_image_id()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="bioio.html#bioio.ome_utils.ome_to_numpy_dtype"><code class="docutils literal notranslate"><span class="pre">ome_to_numpy_dtype()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="bioio.html#module-bioio.plugins">bioio.plugins module</a><ul>
@@ -355,11 +368,11 @@
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
-    <script src="_static/scripts/furo.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=692e2b5c"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=30646c52"></script>
     </body>
 </html>

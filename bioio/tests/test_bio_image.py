@@ -1,30 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pathlib
+
 import bioio_base as biob
 import pytest
 
 from bioio import BioImage
 
-from .conftest import get_resource_full_path
+
+def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
+    with pytest.raises(biob.exceptions.UnsupportedFileFormatError):
+        BioImage(sample_text_file)
 
 
-@pytest.mark.parametrize(
-    "filename",
-    [
-        pytest.param(
-            "example.txt",
-            marks=pytest.mark.xfail(raises=biob.exceptions.UnsupportedFileFormatError),
-        ),
-        pytest.param(
-            "does-not-exist-klafjjksdafkjl.bad",
-            marks=pytest.mark.xfail(raises=FileNotFoundError),
-        ),
-    ],
-)
-def test_bioimage(
-    filename: str,
-) -> None:
+def test_bioimage_with_missing_file(tmp_path: pathlib.Path) -> None:
     # Construct full filepath
-    uri = get_resource_full_path(filename)
-    BioImage(uri)
+    uri = tmp_path / "does-not-exist-klafjjksdafkjl.bad"
+    with pytest.raises(FileNotFoundError):
+        BioImage(uri)

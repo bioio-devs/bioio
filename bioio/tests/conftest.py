@@ -16,19 +16,40 @@ Docs: https://docs.pytest.org/en/latest/example/simple.html
       https://docs.pytest.org/en/latest/plugins.html#requiring-loading-plugins-in-a-test-module-or-conftest-file
 """
 
+import logging
 import pathlib
 import typing
 
+import dask.array as da
+import numpy as np
 import pytest
 
-LOCAL_RESOURCES_DIR = pathlib.Path(__file__).parent / "resources"
-LOCAL_RESOURCES_WRITE_DIR = pathlib.Path(__file__).parent / "writer_products"
+###############################################################################
 
+log = logging.getLogger(__name__)
 
-def get_resource_full_path(filename: str) -> typing.Union[str, pathlib.Path]:
-    return LOCAL_RESOURCES_DIR / filename
+###############################################################################
 
 
 @pytest.fixture
-def data_dir() -> pathlib.Path:
-    return pathlib.Path(__file__).parent / "data"
+def sample_text_file(tmp_path: pathlib.Path) -> pathlib.Path:
+    example_file = tmp_path / "temp-example.txt"
+    example_file.write_text("just some example text here")
+    return example_file
+
+
+def np_random_from_shape(
+    shape: typing.Tuple[int, ...], **kwargs: typing.Any
+) -> np.ndarray:
+    return np.random.randint(255, size=shape, **kwargs)
+
+
+def da_random_from_shape(
+    shape: typing.Tuple[int, ...], **kwargs: typing.Any
+) -> da.Array:
+    return da.random.randint(255, size=shape, **kwargs)
+
+
+array_constructor = pytest.mark.parametrize(
+    "array_constructor", [np_random_from_shape, da_random_from_shape]
+)

@@ -23,6 +23,7 @@ clean:
 # install with all deps
 install:
 	pip install -e .[lint,test,docs,dev]
+	pre-commit install
 
 # lint, format, and check all files
 lint:
@@ -36,12 +37,6 @@ test:
 build:
 	just lint
 	just test
-
-# install dependencies, setup pre-commit, download test resources
-setup-dev:
-	just install
-	pre-commit install
-	python scripts/download_test_resources.py
 
 # generate Sphinx HTML documentation
 generate-docs:

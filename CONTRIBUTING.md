@@ -25,7 +25,7 @@ Ready to contribute? Here's how to set up `bioio` for local development.
 
     ```bash
     cd bioio/
-    just setup-dev
+    just install
     ```
 
 4. Create a branch for local development:

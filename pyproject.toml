@@ -28,7 +28,7 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-  "bioio-base>=0.1.1",
+  "bioio-base>=0.3.0",
   "dask[array]>=2021.4.1",
   "fsspec>=2022.8.0",
   "imageio[ffmpeg]>=2.11.0,<2.28.0",

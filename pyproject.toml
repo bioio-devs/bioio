@@ -13,7 +13,7 @@ name = "bioio"
 description = "Image reading, metadata management, and image writing for Microscopy images in Python"
 keywords = []
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = { text = "BSD License" }
 authors = [
   { email = "evamaxfieldbrown@gmail.com", name = "Eva Maxfield Brown" },
@@ -22,17 +22,17 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Natural Language :: English",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
 ]
 dynamic = ["version"]
 dependencies = [
-  "bioio-base>=0.1.1",
+  "bioio-base>=0.3.0",
   "dask[array]>=2021.4.1",
   "fsspec>=2022.8.0",
   "imageio[ffmpeg]>=2.11.0,<2.28.0",
-  "numpy>=1.16.0,<2.0.0",
+  "numpy>=1.21.0,<2.0.0",
   "ome-types[lxml]>=0.4.0",
   "ome-zarr>=0.6.1",
   "semver>=3.0.1",
@@ -127,7 +127,7 @@ show_error_codes = true
 [tool.flake8]
 max-line-length = 88
 ignore = "E203,E402,W291,W503"
-min-python-version = "3.8.0"
+min-python-version = "3.9.0"
 per-file-ignores = [
   "__init__.py:F401",
 ]

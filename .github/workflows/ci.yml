@@ -83,6 +83,9 @@ jobs:
     if: "success() && startsWith(github.ref, 'refs/tags/')"
     needs: [check-manifest, test, lint]
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
     - uses: actions/checkout@v3
@@ -99,6 +102,25 @@ jobs:
         python -m build
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: bioio-devs
-        password: ${{ secrets.PYPI_TOKEN }}
+
+  # GitHub does not provide a "all status checks must pass" option
+  # in branch protection settings. Instead, you have to specify exactly
+  # what status checks want to require to pass before merging. However,
+  # naming each individual check would be effectively impossible.
+  # Therefore, by creating this stage in every repo in the org we can
+  # require "Report Result" to pass before merging and this stage can
+  # represent the result of the other checks where it only passes if
+  # all the other checks pass.
+  results:
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    needs: [check-manifest, test, lint]
+    runs-on: ubuntu-latest
+    name: Report Result
+    steps:
+      - run: exit 1
+        # see https://stackoverflow.com/a/67532120/4907315
+        if: >-
+          ${{
+                contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}

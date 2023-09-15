@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>bioio.plugins - bioio 0.1.dev1+g1bcea76 documentation</title>
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>bioio.plugins - bioio 0.1.dev1+g60c5304 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g1bcea76 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g60c5304 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g1bcea76 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g60c5304 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -227,10 +227,13 @@
 <span class="n">BIOIO_BASE_DIST_NAME</span> <span class="o">=</span> <span class="s2">&quot;bioio-types&quot;</span>  <span class="c1"># TODO: Rename to bioio-base</span>
 
 
-<div class="viewcode-block" id="PluginEntry"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginEntry">[docs]</a><span class="k">class</span> <span class="nc">PluginEntry</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="PluginEntry">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginEntry">[docs]</a>
+<span class="k">class</span> <span class="nc">PluginEntry</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">entrypoint</span><span class="p">:</span> <span class="n">EntryPoint</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">ReaderMetadata</span>
     <span class="n">timestamp</span><span class="p">:</span> <span class="nb">float</span></div>
+
 
 
 <span class="c1"># global cache of plugins</span>
@@ -240,7 +243,9 @@
 <span class="n">plugins_by_ext</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<div class="viewcode-block" id="insert_sorted_by_timestamp"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.insert_sorted_by_timestamp">[docs]</a><span class="k">def</span> <span class="nf">insert_sorted_by_timestamp</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">],</span> <span class="n">item</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="insert_sorted_by_timestamp">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.insert_sorted_by_timestamp">[docs]</a>
+<span class="k">def</span> <span class="nf">insert_sorted_by_timestamp</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">],</span> <span class="n">item</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">other</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">timestamp</span><span class="p">:</span>
             <span class="nb">list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
@@ -248,7 +253,10 @@
     <span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="add_plugin"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.add_plugin">[docs]</a><span class="k">def</span> <span class="nf">add_plugin</span><span class="p">(</span><span class="n">pluginentry</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="add_plugin">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.add_plugin">[docs]</a>
+<span class="k">def</span> <span class="nf">add_plugin</span><span class="p">(</span><span class="n">pluginentry</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">plugin_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pluginentry</span><span class="p">)</span>
     <span class="n">exts</span> <span class="o">=</span> <span class="n">pluginentry</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
@@ -261,7 +269,10 @@
         <span class="n">insert_sorted_by_timestamp</span><span class="p">(</span><span class="n">pluginlist</span><span class="p">,</span> <span class="n">pluginentry</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_dependency_version_range_for_distribution"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_dependency_version_range_for_distribution">[docs]</a><span class="k">def</span> <span class="nf">get_dependency_version_range_for_distribution</span><span class="p">(</span>
+
+<div class="viewcode-block" id="get_dependency_version_range_for_distribution">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_dependency_version_range_for_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">get_dependency_version_range_for_distribution</span><span class="p">(</span>
     <span class="n">distribution_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dependency_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -315,7 +326,10 @@
     <span class="k">return</span> <span class="n">minimum_dependency_version</span><span class="p">,</span> <span class="n">maximum_dependency_version</span></div>
 
 
-<div class="viewcode-block" id="get_plugins"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="get_plugins">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_plugins">[docs]</a>
+<span class="k">def</span> <span class="nf">get_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]:</span>
     <span class="n">plugins</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">)</span>
     <span class="p">(</span>
         <span class="n">min_compatible_bioio_base_version</span><span class="p">,</span>
@@ -364,7 +378,10 @@
     <span class="k">return</span> <span class="n">plugin_cache</span></div>
 
 
-<div class="viewcode-block" id="dump_plugins"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.dump_plugins">[docs]</a><span class="k">def</span> <span class="nf">dump_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="dump_plugins">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.dump_plugins">[docs]</a>
+<span class="k">def</span> <span class="nf">dump_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># TODO don&#39;t call get_plugins every time</span>
     <span class="n">get_plugins</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugin_cache</span><span class="p">:</span>
@@ -400,7 +417,10 @@
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plugins</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="find_reader_for_path"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.find_reader_for_path">[docs]</a><span class="k">def</span> <span class="nf">find_reader_for_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Reader</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="find_reader_for_path">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.find_reader_for_path">[docs]</a>
+<span class="k">def</span> <span class="nf">find_reader_for_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Reader</span><span class="p">]:</span>
     <span class="n">candidates</span> <span class="o">=</span> <span class="n">find_readers_for_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
         <span class="n">reader</span> <span class="o">=</span> <span class="n">candidate</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
@@ -410,6 +430,7 @@
         <span class="p">):</span>
             <span class="k">return</span> <span class="n">reader</span>
     <span class="k">return</span> <span class="kc">None</span></div>
+
 
     <span class="c1"># try to match on the longest possible registered extension</span>
     <span class="c1"># exts = sorted(plugins_by_ext.keys(), key=len, reverse=True)</span>
@@ -422,7 +443,9 @@
     <span class="c1"># return None</span>
 
 
-<div class="viewcode-block" id="find_readers_for_path"><a class="viewcode-back" href="../../bioio.html#bioio.plugins.find_readers_for_path">[docs]</a><span class="k">def</span> <span class="nf">find_readers_for_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]:</span>
+<div class="viewcode-block" id="find_readers_for_path">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.find_readers_for_path">[docs]</a>
+<span class="k">def</span> <span class="nf">find_readers_for_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]:</span>
     <span class="n">candidates</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># try to match on the longest possible registered extension first</span>
     <span class="n">exts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -431,6 +454,7 @@
             <span class="n">candidates</span> <span class="o">=</span> <span class="n">candidates</span> <span class="o">+</span> <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">candidates</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -463,9 +487,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=564ac46c"></script>
+</div><script src="../../_static/documentation_options.js?v=af21c292"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=30646c52"></script>

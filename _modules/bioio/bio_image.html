@@ -1,11 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-content_root="../../">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <!-- Generated with Sphinx 7.1.2 and Furo 2023.07.26 -->
-        <title>bioio.bio_image - bioio 0.1.dev1+g1bcea76 documentation</title>
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>bioio.bio_image - bioio 0.1.dev1+g60c5304 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g1bcea76 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g60c5304 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g1bcea76 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g60c5304 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -223,7 +223,9 @@
 <span class="c1">###############################################################################</span>
 
 
-<div class="viewcode-block" id="BioImage"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage">[docs]</a><span class="k">class</span> <span class="nc">BioImage</span><span class="p">(</span><span class="n">biob</span><span class="o">.</span><span class="n">image_container</span><span class="o">.</span><span class="n">ImageContainer</span><span class="p">):</span>
+<div class="viewcode-block" id="BioImage">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage">[docs]</a>
+<span class="k">class</span> <span class="nc">BioImage</span><span class="p">(</span><span class="n">biob</span><span class="o">.</span><span class="n">image_container</span><span class="o">.</span><span class="n">ImageContainer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BioImage takes microscopy image data types (files or arrays) of varying</span>
 <span class="sd">    dimensions (&quot;ZYX&quot;, &quot;TCZYX&quot;, &quot;CYX&quot;) and reads them as consistent 5D &quot;TCZYX&quot;</span>
@@ -321,7 +323,9 @@
 <span class="sd">    by either instantiating the reader independently or using the `.reader` property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="BioImage.determine_reader"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.determine_reader">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="BioImage.determine_reader">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.determine_reader">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">determine_reader</span><span class="p">(</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
         <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
@@ -378,6 +382,7 @@
                 <span class="s2">&quot;See bioio README for list of some known plugins.&quot;</span>
             <span class="p">),</span>
         <span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -461,7 +466,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="p">)</span>
 
-<div class="viewcode-block" id="BioImage.set_scene"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.set_scene">[docs]</a>    <span class="k">def</span> <span class="nf">set_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BioImage.set_scene">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.set_scene">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the operating scene.</span>
 
@@ -486,6 +493,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
     <span class="k">def</span> <span class="nf">_transform_data_array_to_bioio_image_standard</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -693,7 +701,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span>
 
-<div class="viewcode-block" id="BioImage.get_image_dask_data"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_image_dask_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_dask_data</span><span class="p">(</span>
+<div class="viewcode-block" id="BioImage.get_image_dask_data">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_image_dask_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_image_dask_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dimension_order_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -770,7 +780,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BioImage.get_image_data"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_image_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_data</span><span class="p">(</span>
+
+<div class="viewcode-block" id="BioImage.get_image_data">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_image_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_image_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dimension_order_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -848,7 +861,10 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="BioImage.get_stack"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_stack">[docs]</a>    <span class="k">def</span> <span class="nf">get_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BioImage.get_stack">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_stack">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
@@ -868,7 +884,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BioImage.get_dask_stack"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_dask_stack">[docs]</a>    <span class="k">def</span> <span class="nf">get_dask_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BioImage.get_dask_stack">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_dask_stack">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_dask_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
@@ -888,7 +907,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;dask_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BioImage.get_xarray_stack"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_xarray_stack">[docs]</a>    <span class="k">def</span> <span class="nf">get_xarray_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BioImage.get_xarray_stack">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_xarray_stack">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_xarray_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
@@ -913,7 +935,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;xarray_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BioImage.get_xarray_dask_stack"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_xarray_dask_stack">[docs]</a>    <span class="k">def</span> <span class="nf">get_xarray_dask_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="BioImage.get_xarray_dask_stack">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_xarray_dask_stack">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_xarray_dask_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
@@ -937,6 +962,7 @@
 <span class="sd">        are used for the returned xarray DataArray object coordinate planes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;xarray_dask_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
@@ -996,7 +1022,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">physical_pixel_sizes</span>
 
-<div class="viewcode-block" id="BioImage.get_mosaic_tile_position"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_mosaic_tile_position">[docs]</a>    <span class="k">def</span> <span class="nf">get_mosaic_tile_position</span><span class="p">(</span>
+<div class="viewcode-block" id="BioImage.get_mosaic_tile_position">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_mosaic_tile_position">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_mosaic_tile_position</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">mosaic_tile_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1028,7 +1056,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">get_mosaic_tile_position</span><span class="p">(</span><span class="n">mosaic_tile_index</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BioImage.get_mosaic_tile_positions"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_mosaic_tile_positions">[docs]</a>    <span class="k">def</span> <span class="nf">get_mosaic_tile_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="BioImage.get_mosaic_tile_positions">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_mosaic_tile_positions">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_mosaic_tile_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the absolute positions of the top left points for each mosaic tile</span>
 <span class="sd">        matching the specified dimensions and current scene.</span>
@@ -1079,6 +1110,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">get_mosaic_tile_positions</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mosaic_tile_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1090,7 +1122,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">mosaic_tile_dims</span>
 
-<div class="viewcode-block" id="BioImage.save"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+<div class="viewcode-block" id="BioImage.save">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">uri</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
         <span class="n">select_scenes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1153,6 +1187,7 @@
             <span class="n">physical_pixel_sizes</span><span class="o">=</span><span class="n">physical_pixel_sizes</span><span class="p">,</span>
         <span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [&quot;</span>
@@ -1163,6 +1198,7 @@
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_construct_img</span><span class="p">(</span>
@@ -1178,7 +1214,9 @@
     <span class="k">return</span> <span class="n">img</span>
 
 
-<div class="viewcode-block" id="imread_xarray_dask"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread_xarray_dask">[docs]</a><span class="k">def</span> <span class="nf">imread_xarray_dask</span><span class="p">(</span>
+<div class="viewcode-block" id="imread_xarray_dask">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread_xarray_dask">[docs]</a>
+<span class="k">def</span> <span class="nf">imread_xarray_dask</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -1205,7 +1243,10 @@
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">xarray_dask_data</span></div>
 
 
-<div class="viewcode-block" id="imread_dask"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread_dask">[docs]</a><span class="k">def</span> <span class="nf">imread_dask</span><span class="p">(</span>
+
+<div class="viewcode-block" id="imread_dask">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread_dask">[docs]</a>
+<span class="k">def</span> <span class="nf">imread_dask</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -1233,7 +1274,10 @@
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">dask_data</span></div>
 
 
-<div class="viewcode-block" id="imread_xarray"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread_xarray">[docs]</a><span class="k">def</span> <span class="nf">imread_xarray</span><span class="p">(</span>
+
+<div class="viewcode-block" id="imread_xarray">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread_xarray">[docs]</a>
+<span class="k">def</span> <span class="nf">imread_xarray</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -1260,7 +1304,10 @@
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">xarray_data</span></div>
 
 
-<div class="viewcode-block" id="imread"><a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread">[docs]</a><span class="k">def</span> <span class="nf">imread</span><span class="p">(</span>
+
+<div class="viewcode-block" id="imread">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.imread">[docs]</a>
+<span class="k">def</span> <span class="nf">imread</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
@@ -1285,6 +1332,7 @@
 <span class="sd">        np.ndarray.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">data</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -1317,9 +1365,9 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=564ac46c"></script>
+</div><script src="../../_static/documentation_options.js?v=af21c292"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=30646c52"></script>

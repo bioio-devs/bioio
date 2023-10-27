@@ -2,6 +2,8 @@
 
 [![Build Status](https://github.com/bioio-devs/bioio/actions/workflows/ci.yml/badge.svg)](https://github.com/bioio-devs/bioio/actions)
 [![Documentation](https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg)](https://bioio-devs.github.io/bioio)
+[![PyPI version](https://badge.fury.io/py/bioio.svg)](https://badge.fury.io/py/bioio)
+
 
 Image reading, metadata management, and image writing for Microscopy images in Python
 

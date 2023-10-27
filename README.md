@@ -1,7 +1,7 @@
 # bioio
 
-[![Build Status](https://github.com/bioio-devs/bioio/workflows/CI/badge.svg)](https://github.com/bioio-devs/bioio/actions)
-[![Documentation](https://github.com/bioio-devs/bioio/workflows/Documentation/badge.svg)](https://bioio-devs.github.io/bioio)
+[![Build Status](https://github.com/bioio-devs/bioio/actions/workflows/ci.yml/badge.svg)](https://github.com/bioio-devs/bioio/actions)
+[![Documentation](https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg)](https://bioio-devs.github.io/bioio)
 
 Image reading, metadata management, and image writing for Microscopy images in Python
 

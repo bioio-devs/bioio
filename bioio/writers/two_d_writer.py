@@ -18,10 +18,6 @@ class TwoDWriter(Writer):
     Primarily directed at formats: "png", "jpg", etc.
 
     This is primarily a passthrough to imageio.imwrite.
-
-    Notes
-    -----
-    To use this writer, install with: `pip install aicsimageio[base-imageio]`.
     """
 
     _PLANE_DIMENSIONS = [
@@ -90,8 +86,8 @@ class TwoDWriter(Writer):
             The dimension order of the provided data.
             Default: None. Based off the number of dimensions, will assume
             the dimensions similar to how
-            aicsimageio.readers.default_reader.DefaultReader reads in
-            data. That is, two dimensions: YX and three dimensions: YXS.
+            https://github.com/bioio-devs/bioio-imageio/blob/main/bioio_imageio/reader.py
+            reads in data. That is, two dimensions: YX and three dimensions: YXS.
         fs_kwargs: Dict[str, Any]
             Any specific keyword arguments to pass down to the fsspec created
             filesystem.

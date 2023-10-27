@@ -79,15 +79,25 @@ Available recipes:
 ## Deploying
 
 A reminder for the maintainers on how to deploy.
-Make sure the main branch is checked out and all desired changes
-are merged. Then run:
+1) Make sure all your changes are committed and merged into main.
+2) Make sure branch is clean:
+    ```bash
+    git checkout main
+    git stash
+    git pull
+    ```
+3) Create tag and push new version to GitHub like so:
+    ```bash
+    just tag-for-release "vX.Y.Z"
+    just release
+    ```
+4) Wait for a [GitHub Action](https://github.com/bioio-devs/bioio/actions) to automatically publish to [PyPI](https://pypi.org/project/bioio/)
+5) [Create GitHub release](https://github.com/bioio-devs/bioio/releases/new) for the corresponding version created.
 
-```bash
-just tag-for-release "vX.Y.Z"
-just release
-```
+    6a) Select tag for version created
 
-The presence of a tag starting with "v" will trigger the `publish` step in the
-main github workflow, which will build the package and upload it to PyPI. The
-version will be injected into the package metadata by
-[`setuptools-scm`](https://github.com/pypa/setuptools_scm)
+    6b) Ensure GitHub automatically generates releases notes ([click "Generate Release Notes"](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes))
+
+    6c) Double check format is similar to previous releases
+
+    6d) Publish release

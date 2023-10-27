@@ -61,6 +61,7 @@ test = [
 ]
 docs = [
   # Sphinx + Doc Gen + Styling
+  "gitchangelog>=3.0.4",
   "m2r2>=0.2.7",
   "Sphinx>=4.0.0",
   "furo>=2022.4.7",

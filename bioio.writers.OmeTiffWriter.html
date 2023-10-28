@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio" href="modules.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio.writers.OmeZarrWriter" href="bioio.writers.OmeZarrWriter.html" /><link rel="prev" title="bioio.BioImage" href="bioio.BioImage.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>bioio 0.1.dev1+ge26008d documentation</title>
+        <title>bioio.writers.OmeTiffWriter - bioio 0.1.dev1+ge26008d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">bioio 0.1.dev1+ge26008d documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+ge26008d documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -135,7 +135,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -144,7 +144,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
   <span class="sidebar-brand-text">bioio 0.1.dev1+ge26008d documentation</span>
@@ -156,8 +156,8 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Overview</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Full API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Full API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="bioio.html">bioio package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of bioio package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="bioio.writers.html">bioio.writers package</a></li>
@@ -174,9 +174,9 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Important Classes:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="bioio.BioImage.html">bioio.BioImage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bioio.writers.OmeTiffWriter.html">bioio.writers.OmeTiffWriter</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">bioio.writers.OmeTiffWriter</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bioio.writers.OmeZarrWriter.html">bioio.writers.OmeZarrWriter</a></li>
 </ul>
 
@@ -206,72 +206,40 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="welcome-to-bioio-s-documentation">
-<h1>Welcome to bioio’s documentation!<a class="headerlink" href="#welcome-to-bioio-s-documentation" title="Link to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-</div>
-</section>
-<section id="bioio">
-<h1>bioio<a class="headerlink" href="#bioio" title="Link to this heading">#</a></h1>
-<a class="reference external image-reference" href="https://github.com/bioio-devs/bioio/actions"><img alt="Build Status" src="https://github.com/bioio-devs/bioio/actions/workflows/ci.yml/badge.svg" /></a>
-<a class="reference external image-reference" href="https://bioio-devs.github.io/bioio"><img alt="Documentation" src="https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg" /></a>
-<a class="reference external image-reference" href="https://badge.fury.io/py/bioio"><img alt="PyPI version" src="https://badge.fury.io/py/bioio.svg" /></a>
-<p>Image reading, metadata management, and image writing for Microscopy images in Python</p>
-<hr class="docutils" />
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p><strong>Stable Release:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span></code><span class="raw-html-m2r"><br></span>
-<strong>Development Head:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">git+https://github.com/bioio-devs/bioio.git</span></code></p>
-</section>
-<section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">example</span>
+          <section id="bioio-writers-ometiffwriter">
+<h1>bioio.writers.OmeTiffWriter<a class="headerlink" href="#bioio-writers-ometiffwriter" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio.writers.OmeTiffWriter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.writers.</span></span><span class="sig-name descname"><span class="pre">OmeTiffWriter</span></span><a class="reference internal" href="_modules/bioio/writers/ome_tiff_writer.html#OmeTiffWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.OmeTiffWriter" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.OmeTiffWriter.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bioio.writers.OmeTiffWriter.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">example</span><span class="o">.</span><span class="n">str_len</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">))</span>  <span class="c1"># prints 5</span>
-</pre></div>
-</div>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
-<p>For full package documentation please visit <a class="reference external" href="https://bioio-devs.github.io/bioio">bioio-devs.github.io/bioio</a>.</p>
-</section>
-<section id="development">
-<h2>Development<a class="headerlink" href="#development" title="Link to this heading">#</a></h2>
-<p>See <a class="reference external" href="CONTRIBUTING.md">CONTRIBUTING.md</a> for information related to developing the code.</p>
-<p><strong>BSD License</strong></p>
-</section>
-</section>
-<section id="specific-doc-pages">
-<h1>Specific Doc Pages<a class="headerlink" href="#specific-doc-pages" title="Link to this heading">#</a></h1>
+<p class="rubric">Methods</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.BioImage.html#bioio.BioImage" title="bioio.BioImage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bioio.BioImage</span></code></a>(image[, reader, ...])</p></td>
-<td><p>BioImage takes microscopy image data types (files or arrays) of varying dimensions (&quot;ZYX&quot;, &quot;TCZYX&quot;, &quot;CYX&quot;) and reads them as consistent 5D &quot;TCZYX&quot; (&quot;Time-Channel-Z-Y-X&quot;) ordered array(s).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.writers.OmeTiffWriter.html#bioio.writers.OmeTiffWriter" title="bioio.writers.OmeTiffWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bioio.writers.OmeTiffWriter</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bioio.writers.OmeTiffWriter.__init__" title="bioio.writers.OmeTiffWriter.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.writers.OmeZarrWriter.html#bioio.writers.OmeZarrWriter" title="bioio.writers.OmeZarrWriter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bioio.writers.OmeZarrWriter</span></code></a>(uri)</p></td>
-<td><p>Constructor.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.writers.html#bioio.writers.OmeTiffWriter.build_ome" title="bioio.writers.OmeTiffWriter.build_ome"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_ome</span></code></a>(data_shapes, data_types[, ...])</p></td>
+<td><p>Create the necessary metadata for an OME tiff image</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.writers.html#bioio.writers.OmeTiffWriter.save" title="bioio.writers.OmeTiffWriter.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(data, uri[, dim_order, ome_xml, ...])</p></td>
+<td><p>Write a data array to a file.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
+</dd></dl>
+
 </section>
 
         </article>
@@ -279,16 +247,26 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="modules.html">
+          <a class="next-page" href="bioio.writers.OmeZarrWriter.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">bioio</div>
+                <div class="title">bioio.writers.OmeZarrWriter</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          
+          <a class="prev-page" href="bioio.BioImage.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">bioio.BioImage</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -307,8 +285,30 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">bioio.writers.OmeTiffWriter</a><ul>
+<li><a class="reference internal" href="#bioio.writers.OmeTiffWriter"><code class="docutils literal notranslate"><span class="pre">OmeTiffWriter</span></code></a><ul>
+<li><a class="reference internal" href="#bioio.writers.OmeTiffWriter.__init__"><code class="docutils literal notranslate"><span class="pre">OmeTiffWriter.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

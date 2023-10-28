@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributor Covenant Code of Conduct" href="CODE_OF_CONDUCT.html" /><link rel="prev" title="Developer Resources" href="developer_resources.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Installation - bioio 0.1.dev1+ge26008d documentation</title>
+        <title>Contributing - bioio 0.1.dev1+ge26008d documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -156,7 +156,7 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Full API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Full API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="bioio.html">bioio package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of bioio package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -165,8 +165,8 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="developer_resources.html">Developer Resources</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Developer Resources</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="developer_resources.html">Developer Resources</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Developer Resources</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Contributing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="CODE_OF_CONDUCT.html">Code of Conduct</a></li>
 <li class="toctree-l2"><a class="reference internal" href="GOVERNANCE.html">Governance Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="MISSION_AND_VALUES.html">Mission and Values</a></li>
@@ -212,31 +212,109 @@
           </label>
         </div>
         <article role="main">
-          <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
-<section id="stable-release">
-<h2>Stable release<a class="headerlink" href="#stable-release" title="Link to this heading">#</a></h2>
-<p>To install bioio, run this command in your terminal:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>bioio
-</pre></div>
-</div>
-<p>This is the preferred method to install bioio, as it will always install the most recent stable release.</p>
-<p>If you don’t have <a class="reference external" href="https://pip.pypa.io">pip</a> installed, this <a class="reference external" href="http://docs.python-guide.org/en/latest/starting/installation/">Python installation guide</a> can guide
-you through the process.</p>
+          <section id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Link to this heading">#</a></h1>
+<p>Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.</p>
+<section id="developer-installation">
+<h2>Developer Installation<a class="headerlink" href="#developer-installation" title="Link to this heading">#</a></h2>
+<p>If something goes wrong at any point during installing the library please see how
+<a class="reference external" href=".github/workflows/build-main.yml">our CI/CD on GitHub Actions</a> installs and builds the
+project as it will always be the most up-to-date.</p>
 </section>
-<section id="from-sources">
-<h2>From sources<a class="headerlink" href="#from-sources" title="Link to this heading">#</a></h2>
-<p>The sources for bioio can be downloaded from the <a class="reference external" href="https://github.com/bioio-devs/bioio">Github repo</a>.</p>
-<p>You can either clone the public repository:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>git://github.com/bioio-devs/bioio
+<section id="get-started">
+<h2>Get Started!<a class="headerlink" href="#get-started" title="Link to this heading">#</a></h2>
+<p>Ready to contribute? Here’s how to set up <code class="docutils literal notranslate"><span class="pre">bioio</span></code> for local development.</p>
+<ol class="arabic">
+<li><p>Fork the <code class="docutils literal notranslate"><span class="pre">bioio</span></code> repo on GitHub.</p></li>
+<li><p>Clone your fork locally:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:<span class="o">{</span>your_name_here<span class="o">}</span>/bioio.git
 </pre></div>
 </div>
-<p>Or download the <a class="reference external" href="https://github.com/bioio-devs/bioio/tarball/main">tarball</a>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>curl<span class="w">  </span>-OL<span class="w"> </span>https://github.com/bioio-devs/bioio/tarball/main
+</li>
+<li><p>Install the project in editable mode. (It is also recommended to work in a virtualenv or anaconda environment):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>bioio/
+just<span class="w"> </span>install
 </pre></div>
 </div>
-<p>Once you have a copy of the source, you can install it with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python<span class="w"> </span>setup.py<span class="w"> </span>install
+</li>
+<li><p>Create a branch for local development:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">{</span>your_development_type<span class="o">}</span>/short-description
+
+Ex:<span class="w"> </span>feature/read-tiff-files<span class="w"> </span>or<span class="w"> </span>bugfix/handle-file-not-found<span class="se">\ </span>:raw-html-m2r:<span class="sb">`</span>&lt;br&gt;<span class="sb">`</span>
+Now<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>make<span class="w"> </span>your<span class="w"> </span>changes<span class="w"> </span>locally.
+</pre></div>
+</div>
+</li>
+<li><p>When you’re done making changes, check that your changes pass linting and
+tests with <a class="reference external" href="https://github.com/casey/just">just</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>just<span class="w"> </span>build
+</pre></div>
+</div>
+</li>
+<li><p>Commit your changes and push your branch to GitHub:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Your detailed description of your changes.&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span><span class="o">{</span>your_development_type<span class="o">}</span>/short-description
+</pre></div>
+</div>
+</li>
+<li><p>Submit a pull request through the GitHub website.</p></li>
+</ol>
+</section>
+<section id="just-commands">
+<h2>Just Commands<a class="headerlink" href="#just-commands" title="Link to this heading">#</a></h2>
+<p>For development commands we use <a class="reference external" href="https://github.com/casey/just">just</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>just
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Available</span> <span class="n">recipes</span><span class="p">:</span>
+    <span class="n">build</span>                    <span class="c1"># run lint and then run tests</span>
+    <span class="n">clean</span>                    <span class="c1"># clean all build, python, and lint files</span>
+    <span class="n">default</span>                  <span class="c1"># list all available commands</span>
+    <span class="n">generate</span><span class="o">-</span><span class="n">docs</span>            <span class="c1"># generate Sphinx HTML documentation</span>
+    <span class="n">install</span>                  <span class="c1"># install with all deps</span>
+    <span class="n">lint</span>                     <span class="c1"># lint, format, and check all files</span>
+    <span class="n">release</span>                  <span class="c1"># release a new version</span>
+    <span class="n">serve</span><span class="o">-</span><span class="n">docs</span>               <span class="c1"># generate Sphinx HTML documentation and serve to browser</span>
+    <span class="n">tag</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">release</span> <span class="n">version</span>  <span class="c1"># tag a new version</span>
+    <span class="n">test</span>                     <span class="c1"># run tests</span>
+    <span class="n">update</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">cookiecutter</span> <span class="c1"># update this repo using latest cookiecutter-py-package</span>
+</pre></div>
+</div>
+</section>
+<section id="deploying">
+<h2>Deploying<a class="headerlink" href="#deploying" title="Link to this heading">#</a></h2>
+<p>A reminder for the maintainers on how to deploy.
+1) Make sure all your changes are committed and merged into main.
+2) Make sure branch is clean:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```bash
+git checkout main
+git stash
+git pull
+```
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Create tag and push new version to GitHub like so:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```bash
+just tag-for-release &quot;vX.Y.Z&quot;
+just release
+```
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Wait for a <a class="reference external" href="https://github.com/bioio-devs/bioio/actions">GitHub Action</a> to automatically publish to <a class="reference external" href="https://pypi.org/project/bioio/">PyPI</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bioio-devs/bioio/releases/new">Create GitHub release</a> for the corresponding version created.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">6</span><span class="n">a</span><span class="p">)</span> <span class="n">Select</span> <span class="n">tag</span> <span class="k">for</span> <span class="n">version</span> <span class="n">created</span>
+
+<span class="mi">6</span><span class="n">b</span><span class="p">)</span> <span class="n">Ensure</span> <span class="n">GitHub</span> <span class="n">automatically</span> <span class="n">generates</span> <span class="n">releases</span> <span class="n">notes</span> <span class="p">([</span><span class="n">click</span> <span class="s2">&quot;Generate Release Notes&quot;</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">en</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">releasing</span><span class="o">-</span><span class="n">projects</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">github</span><span class="o">/</span><span class="n">automatically</span><span class="o">-</span><span class="n">generated</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">notes</span><span class="p">))</span>
+
+<span class="mi">6</span><span class="n">c</span><span class="p">)</span> <span class="n">Double</span> <span class="n">check</span> <span class="nb">format</span> <span class="ow">is</span> <span class="n">similar</span> <span class="n">to</span> <span class="n">previous</span> <span class="n">releases</span>
+
+<span class="mi">6</span><span class="n">d</span><span class="p">)</span> <span class="n">Publish</span> <span class="n">release</span>
 </pre></div>
 </div>
 </section>
@@ -247,8 +325,26 @@ you through the process.</p>
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="CODE_OF_CONDUCT.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Contributor Covenant Code of Conduct</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="developer_resources.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Developer Resources</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
@@ -279,9 +375,11 @@ you through the process.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Installation</a><ul>
-<li><a class="reference internal" href="#stable-release">Stable release</a></li>
-<li><a class="reference internal" href="#from-sources">From sources</a></li>
+<li><a class="reference internal" href="#">Contributing</a><ul>
+<li><a class="reference internal" href="#developer-installation">Developer Installation</a></li>
+<li><a class="reference internal" href="#get-started">Get Started!</a></li>
+<li><a class="reference internal" href="#just-commands">Just Commands</a></li>
+<li><a class="reference internal" href="#deploying">Deploying</a></li>
 </ul>
 </li>
 </ul>

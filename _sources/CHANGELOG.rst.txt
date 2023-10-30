@@ -1,0 +1,15 @@
+Changelog
+=========
+
+(unreleased)
+------------
+- Test [SeanLeRoy]
+- Remove block [SeanLeRoy]
+- Missing comma [SeanLeRoy]
+- Test this randomness [SeanLeRoy]
+- Test this randomness [SeanLeRoy]
+- Add empty CHANGELOG.rst [SeanLeRoy]
+- Add gitchangelog.rc [SeanLeRoy]
+- Add feature branch temporarily to workflow [SeanLeRoy]
+- Upgrade docs [SeanLeRoy]
+- Add latest PyPi version to README [Sean LeRoy]

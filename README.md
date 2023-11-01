@@ -10,6 +10,10 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 
 ---
 
+## Migrating from AICSImageIO?
+
+[See the migration document on the full documentation site](https://bioio-devs.github.io/bioio/MIGRATION.html)
+
 ## Features
 
 - Image Reading

@@ -11,6 +11,7 @@ Welcome to bioio's documentation!
    Full API Reference <modules>
    Developer Resources <developer_resources>
    Changelog <CHANGELOG>
+   AICSImageIO Migration <MIGRATION>
 
 .. mdinclude:: ../README.md
 
@@ -24,8 +25,8 @@ Specific Doc Pages
    bioio.BioImage
    bioio.writers.OmeTiffWriter
    bioio.writers.OmeZarrWriter
-   bioio.writers.TimeseriesWriter
-   bioio.writers.TwoDWriter
+   bioio.writers.timeseries_writer.TimeseriesWriter
+   bioio.writers.two_d_writer.TwoDWriter
 
 Indices and tables
 ==================

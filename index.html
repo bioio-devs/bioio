@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="BioIO" href="OVERVIEW.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>bioio 0.1.dev1+gf963622 documentation</title>
+        <title>bioio 0.1.dev1+gbf826a0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">bioio 0.1.dev1+gf963622 documentation</div></a>
+      <a href="#"><div class="brand">bioio 0.1.dev1+gbf826a0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+gf963622 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gbf826a0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -222,74 +222,6 @@
 <div class="toctree-wrapper compound">
 </div>
 </section>
-<section id="bioio">
-<h1>BioIO<a class="headerlink" href="#bioio" title="Link to this heading">#</a></h1>
-<a class="reference external image-reference" href="https://github.com/bioio-devs/bioio/actions"><img alt="Build Status" src="https://github.com/bioio-devs/bioio/actions/workflows/ci.yml/badge.svg" /></a>
-<a class="reference external image-reference" href="https://bioio-devs.github.io/bioio"><img alt="Documentation" src="https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg" /></a>
-<a class="reference external image-reference" href="https://badge.fury.io/py/bioio"><img alt="PyPI version" src="https://badge.fury.io/py/bioio.svg" /></a>
-<a class="reference external image-reference" href="https://opensource.org/licenses/BSD-3-Clause"><img alt="License" src="https://img.shields.io/badge/License-BSD%203--Clause-blue.svg" /></a>
-<a class="reference external image-reference" href="https://www.python.org/downloads/release/python-360/"><img alt="Python 3.6" src="https://img.shields.io/badge/python-3.9,3.10,3.11-blue.svg" /></a>
-<p>Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python</p>
-<hr class="docutils" />
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
-<p><a class="reference external" href="https://bioio-devs.github.io/bioio/">See the full documentation on our GitHub pages site</a></p>
-</section>
-<section id="example-usage-see-full-documentation-for-more-examples">
-<h2>Example Usage (see full documentation for more examples)<a class="headerlink" href="#example-usage-see-full-documentation-for-more-examples" title="Link to this heading">#</a></h2>
-<p>Assumptions for the below example (<a class="reference external" href="https://bioio-devs.github.io/bioio/">if untrue, see full documentation for more examples</a>):</p>
-<ul class="simple">
-<li><p>File is an OME TIFF</p>
-<ul>
-<li><p>BioIO supports additional file types, this example is specific to OME TIFF</p></li>
-</ul>
-</li>
-<li><p>File fits in memory</p>
-<ul>
-<li><p>BioIO can work with images that cannot be stored in memory, this example is specific to an image that does fit in memory</p></li>
-</ul>
-</li>
-</ul>
-<section id="example-installation">
-<h3>Example Installation<a class="headerlink" href="#example-installation" title="Link to this heading">#</a></h3>
-<p>Install with pip <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span> <span class="pre">bioio-ome-tiff</span></code></p>
-</section>
-<section id="exmaple-snippet">
-<h3>Exmaple Snippet<a class="headerlink" href="#exmaple-snippet" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
-
-<span class="c1"># Get a BioImage object</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
-<span class="n">img</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># returns 5D TCZYX numpy array</span>
-<span class="n">img</span><span class="o">.</span><span class="n">xarray_data</span>  <span class="c1"># returns 5D TCZYX xarray data array backed by numpy</span>
-<span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># returns a Dimensions object</span>
-<span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># returns string &quot;TCZYX&quot;</span>
-<span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">X</span>  <span class="c1"># returns size of X dimension</span>
-<span class="n">img</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># returns tuple of dimension sizes in TCZYX order</span>
-<span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns 4D CZYX numpy array</span>
-
-<span class="c1"># Get the id of the current operating scene</span>
-<span class="n">img</span><span class="o">.</span><span class="n">current_scene</span>
-
-<span class="c1"># Get a list valid scene ids</span>
-<span class="n">img</span><span class="o">.</span><span class="n">scenes</span>
-
-<span class="c1"># Change scene using name</span>
-<span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">&quot;Image:1&quot;</span><span class="p">)</span>
-<span class="c1"># Or by scene index</span>
-<span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Use the same operations on a different scene</span>
-<span class="c1"># ...</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="issues">
-<h2>Issues<a class="headerlink" href="#issues" title="Link to this heading">#</a></h2>
-<p><a class="reference external" href="https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&amp;type=issues&amp;ref=advsearch">*Click here to view all open issues in bioio-devs organization at once*</a></p>
-</section>
-</section>
 <section id="specific-doc-pages">
 <h1>Specific Doc Pages<a class="headerlink" href="#specific-doc-pages" title="Link to this heading">#</a></h1>
 <div class="table-wrapper autosummary longtable docutils container">
@@ -362,7 +294,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=21b11056"></script>
+</div><script src="_static/documentation_options.js?v=d6531c74"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

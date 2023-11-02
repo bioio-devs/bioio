@@ -12,11 +12,11 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 
 ## Documentation
 
-[See the full documentation on our GitHub pages site](https://bioio-devs.github.io/bioio/)
+[See the full documentation on our GitHub pages site](https://bioio-devs.github.io/bioio/OVERVIEW.html)
 
 ## Example Usage (see full documentation for more examples)
 
-Assumptions for the below example ([if untrue, see full documentation for more examples](https://bioio-devs.github.io/bioio/)):
+Assumptions for the below example ([if untrue, see full documentation for more examples](https://bioio-devs.github.io/bioio/OVERVIEW.html)):
 * File is an OME TIFF
     * BioIO supports additional file types, this example is specific to OME TIFF
 * File fits in memory

@@ -260,7 +260,7 @@ for more information.
 
 [File-System Specification (fsspec)](https://github.com/intake/filesystem_spec) allows
 for common object storage services (S3, GCS, etc.) to act like normal filesystems by
-following the same base specification across them all. AICSImageIO utilizes this
+following the same base specification across them all. BioIO utilizes this
 standard specification to make it possible to read directly from remote resources when
 the specification is installed.
 
@@ -314,7 +314,7 @@ OmeTiffWriter.save(image, "file.ome.tif", dim_order="ZCYX")
 ```
 
 See
-[OmeTiffWriter documentation](./aicsimageio.writers.html#aicsimageio.writers.ome_tiff_writer.OmeTiffWriter.save)
+[OmeTiffWriter documentation](https://bioio-devs.github.io/bioio/bioio.writers.html)
 for more details.
 
 #### Other Writers

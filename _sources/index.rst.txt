@@ -6,7 +6,7 @@ Welcome to bioio's documentation!
    :maxdepth: 1
    :caption: Contents:
 
-   Overview <self>
+   Overview <OVERVIEW>
    Installation <INSTALLATION>
    Full API Reference <modules>
    Developer Resources <developer_resources>

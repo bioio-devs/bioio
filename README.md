@@ -35,6 +35,8 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 
 ## Installation
 
+BioIO requires Python version 3.9 and up
+
 **Stable Release:** `pip install bioio`<br>
 **Development Head:** `pip install git+https://github.com/bioio-devs/bioio.git`
 
@@ -77,7 +79,7 @@ If your image fits in memory:
 ```python
 from bioio import BioImage
 
-# Get an BioImage object
+# Get a BioImage object
 img = BioImage("my_file.tiff")  # selects the first scene found
 img.data  # returns 5D TCZYX numpy array
 img.xarray_data  # returns 5D TCZYX xarray data array backed by numpy
@@ -115,7 +117,7 @@ If your image doesn't fit in memory:
 ```python
 from bioio import BioImage
 
-# Get an BioImage object
+# Get a BioImage object
 img = BioImage("my_file.tiff")  # selects the first scene found
 img.dask_data  # returns 5D TCZYX dask array
 img.xarray_dask_data  # returns 5D TCZYX xarray data array backed by dask array
@@ -220,7 +222,7 @@ y_start_index, x_start_index = img.get_mosaic_tile_position(12)
 ```python
 from bioio import BioImage
 
-# Get an BioImage object
+# Get a BioImage object
 img = BioImage("my_file.tiff")  # selects the first scene found
 img.metadata  # returns the metadata object for this file format (XML, JSON, etc.)
 img.channel_names  # returns a list of string channel names found in the metadata
@@ -238,7 +240,7 @@ the image in metadata, you can use
 ```python
 from bioio import BioImage
 
-# Get an BioImage object
+# Get a BioImage object
 img = BioImage("my_file.ome.tiff")
 
 # Get the first ten seconds (not frames)
@@ -269,7 +271,7 @@ the specification is installed.
 ```python
 from bioio import BioImage
 
-# Get an BioImage object
+# Get a BioImage object
 img = BioImage("http://my-website.com/my_file.tiff")
 img = BioImage("s3://my-bucket/my_file.tiff")
 img = BioImage("gcs://my-bucket/my_file.tiff")

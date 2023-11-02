@@ -13,8 +13,6 @@ Welcome to bioio's documentation!
    Changelog <CHANGELOG>
    AICSImageIO Migration <MIGRATION>
 
-.. mdinclude:: ../README.md
-
 Specific Doc Pages
 ==================
 

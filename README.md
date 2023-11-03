@@ -4,7 +4,7 @@
 [![Documentation](https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg)](https://bioio-devs.github.io/bioio)
 [![PyPI version](https://badge.fury.io/py/bioio.svg)](https://badge.fury.io/py/bioio)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Python 3.6](https://img.shields.io/badge/python-3.9,3.10,3.11-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9,3.10,3.11-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python
 
@@ -16,17 +16,9 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 
 ## Example Usage (see full documentation for more examples)
 
-Assumptions for the below example ([see full documentation for more examples](https://bioio-devs.github.io/bioio/OVERVIEW.html)):
-* File is an OME TIFF
-    * BioIO supports additional file types, this example is specific to OME TIFF
-* File fits in memory
-    * BioIO can work with images that cannot be stored in memory, this example is specific to an image that does fit in memory
+Install bioio and bioio OME TIFF plug-in with pip:
 
-
-#### Example Installation
-Install with pip `pip install bioio bioio-ome-tiff`
-
-#### Example Snippet
+`pip install bioio bioio-ome-tiff`
 
 ```python
 from bioio import BioImage

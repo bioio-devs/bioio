@@ -104,6 +104,13 @@ class OmeZarrWriter:
         }
         return omero
 
+    @staticmethod
+    def _build_chunk_dims(
+        chunk_dim_map: Dict[str, int],
+        dimension_order: str = biob.dimensions.DEFAULT_DIMENSION_ORDER,
+    ) -> Tuple[int, ...]:
+        return tuple(chunk_dim_map[d] for d in dimension_order)
+
     def write_image(
         self,
         # TODO how to pass in precomputed multiscales?
@@ -112,6 +119,7 @@ class OmeZarrWriter:
         physical_pixel_sizes: Optional[biob.types.PhysicalPixelSizes],
         channel_names: Optional[List[str]],
         channel_colors: Optional[List[int]],
+        chunk_dims: Optional[Tuple] = None,
         scale_num_levels: int = 1,
         scale_factor: float = 2.0,
         dimension_order: Optional[str] = None,
@@ -176,27 +184,34 @@ class OmeZarrWriter:
                 f"Received image data with shape: {image_data.shape}"
             )
         if dimension_order is None:
-            dimension_order = "TCZYX"[-ndims:]
+            dimension_order = biob.dimensions.DEFAULT_DIMENSION_ORDER[-ndims:]
         if len(dimension_order) != ndims:
             raise biob.exceptions.InvalidDimensionOrderingError(
                 f"Dimension order {dimension_order} does not match data "
                 f"shape: {image_data.shape}"
             )
-        if (len(set(dimension_order) - set("TCZYX")) > 0) or len(
-            dimension_order
-        ) != len(set(dimension_order)):
+        if (
+            len(set(dimension_order) - set(biob.dimensions.DEFAULT_DIMENSION_ORDER)) > 0
+        ) or len(dimension_order) != len(set(dimension_order)):
             raise biob.exceptions.InvalidDimensionOrderingError(
-                f"Dimension order {dimension_order} is invalid or "
-                "contains unexpected dimensions. Only TCZYX currently supported."
+                f"Dimension order {dimension_order} is invalid or contains"
+                f"unexpected dimensions. Only {biob.dimensions.DEFAULT_DIMENSION_ORDER}"
+                f"currently supported."
             )
-        xdimindex = dimension_order.find("X")
-        ydimindex = dimension_order.find("Y")
-        zdimindex = dimension_order.find("Z")
-        cdimindex = dimension_order.find("C")
+        xdimindex = dimension_order.find(biob.dimensions.DimensionNames.SpatialX)
+        ydimindex = dimension_order.find(biob.dimensions.DimensionNames.SpatialY)
+        zdimindex = dimension_order.find(biob.dimensions.DimensionNames.SpatialZ)
+        cdimindex = dimension_order.find(biob.dimensions.DimensionNames.Channel)
         if cdimindex > min(i for i in [xdimindex, ydimindex, zdimindex] if i > -1):
             raise biob.exceptions.InvalidDimensionOrderingError(
                 f"Dimension order {dimension_order} is invalid. Channel dimension "
-                "must be before X, Y, and Z."
+                f"must be before X, Y, and Z."
+            )
+
+        if chunk_dims is not None and len(chunk_dims) != ndims:
+            raise biob.exceptions.UnexpectedShapeError(
+                f"Chunk dimensions:{chunk_dims} do not match data. "
+                f"Expected chunk dimension length:{ndims}"
             )
 
         if physical_pixel_sizes is None:
@@ -226,12 +241,13 @@ class OmeZarrWriter:
                 if cdimindex > -1
                 else [0]
             )
+        # Chunk spatial dimensions
         scale_dim_map = {
-            "T": 1.0,
-            "C": 1.0,
-            "Z": pixelsizes[0],
-            "Y": pixelsizes[1],
-            "X": pixelsizes[2],
+            biob.dimensions.DimensionNames.Time: 1.0,
+            biob.dimensions.DimensionNames.Channel: 1.0,
+            biob.dimensions.DimensionNames.SpatialZ: pixelsizes[0],
+            biob.dimensions.DimensionNames.SpatialY: pixelsizes[1],
+            biob.dimensions.DimensionNames.SpatialX: pixelsizes[2],
         }
         transforms = [
             [
@@ -248,26 +264,40 @@ class OmeZarrWriter:
             * image_data.shape[ydimindex]
             * image_data.itemsize
         )
+
         target_chunk_size = 16 * (1024 * 1024)  # 16 MB
         # this is making an assumption of chunking whole XY planes.
-        # TODO allow callers to configure chunk dims?
-        nplanes_per_chunk = int(math.ceil(target_chunk_size / plane_size))
-        nplanes_per_chunk = (
-            min(nplanes_per_chunk, image_data.shape[zdimindex]) if zdimindex > -1 else 1
-        )
-        chunk_dim_map = {
-            "T": 1,
-            "C": 1,
-            "Z": nplanes_per_chunk,
-            "Y": image_data.shape[ydimindex],
-            "X": image_data.shape[xdimindex],
-        }
-        chunk_dims = [
-            dict(
-                chunks=tuple(chunk_dim_map[d] for d in dimension_order),
-                compressor=default_compressor,
+
+        if chunk_dims is None:
+            nplanes_per_chunk = int(math.ceil(target_chunk_size / plane_size))
+            nplanes_per_chunk = (
+                min(nplanes_per_chunk, image_data.shape[zdimindex])
+                if zdimindex > -1
+                else 1
             )
-        ]
+            chunk_dim_map = {
+                biob.dimensions.DimensionNames.Time: 1,
+                biob.dimensions.DimensionNames.Channel: 1,
+                biob.dimensions.DimensionNames.SpatialZ: nplanes_per_chunk,
+                biob.dimensions.DimensionNames.SpatialY: image_data.shape[ydimindex],
+                biob.dimensions.DimensionNames.SpatialX: image_data.shape[xdimindex],
+            }
+            chunks = [
+                dict(
+                    chunks=OmeZarrWriter._build_chunk_dims(
+                        chunk_dim_map=chunk_dim_map, dimension_order=dimension_order
+                    ),
+                    compressor=default_compressor,
+                )
+            ]
+        else:
+            chunks = [
+                dict(
+                    chunks=chunk_dims,
+                    compressor=default_compressor,
+                )
+            ]
+
         lasty = image_data.shape[ydimindex]
         lastx = image_data.shape[xdimindex]
         # TODO scaler might want to use different method for segmentations than raw
@@ -280,9 +310,13 @@ class OmeZarrWriter:
             scaler.method = "nearest"
             scaler.max_layer = scale_num_levels - 1
             scaler.downscale = scale_factor if scale_factor is not None else 2
-            for i in range(scale_num_levels - 1):
-                scale_dim_map["Y"] *= scaler.downscale
-                scale_dim_map["X"] *= scaler.downscale
+            for _ in range(scale_num_levels - 1):
+                scale_dim_map[
+                    biob.dimensions.DimensionNames.SpatialY
+                ] *= scaler.downscale
+                scale_dim_map[
+                    biob.dimensions.DimensionNames.SpatialX
+                ] *= scaler.downscale
                 transforms.append(
                     [
                         {
@@ -291,24 +325,49 @@ class OmeZarrWriter:
                         }
                     ]
                 )
-                lasty = int(math.ceil(lasty / scaler.downscale))
-                lastx = int(math.ceil(lastx / scaler.downscale))
-                plane_size = lasty * lastx * image_data.itemsize
-                nplanes_per_chunk = int(math.ceil(target_chunk_size / plane_size))
-                nplanes_per_chunk = (
-                    min(nplanes_per_chunk, image_data.shape[zdimindex])
-                    if zdimindex > -1
-                    else 1
-                )
-                chunk_dim_map["Z"] = nplanes_per_chunk
-                chunk_dim_map["Y"] = lasty
-                chunk_dim_map["X"] = lastx
-                chunk_dims.append(
-                    dict(
-                        chunks=tuple(chunk_dim_map[d] for d in dimension_order),
-                        compressor=default_compressor,
+
+                if chunk_dims is None:
+                    lasty = int(math.ceil(lasty / scaler.downscale))
+                    lastx = int(math.ceil(lastx / scaler.downscale))
+                    chunk_dim_map = {
+                        biob.dimensions.DimensionNames.Time: 1,
+                        biob.dimensions.DimensionNames.Channel: 1,
+                    }
+                    plane_size = lasty * lastx * image_data.itemsize
+                    nplanes_per_chunk = int(math.ceil(target_chunk_size / plane_size))
+                    nplanes_per_chunk = (
+                        min(nplanes_per_chunk, image_data.shape[zdimindex])
+                        if zdimindex > -1
+                        else 1
                     )
-                )
+
+                    chunk_dim_map[
+                        biob.dimensions.DimensionNames.SpatialZ
+                    ] = nplanes_per_chunk
+                    chunk_dim_map[biob.dimensions.DimensionNames.SpatialY] = lasty
+                    chunk_dim_map[biob.dimensions.DimensionNames.SpatialX] = lastx
+
+                    chunks.append(
+                        dict(
+                            chunks=OmeZarrWriter._build_chunk_dims(
+                                chunk_dim_map=chunk_dim_map,
+                                dimension_order=dimension_order,
+                            ),
+                            compressor=default_compressor,
+                        )
+                    )
+                else:
+                    rescaley = int(math.ceil(chunk_dims[ydimindex] / scaler.downscale))
+                    rescalex = int(math.ceil(chunk_dims[xdimindex] / scaler.downscale))
+                    chunk_dims = tuple(list(chunk_dims[:-2]) + [rescaley, rescalex])
+
+                    chunks.append(
+                        dict(
+                            chunks=chunk_dims,
+                            compressor=default_compressor,
+                        )
+                    )
+
         else:
             scaler = None
 
@@ -327,11 +386,27 @@ class OmeZarrWriter:
         )
         # TODO user supplies units?
         dim_to_axis = {
-            "T": {"name": "t", "type": "time", "unit": "millisecond"},
-            "C": {"name": "c", "type": "channel"},
-            "Z": {"name": "z", "type": "space", "unit": "micrometer"},
-            "Y": {"name": "y", "type": "space", "unit": "micrometer"},
-            "X": {"name": "x", "type": "space", "unit": "micrometer"},
+            biob.dimensions.DimensionNames.Time: {
+                "name": "t",
+                "type": "time",
+                "unit": "millisecond",
+            },
+            biob.dimensions.DimensionNames.Channel: {"name": "c", "type": "channel"},
+            biob.dimensions.DimensionNames.SpatialZ: {
+                "name": "z",
+                "type": "space",
+                "unit": "micrometer",
+            },
+            biob.dimensions.DimensionNames.SpatialY: {
+                "name": "y",
+                "type": "space",
+                "unit": "micrometer",
+            },
+            biob.dimensions.DimensionNames.SpatialX: {
+                "name": "x",
+                "type": "space",
+                "unit": "micrometer",
+            },
         }
 
         axes = [dim_to_axis[d] for d in dimension_order]
@@ -352,5 +427,5 @@ class OmeZarrWriter:
             # match the number of datasets in a multiresolution pyramid. One can
             # provide different chunk size for each level of a pyramid using this
             # option.
-            storage_options=chunk_dims,
+            storage_options=chunks,
         )

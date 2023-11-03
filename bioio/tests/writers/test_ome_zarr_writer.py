@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import pathlib
-import shutil
 from typing import Callable, List, Optional, Tuple
 
 import bioio_base as biob
@@ -85,8 +84,6 @@ def test_ome_zarr_writer_dims(
 
     # Construct save end point
     save_uri = tmp_path / filename
-    # clear out anything left over
-    shutil.rmtree(save_uri, ignore_errors=True)
 
     # Normal save
     writer = OmeZarrWriter(save_uri)
@@ -149,8 +146,6 @@ def test_ome_zarr_writer_scaling(
 
     # Construct save end point
     save_uri = tmp_path / filename
-    # clear out anything left over
-    shutil.rmtree(save_uri, ignore_errors=True)
 
     # Normal save
     writer = OmeZarrWriter(save_uri)
@@ -171,3 +166,63 @@ def test_ome_zarr_writer_scaling(
         assert len(xforms) == 1
         assert xforms[0]["type"] == "scale"
         assert xforms[0]["scale"] == expected_read_scales[i]
+
+
+@array_constructor
+@pytest.mark.parametrize(
+    "write_shape, chunk_dims, num_levels, expected_read_shapes",
+    [
+        (
+            (2, 4, 8, 16, 32),
+            (1, 1, 2, 16, 16),
+            2,
+            [(2, 4, 8, 16, 32), (2, 4, 8, 8, 16), (2, 4, 8, 4, 8)],
+        ),
+        (
+            (16, 32),
+            (2, 4),
+            2,
+            [(16, 32), (8, 16), (4, 8)],
+        ),
+    ],
+)
+@pytest.mark.parametrize("filename", ["e.zarr"])
+def test_ome_zarr_writer_chunks(
+    array_constructor: Callable,
+    write_shape: Tuple[int, ...],
+    chunk_dims: Tuple[int, ...],
+    num_levels: int,
+    filename: str,
+    expected_read_shapes: List[Tuple[int, ...]],
+    tmp_path: pathlib.Path,
+) -> None:
+    arr = array_constructor(write_shape, dtype=np.uint8)
+
+    # Construct save end point
+
+    baseline_save_uri = tmp_path / f"baseline_{filename}"
+    save_uri = tmp_path / filename
+
+    # Normal save
+    writer = OmeZarrWriter(save_uri)
+    writer.write_image(
+        arr, "", None, None, None, chunk_dims=chunk_dims, scale_num_levels=num_levels
+    )
+    reader = Reader(parse_url(save_uri))
+    node = list(reader())[0]
+
+    # Check expected shapes
+    for level in range(num_levels):
+        shape = node.data[level].shape
+        assert shape == expected_read_shapes[level]
+
+    # Create baseline chunking to compare against manual.
+    writer = OmeZarrWriter(baseline_save_uri)
+    writer.write_image(arr, "", None, None, None, scale_num_levels=num_levels)
+    reader_baseline = Reader(parse_url(baseline_save_uri))
+    node_baseline = list(reader_baseline())[0]
+
+    data = node.data[0]
+    baseline_data = node_baseline.data[0]
+
+    assert np.all(np.equal(data, baseline_data))

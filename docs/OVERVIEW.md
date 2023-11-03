@@ -7,7 +7,7 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 ## Features
 
 - Image Reading
-    - BioIO can read many various image formats (ex. `OME-TIFF`, `PNG`,  `ND2`), but only when paired with the appropriate plug-in for the image format. See [Reader Installation](#reader-installation) for a full list of the currently supported image formats as well as how to install them.
+    - BioIO can read many various image formats (ex. `OME-TIFF`, `PNG`,  `ND2`), but only when paired with the appropriate plug-in for the image format. See [Reader Installation](#id1) for a full list of the currently supported image formats as well as how to install them.
 - Image Writing
     - Supports writing metadata and imaging data for:
         - `OME-TIFF`

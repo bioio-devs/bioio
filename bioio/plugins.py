@@ -16,7 +16,6 @@ else:
 
 from typing import Dict, List, NamedTuple, Optional, Tuple
 
-from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
 
 ###############################################################################
@@ -31,32 +30,15 @@ class PluginEntry(NamedTuple):
     timestamp: float
 
 
-# global cache of plugins
-plugin_cache: List[PluginEntry] = []
-# global cache of plugins by extension
-# note there can be multiple readers for the same extension
-plugins_by_ext: Dict[str, List[PluginEntry]] = {}
-
-
 def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry) -> None:
+    """
+    Insert into list of PluginEntrys sorted by their timestamps (install dates)
+    """
     for i, other in enumerate(list):
         if item.timestamp > other.timestamp:
             list.insert(i, item)
             return
     list.append(item)
-
-
-def add_plugin(pluginentry: PluginEntry) -> None:
-    plugin_cache.append(pluginentry)
-    exts = pluginentry.metadata.get_supported_extensions()
-    for ext in exts:
-        if ext not in plugins_by_ext:
-            plugins_by_ext[ext] = [pluginentry]
-            continue
-
-        # insert in sorted order (sorted by most recently installed)
-        pluginlist = plugins_by_ext[ext]
-        insert_sorted_by_timestamp(pluginlist, pluginentry)
 
 
 def get_dependency_version_range_for_distribution(
@@ -113,8 +95,17 @@ def get_dependency_version_range_for_distribution(
     return minimum_dependency_version, maximum_dependency_version
 
 
-def get_plugins() -> List[PluginEntry]:
+def get_plugins() -> Dict[str, List[PluginEntry]]:
+    """
+    Gather a mapping from support file extensions
+    to plugins installed that support said extension
+    """
     plugins = entry_points(group="bioio.readers")
+
+    # Mapping of extensions -> applicable plugins
+    # note there can be multiple readers for the same extension
+    plugins_by_ext: Dict[str, List[PluginEntry]] = {}
+
     (
         min_compatible_bioio_base_version,
         _,
@@ -157,15 +148,29 @@ def get_plugins() -> List[PluginEntry]:
                 timestamp = 0.0
 
             # Add plugin entry
-            add_plugin(PluginEntry(plugin, reader_meta, timestamp))
+            plugin_entry = PluginEntry(plugin, reader_meta, timestamp)
+            for ext in plugin_entry.metadata.get_supported_extensions():
+                if ext not in plugins_by_ext:
+                    plugins_by_ext[ext] = [plugin_entry]
+                    continue
 
-    return plugin_cache
+                # insert in sorted order (sorted by most recently installed)
+                pluginlist = plugins_by_ext[ext]
+                insert_sorted_by_timestamp(pluginlist, plugin_entry)
+
+    return plugins_by_ext
 
 
 def dump_plugins() -> None:
-    # TODO don't call get_plugins every time
-    get_plugins()
-    for plugin in plugin_cache:
+    """
+    Report information about plugins currently installed
+    """
+    plugins_by_ext = get_plugins()
+    plugin_set = set()
+    for _, plugins in plugins_by_ext.items():
+        plugin_set.update(plugins)
+
+    for plugin in plugin_set:
         ep = plugin.entrypoint
         print(ep.name)
 
@@ -196,36 +201,3 @@ def dump_plugins() -> None:
     for ext in sorted_exts:
         plugins = plugins_by_ext[ext]
         print(f"{ext}: {plugins}")
-
-
-def find_reader_for_path(path: str) -> Optional[Reader]:
-    candidates = find_readers_for_path(path)
-    for candidate in candidates:
-        reader = candidate.metadata.get_reader()
-        if reader.is_supported_image(
-            path,
-            # TODO fs_kwargs=fs_kwargs,
-        ):
-            return reader
-    return None
-
-    # try to match on the longest possible registered extension
-    # exts = sorted(plugins_by_ext.keys(), key=len, reverse=True)
-    # for ext in exts:
-    #     if path.endswith(ext):
-    #         candidates = plugins_by_ext[ext]
-    #         # TODO select a candidate by some criteria?
-    #         return candidates[0]
-    # # didn't find a reader for this extension
-    # return None
-
-
-def find_readers_for_path(path: str) -> List[PluginEntry]:
-    candidates: List[PluginEntry] = []
-    # try to match on the longest possible registered extension first
-    exts = sorted(plugins_by_ext.keys(), key=len, reverse=True)
-    for ext in exts:
-        if path.endswith(ext):
-            candidates = candidates + plugins_by_ext[ext]
-    print(candidates)
-    return candidates

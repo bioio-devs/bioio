@@ -12,7 +12,7 @@ import xarray as xr
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import plugins_by_ext
+from .plugins import get_plugins
 
 ###############################################################################
 
@@ -139,6 +139,9 @@ class BioImage(biob.image_container.ImageContainer):
         exceptions.UnsupportedFileFormatError
             No reader could be found that supports the provided image.
         """
+        # Fetch updated mapping of plugins
+        plugins_by_ext = get_plugins()
+
         # Try reader detection based off of file path extension
         image_str = str(type(image))
         if isinstance(image, (str, Path)):

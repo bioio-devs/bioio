@@ -320,18 +320,17 @@ for information related to developing the code.
 
 If you find `bioio` useful, please cite this repository as:
 
-# TODO: should this remain the same??
-> Eva Maxfield Brown, Dan Toloudis, Jamie Sherman, Madison Swain-Bowden, Talley Lambert, AICSImageIO Contributors (2021). AICSImageIO: Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python [Computer software]. GitHub. https://github.com/AllenCellModeling/aicsimageio
+> Eva Maxfield Brown, Dan Toloudis, Jamie Sherman, Madison Swain-Bowden, Talley Lambert, Sean Meharry, Brian Whitney, AICSImageIO Contributors (2023). AICSImageIO: Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python [Computer software]. GitHub. https://github.com/AllenCellModeling/aicsimageio
 
 bibtex:
 
 ```bibtex
-@misc{aicsimageio,
-  author    = {Brown, Eva Maxfield and Toloudis, Dan and Sherman, Jamie and Swain-Bowden, Madison and Lambert, Talley and {AICSImageIO Contributors}},
-  title     = {AICSImageIO: Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python},
-  year      = {2021},
+@misc{bioio,
+  author    = {Brown, Eva Maxfield and Toloudis, Dan and Sherman, Jamie and Swain-Bowden, Madison and Lambert, Talley and Meharry, Sean and Whitney, Brian and {AICSImageIO Contributors}},
+  title     = {BioIO: Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python},
+  year      = {2023},
   publisher = {GitHub},
-  url       = {https://github.com/AllenCellModeling/aicsimageio}
+  url       = {https://github.com/bioio-devs/bioio}
 }
 ```
 

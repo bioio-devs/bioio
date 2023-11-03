@@ -22,7 +22,7 @@ from bioio_base.reader_metadata import ReaderMetadata
 ###############################################################################
 
 BIOIO_DIST_NAME = "bioio"
-BIOIO_BASE_DIST_NAME = "bioio-types"  # TODO: Rename to bioio-base
+BIOIO_BASE_DIST_NAME = "bioio-base"
 
 
 class PluginEntry(NamedTuple):

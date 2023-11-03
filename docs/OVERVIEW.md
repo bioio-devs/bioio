@@ -19,7 +19,7 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
         -   HTTP URLs (i.e. `https://my-domain.com/my-file.png`)
         -   [s3fs](https://github.com/dask/s3fs) (i.e. `s3://my-bucket/my-file.png`)
         -   [gcsfs](https://github.com/dask/gcsfs) (i.e. `gcs://my-bucket/my-file.png`)
-    - See [Cloud IO Support](#cloud-io-support) for more details.
+    - See [Cloud IO Support](#id2) for more details.
 
 ## Installation
 
@@ -38,20 +38,134 @@ that support the file types you are using. For example, if attempting to read `.
 BioIO will then determine which reader to use for which file automatically.
 
 This is a list of currently known and maintained reader plug-ins available:
-| Package      | Supported file types |
-| ------------ | -------------------- |
-| [bioio-czi](https://github.com/bioio-devs/bioio-czi) | `CZI` |
-| [bioio-dv](https://github.com/bioio-devs/bioio-dv)  | `DV` |
-| [bioio-imageio](https://github.com/bioio-devs/bioio-imageio) | `PNG`, `GIF`, [& other similar formats seen here](https://github.com/imageio/imageio)        |
-| [bioio-lif](https://github.com/bioio-devs/bioio-lif) | `LIF`        |
-| [bioio-nd2](https://github.com/bioio-devs/bioio-nd2) | `ND2`        |
-| [bioio-ome-tiff](https://github.com/bioio-devs/bioio-ome-tiff) | `OME-TIFF` (non-tiled)      |
-| [bioio-ome-tiled-tiff](https://github.com/bioio-devs/bioio-ome-tiled-tiff) | `OME-TIFF` (tiled)       |
-| [bioio-ome-zarr](https://github.com/bioio-devs/bioio-ome-zarr) | `ZARR`        |
-| [bioio-sldy](https://github.com/bioio-devs/bioio-sldy) | `SLDY`        |
-| [bioio-tifffile](https://github.com/bioio-devs/bioio-tifffile) | `TIFF` (non-globbed)       |
-| [bioio-tiff-glob](https://github.com/bioio-devs/bioio-tiff-glob) | `TIFF` (globbed)       |
-| [bioio-bioformats](https://github.com/bioio-devs/bioio-bioformats) | Files supported by [Bio-Formats](https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html) (Requires `java` and `maven`, see below for details)       |
+<table>
+  <tr>
+    <th>Package</th>
+    <th>Supported File Types</th>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-czi">bioio-czi</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">CZI</span>
+        </code>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-dv">bioio-dv</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">DV</span>
+        </code>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-imageio">bioio-imageio</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">PNG</span>
+        </code>,
+        <code class="docutils literal notranslate">
+            <span class="pre">GIF</span>
+        </code>,
+        <a class="reference external" href="https://github.com/imageio/imageio">&amp; other similar formats seen here</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-lif">bioio-lif</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">LIF</span>
+        </code>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-nd2">bioio-nd2</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">ND2</span>
+        </code>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-ome-tiff">bioio-ome-tiff</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">OME-TIFF</span>
+        </code> (non-tiled)
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-ome-tiled-tiff">bioio-ome-tiled-tiff</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">OME TIFF</span>
+        </code> (tiled)
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-ome-zarr">bioio-ome-zarr</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">ZARR</span>
+        </code>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-sldy">bioio-sldy</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">SLDY</span>
+        </code>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-tifffile">bioio-tifffile</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">TIFF</span>
+        </code> (non-globbed)
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-tiff-glob">bioio-tiff-glob</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">TIFF</span>
+        </code> (globbed)
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-bioformats">bioio-bioformats</a>
+    </td>
+    <td>
+        Files supported by <a class="reference external" href="https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html">Bio-Formats</a> (Requires <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">maven</span></code>, see below for details)
+    </td>
+  </tr>
+</table>
 
 ## Quickstart
 

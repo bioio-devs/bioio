@@ -26,7 +26,7 @@ Assumptions for the below example ([if untrue, see full documentation for more e
 #### Example Installation
 Install with pip `pip install bioio bioio-ome-tiff`
 
-#### Exmaple Snippet
+#### Example Snippet
 
 ```python
 from bioio import BioImage

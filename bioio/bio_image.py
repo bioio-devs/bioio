@@ -47,6 +47,11 @@ class BioImage(biob.image_container.ImageContainer):
         `M` dimension for tiles.
         If image is not a mosaic, data won't be stitched or have an `M` dimension for
         tiles.
+    use_plugin_cache: bool default False
+        Boolean for setting whether to use a plugin of the installed caches rather than
+        checking for installed plugins on each `BioImage` instance init.
+        If True, will use the cache of installed plugins discovered last `BioImage`
+        init.
     fs_kwargs: Dict[str, Any]
         Any specific keyword arguments to pass down to the fsspec created filesystem.
         Default: {}
@@ -123,6 +128,7 @@ class BioImage(biob.image_container.ImageContainer):
     def determine_reader(
         image: biob.types.ImageLike,
         fs_kwargs: Dict[str, Any] = {},
+        use_plugin_cache: bool = False,
         **kwargs: Any,
     ) -> Type[biob.reader.Reader]:
         """
@@ -140,7 +146,7 @@ class BioImage(biob.image_container.ImageContainer):
             No reader could be found that supports the provided image.
         """
         # Fetch updated mapping of plugins
-        plugins_by_ext = get_plugins()
+        plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
 
         # Try reader detection based off of file path extension
         image_str = str(type(image))
@@ -186,13 +192,14 @@ class BioImage(biob.image_container.ImageContainer):
         image: biob.types.ImageLike,
         reader: Optional[Type[biob.reader.Reader]] = None,
         reconstruct_mosaic: bool = True,
+        use_plugin_cache: bool = False,
         fs_kwargs: Dict[str, Any] = {},
         **kwargs: Any,
     ):
         if reader is None:
             # Determine reader class and create dask delayed array
             ReaderClass = BioImage.determine_reader(
-                image, fs_kwargs=fs_kwargs, **kwargs
+                image, fs_kwargs=fs_kwargs, use_plugin_cache=use_plugin_cache, **kwargs
             )
         else:
             # Init reader

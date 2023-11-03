@@ -30,6 +30,10 @@ class PluginEntry(NamedTuple):
     timestamp: float
 
 
+# global cache of plugins
+plugins_by_ext_cache: Dict[str, List[PluginEntry]] = {}
+
+
 def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry) -> None:
     """
     Insert into list of PluginEntrys sorted by their timestamps (install dates)
@@ -95,11 +99,14 @@ def get_dependency_version_range_for_distribution(
     return minimum_dependency_version, maximum_dependency_version
 
 
-def get_plugins() -> Dict[str, List[PluginEntry]]:
+def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
     """
     Gather a mapping from support file extensions
     to plugins installed that support said extension
     """
+    if use_cache and plugins_by_ext_cache:
+        return plugins_by_ext_cache.copy()
+
     plugins = entry_points(group="bioio.readers")
 
     # Mapping of extensions -> applicable plugins
@@ -158,6 +165,9 @@ def get_plugins() -> Dict[str, List[PluginEntry]]:
                 pluginlist = plugins_by_ext[ext]
                 insert_sorted_by_timestamp(pluginlist, plugin_entry)
 
+    # Save copy of plugins to cache then return
+    plugins_by_ext_cache.clear()
+    plugins_by_ext_cache.update(plugins_by_ext)
     return plugins_by_ext
 
 
@@ -165,7 +175,7 @@ def dump_plugins() -> None:
     """
     Report information about plugins currently installed
     """
-    plugins_by_ext = get_plugins()
+    plugins_by_ext = get_plugins(use_cache=True)
     plugin_set = set()
     for _, plugins in plugins_by_ext.items():
         plugin_set.update(plugins)

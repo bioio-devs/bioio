@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Contributor Covenant Code of Conduct" href="CODE_OF_CONDUCT.html" /><link rel="prev" title="Developer Resources" href="developer_resources.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Contributing - bioio 0.1.dev1+gc9b0909 documentation</title>
+        <title>Contributing - bioio 0.1.dev1+g5e76208 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+gc9b0909 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+g5e76208 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+gc9b0909 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g5e76208 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -224,7 +224,7 @@ helps, and credit will always be given.</p>
 <section id="developer-installation">
 <h2>Developer Installation<a class="headerlink" href="#developer-installation" title="Link to this heading">#</a></h2>
 <p>If something goes wrong at any point during installing the library please see how
-<a class="reference internal" href="#.github/workflows/build-main.yml"><span class="xref myst">our CI/CD on GitHub Actions</span></a> installs and builds the
+<a class="reference external" href=".github/workflows/build-main.yml">our CI/CD on GitHub Actions</a> installs and builds the
 project as it will always be the most up-to-date.</p>
 </section>
 <section id="get-started">
@@ -244,11 +244,12 @@ just<span class="w"> </span>install
 </div>
 </li>
 <li><p>Create a branch for local development:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">{</span>your_development_type<span class="o">}</span>/short-description
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">   </span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">{</span>your_development_type<span class="o">}</span>/short-description
+
+Ex:<span class="w"> </span>feature/read-tiff-files<span class="w"> </span>or<span class="w"> </span>bugfix/handle-file-not-found<span class="se">\ </span>:raw-html-m2r:<span class="sb">`</span>&lt;br&gt;<span class="sb">`</span>
+Now<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>make<span class="w"> </span>your<span class="w"> </span>changes<span class="w"> </span>locally.
 </pre></div>
 </div>
-<p>Ex: feature/read-tiff-files or bugfix/handle-file-not-found<br>
-Now you can make your changes locally.</p>
 </li>
 <li><p>When you’re done making changes, check that your changes pass linting and
 tests with <a class="reference external" href="https://github.com/casey/just">just</a>:</p>
@@ -289,30 +290,38 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </section>
 <section id="deploying">
 <h2>Deploying<a class="headerlink" href="#deploying" title="Link to this heading">#</a></h2>
-<p>A reminder for the maintainers on how to deploy.</p>
-<ol class="arabic">
-<li><p>Make sure all your changes are committed and merged into main.</p></li>
-<li><p>Make sure branch is clean:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
-git<span class="w"> </span>stash
-git<span class="w"> </span>pull
+<p>A reminder for the maintainers on how to deploy.
+1) Make sure all your changes are committed and merged into main.
+2) Make sure branch is clean:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```bash
+git checkout main
+git stash
+git pull
+```
 </pre></div>
 </div>
-</li>
-<li><p>Create tag and push new version to GitHub like so:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>just<span class="w"> </span>tag-for-release<span class="w"> </span><span class="s2">&quot;vX.Y.Z&quot;</span>
-just<span class="w"> </span>release
-</pre></div>
-</div>
-</li>
-<li><p>Wait for a <a class="reference external" href="https://github.com/bioio-devs/bioio/actions">GitHub Action</a> to automatically publish to <a class="reference external" href="https://pypi.org/project/bioio/">PyPI</a></p></li>
-<li><p><a class="reference external" href="https://github.com/bioio-devs/bioio/releases/new">Create GitHub release</a> for the corresponding version created.</p>
-<p>6a) Select tag for version created</p>
-<p>6b) Ensure GitHub automatically generates releases notes (<a class="reference external" href="https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes">click “Generate Release Notes”</a>)</p>
-<p>6c) Double check format is similar to previous releases</p>
-<p>6d) Publish release</p>
-</li>
+<ol class="arabic simple" start="3">
+<li><p>Create tag and push new version to GitHub like so:</p></li>
 </ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```bash
+just tag-for-release &quot;vX.Y.Z&quot;
+just release
+```
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Wait for a <a class="reference external" href="https://github.com/bioio-devs/bioio/actions">GitHub Action</a> to automatically publish to <a class="reference external" href="https://pypi.org/project/bioio/">PyPI</a></p></li>
+<li><p><a class="reference external" href="https://github.com/bioio-devs/bioio/releases/new">Create GitHub release</a> for the corresponding version created.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">6</span><span class="n">a</span><span class="p">)</span> <span class="n">Select</span> <span class="n">tag</span> <span class="k">for</span> <span class="n">version</span> <span class="n">created</span>
+
+<span class="mi">6</span><span class="n">b</span><span class="p">)</span> <span class="n">Ensure</span> <span class="n">GitHub</span> <span class="n">automatically</span> <span class="n">generates</span> <span class="n">releases</span> <span class="n">notes</span> <span class="p">([</span><span class="n">click</span> <span class="s2">&quot;Generate Release Notes&quot;</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">en</span><span class="o">/</span><span class="n">repositories</span><span class="o">/</span><span class="n">releasing</span><span class="o">-</span><span class="n">projects</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">github</span><span class="o">/</span><span class="n">automatically</span><span class="o">-</span><span class="n">generated</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">notes</span><span class="p">))</span>
+
+<span class="mi">6</span><span class="n">c</span><span class="p">)</span> <span class="n">Double</span> <span class="n">check</span> <span class="nb">format</span> <span class="ow">is</span> <span class="n">similar</span> <span class="n">to</span> <span class="n">previous</span> <span class="n">releases</span>
+
+<span class="mi">6</span><span class="n">d</span><span class="p">)</span> <span class="n">Publish</span> <span class="n">release</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -387,7 +396,7 @@ just<span class="w"> </span>release
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=519c0472"></script>
+</div><script src="_static/documentation_options.js?v=6418b3e6"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

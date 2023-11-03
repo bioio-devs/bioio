@@ -19,7 +19,7 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
         -   HTTP URLs (i.e. `https://my-domain.com/my-file.png`)
         -   [s3fs](https://github.com/dask/s3fs) (i.e. `s3://my-bucket/my-file.png`)
         -   [gcsfs](https://github.com/dask/gcsfs) (i.e. `gcs://my-bucket/my-file.png`)
-    - See [Cloud IO Support](#cloud-io-support) for more details.
+    - See [Cloud IO Support](#id2) for more details.
 
 ## Installation
 

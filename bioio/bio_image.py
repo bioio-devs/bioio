@@ -140,7 +140,9 @@ class BioImage(biob.image_container.ImageContainer):
             No reader could be found that supports the provided image.
         """
         # Try reader detection based off of file path extension
+        image_str = str(type(image))
         if isinstance(image, (str, Path)):
+            image_str = str(image)
             _, path = biob.io.pathlike_to_fs(
                 image, enforce_exists=True, fs_kwargs=fs_kwargs
             )
@@ -167,10 +169,9 @@ class BioImage(biob.image_container.ImageContainer):
 
         # If we haven't hit anything yet, we likely don't support this file / object
         # with the current plugins installed
-        image_type = str(type(image))
         raise biob.exceptions.UnsupportedFileFormatError(
             "BioImage",
-            image_type,
+            image_str,
             msg_extra=(
                 "You may need to install an extra format dependency. "
                 "See bioio README for list of some known plugins."

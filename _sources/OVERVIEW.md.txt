@@ -4,7 +4,7 @@
 [![Documentation](https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg)](https://bioio-devs.github.io/bioio)
 [![PyPI version](https://badge.fury.io/py/bioio.svg)](https://badge.fury.io/py/bioio)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
-[![Python 3.6](https://img.shields.io/badge/python-3.9,3.10,3.11-blue.svg)](https://www.python.org/downloads/release/python-360/)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9,3.10,3.11-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
 import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
@@ -12,7 +13,7 @@ import xarray as xr
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import get_plugins
+from .plugins import get_plugins, PluginEntry
 
 ###############################################################################
 
@@ -125,12 +126,12 @@ class BioImage(biob.image_container.ImageContainer):
     """
 
     @staticmethod
-    def determine_reader(
+    def determine_plugin(
         image: biob.types.ImageLike,
         fs_kwargs: Dict[str, Any] = {},
         use_plugin_cache: bool = False,
         **kwargs: Any,
-    ) -> Type[biob.reader.Reader]:
+    ) -> PluginEntry:
         """
         Cheaply check to see if a given file is a recognized type and return the
         appropriate reader for the image.
@@ -158,8 +159,9 @@ class BioImage(biob.image_container.ImageContainer):
 
             # Check for extension in plugins_by_ext
             for format_ext, plugins in plugins_by_ext.items():
-                # TODO: This check might need to come from the plugin itself so that
-                # cases like TiffGlobReader can be handled
+                # Remove "." prefix if already there
+                if format_ext.startswith("."):
+                    format_ext = format_ext[1:]
                 if path.lower().endswith(f".{format_ext}"):
                     for plugin in plugins:
                         ReaderClass = plugin.metadata.get_reader()
@@ -168,7 +170,7 @@ class BioImage(biob.image_container.ImageContainer):
                                 image,
                                 fs_kwargs=fs_kwargs,
                             ):
-                                return ReaderClass
+                                return plugin
 
                         except Exception as e:
                             log.warning(
@@ -198,9 +200,10 @@ class BioImage(biob.image_container.ImageContainer):
     ):
         if reader is None:
             # Determine reader class and create dask delayed array
-            ReaderClass = BioImage.determine_reader(
+            self._plugin = BioImage.determine_plugin(
                 image, fs_kwargs=fs_kwargs, use_plugin_cache=use_plugin_cache, **kwargs
             )
+            ReaderClass = self._plugin.metadata.get_reader()
         else:
             # Init reader
             ReaderClass = reader
@@ -965,7 +968,8 @@ class BioImage(biob.image_container.ImageContainer):
     def __str__(self) -> str:
         return (
             f"<BioImage ["
-            f"Reader: {type(self.reader).__name__}, "
+            f"plugin: {self._plugin.entrypoint.name} installed "
+            f"at {datetime.datetime.fromtimestamp(self._plugin.timestamp)}, "
             f"Image-is-in-Memory: {self._xarray_data is not None}"
             f"]>"
         )

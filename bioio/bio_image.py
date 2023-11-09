@@ -13,7 +13,7 @@ import xarray as xr
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import get_plugins, PluginEntry
+from .plugins import PluginEntry, get_plugins
 
 ###############################################################################
 

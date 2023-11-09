@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>bioio.bio_image - bioio 0.1.dev1+gee84ed5 documentation</title>
+        <title>bioio.bio_image - bioio 0.1.dev1+g787ce16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+gee84ed5 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g787ce16 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+gee84ed5 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g787ce16 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,31 +156,16 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../OVERVIEW.html">Overview</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Full API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Full API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">Package modules</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Package modules</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../bioio.html">bioio package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of bioio package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../bioio.writers.html">bioio.writers package</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../developer_resources.html">Developer Resources</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Developer Resources</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../CONTRIBUTING.html">Contributing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../CODE_OF_CONDUCT.html">Code of Conduct</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../GOVERNANCE.html">Governance Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../MISSION_AND_VALUES.html">Mission and Values</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../CHANGELOG.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../MIGRATION.html">AICSImageIO Migration</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Important Classes:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.BioImage.html">bioio.BioImage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.OmeTiffWriter.html">bioio.writers.OmeTiffWriter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.OmeZarrWriter.html">bioio.writers.OmeZarrWriter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.timeseries_writer.TimeseriesWriter.html">bioio.writers.timeseries_writer.TimeseriesWriter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.two_d_writer.TwoDWriter.html">bioio.writers.two_d_writer.TwoDWriter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 </ul>
 
 </div>
@@ -218,6 +203,7 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
+<span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
@@ -229,7 +215,7 @@
 <span class="kn">from</span> <span class="nn">ome_types</span> <span class="kn">import</span> <span class="n">OME</span>
 
 <span class="kn">from</span> <span class="nn">.ome_utils</span> <span class="kn">import</span> <span class="n">generate_ome_channel_id</span>
-<span class="kn">from</span> <span class="nn">.plugins</span> <span class="kn">import</span> <span class="n">plugins_by_ext</span>
+<span class="kn">from</span> <span class="nn">.plugins</span> <span class="kn">import</span> <span class="n">PluginEntry</span><span class="p">,</span> <span class="n">plugins_by_ext</span>
 
 <span class="c1">###############################################################################</span>
 
@@ -239,7 +225,7 @@
 
 
 <div class="viewcode-block" id="BioImage">
-<a class="viewcode-back" href="../../bioio.BioImage.html#bioio.bio_image.BioImage">[docs]</a>
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage">[docs]</a>
 <span class="k">class</span> <span class="nc">BioImage</span><span class="p">(</span><span class="n">biob</span><span class="o">.</span><span class="n">image_container</span><span class="o">.</span><span class="n">ImageContainer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    BioImage takes microscopy image data types (files or arrays) of varying</span>
@@ -338,14 +324,14 @@
 <span class="sd">    by either instantiating the reader independently or using the `.reader` property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="BioImage.determine_reader">
-<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.determine_reader">[docs]</a>
+<div class="viewcode-block" id="BioImage.determine_plugin">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.determine_plugin">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">determine_reader</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">determine_plugin</span><span class="p">(</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
         <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginEntry</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cheaply check to see if a given file is a recognized type and return the</span>
 <span class="sd">        appropriate reader for the image.</span>
@@ -370,8 +356,6 @@
 
             <span class="c1"># Check for extension in plugins_by_ext</span>
             <span class="k">for</span> <span class="n">format_ext</span><span class="p">,</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="c1"># TODO: This check might need to come from the plugin itself so that</span>
-                <span class="c1"># cases like TiffGlobReader can be handled</span>
                 <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">format_ext</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
                     <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
                         <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
@@ -380,7 +364,7 @@
                                 <span class="n">image</span><span class="p">,</span>
                                 <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span>
                             <span class="p">):</span>
-                                <span class="k">return</span> <span class="n">ReaderClass</span>
+                                <span class="k">return</span> <span class="n">plugin</span>
 
                         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                             <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
@@ -400,8 +384,6 @@
         <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="BioImage.__init__">
-<a class="viewcode-back" href="../../bioio.BioImage.html#bioio.bio_image.BioImage.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
@@ -412,9 +394,10 @@
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">reader</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Determine reader class and create dask delayed array</span>
-            <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_reader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span>
                 <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
             <span class="p">)</span>
+            <span class="n">ReaderClass</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Init reader</span>
             <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">reader</span>
@@ -428,8 +411,7 @@
         <span class="c1"># Lazy load data from reader and reformat to standard dimensions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">reader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">:</span>
@@ -1210,7 +1192,8 @@
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Reader: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;plugin: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> installed &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;at </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
             <span class="sa">f</span><span class="s2">&quot;Image-is-in-Memory: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="sa">f</span><span class="s2">&quot;]&gt;&quot;</span>
         <span class="p">)</span>
@@ -1384,7 +1367,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=3cfe1a68"></script>
+</div><script src="../../_static/documentation_options.js?v=71ca0701"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>

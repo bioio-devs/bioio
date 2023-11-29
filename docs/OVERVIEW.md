@@ -37,7 +37,7 @@ BioIO is a plug-in based system of readers meaning in addition to the `bioio` pa
 that support the file types you are using. For example, if attempting to read `.ome.tiff` and `.zarr` files you'll want to install the `bioio-ome-tiff` & `bioio-ome-zarr` packages alongside `bioio` (ex. `pip install bioio bioio-ome-zarr bioio-ome-tiff`).
 BioIO will then determine which reader to use for which file automatically.
 
-This is a list of currently known and maintained reader plug-ins available:
+This is a list of currently known and maintained reader plug-ins available, however other plug-ins may be available outside of these:
 <table>
   <tr>
     <th>Package</th>
@@ -440,7 +440,7 @@ bibtex:
 
 ```bibtex
 @misc{bioio,
-  author    = {Brown, Eva Maxfield and Toloudis, Dan and Sherman, Jamie and Swain-Bowden, Madison and Lambert, Talley and Meharry, Sean and Whitney, Brian and {AICSImageIO Contributors}},
+  author    = {Brown, Eva Maxfield and Toloudis, Dan and Sherman, Jamie and Swain-Bowden, Madison and Lambert, Talley and Meharry, Sean and Whitney, Brian and {BioIO Contributors}},
   title     = {BioIO: Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python},
   year      = {2023},
   publisher = {GitHub},

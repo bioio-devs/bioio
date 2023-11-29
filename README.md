@@ -16,9 +16,9 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 
 ## Example Usage (see full documentation for more examples)
 
-Install bioio and bioio OME TIFF plug-in with pip:
+Install bioio alongside OME TIFF and OME ZARR plug-ins with pip (this example won't use the OME ZARR plug-in):
 
-`pip install bioio bioio-ome-tiff`
+`pip install bioio bioio-ome-tiff bioio-ome-zarr`
 
 ```python
 from bioio import BioImage

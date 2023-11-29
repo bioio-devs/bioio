@@ -1,4 +1,4 @@
-# Migration from AICSImageIO to BioIO
+# Migration from AICSImageIO v4 to BioIO v1
 
 ## How different is the API?
 

@@ -24,6 +24,7 @@ jobs:
           pip install .[docs]
       - name: Generate Docs
         run: |
+          gitchangelog
           just generate-docs
           touch docs/_build/.nojekyll
       - name: Publish Docs

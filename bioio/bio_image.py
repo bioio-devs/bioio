@@ -348,6 +348,54 @@ class BioImage(biob.image_container.ImageContainer):
         )
 
     @property
+    def resolution_levels(self) -> Tuple[int, ...]:
+        """
+        Returns
+        -------
+        resolution_levels: Tuple[int, ...]
+            A tuple of valid resolution levels in the file.
+        """
+        return self.reader.resolution_levels
+
+    @property
+    def current_resolution_level(self) -> int:
+        """
+        Returns
+        -------
+        current_resolution_level: int
+            The currently selected resolution level.
+        """
+        return self.reader.current_resolution_level
+
+    def set_resolution_level(self, resolution_level: int) -> None:
+        """
+        Set the operating resolution level.
+
+        Parameters
+        ----------
+        resolution_level: int
+            The selected resolution level to set as current.
+
+        Raises
+        ------
+        IndexError
+            The provided level is not found in the available list of resolution levels.
+        """
+        if resolution_level not in self.resolution_levels:
+            raise IndexError(
+                f"Resolution level {resolution_level} not found in available "
+                f"resolution levels {self.resolution_levels}"
+            )
+        if resolution_level == self.current_resolution_level:
+            return
+        
+        self.reader.set_resolution_level(resolution_level)
+        # Reset the data stored in the BioImage object
+        self._xarray_dask_data = None
+        self._xarray_data = None
+        self._dims = None
+
+    @property
     def xarray_dask_data(self) -> xr.DataArray:
         """
         Returns

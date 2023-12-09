@@ -388,7 +388,7 @@ class BioImage(biob.image_container.ImageContainer):
             )
         if resolution_level == self.current_resolution_level:
             return
-        
+
         self.reader.set_resolution_level(resolution_level)
         # Reset the data stored in the BioImage object
         self._xarray_dask_data = None

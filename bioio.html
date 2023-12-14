@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio.writers package" href="bioio.writers.html" /><link rel="prev" title="bioio" href="modules.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>bioio package - bioio 0.1.dev1+g8c1ae43 documentation</title>
+        <title>bioio package - bioio 0.1.dev1+g948d50e documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+g8c1ae43 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+g948d50e documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g8c1ae43 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g948d50e documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -397,6 +397,19 @@ stored in their own dimension (M).</p>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>channel_names: List[str]</dt><dd><p>Using available metadata, the list of strings representing channel names.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.bio_image.BioImage.current_resolution_level">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_resolution_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bioio.bio_image.BioImage.current_resolution_level" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>current_resolution_level: int</dt><dd><p>The currently selected resolution level.</p>
 </dd>
 </dl>
 </dd>
@@ -905,6 +918,19 @@ interface then the base class can be used directly.</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.bio_image.BioImage.resolution_levels">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolution_levels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.bio_image.BioImage.resolution_levels" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>resolution_levels: Tuple[int, …]</dt><dd><p>A tuple of valid resolution levels in the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="bioio.bio_image.BioImage.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_scenes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.bio_image.BioImage.save" title="Link to this definition">#</a></dt>
@@ -953,6 +979,26 @@ scenes will be the same (or whatever order was specified / provided).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">scenes</span><span class="p">))</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.bio_image.BioImage.set_resolution_level">
+<span class="sig-name descname"><span class="pre">set_resolution_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage.set_resolution_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.bio_image.BioImage.set_resolution_level" title="Link to this definition">#</a></dt>
+<dd><p>Set the operating resolution level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>resolution_level: int</strong></dt><dd><p>The selected resolution level to set as current.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>IndexError</dt><dd><p>The provided level is not found in the available list of resolution levels.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1402,6 +1448,19 @@ stored in their own dimension (M).</p>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>channel_names: List[str]</dt><dd><p>Using available metadata, the list of strings representing channel names.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.BioImage.current_resolution_level">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_resolution_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#bioio.BioImage.current_resolution_level" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>current_resolution_level: int</dt><dd><p>The currently selected resolution level.</p>
 </dd>
 </dl>
 </dd>
@@ -1910,6 +1969,19 @@ interface then the base class can be used directly.</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.BioImage.resolution_levels">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolution_levels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.BioImage.resolution_levels" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>resolution_levels: Tuple[int, …]</dt><dd><p>A tuple of valid resolution levels in the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="bioio.BioImage.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_scenes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage.save" title="Link to this definition">#</a></dt>
@@ -1958,6 +2030,26 @@ scenes will be the same (or whatever order was specified / provided).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">scenes</span><span class="p">))</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.BioImage.set_resolution_level">
+<span class="sig-name descname"><span class="pre">set_resolution_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage.set_resolution_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage.set_resolution_level" title="Link to this definition">#</a></dt>
+<dd><p>Set the operating resolution level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>resolution_level: int</strong></dt><dd><p>The selected resolution level to set as current.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>IndexError</dt><dd><p>The provided level is not found in the available list of resolution levels.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -2093,6 +2185,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#module-bioio.bio_image">bioio.bio_image module</a><ul>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage"><code class="docutils literal notranslate"><span class="pre">BioImage</span></code></a><ul>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.channel_names"><code class="docutils literal notranslate"><span class="pre">BioImage.channel_names</span></code></a></li>
+<li><a class="reference internal" href="#bioio.bio_image.BioImage.current_resolution_level"><code class="docutils literal notranslate"><span class="pre">BioImage.current_resolution_level</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.current_scene"><code class="docutils literal notranslate"><span class="pre">BioImage.current_scene</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.current_scene_index"><code class="docutils literal notranslate"><span class="pre">BioImage.current_scene_index</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.dask_data"><code class="docutils literal notranslate"><span class="pre">BioImage.dask_data</span></code></a></li>
@@ -2113,8 +2206,10 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.ome_metadata"><code class="docutils literal notranslate"><span class="pre">BioImage.ome_metadata</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">BioImage.physical_pixel_sizes</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.reader"><code class="docutils literal notranslate"><span class="pre">BioImage.reader</span></code></a></li>
+<li><a class="reference internal" href="#bioio.bio_image.BioImage.resolution_levels"><code class="docutils literal notranslate"><span class="pre">BioImage.resolution_levels</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.save"><code class="docutils literal notranslate"><span class="pre">BioImage.save()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.scenes"><code class="docutils literal notranslate"><span class="pre">BioImage.scenes</span></code></a></li>
+<li><a class="reference internal" href="#bioio.bio_image.BioImage.set_resolution_level"><code class="docutils literal notranslate"><span class="pre">BioImage.set_resolution_level()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.set_scene"><code class="docutils literal notranslate"><span class="pre">BioImage.set_scene()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.shape"><code class="docutils literal notranslate"><span class="pre">BioImage.shape</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.xarray_dask_data"><code class="docutils literal notranslate"><span class="pre">BioImage.xarray_dask_data</span></code></a></li>
@@ -2150,6 +2245,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#module-bioio">Module contents</a><ul>
 <li><a class="reference internal" href="#bioio.BioImage"><code class="docutils literal notranslate"><span class="pre">BioImage</span></code></a><ul>
 <li><a class="reference internal" href="#bioio.BioImage.channel_names"><code class="docutils literal notranslate"><span class="pre">BioImage.channel_names</span></code></a></li>
+<li><a class="reference internal" href="#bioio.BioImage.current_resolution_level"><code class="docutils literal notranslate"><span class="pre">BioImage.current_resolution_level</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.current_scene"><code class="docutils literal notranslate"><span class="pre">BioImage.current_scene</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.current_scene_index"><code class="docutils literal notranslate"><span class="pre">BioImage.current_scene_index</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.dask_data"><code class="docutils literal notranslate"><span class="pre">BioImage.dask_data</span></code></a></li>
@@ -2170,8 +2266,10 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#bioio.BioImage.ome_metadata"><code class="docutils literal notranslate"><span class="pre">BioImage.ome_metadata</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">BioImage.physical_pixel_sizes</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.reader"><code class="docutils literal notranslate"><span class="pre">BioImage.reader</span></code></a></li>
+<li><a class="reference internal" href="#bioio.BioImage.resolution_levels"><code class="docutils literal notranslate"><span class="pre">BioImage.resolution_levels</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.save"><code class="docutils literal notranslate"><span class="pre">BioImage.save()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.scenes"><code class="docutils literal notranslate"><span class="pre">BioImage.scenes</span></code></a></li>
+<li><a class="reference internal" href="#bioio.BioImage.set_resolution_level"><code class="docutils literal notranslate"><span class="pre">BioImage.set_resolution_level()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.set_scene"><code class="docutils literal notranslate"><span class="pre">BioImage.set_scene()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.shape"><code class="docutils literal notranslate"><span class="pre">BioImage.shape</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.xarray_dask_data"><code class="docutils literal notranslate"><span class="pre">BioImage.xarray_dask_data</span></code></a></li>
@@ -2191,7 +2289,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=7a8a7737"></script>
+</div><script src="_static/documentation_options.js?v=7c58b1c7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

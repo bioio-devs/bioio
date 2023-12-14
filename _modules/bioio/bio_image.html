@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>bioio.bio_image - bioio 0.1.dev1+g8c1ae43 documentation</title>
+        <title>bioio.bio_image - bioio 0.1.dev1+g948d50e documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g8c1ae43 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g948d50e documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g8c1ae43 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g948d50e documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -574,6 +574,57 @@
             <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
             <span class="n">attrs</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span>
         <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">resolution_levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        resolution_levels: Tuple[int, ...]</span>
+<span class="sd">            A tuple of valid resolution levels in the file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">resolution_levels</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">current_resolution_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        current_resolution_level: int</span>
+<span class="sd">            The currently selected resolution level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">current_resolution_level</span>
+
+<div class="viewcode-block" id="BioImage.set_resolution_level">
+<a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.set_resolution_level">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_resolution_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resolution_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the operating resolution level.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        resolution_level: int</span>
+<span class="sd">            The selected resolution level to set as current.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        IndexError</span>
+<span class="sd">            The provided level is not found in the available list of resolution levels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">resolution_level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Resolution level </span><span class="si">{</span><span class="n">resolution_level</span><span class="si">}</span><span class="s2"> not found in available &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;resolution levels </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">resolution_level</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_resolution_level</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">set_resolution_level</span><span class="p">(</span><span class="n">resolution_level</span><span class="p">)</span>
+        <span class="c1"># Reset the data stored in the BioImage object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="kc">None</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">xarray_dask_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
@@ -1398,7 +1449,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=7a8a7737"></script>
+</div><script src="../../_static/documentation_options.js?v=7c58b1c7"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>

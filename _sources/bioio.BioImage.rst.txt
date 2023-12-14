@@ -24,6 +24,7 @@
       ~BioImage.get_xarray_dask_stack
       ~BioImage.get_xarray_stack
       ~BioImage.save
+      ~BioImage.set_resolution_level
       ~BioImage.set_scene
    
    
@@ -35,6 +36,7 @@
    .. autosummary::
    
       ~BioImage.channel_names
+      ~BioImage.current_resolution_level
       ~BioImage.current_scene
       ~BioImage.current_scene_index
       ~BioImage.dask_data
@@ -46,6 +48,7 @@
       ~BioImage.ome_metadata
       ~BioImage.physical_pixel_sizes
       ~BioImage.reader
+      ~BioImage.resolution_levels
       ~BioImage.scenes
       ~BioImage.shape
       ~BioImage.xarray_dask_data

@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio.writers.OmeTiffWriter" href="bioio.writers.OmeTiffWriter.html" /><link rel="prev" title="Migration from AICSImageIO v4 to BioIO v1" href="MIGRATION.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>bioio.BioImage - bioio 0.1.dev1+g8c1ae43 documentation</title>
+        <title>bioio.BioImage - bioio 0.1.dev1+g948d50e documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -124,7 +124,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+g8c1ae43 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+g948d50e documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +147,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g8c1ae43 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g948d50e documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -361,7 +361,10 @@ stored in their own dimension (M).</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.save" title="bioio.BioImage.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(uri[, select_scenes])</p></td>
 <td><p>Saves the file data to OME-TIFF format with general naive best practices.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.set_scene" title="bioio.BioImage.set_scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_scene</span></code></a>(scene_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.set_resolution_level" title="bioio.BioImage.set_resolution_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_resolution_level</span></code></a>(resolution_level)</p></td>
+<td><p>Set the operating resolution level.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.set_scene" title="bioio.BioImage.set_scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_scene</span></code></a>(scene_id)</p></td>
 <td><p>Set the operating scene.</p></td>
 </tr>
 </tbody>
@@ -378,77 +381,91 @@ stored in their own dimension (M).</p>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_scene" title="bioio.BioImage.current_scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_scene</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_resolution_level" title="bioio.BioImage.current_resolution_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_resolution_level</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_scene_index" title="bioio.BioImage.current_scene_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_scene_index</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_scene" title="bioio.BioImage.current_scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_scene</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dask_data" title="bioio.BioImage.dask_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dask_data</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_scene_index" title="bioio.BioImage.current_scene_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_scene_index</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.data" title="bioio.BioImage.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dask_data" title="bioio.BioImage.dask_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dask_data</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dims" title="bioio.BioImage.dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dims</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.data" title="bioio.BioImage.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dtype" title="bioio.BioImage.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dims" title="bioio.BioImage.dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dims</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.metadata" title="bioio.BioImage.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dtype" title="bioio.BioImage.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.mosaic_tile_dims" title="bioio.BioImage.mosaic_tile_dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mosaic_tile_dims</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.metadata" title="bioio.BioImage.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.ome_metadata" title="bioio.BioImage.ome_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ome_metadata</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.mosaic_tile_dims" title="bioio.BioImage.mosaic_tile_dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mosaic_tile_dims</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.physical_pixel_sizes" title="bioio.BioImage.physical_pixel_sizes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physical_pixel_sizes</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.ome_metadata" title="bioio.BioImage.ome_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ome_metadata</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.reader" title="bioio.BioImage.reader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reader</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.physical_pixel_sizes" title="bioio.BioImage.physical_pixel_sizes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physical_pixel_sizes</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.reader" title="bioio.BioImage.reader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reader</span></code></a></p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.resolution_levels" title="bioio.BioImage.resolution_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolution_levels</span></code></a></p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
@@ -561,7 +578,7 @@ stored in their own dimension (M).</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=7a8a7737"></script>
+</div><script src="_static/documentation_options.js?v=7c58b1c7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

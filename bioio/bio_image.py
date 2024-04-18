@@ -154,7 +154,8 @@ class BioImage(biob.image_container.ImageContainer):
         if isinstance(image, (str, Path)):
             image_str = str(image)
             _, path = biob.io.pathlike_to_fs(
-                image, enforce_exists=True, fs_kwargs=fs_kwargs
+                # ZARRs accessed via https will fail the enforce_exists check
+                image, enforce_exists=False, fs_kwargs=fs_kwargs
             )
 
             # Check for extension in plugins_by_ext

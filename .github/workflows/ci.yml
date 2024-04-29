@@ -53,6 +53,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install .[test]
+    - name: Ensure ffmpeg on macos-latest
+      if: runner.os == 'macOS'
+      run: brew install ffmpeg
     - name: Run Tests
       run: just test
     - name: Upload Codecov

@@ -23,12 +23,12 @@ from ..conftest import array_constructor
         # see https://github.com/bioio-devs/bioio/issues/10
         # ((30, 100, 100), None, (30, 100, 100)),
         # Note that files get saved out with RGBA, instead of just RGB
-        ((30, 100, 100, 3), None, (30, 100, 100, 3)),
+        ((30, 100, 100, 3), None, (30, 100, 100, 4)),
         # TODO: Failing currently, needs work,
         # see https://github.com/bioio-devs/bioio/issues/10
         # ((100, 30, 100), "XTY", (30, 100, 100)),
         # Note that files get saved out with RGBA, instead of just RGB
-        ((3, 100, 30, 100), "SYTX", (30, 100, 100, 3)),
+        ((3, 100, 30, 100), "SYTX", (30, 100, 100, 4)),
         pytest.param(
             (1, 1),
             None,

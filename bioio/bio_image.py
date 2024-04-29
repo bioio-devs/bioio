@@ -153,8 +153,11 @@ class BioImage(biob.image_container.ImageContainer):
         image_str = str(type(image))
         if isinstance(image, (str, Path)):
             image_str = str(image)
+            # we do not enforce_exists because it's possible
+            # the path is a directory on a HTTP filesystem
+            # which is impossible to check for existence
             _, path = biob.io.pathlike_to_fs(
-                image, enforce_exists=True, fs_kwargs=fs_kwargs
+                image, enforce_exists=False, fs_kwargs=fs_kwargs
             )
 
             # Check for extension in plugins_by_ext
@@ -177,6 +180,9 @@ class BioImage(biob.image_container.ImageContainer):
                                 f"Attempted file ({path}) load with "
                                 f"reader: {ReaderClass} failed with error: {e}"
                             )
+        else:
+            # TODO - Add support for arraylike image detection
+            pass
 
         # If we haven't hit anything yet, we likely don't support this file / object
         # with the current plugins installed

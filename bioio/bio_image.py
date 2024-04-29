@@ -175,6 +175,8 @@ class BioImage(biob.image_container.ImageContainer):
                             ):
                                 return plugin
 
+                        except FileNotFoundError as fe:
+                            raise fe
                         except Exception as e:
                             log.warning(
                                 f"Attempted file ({path}) load with "

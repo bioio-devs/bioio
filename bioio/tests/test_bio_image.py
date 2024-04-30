@@ -17,5 +17,5 @@ def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
 def test_bioimage_with_missing_file(tmp_path: pathlib.Path) -> None:
     # Construct full filepath
     uri = tmp_path / "does-not-exist-klafjjksdafkjl.bad"
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(biob.exceptions.UnsupportedFileFormatError):
         BioImage(uri)

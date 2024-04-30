@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio" href="modules.html" /><link rel="prev" title="Welcome to bioio’s documentation!" href="index.html" />
 
-    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>BioIO - bioio 0.1.dev1+g258e160 documentation</title>
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.04.27 -->
+        <title>BioIO - bioio 0.1.dev1+g709fb55 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=437aa6ec" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     
@@ -113,6 +113,8 @@
   <div class="visually-hidden">Hide table of contents sidebar</div>
 </label>
 
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
 
 
 <div class="page">
@@ -124,7 +126,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+g258e160 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+g709fb55 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -147,7 +149,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g258e160 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g709fb55 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -215,13 +217,13 @@
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
-        <article role="main">
+        <article role="main" id="furo-main-content">
           <section id="bioio">
-<h1>BioIO<a class="headerlink" href="#bioio" title="Link to this heading">#</a></h1>
+<h1>BioIO<a class="headerlink" href="#bioio" title="Link to this heading">¶</a></h1>
 <p>Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python</p>
 <hr class="docutils" />
 <section id="features">
-<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>Image Reading</p>
 <ul>
@@ -255,14 +257,14 @@
 </ul>
 </section>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
 <p>BioIO requires Python version 3.9 and up</p>
 <p><strong>Stable Release:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span></code><span class="raw-html-m2r"><br></span>
 <strong>Development Head:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">git+https://github.com/bioio-devs/bioio.git</span></code></p>
 <p>BioIO is supported on Windows, Mac, and Ubuntu.
 For other platforms, you will likely need to build from source.</p>
 <section id="id1">
-<h3>Reader Installation<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<h3>Reader Installation<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>BioIO is a plug-in based system of readers meaning in addition to the <code class="docutils literal notranslate"><span class="pre">bioio</span></code> package you need to install the packages
 that support the file types you are using. For example, if attempting to read <code class="docutils literal notranslate"><span class="pre">.ome.tiff</span></code> and <code class="docutils literal notranslate"><span class="pre">.zarr</span></code> files you’ll want to install the <code class="docutils literal notranslate"><span class="pre">bioio-ome-tiff</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">bioio-ome-zarr</span></code> packages alongside <code class="docutils literal notranslate"><span class="pre">bioio</span></code> (ex. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span> <span class="pre">bioio-ome-zarr</span> <span class="pre">bioio-ome-tiff</span></code>).
 BioIO will then determine which reader to use for which file automatically.</p>
@@ -397,9 +399,9 @@ BioIO will then determine which reader to use for which file automatically.</p>
 </table></section>
 </section>
 <section id="quickstart">
-<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">#</a></h2>
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h2>
 <section id="full-image-reading">
-<h3>Full Image Reading<a class="headerlink" href="#full-image-reading" title="Link to this heading">#</a></h3>
+<h3>Full Image Reading<a class="headerlink" href="#full-image-reading" title="Link to this heading">¶</a></h3>
 <p>If your image fits in memory:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
 
@@ -429,14 +431,14 @@ BioIO will then determine which reader to use for which file automatically.</p>
 </pre></div>
 </div>
 <section id="full-image-reading-notes">
-<h4>Full Image Reading Notes<a class="headerlink" href="#full-image-reading-notes" title="Link to this heading">#</a></h4>
+<h4>Full Image Reading Notes<a class="headerlink" href="#full-image-reading-notes" title="Link to this heading">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">.data</span></code> and <code class="docutils literal notranslate"><span class="pre">.xarray_data</span></code> properties will load the whole scene into memory.
 The <code class="docutils literal notranslate"><span class="pre">.get_image_data</span></code> function will load the whole scene into memory and then retrieve
 the specified chunk.</p>
 </section>
 </section>
 <section id="delayed-image-reading">
-<h3>Delayed Image Reading<a class="headerlink" href="#delayed-image-reading" title="Link to this heading">#</a></h3>
+<h3>Delayed Image Reading<a class="headerlink" href="#delayed-image-reading" title="Link to this heading">¶</a></h3>
 <p>If your image doesn’t fit in memory:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
 
@@ -469,7 +471,7 @@ the specified chunk.</p>
 </pre></div>
 </div>
 <section id="delayed-image-reading-notes">
-<h4>Delayed Image Reading Notes<a class="headerlink" href="#delayed-image-reading-notes" title="Link to this heading">#</a></h4>
+<h4>Delayed Image Reading Notes<a class="headerlink" href="#delayed-image-reading-notes" title="Link to this heading">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">.dask_data</span></code> and <code class="docutils literal notranslate"><span class="pre">.xarray_dask_data</span></code> properties and the <code class="docutils literal notranslate"><span class="pre">.get_image_dask_data</span></code>
 function will not load any piece of the imaging data into memory until you specifically
 call <code class="docutils literal notranslate"><span class="pre">.compute</span></code> on the returned Dask array. In doing so, you will only then load the
@@ -477,7 +479,7 @@ selected chunk in-memory.</p>
 </section>
 </section>
 <section id="mosaic-image-reading">
-<h3>Mosaic Image Reading<a class="headerlink" href="#mosaic-image-reading" title="Link to this heading">#</a></h3>
+<h3>Mosaic Image Reading<a class="headerlink" href="#mosaic-image-reading" title="Link to this heading">¶</a></h3>
 <p>Read stitched data or single tiles as a dimension.</p>
 <p>Known plug-in packages that support mosaic tile stitching:</p>
 <ul class="simple">
@@ -485,7 +487,7 @@ selected chunk in-memory.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">bioio-lif</span></code></p></li>
 </ul>
 <section id="bioimage">
-<h4>BioImage<a class="headerlink" href="#bioimage" title="Link to this heading">#</a></h4>
+<h4>BioImage<a class="headerlink" href="#bioimage" title="Link to this heading">¶</a></h4>
 <p>If the file format reader supports stitching mosaic tiles together, the
 <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object will default to stitching the tiles back together.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;very-large-mosaic.lif&quot;</span><span class="p">)</span>
@@ -508,7 +510,7 @@ available on the <code class="docutils literal notranslate"><span class="pre">Bi
 </div>
 </section>
 <section id="reader">
-<h4>Reader<a class="headerlink" href="#reader" title="Link to this heading">#</a></h4>
+<h4>Reader<a class="headerlink" href="#reader" title="Link to this heading">¶</a></h4>
 <p>If the file format reader detects mosaic tiles in the image, the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object
 will store the tiles as a dimension.</p>
 <p>If tile stitching is implemented, the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> can also return the stitched image.</p>
@@ -520,7 +522,7 @@ will store the tiles as a dimension.</p>
 </div>
 </section>
 <section id="single-tile-absolute-positioning">
-<h4>Single Tile Absolute Positioning<a class="headerlink" href="#single-tile-absolute-positioning" title="Link to this heading">#</a></h4>
+<h4>Single Tile Absolute Positioning<a class="headerlink" href="#single-tile-absolute-positioning" title="Link to this heading">¶</a></h4>
 <p>There are functions available on the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object
 to help with single tile positioning:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;very-large-mosaic.lif&quot;</span><span class="p">)</span>
@@ -534,7 +536,7 @@ to help with single tile positioning:</p>
 </section>
 </section>
 <section id="metadata-reading">
-<h3>Metadata Reading<a class="headerlink" href="#metadata-reading" title="Link to this heading">#</a></h3>
+<h3>Metadata Reading<a class="headerlink" href="#metadata-reading" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
@@ -548,7 +550,7 @@ to help with single tile positioning:</p>
 </div>
 </section>
 <section id="xarray-coordinate-plane-attachment">
-<h3>Xarray Coordinate Plane Attachment<a class="headerlink" href="#xarray-coordinate-plane-attachment" title="Link to this heading">#</a></h3>
+<h3>Xarray Coordinate Plane Attachment<a class="headerlink" href="#xarray-coordinate-plane-attachment" title="Link to this heading">¶</a></h3>
 <p>If <code class="docutils literal notranslate"><span class="pre">bioio</span></code> finds coordinate information for the spatial-temporal dimensions of
 the image in metadata, you can use
 <a class="reference external" href="http://xarray.pydata.org/en/stable/index.html">xarray</a> for indexing by coordinates.</p>
@@ -575,7 +577,7 @@ the image in metadata, you can use
 for more information.</p>
 </section>
 <section id="id2">
-<h3>Cloud IO Support<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<h3>Cloud IO Support<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <p><a class="reference external" href="https://github.com/intake/filesystem_spec">File-System Specification (fsspec)</a> allows
 for common object storage services (S3, GCS, etc.) to act like normal filesystems by
 following the same base specification across them all. BioIO utilizes this
@@ -604,7 +606,7 @@ target backend is installed.</p>
 <p>See the <a class="reference external" href="https://filesystem-spec.readthedocs.io/en/latest/?badge=latest#implementations">list of known implementations</a>.</p>
 </section>
 <section id="saving-to-ome-tiff">
-<h3>Saving to OME-TIFF<a class="headerlink" href="#saving-to-ome-tiff" title="Link to this heading">#</a></h3>
+<h3>Saving to OME-TIFF<a class="headerlink" href="#saving-to-ome-tiff" title="Link to this heading">¶</a></h3>
 <p>The simpliest method to save your image as an OME-TIFF file with key pieces of
 metadata is to use the <code class="docutils literal notranslate"><span class="pre">save</span></code> function.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
@@ -628,7 +630,7 @@ as an OME-TIFF, the writer class can also be used to customize as needed.</p>
 <a class="reference external" href="https://bioio-devs.github.io/bioio/bioio.writers.html">OmeTiffWriter documentation</a>
 for more details.</p>
 <section id="other-writers">
-<h4>Other Writers<a class="headerlink" href="#other-writers" title="Link to this heading">#</a></h4>
+<h4>Other Writers<a class="headerlink" href="#other-writers" title="Link to this heading">¶</a></h4>
 <p>In most cases, <code class="docutils literal notranslate"><span class="pre">BioImage.save</span></code> is usually a good default but there are other image
 writers available. For more information, please refer to
 <a class="reference external" href="https://bioio-devs.github.io/bioio/bioio.writers.html">our writers documentation</a>.</p>
@@ -636,13 +638,13 @@ writers available. For more information, please refer to
 </section>
 </section>
 <section id="development">
-<h2>Development<a class="headerlink" href="#development" title="Link to this heading">#</a></h2>
+<h2>Development<a class="headerlink" href="#development" title="Link to this heading">¶</a></h2>
 <p>See our
 <a class="reference external" href="https://bioio-devs.github.io/bioio/developer_resources.html">developer resources</a>
 for information related to developing the code.</p>
 </section>
 <section id="citation">
-<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">#</a></h2>
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">¶</a></h2>
 <p>If you find <code class="docutils literal notranslate"><span class="pre">bioio</span></code> useful, please cite this repository as:</p>
 <blockquote>
 <div><p>Eva Maxfield Brown, Dan Toloudis, Jamie Sherman, Madison Swain-Bowden, Talley Lambert, Sean Meharry, Brian Whitney, AICSImageIO Contributors (2023). BioIO: Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python [Computer software]. GitHub. <a class="reference external" href="https://github.com/bioio-devs/bioio">https://github.com/bioio-devs/bioio</a></p>
@@ -760,10 +762,10 @@ for information related to developing the code.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=06083800"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+</div><script src="_static/documentation_options.js?v=1c3d2cb3"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script src="_static/scripts/furo.js?v=4e2eecee"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=30646c52"></script>
     </body>

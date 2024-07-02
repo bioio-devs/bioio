@@ -1109,7 +1109,7 @@ def test_arraylike_reader(
         ),
     ],
 )
-def test_aicsimage_from_array(
+def test_bioimage_from_array(
     image: Union[types.MetaArrayLike, List[types.MetaArrayLike]],
     dim_order: Optional[str],
     channel_names: Optional[List[str]],
@@ -1139,3 +1139,9 @@ def test_aicsimage_from_array(
             dict,
         ),
     )
+
+
+# Test a pathlike passed to ArraylikeReader through Bioio
+def test_pathlike_submission() -> None:
+    with pytest.raises(exceptions.UnsupportedFileFormatError):
+        BioImage("s3://my_bucket/my_file.tiff", reader=ArrayLikeReader)

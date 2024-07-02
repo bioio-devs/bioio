@@ -16,7 +16,9 @@ from ngff_zarr.zarr_metadata import Metadata, Axis, Scale, Translation, Dataset
 log = logging.getLogger(__name__)
 
 
-def chunk_size_from_memory_target(shape: Tuple[int], dtype: str, memory_target: int) -> Tuple[int]:
+def chunk_size_from_memory_target(
+    shape: Tuple[int], dtype: str, memory_target: int
+) -> Tuple[int]:
     """
     Calculate chunk size from memory target.
     :param shape: Shape of the array.
@@ -34,6 +36,7 @@ def chunk_size_from_memory_target(shape: Tuple[int], dtype: str, memory_target: 
     while chunk_size.size * chunk_size.prod() * itemsize > memory_target:
         chunk_size //= 2
     return tuple(chunk_size)
+
 
 # # attempt to keep all chunks at same maximum number of bytes
 # def compute_level_chunk_sizes_bytes(shapes, dtype, nbytes):
@@ -62,7 +65,7 @@ def chunk_size_from_memory_target(shape: Tuple[int], dtype: str, memory_target: 
 
 
 def dim_tuple_to_dict(dims: Tuple[int]) -> dict:
-    if (len(dims) != 5):
+    if len(dims) != 5:
         raise ValueError("dims must be a 5-tuple in TCZYX order")
     return {"t": dims[0], "c": dims[1], "z": dims[2], "y": dims[3], "x": dims[4]}
 
@@ -219,9 +222,11 @@ class ZarrLevel:
 
 # To do this you have to know how much you want to scale each dimension.
 # This does not calculate chunk sizes for you.
-def compute_level_shapes(lvl0shape: Tuple[int], scaling: Tuple[float], nlevels: int) -> List[Tuple[int]]:
+def compute_level_shapes(
+    lvl0shape: Tuple[int], scaling: Tuple[float], nlevels: int
+) -> List[Tuple[int]]:
     shapes = [lvl0shape]
-    for i in range(nlevels-1):
+    for i in range(nlevels - 1):
         nextshape = (
             int(shapes[i][0] / scaling[0]),
             int(shapes[i][1] / scaling[1]),
@@ -234,11 +239,13 @@ def compute_level_shapes(lvl0shape: Tuple[int], scaling: Tuple[float], nlevels: 
 
 
 def get_scale_ratio(level0: Tuple[int], level1: Tuple[int]) -> Tuple[float]:
-    return (level0[0]/level1[0], 
-            level0[1]/level1[1],
-            level0[2]/level1[2],
-            level0[3]/level1[3],
-            level0[4]/level1[4])
+    return (
+        level0[0] / level1[0],
+        level0[1] / level1[1],
+        level0[2] / level1[2],
+        level0[3] / level1[3],
+        level0[4] / level1[4],
+    )
 
 
 def compute_level_chunk_sizes_zslice(shapes: List[Tuple[int]]) -> List[Tuple[int]]:
@@ -248,15 +255,15 @@ def compute_level_chunk_sizes_zslice(shapes: List[Tuple[int]]) -> List[Tuple[int
     # assume starting with single slice
     chunk_sizes.append([1, 1, 1, shape0[3], shape0[4]])
     for i in range(1, len(shapes)):
-        last_chunk_size = chunk_sizes[i-1]
-        scale = get_scale_ratio(shapes[i-1], shapes[i])
+        last_chunk_size = chunk_sizes[i - 1]
+        scale = get_scale_ratio(shapes[i - 1], shapes[i])
         chunk_sizes.append(
             (
                 1,
                 1,
-                (int(scale[4]*scale[3]*last_chunk_size[2])),
-                int(last_chunk_size[3]/scale[3]),
-                int(last_chunk_size[4]/scale[4]),
+                (int(scale[4] * scale[3] * last_chunk_size[2])),
+                int(last_chunk_size[3] / scale[3]),
+                int(last_chunk_size[4] / scale[4]),
             )
         )
     return chunk_sizes
@@ -268,41 +275,49 @@ class OmeZarrWriter:
     Example usage:
 
     .. code-block:: python
-    
+
             from ome_zarr_writer import OmeZarrWriter
             from bioio import BioImage
-    
+
             # Create a BioImage object
             im = BioImage("path/to/image")
-    
+
             # TCZYX order, downsampling x and y only
             shapes = compute_level_shapes(im.shape, (1, 1, 1, 2, 2), 5)
             chunk_sizes = compute_level_chunk_sizes(shapes)
 
             # Create an OmeZarrWriter object
             writer = OmeZarrWriter()
-    
+
             # Initialize the store. Use s3 url or local directory path!
             writer.init_store("path/to/output.zarr", shapes, chunk_sizes, im.dtype)
-    
+
             # Write the image
             writer.write_t_batches(im, 4)
 
             # Write metadata.  Could do this first instead.
-            writer.write_metadata(im, "Image Name", 
+            writer.write_metadata(im, "Image Name",
                 physical_pixel_size_xy_factor=0.103,  # multiplied with value from im metadata
                 physical_pixel_size_xy_units="micrometer",
                 time_interval=5.0,
                 time_units="minute"
             )
     """
+
     def __init__(self):
         self.output_path: str = ""
         self.levels: List[ZarrLevel] = []
         self.store: zarr.Store = None
         self.root: zarr.hierarchy.Group = None
 
-    def init_store(self, output_path: str, shapes: List[Tuple[int]], chunk_sizes: List[Tuple[int]], dtype: np.dtype, compressor=default_compressor):
+    def init_store(
+        self,
+        output_path: str,
+        shapes: List[Tuple[int]],
+        chunk_sizes: List[Tuple[int]],
+        dtype: np.dtype,
+        compressor=default_compressor,
+    ):
         """
         Initialize the store.
         :param output_path: The output path. If it begins with "s3://" or "gs://", it is assumed to be a remote store. Credentials required to be provided externally.
@@ -311,36 +326,59 @@ class OmeZarrWriter:
         :param dtype: The data type.
         """
         if len(shapes) != len(chunk_sizes) or len(shapes) < 1 or len(chunk_sizes) < 1:
-            raise ValueError("shapes and chunk_sizes must have the same length.  This is the number of multiresolution levels.")
-        
+            raise ValueError(
+                "shapes and chunk_sizes must have the same length.  This is the number of multiresolution levels."
+            )
+
         self.output_path = output_path
         # assumes authentication/permission for writes
         is_remote = output_path.startswith("s3://") or output_path.startswith("gs://")
         if is_remote:
-            self.store = FSStore(
-                url=output_path, dimension_separator="/"
-            )
+            self.store = FSStore(url=output_path, dimension_separator="/")
         else:
             self.store = DirectoryStore(output_path, dimension_separator="/")
         # create a group with all the levels
         self.root = zarr.group(store=self.store, overwrite=True)
         # pre-create all levels here?
-        self._create_levels(root=self.root, level_shapes=shapes, level_chunk_sizes=chunk_sizes, dtype=dtype, compressor=compressor)
+        self._create_levels(
+            root=self.root,
+            level_shapes=shapes,
+            level_chunk_sizes=chunk_sizes,
+            dtype=dtype,
+            compressor=compressor,
+        )
 
-    def _create_levels(self, root, level_shapes, level_chunk_sizes, dtype, compressor=default_compressor):
+    def _create_levels(
+        self,
+        root,
+        level_shapes,
+        level_chunk_sizes,
+        dtype,
+        compressor=default_compressor,
+    ):
         self.levels = []
         for i in range(len(level_shapes)):
-            lvl = root.zeros(
-                str(i), shape=level_shapes[i], chunks=level_chunk_sizes[i], dtype=dtype, compressor=compressor
-            ) if root is not None else None
+            lvl = (
+                root.zeros(
+                    str(i),
+                    shape=level_shapes[i],
+                    chunks=level_chunk_sizes[i],
+                    dtype=dtype,
+                    compressor=compressor,
+                )
+                if root is not None
+                else None
+            )
             level = ZarrLevel(level_shapes[i], level_chunk_sizes[i], dtype, lvl)
             self.levels.append(level)
 
-    def _downsample_and_write_batch_t(self, data_tczyx: da.Array, start_t: int, end_t: int):
+    def _downsample_and_write_batch_t(
+        self, data_tczyx: da.Array, start_t: int, end_t: int
+    ):
         dtype = data_tczyx.dtype
         if len(data_tczyx.shape) != 5:
             raise ValueError("data_tczyx must be 5D")
-        if len(data_tczyx) != end_t-start_t:
+        if len(data_tczyx) != end_t - start_t:
             raise ValueError("data_tczyx must have the same T length as end_t-start_t")
 
         # write level 0 first
@@ -352,7 +390,7 @@ class OmeZarrWriter:
         # downsample to next level then write
         for j in range(1, len(self.levels)):
             # downsample to next level
-            nextshape = (end_t-start_t,)+self.levels[j].shape[1:]
+            nextshape = (end_t - start_t,) + self.levels[j].shape[1:]
             data_tczyx = resize(data_tczyx, nextshape, order=0)
             data_tczyx = data_tczyx.astype(dtype)
             data_tczyx = data_tczyx.persist()
@@ -380,7 +418,7 @@ class OmeZarrWriter:
         if debug:
             numT = np.min([5, numT])
         log.info("Starting loop over T")
-        for i in np.arange(0, numT+1, tbatch):
+        for i in np.arange(0, numT + 1, tbatch):
             start_t = i
             end_t = min(i + tbatch, numT)
             if end_t > start_t:
@@ -389,7 +427,9 @@ class OmeZarrWriter:
                 self._downsample_and_write_batch_t(ti, start_t, end_t)
         log.info("Finished loop over T")
 
-    def write_t_batches_image_sequence(self, paths: List[str], tbatch: int = 4, debug: bool = False):
+    def write_t_batches_image_sequence(
+        self, paths: List[str], tbatch: int = 4, debug: bool = False
+    ):
         """
         Write the image in batches of T.
         :param paths: The list of file paths, one path per T.
@@ -400,7 +440,7 @@ class OmeZarrWriter:
         if debug:
             numT = np.min([5, numT])
         log.info("Starting loop over T")
-        for i in np.arange(0, numT+1, tbatch):
+        for i in np.arange(0, numT + 1, tbatch):
             start_t = i
             end_t = min(i + tbatch, numT)
             if end_t > start_t:
@@ -416,19 +456,22 @@ class OmeZarrWriter:
     def _get_scale_ratio(self, level: int) -> Tuple[float]:
         lvl_shape = self.levels[level].shape
         lvl0_shape = self.levels[0].shape
-        return (lvl0_shape[0]/lvl_shape[0], 
-                lvl0_shape[1]/lvl_shape[1], 
-                lvl0_shape[2]/lvl_shape[2], 
-                lvl0_shape[3]/lvl_shape[3], 
-                lvl0_shape[4]/lvl_shape[4])
+        return (
+            lvl0_shape[0] / lvl_shape[0],
+            lvl0_shape[1] / lvl_shape[1],
+            lvl0_shape[2] / lvl_shape[2],
+            lvl0_shape[3] / lvl_shape[3],
+            lvl0_shape[4] / lvl_shape[4],
+        )
 
-    def generate_metadata(self, 
-                          image_name: str,
-                          channel_names: List[str],
-                          physical_dims: dict, # {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
-                          physical_units: dict, # {"x":"micrometer", "y":"micrometer", "z":"micrometer", "t":"minute"},
-                          channel_colors: List[str],
-                          ):
+    def generate_metadata(
+        self,
+        image_name: str,
+        channel_names: List[str],
+        physical_dims: dict,  # {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
+        physical_units: dict,  # {"x":"micrometer", "y":"micrometer", "z":"micrometer", "t":"minute"},
+        channel_colors: List[str],
+    ):
         """
         Build a metadata dict suitable for writing to ome-zarr attrs.
         :param image_name: The image name.
@@ -452,7 +495,7 @@ class OmeZarrWriter:
                 msg = f"Dimension identifier is not valid: {dim}"
                 raise KeyError(msg)
             axes.append(axis)
-        
+
         datasets = []
         for index, level in enumerate(self.levels):
             path = f"{index}"
@@ -460,7 +503,11 @@ class OmeZarrWriter:
             level_scale = self._get_scale_ratio(index)
             level_scale = dim_tuple_to_dict(level_scale)
             for dim in dims:
-                phys = physical_dims[dim] * level_scale[dim] if dim in physical_dims and dim in level_scale else 1.0
+                phys = (
+                    physical_dims[dim] * level_scale[dim]
+                    if dim in physical_dims and dim in level_scale
+                    else 1.0
+                )
                 scale.append(phys)
             translation = []
             for dim in dims:
@@ -491,13 +538,12 @@ class OmeZarrWriter:
             channel_names=channel_names,  # assumes we have written all channels!
             channel_colors=channel_colors,  # type: ignore
             # TODO: Rely on user to supply the per-channel min/max.
-            channel_minmax=[(0.0, 1.0) for i in range(shapedict["c"] if "c" in shapedict else 1)],
+            channel_minmax=[
+                (0.0, 1.0) for i in range(shapedict["c"] if "c" in shapedict else 1)
+            ],
         )
 
-        ome_zarr_metadata = {
-            "multiscales": [metadata_dict],
-            "omero": ome_json
-        }
+        ome_zarr_metadata = {"multiscales": [metadata_dict], "omero": ome_json}
         return ome_zarr_metadata
 
     def write_metadata(self, metadata: dict):

@@ -204,9 +204,7 @@ class BioImage(biob.image_container.ImageContainer):
                             )
 
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
-            array_like_plugin = BioImage.get_array_like_plugin()
-            if array_like_plugin is not None:
-                return array_like_plugin
+            return BioImage.get_array_like_plugin()
 
         # If we haven't hit anything yet, we likely don't support this file / object
         # with the current plugins installed

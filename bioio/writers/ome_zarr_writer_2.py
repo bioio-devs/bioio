@@ -235,8 +235,8 @@ class ZarrLevel:
 
 
 def compute_level_shapes(
-    lvl0shape: Tuple[int, ...], scaling: Tuple[float, ...], nlevels: int
-) -> List[Tuple[int, ...]]:
+    lvl0shape: DimTuple, scaling: Tuple[float, float, float, float, float], nlevels: int
+) -> List[DimTuple]:
     """
     Calculate all multiresolution level shapes by repeatedly scaling.
     Minimum dimension size will always be 1.
@@ -252,7 +252,13 @@ def compute_level_shapes(
     """
     shapes = [lvl0shape]
     for i in range(nlevels - 1):
-        nextshape = tuple(max(int(shapes[i][j] / scaling[j]), 1) for j in range(5))
+        nextshape = (
+            max(int(shapes[i][0] / scaling[0]), 1),
+            max(int(shapes[i][1] / scaling[1]), 1),
+            max(int(shapes[i][2] / scaling[2]), 1),
+            max(int(shapes[i][3] / scaling[3]), 1),
+            max(int(shapes[i][4] / scaling[4]), 1),
+        )
         shapes.append(nextshape)
     return shapes
 
@@ -425,8 +431,8 @@ class OmeZarrWriter:
             raise ValueError("data_tczyx must have the same T length as end_t-start_t")
 
         # write level 0 first
-        data_tczyx = data_tczyx.persist()
-        # data_tczyx.compute()
+        # data_tczyx = data_tczyx.persist()
+        data_tczyx.compute()
         for k in range(start_t, end_t):
             self.levels[0].zarray[k] = data_tczyx[k - start_t]
 
@@ -502,6 +508,35 @@ class OmeZarrWriter:
                 self._downsample_and_write_batch_t(ti, start_t, end_t)
         log.info("Finished loop over T")
 
+    def write_t_batches_array(
+        self,
+        im: Union[da.Array, np.ndarray],
+        tbatch: int = 4,
+        debug: bool = False,
+    ) -> None:
+        """
+        Write the image in batches of T.
+        :param im: An ArrayLike object. Should be 5D TCZYX.
+        :param tbatch: The number of T to write at a time.
+        """
+        if isinstance(im, (np.ndarray)):
+            im_da = da.from_array(im)
+        else:
+            im_da = im
+        # loop over T in batches
+        numT = im_da.shape[0]
+        if debug:
+            numT = np.min([5, numT])
+        log.info("Starting loop over T")
+        for i in np.arange(0, numT + 1, tbatch):
+            start_t = i
+            end_t = min(i + tbatch, numT)
+            if end_t > start_t:
+                # assume start t and end t are in range (caller should guarantee this)
+                ti = im_da[start_t:end_t]
+                self._downsample_and_write_batch_t(ti, start_t, end_t)
+        log.info("Finished loop over T")
+
     def _get_scale_ratio(self, level: int) -> Tuple[float, float, float, float, float]:
         lvl_shape = self.levels[level].shape
         lvl0_shape = self.levels[0].shape
@@ -520,7 +555,7 @@ class OmeZarrWriter:
         physical_dims: dict,  # {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
         physical_units: dict,  # {"x":"micrometer", "y":"micrometer",
         # "z":"micrometer", "t":"minute"},
-        channel_colors: List[str],
+        channel_colors: Union[List[str], List[int]],
     ) -> dict:
         """
         Build a metadata dict suitable for writing to ome-zarr attrs.

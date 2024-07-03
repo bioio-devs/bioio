@@ -2,14 +2,18 @@
 # -*- coding: utf-8 -*-
 
 
+import pathlib
 from typing import List, Tuple
 
 import numpy as np
 import pytest
 from dask import array as da
+from ome_zarr.io import parse_url
+from ome_zarr.reader import Reader
 
 from bioio.writers.ome_zarr_writer_2 import (
     DimTuple,
+    OmeZarrWriter,
     chunk_size_from_memory_target,
     compute_level_chunk_sizes_zslice,
     compute_level_shapes,
@@ -100,6 +104,79 @@ def test_compute_chunk_sizes_zslice(
 ) -> None:
     out_chunk_shapes = compute_level_chunk_sizes_zslice(in_shapes)
     assert out_chunk_shapes == expected_out_chunk_shapes
+
+
+# @pytest.mark.parametrize("filename", ["e.zarr"])
+# def test_ome_zarr_writer_chunks(
+#     array_constructor: Callable,
+#     write_shape: Tuple[int, ...],
+#     chunk_dims: Tuple[int, ...],
+#     num_levels: int,
+#     filename: str,
+#     expected_read_shapes: List[Tuple[int, ...]],
+#     tmp_path: pathlib.Path,
+# ) -> None:
+#     arr = array_constructor(write_shape, dtype=np.uint8)
+
+#     # Construct save end point
+
+
+#     baseline_save_uri = tmp_path / f"baseline_{filename}"
+@pytest.mark.parametrize("filename", ["e.zarr"])
+def test_write_ome_zarr(filename: str, tmp_path: pathlib.Path) -> None:
+    # TCZYX order, downsampling x and y only
+    shape: DimTuple = (10, 2, 100, 200, 100)
+    im = np.random.rand(shape[0], shape[1], shape[2], shape[3], shape[4])
+    C = im.shape[1]
+
+    num_levels = 5
+    shapes = compute_level_shapes(shape, (1, 1, 1, 2, 2), num_levels)
+    chunk_sizes = compute_level_chunk_sizes_zslice(shapes)
+
+    # Create an OmeZarrWriter object
+    writer = OmeZarrWriter()
+
+    # Initialize the store. Use s3 url or local directory path!
+    save_uri = tmp_path / filename
+    writer.init_store(str(save_uri), shapes, chunk_sizes, im.dtype)
+
+    # Write the image
+    writer.write_t_batches_array(im, tbatch=4)
+
+    # TODO: get this from source image
+    physical_scale = {
+        "c": 1.0,  # default value for channel
+        "t": 1.0,
+        "z": 1.0,
+        "y": 1.0,
+        "x": 1.0,
+    }
+    physical_units = {
+        "x": "micrometer",
+        "y": "micrometer",
+        "z": "micrometer",
+        "t": "minute",
+    }
+    meta = writer.generate_metadata(
+        image_name="TEST",
+        channel_names=[f"c{i}" for i in range(C)],
+        physical_dims=physical_scale,
+        physical_units=physical_units,
+        channel_colors=[0xFFFFFF for i in range(C)],
+    )
+    writer.write_metadata(meta)
+
+    # Read written result and check basics
+    reader = Reader(parse_url(save_uri))
+    node = list(reader())[0]
+    num_levels_read = len(node.data)
+    assert num_levels_read == num_levels
+    level = 0
+    read_shape = node.data[level].shape
+    assert read_shape == shape
+    axes = node.metadata["axes"]
+    dims = "".join([a["name"] for a in axes]).upper()
+    assert dims == "TCZYX"
 
 
 # @array_constructor

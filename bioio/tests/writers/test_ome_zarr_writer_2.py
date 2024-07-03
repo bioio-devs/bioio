@@ -1,25 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import pathlib
-from typing import Callable, List, Optional, Tuple
-from dask import array as da
 
-import bioio_base as biob
 import numpy as np
 import pytest
-from ome_zarr.io import parse_url
-from ome_zarr.reader import Reader
+from dask import array as da
 
-from bioio.writers import OmeZarrWriter
 from bioio.writers.ome_zarr_writer_2 import (
     chunk_size_from_memory_target,
-    resize,
-    compute_level_shapes,
     compute_level_chunk_sizes_zslice,
+    compute_level_shapes,
+    resize,
 )
-
-from ..conftest import array_constructor
 
 
 @pytest.mark.parametrize(

@@ -20,12 +20,17 @@ def chunk_size_from_memory_target(
     shape: Tuple[int], dtype: str, memory_target: int
 ) -> Tuple[int]:
     """
-    Calculate chunk size from memory target.
-    :param shape: Shape of the array.
+    Calculate chunk size from memory target.  The chunk size will be
+    determined by considering a single T and C, and subdividing the remaining
+    dims by 2 until the chunk fits within the size target.
+
+    :param shape: Shape of the array. Assumes a 5d TCZYX array.
     :param dtype: Data type of the array.
     :param memory_target: Memory target in bytes.
     :return: Chunk size tuple.
     """
+    if len(shape) != 5:
+        raise ValueError("shape must be a 5-tuple in TCZYX order")
 
     itemsize = np.dtype(dtype).itemsize
     chunk_size = np.array(shape)
@@ -33,8 +38,9 @@ def chunk_size_from_memory_target(
     # 1 T and 1 C
     chunk_size[0] = 1
     chunk_size[1] = 1
-    while chunk_size.size * chunk_size.prod() * itemsize > memory_target:
-        chunk_size //= 2
+    while chunk_size.prod() * itemsize > memory_target:
+        # chop every dim in half until they get down to 1
+        chunk_size = np.array([max(c // 2, 1) for c in chunk_size])
     return tuple(chunk_size)
 
 
@@ -220,20 +226,22 @@ class ZarrLevel:
     zarray: zarr.core.Array
 
 
-# To do this you have to know how much you want to scale each dimension.
-# This does not calculate chunk sizes for you.
 def compute_level_shapes(
     lvl0shape: Tuple[int], scaling: Tuple[float], nlevels: int
 ) -> List[Tuple[int]]:
+    """
+    Calculate all multiresolution level shapes by repeatedly scaling.
+    Minimum dimension size will always be 1.
+    This will always return nlevels even if the levels become unreducible and have to repeat.
+
+    :param lvl0shape: Shape of the array. Assumes a 5d TCZYX tuple.
+    :param scaling: Amount to scale each dimension by. Dims will be DIVIDED by these values.
+    :param nlevels: Number of levels to return. The first level is the original lvl0shape.
+    :return: List of shapes of all nlevels.
+    """
     shapes = [lvl0shape]
     for i in range(nlevels - 1):
-        nextshape = (
-            int(shapes[i][0] / scaling[0]),
-            int(shapes[i][1] / scaling[1]),
-            int(shapes[i][2] / scaling[2]),
-            int(shapes[i][3] / scaling[3]),
-            int(shapes[i][4] / scaling[4]),
-        )
+        nextshape = tuple(max(int(shapes[i][j] / scaling[j]), 1) for j in range(5))
         shapes.append(nextshape)
     return shapes
 
@@ -249,11 +257,28 @@ def get_scale_ratio(level0: Tuple[int], level1: Tuple[int]) -> Tuple[float]:
 
 
 def compute_level_chunk_sizes_zslice(shapes: List[Tuple[int]]) -> List[Tuple[int]]:
+    """
+    Convenience function to calculate chunk sizes for each of the input level
+    shapes assuming that the shapes are TCZYX and we want the chunking to be
+    per Z slice.
+    The first shape returned will always be (1,1,1,shapes[0][3],shapes[0][4])
+    and the following will be a scaled number of slices scaled by the same
+    factor as the successive shapes.
+    This is an attempt to keep the total size of chunks the same across all
+    levels, by increasing the number of slices for downsampled levels.
+    This is making a basic assumption that each of the shapes is a downsampled
+    version of the previous shape.
+    For example, in a typical case, if the second level is scaled down by 1/2
+    in X and Y, then the second chunk size will have 4x the number of slices.
+
+    :param shapes: List of all multiresolution level shapes
+    :return: List of chunk sizes for per-slice chunking
+    """
     # assumes TCZYX order
     shape0 = shapes[0]
     chunk_sizes = []
     # assume starting with single slice
-    chunk_sizes.append([1, 1, 1, shape0[3], shape0[4]])
+    chunk_sizes.append((1, 1, 1, shape0[3], shape0[4]))
     for i in range(1, len(shapes)):
         last_chunk_size = chunk_sizes[i - 1]
         scale = get_scale_ratio(shapes[i - 1], shapes[i])

@@ -13,9 +13,8 @@ import xarray as xr
 from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
-from .array_like_reader import ArrayLikeReader
 from .ome_utils import generate_ome_channel_id
-from .plugins import PluginEntry, get_plugins
+from .plugins import PluginEntry, get_array_like_plugin, get_plugins
 
 ###############################################################################
 
@@ -187,7 +186,7 @@ class BioImage(biob.image_container.ImageContainer):
                             )
 
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
-            return ArrayLikeReader.get_array_like_plugin()
+            return get_array_like_plugin()
 
         # If we haven't hit anything yet, we likely don't support this file / object
         # with the current plugins installed

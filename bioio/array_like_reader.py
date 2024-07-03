@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import time
-from importlib.metadata import EntryPoint
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import dask.array as da
@@ -20,7 +18,6 @@ from bioio_base.reader_metadata import ReaderMetadata
 from bioio_base.types import MetaArrayLike, PhysicalPixelSizes
 
 from .ome_utils import generate_ome_channel_id, generate_ome_image_id
-from .plugins import PluginEntry
 
 ###############################################################################
 
@@ -108,22 +105,6 @@ class ArrayLikeReader(Reader):
     """
 
     _scenes: Optional[Tuple[str, ...]] = None
-
-    @staticmethod
-    def get_array_like_plugin() -> PluginEntry:
-        """
-        Create and return a PluginEntry for ArrayLikeReader.
-        """
-        entrypoint = EntryPoint(
-            name="ArrayLikeReader",
-            group="readers",
-            value=".array_like_reader.ArrayLikeReader",
-        )
-        metadata = ArrayLikeReaderMetadata()
-        timestamp = time.time()
-        return PluginEntry(
-            entrypoint=entrypoint, metadata=metadata, timestamp=timestamp
-        )
 
     @staticmethod
     def _is_supported_image(  # type: ignore

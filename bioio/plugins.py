@@ -14,9 +14,12 @@ if sys.version_info < (3, 10):
 else:
     from importlib.metadata import entry_points, EntryPoint, requires
 
+import time
 from typing import Dict, List, NamedTuple, Optional, Tuple
 
 from bioio_base.reader_metadata import ReaderMetadata
+
+from .array_like_reader import ArrayLikeReaderMetadata
 
 ###############################################################################
 
@@ -32,6 +35,20 @@ class PluginEntry(NamedTuple):
 
 # global cache of plugins
 plugins_by_ext_cache: Dict[str, List[PluginEntry]] = {}
+
+
+def get_array_like_plugin() -> PluginEntry:
+    """
+    Create and return a PluginEntry for ArrayLikeReader.
+    """
+    entrypoint = EntryPoint(
+        name="ArrayLikeReader",
+        group="readers",
+        value=".array_like_reader.ArrayLikeReader",
+    )
+    metadata = ArrayLikeReaderMetadata()
+    timestamp = time.time()
+    return PluginEntry(entrypoint=entrypoint, metadata=metadata, timestamp=timestamp)
 
 
 def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry) -> None:

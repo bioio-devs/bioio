@@ -240,11 +240,14 @@ def compute_level_shapes(
     """
     Calculate all multiresolution level shapes by repeatedly scaling.
     Minimum dimension size will always be 1.
-    This will always return nlevels even if the levels become unreducible and have to repeat.
+    This will always return nlevels even if the levels become unreducible and
+    have to repeat.
 
     :param lvl0shape: Shape of the array. Assumes a 5d TCZYX tuple.
-    :param scaling: Amount to scale each dimension by. Dims will be DIVIDED by these values.
-    :param nlevels: Number of levels to return. The first level is the original lvl0shape.
+    :param scaling: Amount to scale each dimension by. Dims will be DIVIDED by
+      these values.
+    :param nlevels: Number of levels to return. The first level is the
+      original lvl0shape.
     :return: List of shapes of all nlevels.
     """
     shapes = [lvl0shape]
@@ -325,14 +328,16 @@ class OmeZarrWriter:
             writer = OmeZarrWriter()
 
             # Initialize the store. Use s3 url or local directory path!
-            writer.init_store("path/to/output.zarr", shapes, chunk_sizes, im.dtype)
+            writer.init_store("path/to/output.zarr", shapes, chunk_sizes,
+              im.dtype)
 
             # Write the image
             writer.write_t_batches(im, 4)
 
             # Write metadata.  Could do this first instead.
             writer.write_metadata(im, "Image Name",
-                physical_pixel_size_xy_factor=0.103,  # multiplied with value from im metadata
+                physical_pixel_size_xy_factor=0.103,  # multiplied with value
+                  from im metadata
                 physical_pixel_size_xy_units="micrometer",
                 time_interval=5.0,
                 time_units="minute"
@@ -355,14 +360,17 @@ class OmeZarrWriter:
     ) -> None:
         """
         Initialize the store.
-        :param output_path: The output path. If it begins with "s3://" or "gs://", it is assumed to be a remote store. Credentials required to be provided externally.
+        :param output_path: The output path. If it begins with "s3://" or
+          "gs://", it is assumed to be a remote store. Credentials required to
+          be provided externally.
         :param shapes: The shapes of the levels.
         :param chunk_sizes: The chunk sizes of the levels.
         :param dtype: The data type.
         """
         if len(shapes) != len(chunk_sizes) or len(shapes) < 1 or len(chunk_sizes) < 1:
             raise ValueError(
-                "shapes and chunk_sizes must have the same length.  This is the number of multiresolution levels."
+                "shapes and chunk_sizes must have the same length.  This is "
+                "the number of multiresolution levels."
             )
 
         self.output_path = output_path
@@ -432,13 +440,17 @@ class OmeZarrWriter:
             # data_tczyx.compute()
 
             # write ti to zarr
-            # for some reason this is not working: not allowed to write in this way to a non-memory store
+            # for some reason this is not working: not allowed to write in
+            # this way to a non-memory store
             # lvls[j][start_t:end_t] = ti[:]
             # lvls[j].set_basic_selection(slice(start_t,end_t), ti[:])
             for k in range(start_t, end_t):
                 self.levels[j].zarray[k] = data_tczyx[k - start_t]
-            # for some reason this is not working: not allowed to write in this way to a non-memory store
-            # dask.array.to_zarr(ti, lvls[j], component=None, storage_options=None, overwrite=False, region=(slice(start_t,end_t)))
+            # for some reason this is not working: not allowed to write in
+            # this way to a non-memory store
+            # dask.array.to_zarr(ti, lvls[j], component=None,
+            # storage_options=None, overwrite=False, region=(slice(start_t,
+            # end_t)))
 
         log.info(f"Completed {start_t} to {end_t}")
 
@@ -506,15 +518,19 @@ class OmeZarrWriter:
         image_name: str,
         channel_names: List[str],
         physical_dims: dict,  # {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
-        physical_units: dict,  # {"x":"micrometer", "y":"micrometer", "z":"micrometer", "t":"minute"},
+        physical_units: dict,  # {"x":"micrometer", "y":"micrometer",
+        # "z":"micrometer", "t":"minute"},
         channel_colors: List[str],
     ) -> dict:
         """
         Build a metadata dict suitable for writing to ome-zarr attrs.
         :param image_name: The image name.
         :param channel_names: The channel names.
-        :param physical_dims: for each physical dimension, include a scale factor.  E.g. {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
-        :param physical_units: For each physical dimension, include a unit string. E.g. {"x":"micrometer", "y":"micrometer", "z":"micrometer", "t":"minute"}
+        :param physical_dims: for each physical dimension, include a scale
+          factor.  E.g. {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
+        :param physical_units: For each physical dimension, include a unit
+          string. E.g. {"x":"micrometer", "y":"micrometer", "z":"micrometer",
+          "t":"minute"}
         """
         dims = ("t", "c", "z", "y", "x")
         axes = []
@@ -548,7 +564,8 @@ class OmeZarrWriter:
                 scale.append(phys)
             translation = []
             for dim in dims:
-                # TODO handle optional translations e.g. xy stage position, start time etc
+                # TODO handle optional translations e.g. xy stage position,
+                # start time etc
                 translation.append(0.0)
             coordinateTransformations = [Scale(scale), Translation(translation)]
             dataset = Dataset(
@@ -586,7 +603,8 @@ class OmeZarrWriter:
     def write_metadata(self, metadata: dict) -> None:
         """
         Write the metadata.
-        :param metadata: The metadata dict. Expected to contain a multiscales array and omero dict
+        :param metadata: The metadata dict. Expected to contain a multiscales
+          array and omero dict
         """
         self.root.attrs["multiscales"] = metadata["multiscales"]
         self.root.attrs["omero"] = metadata["omero"]

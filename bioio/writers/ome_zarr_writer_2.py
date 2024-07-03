@@ -356,7 +356,7 @@ class OmeZarrWriter:
         shapes: List[DimTuple],
         chunk_sizes: List[DimTuple],
         dtype: np.dtype,
-        compressor: numcodecs.Codec = default_compressor,
+        compressor: numcodecs.abc.Codec = default_compressor,
     ) -> None:
         """
         Initialize the store.
@@ -397,7 +397,7 @@ class OmeZarrWriter:
         level_shapes: List[DimTuple],
         level_chunk_sizes: List[DimTuple],
         dtype: np.dtype,
-        compressor: numcodecs.Codec = default_compressor,
+        compressor: numcodecs.abc.Codec = default_compressor,
     ) -> None:
         self.levels = []
         for i in range(len(level_shapes)):

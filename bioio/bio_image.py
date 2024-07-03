@@ -3,8 +3,6 @@
 
 import datetime
 import logging
-import time
-from importlib.metadata import EntryPoint
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Type, Union, get_args
 
@@ -15,7 +13,7 @@ import xarray as xr
 from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
-from .array_like_reader import ArrayLikeReaderMetadata
+from .array_like_reader import ArrayLikeReader
 from .ome_utils import generate_ome_channel_id
 from .plugins import PluginEntry, get_plugins
 
@@ -130,22 +128,6 @@ class BioImage(biob.image_container.ImageContainer):
     """
 
     @staticmethod
-    def get_array_like_plugin() -> PluginEntry:
-        """
-        Create and return a PluginEntry for ArrayLikeReader.
-        """
-        entrypoint = EntryPoint(
-            name="ArrayLikeReader",
-            group="readers",
-            value=".array_like_reader.ArrayLikeReader",
-        )
-        metadata = ArrayLikeReaderMetadata()
-        timestamp = time.time()
-        return PluginEntry(
-            entrypoint=entrypoint, metadata=metadata, timestamp=timestamp
-        )
-
-    @staticmethod
     def determine_plugin(
         image: biob.types.ImageLike,
         fs_kwargs: Dict[str, Any] = {},
@@ -158,8 +140,9 @@ class BioImage(biob.image_container.ImageContainer):
 
         Returns
         -------
-        ReaderClass: Type[Reader]
-            The reader that supports the provided image.
+        PluginEntry: PluginEntry(NamedTuple)
+            A wrapper of release information and reader refrences for an individual
+            plugin.
 
         Raises
         ------
@@ -204,7 +187,7 @@ class BioImage(biob.image_container.ImageContainer):
                             )
 
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
-            return BioImage.get_array_like_plugin()
+            return ArrayLikeReader.get_array_like_plugin()
 
         # If we haven't hit anything yet, we likely don't support this file / object
         # with the current plugins installed

@@ -2,11 +2,14 @@
 # -*- coding: utf-8 -*-
 
 
+from typing import List, Tuple
+
 import numpy as np
 import pytest
 from dask import array as da
 
 from bioio.writers.ome_zarr_writer_2 import (
+    DimTuple,
     chunk_size_from_memory_target,
     compute_level_chunk_sizes_zslice,
     compute_level_shapes,
@@ -24,13 +27,16 @@ from bioio.writers.ome_zarr_writer_2 import (
     ],
 )
 def test_chunk_size_from_memory_target(
-    input_shape, dtype, memory_target, expected_chunk_shape
-):
+    input_shape: DimTuple,
+    dtype: np.dtype,
+    memory_target: int,
+    expected_chunk_shape: DimTuple,
+) -> None:
     chunk_shape = chunk_size_from_memory_target(input_shape, dtype, memory_target)
     assert chunk_shape == expected_chunk_shape
 
 
-def test_resize():
+def test_resize() -> None:
     d = da.from_array([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]])
     output_shape = (1, 1)
     out_d = resize(d, output_shape)
@@ -67,8 +73,11 @@ def test_resize():
     ],
 )
 def test_compute_level_shapes(
-    in_shape, scale_per_level, num_levels, expected_out_shapes
-):
+    in_shape: DimTuple,
+    scale_per_level: Tuple[float, float, float, float, float],
+    num_levels: int,
+    expected_out_shapes: List[DimTuple],
+) -> None:
     out_shapes = compute_level_shapes(in_shape, scale_per_level, num_levels)
     assert out_shapes == expected_out_shapes
 
@@ -86,7 +95,9 @@ def test_compute_level_shapes(
         )
     ],
 )
-def test_compute_chunk_sizes_zslice(in_shapes, expected_out_chunk_shapes):
+def test_compute_chunk_sizes_zslice(
+    in_shapes: List[DimTuple], expected_out_chunk_shapes: List[DimTuple]
+) -> None:
     out_chunk_shapes = compute_level_chunk_sizes_zslice(in_shapes)
     assert out_chunk_shapes == expected_out_chunk_shapes
 

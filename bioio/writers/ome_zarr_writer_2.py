@@ -431,8 +431,8 @@ class OmeZarrWriter:
             raise ValueError("data_tczyx must have the same T length as end_t-start_t")
 
         # write level 0 first
-        # data_tczyx = data_tczyx.persist()
-        data_tczyx.compute()
+        data_tczyx = data_tczyx.persist()
+        # data_tczyx.compute()
         for k in range(start_t, end_t):
             self.levels[0].zarray[k] = data_tczyx[k - start_t]
 

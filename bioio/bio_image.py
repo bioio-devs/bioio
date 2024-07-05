@@ -216,8 +216,7 @@ class BioImage(biob.image_container.ImageContainer):
                                 f"reader: {ReaderClass} failed with error: {e}"
                             )
 
-        # check specific reader image types in a situation where a  specified reader
-        # only supports some of the ImageLike types
+        # Use built-in ArrayLikeReader if type MetaArrayLike
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
             return get_array_like_plugin()
 

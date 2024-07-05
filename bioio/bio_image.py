@@ -127,6 +127,37 @@ class BioImage(biob.image_container.ImageContainer):
     """
 
     @staticmethod
+    def check_type(obj: Any, expected_type: Type) -> bool:
+        """
+        Check if an object matches the expected type, including support for Union
+        and List types. This allows us to check specific reader image types in a
+        situation where a reader only supports some of the ImageLike types.
+
+        Parameters:
+        obj : Any
+            The object to check the type of.
+        expected_type : Type
+            The expected type, which may be a basic type (e.g., int, str),
+            a generic type (e.g., List[int]), or a Union of types.
+
+        Returns:
+        bool
+            True if the object matches the expected type, otherwise False.
+        """
+        origin = getattr(expected_type, "__origin__", None)
+        args = getattr(expected_type, "__args__", [])
+
+        if origin is Union:
+            return any(BioImage.check_type(obj, arg) for arg in args)
+
+        if origin is list or origin is List:
+            if not isinstance(obj, list):
+                return False
+            return all(BioImage.check_type(item, args[0]) for item in obj)
+
+        return isinstance(obj, expected_type)
+
+    @staticmethod
     def determine_plugin(
         image: biob.types.ImageLike,
         fs_kwargs: Dict[str, Any] = {},
@@ -185,6 +216,8 @@ class BioImage(biob.image_container.ImageContainer):
                                 f"reader: {ReaderClass} failed with error: {e}"
                             )
 
+        # check specific reader image types in a situation where a  specified reader
+        # only supports some of the ImageLike types
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
             return get_array_like_plugin()
 
@@ -215,7 +248,14 @@ class BioImage(biob.image_container.ImageContainer):
             )
             ReaderClass = self._plugin.metadata.get_reader()
         else:
-            # Init reader
+            # check specific reader image types in a situation where a specified reader
+            # only supports some of the ImageLike types.
+            if not BioImage.check_type(image, reader.__init__.__annotations__["image"]):
+                raise biob.exceptions.UnsupportedFileFormatError(
+                    reader.__name__, str(type(image))
+                )
+
+            # connect submitted reader
             ReaderClass = reader
 
         # Init and store reader

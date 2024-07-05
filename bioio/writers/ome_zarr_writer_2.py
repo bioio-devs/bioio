@@ -519,10 +519,11 @@ class OmeZarrWriter:
         :param im: An ArrayLike object. Should be 5D TCZYX.
         :param tbatch: The number of T to write at a time.
         """
-        if isinstance(im, (np.ndarray)):
-            im_da = da.from_array(im)
-        else:
-            im_da = im
+        # if isinstance(im, (np.ndarray)):
+        #     im_da = da.from_array(im)
+        # else:
+        #     im_da = im
+        im_da = im
         # loop over T in batches
         numT = im_da.shape[0]
         if debug:
@@ -534,7 +535,7 @@ class OmeZarrWriter:
             if end_t > start_t:
                 # assume start t and end t are in range (caller should guarantee this)
                 ti = im_da[start_t:end_t]
-                self._downsample_and_write_batch_t(ti, start_t, end_t)
+                self._downsample_and_write_batch_t(da.asarray(ti), start_t, end_t)
         log.info("Finished loop over T")
 
     def _get_scale_ratio(self, level: int) -> Tuple[float, float, float, float, float]:

@@ -3,7 +3,7 @@
 
 
 import pathlib
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 
 import numpy as np
 import pytest
@@ -19,6 +19,8 @@ from bioio.writers.ome_zarr_writer_2 import (
     compute_level_shapes,
     resize,
 )
+
+from ..conftest import array_constructor
 
 
 @pytest.mark.parametrize(
@@ -106,30 +108,16 @@ def test_compute_chunk_sizes_zslice(
     assert out_chunk_shapes == expected_out_chunk_shapes
 
 
-# @pytest.mark.parametrize("filename", ["e.zarr"])
-# def test_ome_zarr_writer_chunks(
-#     array_constructor: Callable,
-#     write_shape: Tuple[int, ...],
-#     chunk_dims: Tuple[int, ...],
-#     num_levels: int,
-#     filename: str,
-#     expected_read_shapes: List[Tuple[int, ...]],
-#     tmp_path: pathlib.Path,
-# ) -> None:
-#     arr = array_constructor(write_shape, dtype=np.uint8)
-
-#     # Construct save end point
-
-
-#     baseline_save_uri = tmp_path / f"baseline_{filename}"
+@array_constructor
 @pytest.mark.parametrize(
     "shape, num_levels, scaling",
     [
-        ((4, 2, 64, 128, 64), 3, (1, 1, 1, 2, 2)),
+        ((4, 2, 32, 64, 32), 3, (1, 1, 1, 2, 2)),
     ],
 )
 @pytest.mark.parametrize("filename", ["e.zarr"])
 def test_write_ome_zarr(
+    array_constructor: Callable,
     filename: str,
     shape: DimTuple,
     num_levels: int,
@@ -137,8 +125,8 @@ def test_write_ome_zarr(
     tmp_path: pathlib.Path,
 ) -> None:
     # TCZYX order, downsampling x and y only
-    im = np.random.rand(shape[0], shape[1], shape[2], shape[3], shape[4])
-    C = im.shape[1]
+    im = array_constructor(shape, dtype=np.uint8)
+    C = shape[1]
 
     shapes = compute_level_shapes(shape, scaling, num_levels)
     chunk_sizes = compute_level_chunk_sizes_zslice(shapes)

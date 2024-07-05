@@ -643,9 +643,3 @@ class OmeZarrWriter:
         """
         self.root.attrs["multiscales"] = metadata["multiscales"]
         self.root.attrs["omero"] = metadata["omero"]
-
-
-# shapes = compute_level_shapes((500, 4, 150, 2000, 2000),(1,1,2,2,2), 5)
-# chunk_sizes = compute_level_chunk_sizes_bytes(shapes, dtype, nbytes)
-# chunk_sizes = compute_level_chunk_sizes_zslice(shapes)
-# print(chunk_sizes)

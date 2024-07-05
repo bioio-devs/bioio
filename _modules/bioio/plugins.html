@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>bioio.plugins - bioio 0.1.dev1+g3b3dc54 documentation</title>
+        <title>bioio.plugins - bioio 0.1.dev1+gcf8f973 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -179,7 +179,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g3b3dc54 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+gcf8f973 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -203,7 +203,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g3b3dc54 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gcf8f973 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -289,9 +289,12 @@
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">requires</span>
 
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">bioio_base.reader_metadata</span> <span class="kn">import</span> <span class="n">ReaderMetadata</span>
+
+<span class="kn">from</span> <span class="nn">.array_like_reader</span> <span class="kn">import</span> <span class="n">ArrayLikeReaderMetadata</span>
 
 <span class="c1">###############################################################################</span>
 
@@ -310,6 +313,23 @@
 
 <span class="c1"># global cache of plugins</span>
 <span class="n">plugins_by_ext_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<div class="viewcode-block" id="get_array_like_plugin">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_array_like_plugin">[docs]</a>
+<span class="k">def</span> <span class="nf">get_array_like_plugin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PluginEntry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create and return a PluginEntry for ArrayLikeReader.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entrypoint</span> <span class="o">=</span> <span class="n">EntryPoint</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ArrayLikeReader&quot;</span><span class="p">,</span>
+        <span class="n">group</span><span class="o">=</span><span class="s2">&quot;readers&quot;</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;.array_like_reader.ArrayLikeReader&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">ArrayLikeReaderMetadata</span><span class="p">()</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">entrypoint</span><span class="o">=</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="insert_sorted_by_timestamp">
@@ -533,7 +553,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=7fa9232e"></script>
+</div><script src="../../_static/documentation_options.js?v=b505b991"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=4e2eecee"></script>

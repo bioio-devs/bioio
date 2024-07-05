@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio.writers package" href="bioio.writers.html" /><link rel="prev" title="bioio" href="modules.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>bioio package - bioio 0.1.dev1+g3b3dc54 documentation</title>
+        <title>bioio package - bioio 0.1.dev1+gcf8f973 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -180,7 +180,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+g3b3dc54 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+gcf8f973 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -204,7 +204,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g3b3dc54 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gcf8f973 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -348,6 +348,140 @@
 </section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-bioio.array_like_reader">
+<span id="bioio-array-like-reader-module"></span><h2>bioio.array_like_reader module<a class="headerlink" href="#module-bioio.array_like_reader" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio.array_like_reader.ArrayLikeReader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.array_like_reader.</span></span><span class="sig-name descname"><span class="pre">ArrayLikeReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_order</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physical_pixel_sizes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PhysicalPixelSizes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/array_like_reader.html#ArrayLikeReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.array_like_reader.ArrayLikeReader" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Reader</span></code></p>
+<p>A catch all for numpy, dask, or xarray to Reader interface.</p>
+<p>See Notes for more details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image: Union[List[MetaArrayLike], MetaArrayLike]</strong></dt><dd><p>A single, numpy ndarray, dask Array, or xarray DataArray, or list of many.
+If provided a list, each item in the list will be exposed through the scene API.
+If provided an xarray DataArray alone or as an element of the list, the
+dim_order and channel_names kwargs are ignored if there non-xarray
+default dimension (or channel coordinate) information attached the xarray
+object. The channel and dimension information are updated independent of the
+other. If either is using xarray default values, they will be replaced by
+AICSImageIO defaults will be added.</p>
+</dd>
+<dt><strong>dim_order: Optional[Union[List[str], str]]</strong></dt><dd><p>A string of dimensions to be applied to all array(s) or a
+list of string dimension names to be mapped onto the list of arrays
+provided to image. I.E. “TYX”.
+Default: None (guess dimensions for single array or multiple arrays)</p>
+</dd>
+<dt><strong>channel_names: Optional[Union[List[str], List[List[str]]]]</strong></dt><dd><p>A list of string channel names to be applied to all array(s) or a
+list of lists of string channel names to be mapped onto the list of arrays
+provided to image.
+Default: None (create OME channel IDs for names for single or multiple arrays)</p>
+</dd>
+<dt><strong>physical_pixel_sizes: Optional[</strong></dt><dd><p>Union[List[float], Dict[str, float], PhysicalPixelSizes]</p>
+</dd>
+<dt><strong>]</strong></dt><dd><p>A specification of this image’s physical pixel sizes. Can be provided as
+a list, dict or PhysicalPixelSizes object. If a list is passed, the assumed
+order is [Z, Y, X]. If a dict is passed, it must contain “Z”, “Y” and “X”
+as keys.
+Default: None</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>exceptions.ConflictingArgumentsError</dt><dd><p>Raised when the number of scenes provided is different from the number of items
+provided to the metadata parameters if as a list.</p>
+</dd>
+<dt>exceptions.ConflictingArgumentsError</dt><dd><p>Raised when channel_names is provided but the channel dimension was
+either not guessed or not provided in dim_order.</p>
+</dd>
+<dt>ValueError</dt><dd><p>Provided dim_order string or channel_names are not the same length as
+the number of dimensions or the size of the channel dimensions for the array at
+the matching index.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>If you want to combine multiple numpy ndarrays or dask arrays with xarray DataArrays
+and attach metadata to all non-xarray.DataArrays, you can do so, the metadata for
+the xarray DataArray scenes will simply be ignored if it the non-xarray defaults.</p>
+<p>In such cases, it is recommended that you provide metadata for those scenes as
+None. I.E.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">some_metadata_attached_xr</span> <span class="o">=</span> <span class="o">...</span>
+<span class="gp">... </span><span class="n">some_np</span> <span class="o">=</span> <span class="o">...</span>
+<span class="gp">... </span><span class="n">some_dask</span> <span class="o">=</span> <span class="o">...</span>
+<span class="gp">... </span><span class="n">reader</span> <span class="o">=</span> <span class="n">ArrayLikeReader</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">image</span><span class="o">=</span><span class="p">[</span><span class="n">some_metadata_attached_xr</span><span class="p">,</span> <span class="n">some_np</span><span class="p">,</span> <span class="n">some_dask</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">dim_order</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;CTYX&quot;</span><span class="p">,</span> <span class="s2">&quot;ZTYX&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">channel_names</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">C</span><span class="s2">&quot;], None],</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Will create a three scene ArrayLikeReader with the metadata and coordinate
+information filled xarray DataArray as the first scene, a numpy array with CTYX as
+the dimensions and [“A”, “B”, “C”] as the channel names, and a dask array with ZTYX
+as the dimensions and no channel names (as there is no channel dimension).</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.array_like_reader.ArrayLikeReader.physical_pixel_sizes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">physical_pixel_sizes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PhysicalPixelSizes</span></em><a class="headerlink" href="#bioio.array_like_reader.ArrayLikeReader.physical_pixel_sizes" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>sizes: PhysicalPixelSizes</dt><dd><p>Using available metadata, the floats representing physical pixel sizes for
+dimensions Z, Y, and X.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>We currently do not handle unit attachment to these values. Please see the file
+metadata for unit information.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.array_like_reader.ArrayLikeReader.scenes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scenes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.array_like_reader.ArrayLikeReader.scenes" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>scenes: Tuple[str, …]</dt><dd><p>A tuple of valid scene ids in the file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Scene IDs are strings - not a range of integers.</p>
+<p>When iterating over scenes please use:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">scenes</span>
+</pre></div>
+</div>
+<p>and not:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">scenes</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio.array_like_reader.ArrayLikeReaderMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.array_like_reader.</span></span><span class="sig-name descname"><span class="pre">ArrayLikeReaderMetadata</span></span><a class="reference internal" href="_modules/bioio/array_like_reader.html#ArrayLikeReaderMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.array_like_reader.ArrayLikeReaderMetadata" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ReaderMetadata</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.array_like_reader.ArrayLikeReaderMetadata.get_reader">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_reader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Reader</span></span></span><a class="reference internal" href="_modules/bioio/array_like_reader.html#ArrayLikeReaderMetadata.get_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.array_like_reader.ArrayLikeReaderMetadata.get_reader" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.array_like_reader.ArrayLikeReaderMetadata.get_supported_extensions">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_supported_extensions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/array_like_reader.html#ArrayLikeReaderMetadata.get_supported_extensions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.array_like_reader.ArrayLikeReaderMetadata.get_supported_extensions" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-bioio.bio_image">
 <span id="bioio-bio-image-module"></span><h2>bioio.bio_image module<a class="headerlink" href="#module-bioio.bio_image" title="Link to this heading">¶</a></h2>
@@ -544,7 +678,8 @@ appropriate reader for the image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>ReaderClass: Type[Reader]</dt><dd><p>The reader that supports the provided image.</p>
+<dt>PluginEntry: PluginEntry(NamedTuple)</dt><dd><p>A wrapper of release information and reader refrences for an individual
+plugin.</p>
 </dd>
 </dl>
 </dd>
@@ -1378,6 +1513,12 @@ index of the scene / image.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bioio.plugins.get_array_like_plugin">
+<span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">get_array_like_plugin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a></span></span><a class="reference internal" href="_modules/bioio/plugins.html#get_array_like_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.get_array_like_plugin" title="Link to this definition">¶</a></dt>
+<dd><p>Create and return a PluginEntry for ArrayLikeReader.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bioio.plugins.get_dependency_version_range_for_distribution">
 <span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">get_dependency_version_range_for_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependency_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#get_dependency_version_range_for_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.get_dependency_version_range_for_distribution" title="Link to this definition">¶</a></dt>
 <dd><p>Retrieves the minimum and maximum versions of the dependency as specified
@@ -1595,7 +1736,8 @@ appropriate reader for the image.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt>ReaderClass: Type[Reader]</dt><dd><p>The reader that supports the provided image.</p>
+<dt>PluginEntry: PluginEntry(NamedTuple)</dt><dd><p>A wrapper of release information and reader refrences for an individual
+plugin.</p>
 </dd>
 </dl>
 </dd>
@@ -2245,6 +2387,19 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#">bioio package</a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-bioio.array_like_reader">bioio.array_like_reader module</a><ul>
+<li><a class="reference internal" href="#bioio.array_like_reader.ArrayLikeReader"><code class="docutils literal notranslate"><span class="pre">ArrayLikeReader</span></code></a><ul>
+<li><a class="reference internal" href="#bioio.array_like_reader.ArrayLikeReader.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">ArrayLikeReader.physical_pixel_sizes</span></code></a></li>
+<li><a class="reference internal" href="#bioio.array_like_reader.ArrayLikeReader.scenes"><code class="docutils literal notranslate"><span class="pre">ArrayLikeReader.scenes</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio.array_like_reader.ArrayLikeReaderMetadata"><code class="docutils literal notranslate"><span class="pre">ArrayLikeReaderMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#bioio.array_like_reader.ArrayLikeReaderMetadata.get_reader"><code class="docutils literal notranslate"><span class="pre">ArrayLikeReaderMetadata.get_reader()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.array_like_reader.ArrayLikeReaderMetadata.get_supported_extensions"><code class="docutils literal notranslate"><span class="pre">ArrayLikeReaderMetadata.get_supported_extensions()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-bioio.bio_image">bioio.bio_image module</a><ul>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage"><code class="docutils literal notranslate"><span class="pre">BioImage</span></code></a><ul>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.channel_names"><code class="docutils literal notranslate"><span class="pre">BioImage.channel_names</span></code></a></li>
@@ -2300,6 +2455,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#bioio.plugins.dump_plugins"><code class="docutils literal notranslate"><span class="pre">dump_plugins()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.plugins.get_array_like_plugin"><code class="docutils literal notranslate"><span class="pre">get_array_like_plugin()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_dependency_version_range_for_distribution"><code class="docutils literal notranslate"><span class="pre">get_dependency_version_range_for_distribution()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_plugins"><code class="docutils literal notranslate"><span class="pre">get_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.insert_sorted_by_timestamp"><code class="docutils literal notranslate"><span class="pre">insert_sorted_by_timestamp()</span></code></a></li>
@@ -2352,7 +2508,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=7fa9232e"></script>
+</div><script src="_static/documentation_options.js?v=b505b991"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=4e2eecee"></script>

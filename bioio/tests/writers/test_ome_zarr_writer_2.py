@@ -122,15 +122,25 @@ def test_compute_chunk_sizes_zslice(
 
 
 #     baseline_save_uri = tmp_path / f"baseline_{filename}"
+@pytest.mark.parametrize(
+    "shape, num_levels, scaling",
+    [
+        ((4, 2, 64, 128, 64), 3, (1, 1, 1, 2, 2)),
+    ],
+)
 @pytest.mark.parametrize("filename", ["e.zarr"])
-def test_write_ome_zarr(filename: str, tmp_path: pathlib.Path) -> None:
+def test_write_ome_zarr(
+    filename: str,
+    shape: DimTuple,
+    num_levels: int,
+    scaling: Tuple[float, float, float, float, float],
+    tmp_path: pathlib.Path,
+) -> None:
     # TCZYX order, downsampling x and y only
-    shape: DimTuple = (10, 2, 100, 200, 100)
     im = np.random.rand(shape[0], shape[1], shape[2], shape[3], shape[4])
     C = im.shape[1]
 
-    num_levels = 5
-    shapes = compute_level_shapes(shape, (1, 1, 1, 2, 2), num_levels)
+    shapes = compute_level_shapes(shape, scaling, num_levels)
     chunk_sizes = compute_level_chunk_sizes_zslice(shapes)
 
     # Create an OmeZarrWriter object

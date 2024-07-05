@@ -4,16 +4,17 @@
 import datetime
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Dict, List, Optional, Tuple, Type, Union, get_args
 
 import bioio_base as biob
 import dask.array as da
 import numpy as np
 import xarray as xr
+from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import PluginEntry, get_plugins
+from .plugins import PluginEntry, get_array_like_plugin, get_plugins
 
 ###############################################################################
 
@@ -138,8 +139,9 @@ class BioImage(biob.image_container.ImageContainer):
 
         Returns
         -------
-        ReaderClass: Type[Reader]
-            The reader that supports the provided image.
+        PluginEntry: PluginEntry(NamedTuple)
+            A wrapper of release information and reader refrences for an individual
+            plugin.
 
         Raises
         ------
@@ -182,9 +184,9 @@ class BioImage(biob.image_container.ImageContainer):
                                 f"Attempted file ({path}) load with "
                                 f"reader: {ReaderClass} failed with error: {e}"
                             )
-        else:
-            # TODO - Add support for arraylike image detection
-            pass
+
+        elif isinstance(image, get_args(MetaArrayLike) + (list,)):
+            return get_array_like_plugin()
 
         # If we haven't hit anything yet, we likely don't support this file / object
         # with the current plugins installed

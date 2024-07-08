@@ -10,7 +10,7 @@ import pytest
 from ome_zarr.io import parse_url
 from ome_zarr.reader import Reader
 
-from bioio.writers import OmeZarrWriter_old as OmeZarrWriter
+from bioio.writers import OmeZarrWriter
 
 from ..conftest import array_constructor
 

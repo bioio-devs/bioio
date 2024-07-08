@@ -110,9 +110,26 @@ def test_compute_chunk_sizes_zslice(
 
 @array_constructor
 @pytest.mark.parametrize(
-    "shape, num_levels, scaling",
+    "shape, num_levels, scaling, expected_shapes",
     [
-        ((4, 2, 32, 64, 32), 3, (1, 1, 1, 2, 2)),
+        (
+            (4, 2, 2, 64, 32),  # easy, powers of two
+            3,
+            (1, 1, 1, 2, 2),  # downscale xy by two
+            [(4, 2, 2, 64, 32), (4, 2, 2, 32, 16), (4, 2, 2, 16, 8)],
+        ),
+        (
+            (4, 2, 2, 8, 6),
+            1,  # no downscaling
+            (1, 1, 1, 1, 1),
+            [(4, 2, 2, 8, 6)],
+        ),
+        (
+            (1, 1, 1, 13, 23),  # start with odd dimensions
+            3,
+            (1, 1, 1, 2, 2),
+            [(1, 1, 1, 13, 23), (1, 1, 1, 6, 11), (1, 1, 1, 3, 5)],
+        ),
     ],
 )
 @pytest.mark.parametrize("filename", ["e.zarr"])
@@ -122,6 +139,7 @@ def test_write_ome_zarr(
     shape: DimTuple,
     num_levels: int,
     scaling: Tuple[float, float, float, float, float],
+    expected_shapes: List[DimTuple],
     tmp_path: pathlib.Path,
 ) -> None:
     # TCZYX order, downsampling x and y only
@@ -169,9 +187,9 @@ def test_write_ome_zarr(
     node = list(reader())[0]
     num_levels_read = len(node.data)
     assert num_levels_read == num_levels
-    level = 0
-    read_shape = node.data[level].shape
-    assert read_shape == shape
+    for level, shape in zip(range(num_levels), expected_shapes):
+        read_shape = node.data[level].shape
+        assert read_shape == shape
     axes = node.metadata["axes"]
     dims = "".join([a["name"] for a in axes]).upper()
     assert dims == "TCZYX"

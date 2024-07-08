@@ -38,7 +38,7 @@ dependencies = [
   "ome-zarr>=0.6.1",
   "semver>=3.0.1",
   "tifffile>=2021.8.30",
-  "zarr>=2.6.0,<3.0.0",
+  "zarr>=2.6.0,<2.18.0",
 ]
 
 [project.urls]

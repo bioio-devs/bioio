@@ -56,7 +56,7 @@ jobs:
       - name: Ensure ffmpeg on macos-latest
         # imageio-ffmpeg does not bundle ffmpeg for M1 macs
         # see https://github.com/imageio/imageio-ffmpeg/issues/71
-        if: runner.os == 'macos-latest'
+        if: runner.os == 'macOS'
         run: brew install ffmpeg
       - name: Run Tests
         run: just test

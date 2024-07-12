@@ -6,6 +6,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Type, Union
 
 import semver
 
@@ -35,6 +36,37 @@ class PluginEntry(NamedTuple):
 
 # global cache of plugins
 plugins_by_ext_cache: Dict[str, List[PluginEntry]] = {}
+
+
+def check_type(obj: Any, expected_type: Type) -> bool:
+    """
+    Check if an object matches the expected type, including support for Union
+    and List types. This allows us to check specific reader image types in a
+    situation where a reader only supports some of the ImageLike types.
+
+    Parameters:
+    obj : Any
+        The object to check the type of.
+    expected_type : Type
+        The expected type, which may be a basic type (e.g., int, str),
+        a generic type (e.g., List[int]), or a Union of types.
+
+    Returns:
+    bool
+        True if the object matches the expected type, otherwise False.
+    """
+    origin = getattr(expected_type, "__origin__", None)
+    args = getattr(expected_type, "__args__", [])
+
+    if origin is Union:
+        return any(check_type(obj, arg) for arg in args)
+
+    if origin is list or origin is List:
+        if not isinstance(obj, list):
+            return False
+        return all(check_type(item, args[0]) for item in obj)
+
+    return isinstance(obj, expected_type)
 
 
 def get_array_like_plugin() -> PluginEntry:

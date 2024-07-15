@@ -22,14 +22,22 @@ def chunk_size_from_memory_target(
     shape: DimTuple, dtype: str, memory_target: int
 ) -> DimTuple:
     """
-    Calculate chunk size from memory target.  The chunk size will be
+    Calculate chunk size from memory target in bytes.  The chunk size will be
     determined by considering a single T and C, and subdividing the remaining
     dims by 2 until the chunk fits within the size target.
 
-    :param shape: Shape of the array. Assumes a 5d TCZYX array.
-    :param dtype: Data type of the array.
-    :param memory_target: Memory target in bytes.
-    :return: Chunk size tuple.
+    Parameters
+    ----------
+    shape:
+        Shape of the array. Assumes a 5d TCZYX array.
+    dtype:
+        Data type of the array.
+    memory_target:
+        Memory target in bytes.
+
+    Returns
+    -------
+    Chunk size tuple.
     """
     if len(shape) != 5:
         raise ValueError("shape must be a 5-tuple in TCZYX order")
@@ -50,32 +58,6 @@ def chunk_size_from_memory_target(
     return chunk_size
 
 
-# # attempt to keep all chunks at same maximum number of bytes
-# def compute_level_chunk_sizes_bytes(shapes, dtype, nbytes):
-#     # strategy: start with last dim[4]
-#     # start with chunk size cs = (1,1,1,1,1)
-#     # cs_nbytes = cs[4] * cs[3] * cs[2] * cs[1] * cs[0] * itemsize
-#     # if dim[4] > nbytes, then chunk size is (1, 1, 1, 1, nbytes)
-#     # else if dim[4] < nbytes, then chunk size is (1, 1, 1, dim[3]/nbytes, dim[4])
-#     # level 0
-#     shape = (500, 4, 150, 2000, 2000)
-#     dtype = "uint16"
-#     nbytes = 1024*1024  # 1MB
-
-#     chunk = (1,1,1,1,1)
-#     for i in range(len(shape)):
-#         chunk = (1,1,1,1,shape[i])
-#         sz = np.prod(chunk) * np.dtype(dtype).itemsize
-#         if (sz > nbytes):
-
-#         if chunk_size_from_memory_target(shape, dtype, nbytes) < chunk:
-#             break
-#     chunk_sizes = []
-#     for shape in shapes:
-#         chunk_sizes.append(chunk_size_from_memory_target(shape, dtype, nbytes))
-#     return chunk_sizes
-
-
 def dim_tuple_to_dict(
     dims: Union[DimTuple, Tuple[float, float, float, float, float]]
 ) -> dict:
@@ -90,15 +72,21 @@ def resize(
     r"""
     Wrapped copy of "skimage.transform.resize"
     Resize image to match a certain size.
-    :type image: :class:`dask.array`
-    :param image: The dask array to resize
-    :type output_shape: tuple
-    :param output_shape: The shape of the resize array
-    :type \*args: list
-    :param \*args: Arguments of skimage.transform.resize
-    :type \*\*kwargs: dict
-    :param \*\*kwargs: Keyword arguments of skimage.transform.resize
-    :return: Resized image.
+
+    Parameters
+    ----------
+    image: :class:`dask.array`
+        The dask array to resize
+    output_shape: tuple
+        The shape of the resize array
+    \*args: list
+        Arguments of skimage.transform.resize
+    \*\*kwargs: dict
+        Keyword arguments of skimage.transform.resize
+
+    Returns
+    -------
+    Resized image.
     """
     factors = np.array(output_shape) / np.array(image.shape).astype(float)
     # Rechunk the input blocks so that the factors achieve an output
@@ -243,12 +231,20 @@ def compute_level_shapes(
     This will always return nlevels even if the levels become unreducible and
     have to repeat.
 
-    :param lvl0shape: Shape of the array. Assumes a 5d TCZYX tuple.
-    :param scaling: Amount to scale each dimension by. Dims will be DIVIDED by
-      these values.
-    :param nlevels: Number of levels to return. The first level is the
-      original lvl0shape.
-    :return: List of shapes of all nlevels.
+    Parameters
+    ----------
+    lvl0shape:
+        Shape of the array. Assumes a 5d TCZYX tuple.
+    scaling:
+        Amount to scale each dimension by. Dims will be DIVIDED by
+        these values.
+    nlevels:
+        Number of levels to return. The first level is the
+        original lvl0shape.
+
+    Returns
+    -------
+    List of shapes of all nlevels.
     """
     shapes = [lvl0shape]
     for i in range(nlevels - 1):
@@ -279,19 +275,30 @@ def compute_level_chunk_sizes_zslice(shapes: List[DimTuple]) -> List[DimTuple]:
     """
     Convenience function to calculate chunk sizes for each of the input level
     shapes assuming that the shapes are TCZYX and we want the chunking to be
-    per Z slice.
+    per Z slice.  This code also assumes we are only downsampling in XY and
+    leaving TCZ alone.  For many of our microscopy images so far, we have much
+    more resolution in XY than in Z so this is a reasonable assumption.
+
     The first shape returned will always be (1,1,1,shapes[0][3],shapes[0][4])
     and the following will be a scaled number of slices scaled by the same
     factor as the successive shapes.
+
     This is an attempt to keep the total size of chunks the same across all
     levels, by increasing the number of slices for downsampled levels.
     This is making a basic assumption that each of the shapes is a downsampled
     version of the previous shape.
+
     For example, in a typical case, if the second level is scaled down by 1/2
     in X and Y, then the second chunk size will have 4x the number of slices.
 
-    :param shapes: List of all multiresolution level shapes
-    :return: List of chunk sizes for per-slice chunking
+    Parameters
+    ----------
+    shapes:
+        List of all multiresolution level shapes
+
+    Returns
+    -------
+    List of chunk sizes for per-slice chunking
     """
     # assumes TCZYX order
     shape0 = shapes[0]
@@ -301,6 +308,7 @@ def compute_level_chunk_sizes_zslice(shapes: List[DimTuple]) -> List[DimTuple]:
     for i in range(1, len(shapes)):
         last_chunk_size = chunk_sizes[i - 1]
         scale = get_scale_ratio(shapes[i - 1], shapes[i])
+        # assumes that scale ratio for TCZ is 1 and only downsampled in xy.
         chunk_sizes.append(
             (
                 1,
@@ -320,34 +328,36 @@ class OmeZarrWriter:
 
     .. code-block:: python
 
-            from ome_zarr_writer import OmeZarrWriter
-            from bioio import BioImage
+            from ome_zarr_writer import
+                OmeZarrWriter,
+                compute_level_shapes,
+                compute_level_chunk_sizes_zslice
 
-            # Create a BioImage object
-            im = BioImage("path/to/image")
-
-            # TCZYX order, downsampling x and y only
-            shapes = compute_level_shapes(im.shape, (1, 1, 1, 2, 2), 5)
-            chunk_sizes = compute_level_chunk_sizes(shapes)
+            # We need to compute the shapes and chunk sizes for each
+            # desired multiresolution level.
+            shapes = compute_level_shapes(input_shape, scaling, num_levels)
+            chunk_sizes = compute_level_chunk_sizes_zslice(shapes)
 
             # Create an OmeZarrWriter object
             writer = OmeZarrWriter()
 
             # Initialize the store. Use s3 url or local directory path!
-            writer.init_store("path/to/output.zarr", shapes, chunk_sizes,
-              im.dtype)
+            writer.init_store(str(save_uri), shapes, chunk_sizes, im.dtype)
 
-            # Write the image
-            writer.write_t_batches(im, 4)
+            # Write the image.
+            # This will compute downsampled levels on the fly.
+            # Adjust t batch size based on dask compute capacity.
+            writer.write_t_batches_array(im, tbatch=4)
 
-            # Write metadata.  Could do this first instead.
-            writer.write_metadata(im, "Image Name",
-                physical_pixel_size_xy_factor=0.103,  # multiplied with value
-                  from im metadata
-                physical_pixel_size_xy_units="micrometer",
-                time_interval=5.0,
-                time_units="minute"
+            # Generate a metadata dict and write it to the zarr.
+            meta = writer.generate_metadata(
+                image_name="my_image_name",
+                channel_names=my_channel_names,
+                physical_dims=physical_scale,
+                physical_units=physical_units,
+                channel_colors=my_channel_colors,
             )
+            writer.write_metadata(meta)
     """
 
     def __init__(self) -> None:
@@ -366,12 +376,18 @@ class OmeZarrWriter:
     ) -> None:
         """
         Initialize the store.
-        :param output_path: The output path. If it begins with "s3://" or
-          "gs://", it is assumed to be a remote store. Credentials required to
-          be provided externally.
-        :param shapes: The shapes of the levels.
-        :param chunk_sizes: The chunk sizes of the levels.
-        :param dtype: The data type.
+
+        Parameters
+        ----------
+        output_path:
+            The output path. If it begins with "s3://" or "gs://", it is assumed
+            to be a remote store. Credentials required to be provided externally.
+        shapes:
+            The shapes of the levels.
+        chunk_sizes:
+            The chunk sizes of the levels.
+        dtype:
+            The data type.
         """
         if len(shapes) != len(chunk_sizes) or len(shapes) < 1 or len(chunk_sizes) < 1:
             raise ValueError(
@@ -465,8 +481,13 @@ class OmeZarrWriter:
     ) -> None:
         """
         Write the image in batches of T.
-        :param im: The BioImage object.
-        :param tbatch: The number of T to write at a time.
+
+        Parameters
+        ----------
+        im:
+            The BioImage object.
+        tbatch:
+            The number of T to write at a time.
         """
         # loop over T in batches
         numT = im.dims.T
@@ -487,8 +508,13 @@ class OmeZarrWriter:
     ) -> None:
         """
         Write the image in batches of T.
-        :param paths: The list of file paths, one path per T.
-        :param tbatch: The number of T to write at a time.
+
+        Parameters
+        ----------
+        paths:
+            The list of file paths, one path per T.
+        tbatch:
+            The number of T to write at a time.
         """
         # loop over T in batches
         numT = len(paths)
@@ -516,8 +542,13 @@ class OmeZarrWriter:
     ) -> None:
         """
         Write the image in batches of T.
-        :param im: An ArrayLike object. Should be 5D TCZYX.
-        :param tbatch: The number of T to write at a time.
+
+        Parameters
+        ----------
+        im:
+            An ArrayLike object. Should be 5D TCZYX.
+        tbatch:
+            The number of T to write at a time.
         """
         # if isinstance(im, (np.ndarray)):
         #     im_da = da.from_array(im)
@@ -560,13 +591,20 @@ class OmeZarrWriter:
     ) -> dict:
         """
         Build a metadata dict suitable for writing to ome-zarr attrs.
-        :param image_name: The image name.
-        :param channel_names: The channel names.
-        :param physical_dims: for each physical dimension, include a scale
-          factor.  E.g. {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
-        :param physical_units: For each physical dimension, include a unit
-          string. E.g. {"x":"micrometer", "y":"micrometer", "z":"micrometer",
-          "t":"minute"}
+
+        Parameters
+        ----------
+        image_name:
+            The image name.
+        channel_names:
+            The channel names.
+        physical_dims:
+            for each physical dimension, include a scale
+            factor.  E.g. {"x":0.1, "y", 0.1, "z", 0.3, "t": 5.0}
+        physical_units:
+            For each physical dimension, include a unit
+            string. E.g. {"x":"micrometer", "y":"micrometer", "z":"micrometer",
+            "t":"minute"}
         """
         dims = ("t", "c", "z", "y", "x")
         axes = []
@@ -639,8 +677,12 @@ class OmeZarrWriter:
     def write_metadata(self, metadata: dict) -> None:
         """
         Write the metadata.
-        :param metadata: The metadata dict. Expected to contain a multiscales
-          array and omero dict
+
+        Parameters
+        ----------
+        metadata:
+            The metadata dict. Expected to contain a multiscales
+            array and omero dict
         """
         self.root.attrs["multiscales"] = metadata["multiscales"]
         self.root.attrs["omero"] = metadata["omero"]

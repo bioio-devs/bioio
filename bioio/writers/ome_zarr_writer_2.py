@@ -17,6 +17,8 @@ log = logging.getLogger(__name__)
 
 DimTuple = Tuple[int, int, int, int, int]
 
+OME_NGFF_VERSION = "0.4"
+
 
 def chunk_size_from_memory_target(
     shape: DimTuple, dtype: str, memory_target: int
@@ -69,7 +71,7 @@ def dim_tuple_to_dict(
 def resize(
     image: da.Array, output_shape: Tuple[int, ...], *args: Any, **kwargs: Any
 ) -> da.Array:
-    r"""
+    """
     Wrapped copy of "skimage.transform.resize"
     Resize image to match a certain size.
 
@@ -79,9 +81,9 @@ def resize(
         The dask array to resize
     output_shape: tuple
         The shape of the resize array
-    \*args: list
+    *args: list
         Arguments of skimage.transform.resize
-    \*\*kwargs: dict
+    **kwargs: dict
         Keyword arguments of skimage.transform.resize
 
     Returns
@@ -187,7 +189,7 @@ def build_ome(
     omero = {
         "id": 1,  # ID in OMERO
         "name": image_name,  # Name as shown in the UI
-        "version": "0.4",  # Current version
+        "version": OME_NGFF_VERSION,  # Current version
         "channels": ch,
         "rdefs": {
             "defaultT": 0,  # First timepoint to show the user

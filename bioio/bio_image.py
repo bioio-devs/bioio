@@ -406,6 +406,16 @@ class BioImage(biob.image_container.ImageContainer):
         self._dims = None
 
     @property
+    def resolution_level_dims(self) -> Dict[int, Tuple[int]]:
+        """
+        Returns
+        -------
+        resolution_level_dims: Dict[int, Tuple[int]]
+            resolution level dictionary of shapes.
+        """
+        return self.reader.resolution_level_dims
+
+    @property
     def xarray_dask_data(self) -> xr.DataArray:
         """
         Returns

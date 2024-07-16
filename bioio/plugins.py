@@ -6,7 +6,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Type, Union
+from typing import get_args
 
 import semver
 
@@ -18,9 +18,11 @@ else:
 import time
 from typing import Dict, List, NamedTuple, Optional, Tuple
 
+from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
+from bioio_base.types import ArrayLike, ImageLike, PathLike
 
-from .array_like_reader import ArrayLikeReaderMetadata
+from .array_like_reader import ArrayLikeReader, ArrayLikeReaderMetadata
 
 ###############################################################################
 
@@ -38,35 +40,49 @@ class PluginEntry(NamedTuple):
 plugins_by_ext_cache: Dict[str, List[PluginEntry]] = {}
 
 
-def check_type(obj: Any, expected_type: Type) -> bool:
+def check_type(image: ImageLike, reader_class: Reader) -> bool:
     """
-    Check if an object matches the expected type, including support for Union
-    and List types. This allows us to check specific reader image types in a
-    situation where a reader only supports some of the ImageLike types.
+    Check if the provided image is compatible with the specified reader class.
 
-    Parameters:
-    obj : Any
-        The object to check the type of.
-    expected_type : Type
-        The expected type, which may be a basic type (e.g., int, str),
-        a generic type (e.g., List[int]), or a Union of types.
+    Parameters
+    ----------
+    image : ImageLike
+        The image to be checked. It can be a PathLike, ArrayLike, MetaArrayLike,
+        a list of MetaArrayLike, or a list of PathLike.
 
-    Returns:
+    reader_class : Reader
+        The reader class to be checked against.
+    Returns
+    -------
     bool
-        True if the object matches the expected type, otherwise False.
+        Returns True if the image is compatible with the reader class, False otherwise.
     """
-    origin = getattr(expected_type, "__origin__", None)
-    args = getattr(expected_type, "__args__", [])
+    arraylike_types = tuple(get_args(ArrayLike))
+    pathlike_types = tuple(get_args(PathLike))
 
-    if origin is Union:
-        return any(check_type(obj, arg) for arg in args)
+    # Check if image is type ArrayLike or list of ArrayLike and reader
+    # is not an ArrayLikeReader
+    if (
+        isinstance(image, arraylike_types)
+        or (
+            isinstance(image, list)
+            and all(isinstance(item, arraylike_types) for item in image)
+        )
+    ) and not (reader_class is ArrayLikeReader):
+        return False
 
-    if origin is list or origin is List:
-        if not isinstance(obj, list):
-            return False
-        return all(check_type(item, args[0]) for item in obj)
+    # Check if image is type PathLike or list of PathLike and reader
+    # is an ArrayLikeReader
+    if (
+        isinstance(image, pathlike_types)
+        or (
+            isinstance(image, list)
+            and all(isinstance(item, pathlike_types) for item in image)
+        )
+    ) and (reader_class is ArrayLikeReader):
+        return False
 
-    return isinstance(obj, expected_type)
+    return True
 
 
 def get_array_like_plugin() -> PluginEntry:

@@ -218,7 +218,7 @@ class BioImage(biob.image_container.ImageContainer):
         else:
             # check specific reader image types in a situation where a specified reader
             # only supports some of the ImageLike types.
-            if not check_type(image, reader.__init__.__annotations__["image"]):
+            if not check_type(image, reader):
                 raise biob.exceptions.UnsupportedFileFormatError(
                     reader.__name__, str(type(image))
                 )

@@ -12,8 +12,10 @@ else:
 import bioio_base as biob
 import numpy as np
 import pytest
+from bioio_base import exceptions
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
+from bioio_base.types import ImageLike
 
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
@@ -44,3 +46,31 @@ def test_bioimage_determine_arraylike() -> None:
     assert isinstance(result.timestamp, float)
     assert issubclass(result.metadata.get_reader(), Reader)
     assert result.metadata.get_reader() is ArrayLikeReader
+
+
+@pytest.mark.parametrize(
+    "image, reader_class, expected_exception",
+    [
+        (
+            "s3://my_bucket/my_file.tiff",
+            ArrayLikeReader,
+            exceptions.UnsupportedFileFormatError,
+        ),
+        (np.random.rand(10, 10), Reader, exceptions.UnsupportedFileFormatError),
+        (
+            ["s3://my_bucket/my_file.tiff", "s3://my_bucket/my_file.tiff"],
+            ArrayLikeReader,
+            exceptions.UnsupportedFileFormatError,
+        ),
+        (
+            [np.random.rand(10, 10), np.random.rand(10, 10)],
+            Reader,
+            exceptions.UnsupportedFileFormatError,
+        ),
+    ],
+)
+def test_bioimage_submission_data_reader_type_alignment(
+    image: ImageLike, reader_class: Reader, expected_exception: Exception
+) -> None:
+    with pytest.raises(expected_exception):
+        BioImage(image, reader=reader_class)

@@ -14,7 +14,7 @@ from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import PluginEntry, get_array_like_plugin, get_plugins
+from .plugins import PluginEntry, check_type, get_array_like_plugin, get_plugins
 
 ###############################################################################
 
@@ -185,6 +185,7 @@ class BioImage(biob.image_container.ImageContainer):
                                 f"reader: {ReaderClass} failed with error: {e}"
                             )
 
+        # Use built-in ArrayLikeReader if type MetaArrayLike
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
             return get_array_like_plugin()
 
@@ -215,7 +216,14 @@ class BioImage(biob.image_container.ImageContainer):
             )
             ReaderClass = self._plugin.metadata.get_reader()
         else:
-            # Init reader
+            # check specific reader image types in a situation where a specified reader
+            # only supports some of the ImageLike types.
+            if not check_type(image, reader):
+                raise biob.exceptions.UnsupportedFileFormatError(
+                    reader.__name__, str(type(image))
+                )
+
+            # connect submitted reader
             ReaderClass = reader
 
         # Init and store reader

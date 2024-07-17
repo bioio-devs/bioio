@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Developer Resources" href="developer_resources.html" /><link rel="prev" title="bioio package" href="bioio.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>bioio.writers package - bioio 0.1.dev1+g6aa1d66 documentation</title>
+        <title>bioio.writers package - bioio 0.1.dev1+gd1d98c5 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -180,7 +180,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+g6aa1d66 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+gd1d98c5 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -204,7 +204,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g6aa1d66 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+gd1d98c5 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -522,6 +522,331 @@ order.</p>
 </div>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-bioio.writers.ome_zarr_writer_2">
+<span id="bioio-writers-ome-zarr-writer-2-module"></span><h2>bioio.writers.ome_zarr_writer_2 module<a class="headerlink" href="#module-bioio.writers.ome_zarr_writer_2" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">OmeZarrWriter</span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to write OME-Zarr files.
+Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ome_zarr_writer</span> <span class="kn">import</span>
+    <span class="n">OmeZarrWriter</span><span class="p">,</span>
+    <span class="n">compute_level_shapes</span><span class="p">,</span>
+    <span class="n">compute_level_chunk_sizes_zslice</span>
+
+<span class="c1"># We need to compute the shapes and chunk sizes for each</span>
+<span class="c1"># desired multiresolution level.</span>
+<span class="n">shapes</span> <span class="o">=</span> <span class="n">compute_level_shapes</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">num_levels</span><span class="p">)</span>
+<span class="n">chunk_sizes</span> <span class="o">=</span> <span class="n">compute_level_chunk_sizes_zslice</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span>
+
+<span class="c1"># Create an OmeZarrWriter object</span>
+<span class="n">writer</span> <span class="o">=</span> <span class="n">OmeZarrWriter</span><span class="p">()</span>
+
+<span class="c1"># Initialize the store. Use s3 url or local directory path!</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">init_store</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save_uri</span><span class="p">),</span> <span class="n">shapes</span><span class="p">,</span> <span class="n">chunk_sizes</span><span class="p">,</span> <span class="n">im</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="c1"># Write the image.</span>
+<span class="c1"># This will compute downsampled levels on the fly.</span>
+<span class="c1"># Adjust t batch size based on dask compute capacity.</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">write_t_batches_array</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">tbatch</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Generate a metadata dict and write it to the zarr.</span>
+<span class="n">meta</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">generate_metadata</span><span class="p">(</span>
+    <span class="n">image_name</span><span class="o">=</span><span class="s2">&quot;my_image_name&quot;</span><span class="p">,</span>
+    <span class="n">channel_names</span><span class="o">=</span><span class="n">my_channel_names</span><span class="p">,</span>
+    <span class="n">physical_dims</span><span class="o">=</span><span class="n">physical_scale</span><span class="p">,</span>
+    <span class="n">physical_units</span><span class="o">=</span><span class="n">physical_units</span><span class="p">,</span>
+    <span class="n">channel_colors</span><span class="o">=</span><span class="n">my_channel_colors</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">writer</span><span class="o">.</span><span class="n">write_metadata</span><span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter.generate_metadata">
+<span class="sig-name descname"><span class="pre">generate_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physical_dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physical_units</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter.generate_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.generate_metadata" title="Link to this definition">¶</a></dt>
+<dd><p>Build a metadata dict suitable for writing to ome-zarr attrs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image_name:</strong></dt><dd><p>The image name.</p>
+</dd>
+<dt><strong>channel_names:</strong></dt><dd><p>The channel names.</p>
+</dd>
+<dt><strong>physical_dims:</strong></dt><dd><p>for each physical dimension, include a scale
+factor.  E.g. {“x”:0.1, “y”, 0.1, “z”, 0.3, “t”: 5.0}</p>
+</dd>
+<dt><strong>physical_units:</strong></dt><dd><p>For each physical dimension, include a unit
+string. E.g. {“x”:”micrometer”, “y”:”micrometer”, “z”:”micrometer”,
+“t”:”minute”}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter.init_store">
+<span class="sig-name descname"><span class="pre">init_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_sizes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dtype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compressor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Codec</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Blosc(cname='lz4',</span> <span class="pre">clevel=5,</span> <span class="pre">shuffle=SHUFFLE,</span> <span class="pre">blocksize=0)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter.init_store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.init_store" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>output_path:</strong></dt><dd><p>The output path. If it begins with “s3://” or “gs://”, it is assumed
+to be a remote store. Credentials required to be provided externally.</p>
+</dd>
+<dt><strong>shapes:</strong></dt><dd><p>The shapes of the levels.</p>
+</dd>
+<dt><strong>chunk_sizes:</strong></dt><dd><p>The chunk sizes of the levels.</p>
+</dd>
+<dt><strong>dtype:</strong></dt><dd><p>The data type.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_metadata">
+<span class="sig-name descname"><span class="pre">write_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter.write_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_metadata" title="Link to this definition">¶</a></dt>
+<dd><p>Write the metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>metadata:</strong></dt><dd><p>The metadata dict. Expected to contain a multiscales
+array and omero dict</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches">
+<span class="sig-name descname"><span class="pre">write_t_batches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="bioio.html#bioio.bio_image.BioImage" title="bioio.bio_image.BioImage"><span class="pre">BioImage</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter.write_t_batches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches" title="Link to this definition">¶</a></dt>
+<dd><p>Write the image in batches of T.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>im:</strong></dt><dd><p>The BioImage object.</p>
+</dd>
+<dt><strong>tbatch:</strong></dt><dd><p>The number of T to write at a time.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_array">
+<span class="sig-name descname"><span class="pre">write_t_batches_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">im</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter.write_t_batches_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_array" title="Link to this definition">¶</a></dt>
+<dd><p>Write the image in batches of T.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>im:</strong></dt><dd><p>An ArrayLike object. Should be 5D TCZYX.</p>
+</dd>
+<dt><strong>tbatch:</strong></dt><dd><p>The number of T to write at a time.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_image_sequence">
+<span class="sig-name descname"><span class="pre">write_t_batches_image_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#OmeZarrWriter.write_t_batches_image_sequence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_image_sequence" title="Link to this definition">¶</a></dt>
+<dd><p>Write the image in batches of T.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>paths:</strong></dt><dd><p>The list of file paths, one path per T.</p>
+</dd>
+<dt><strong>tbatch:</strong></dt><dd><p>The number of T to write at a time.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.ZarrLevel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">ZarrLevel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zarray</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">zarr.core.Array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#ZarrLevel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.ZarrLevel.chunk_size">
+<span class="sig-name descname"><span class="pre">chunk_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.chunk_size" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.ZarrLevel.dtype">
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.dtype" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.ZarrLevel.shape">
+<span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.shape" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.ZarrLevel.zarray">
+<span class="sig-name descname"><span class="pre">zarray</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Array</span></em><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.zarray" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.build_ome">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">build_ome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_minmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#build_ome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.build_ome" title="Link to this definition">¶</a></dt>
+<dd><p>Create the omero metadata for an OME zarr image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>size_z:</strong></dt><dd><p>Number of z planes</p>
+</dd>
+<dt><strong>image_name:</strong></dt><dd><p>The name of the image</p>
+</dd>
+<dt><strong>channel_names:</strong></dt><dd><p>The names for each channel.  Must be of correct length!</p>
+</dd>
+<dt><strong>channel_colors:</strong></dt><dd><p>List of all channel colors</p>
+</dd>
+<dt><strong>channel_minmax:</strong></dt><dd><p>List of all (min, max) pairs of channel intensities</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Dict</dt><dd><p>An “omero” metadata object suitable for writing to ome-zarr</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.chunk_size_from_memory_target">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">chunk_size_from_memory_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#chunk_size_from_memory_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.chunk_size_from_memory_target" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate chunk size from memory target in bytes.  The chunk size will be
+determined by considering a single T and C, and subdividing the remaining
+dims by 2 until the chunk fits within the size target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>shape:</strong></dt><dd><p>Shape of the array. Assumes a 5d TCZYX array.</p>
+</dd>
+<dt><strong>dtype:</strong></dt><dd><p>Data type of the array.</p>
+</dd>
+<dt><strong>memory_target:</strong></dt><dd><p>Memory target in bytes.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Chunk size tuple.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.compute_level_chunk_sizes_zslice">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">compute_level_chunk_sizes_zslice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shapes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#compute_level_chunk_sizes_zslice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.compute_level_chunk_sizes_zslice" title="Link to this definition">¶</a></dt>
+<dd><p>Convenience function to calculate chunk sizes for each of the input level
+shapes assuming that the shapes are TCZYX and we want the chunking to be
+per Z slice.  This code also assumes we are only downsampling in XY and
+leaving TCZ alone.  For many of our microscopy images so far, we have much
+more resolution in XY than in Z so this is a reasonable assumption.</p>
+<p>The first shape returned will always be (1,1,1,shapes[0][3],shapes[0][4])
+and the following will be a scaled number of slices scaled by the same
+factor as the successive shapes.</p>
+<p>This is an attempt to keep the total size of chunks the same across all
+levels, by increasing the number of slices for downsampled levels.
+This is making a basic assumption that each of the shapes is a downsampled
+version of the previous shape.</p>
+<p>For example, in a typical case, if the second level is scaled down by 1/2
+in X and Y, then the second chunk size will have 4x the number of slices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>shapes:</strong></dt><dd><p>List of all multiresolution level shapes</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>List of chunk sizes for per-slice chunking</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.compute_level_shapes">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">compute_level_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lvl0shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlevels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#compute_level_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.compute_level_shapes" title="Link to this definition">¶</a></dt>
+<dd><p>Calculate all multiresolution level shapes by repeatedly scaling.
+Minimum dimension size will always be 1.
+This will always return nlevels even if the levels become unreducible and
+have to repeat.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lvl0shape:</strong></dt><dd><p>Shape of the array. Assumes a 5d TCZYX tuple.</p>
+</dd>
+<dt><strong>scaling:</strong></dt><dd><p>Amount to scale each dimension by. Dims will be DIVIDED by
+these values.</p>
+</dd>
+<dt><strong>nlevels:</strong></dt><dd><p>Number of levels to return. The first level is the
+original lvl0shape.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>List of shapes of all nlevels.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.dim_tuple_to_dict">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">dim_tuple_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#dim_tuple_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.dim_tuple_to_dict" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.get_scale_ratio">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">get_scale_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#get_scale_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.get_scale_ratio" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bioio.writers.ome_zarr_writer_2.resize">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.ome_zarr_writer_2.</span></span><span class="sig-name descname"><span class="pre">resize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Array</span></span></span><a class="reference internal" href="_modules/bioio/writers/ome_zarr_writer_2.html#resize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.writers.ome_zarr_writer_2.resize" title="Link to this definition">¶</a></dt>
+<dd><p>Wrapped copy of “skimage.transform.resize”
+Resize image to match a certain size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image: :class:`dask.array`</strong></dt><dd><p>The dask array to resize</p>
+</dd>
+<dt><strong>output_shape: tuple</strong></dt><dd><p>The shape of the resize array</p>
+</dd>
+<dt><strong>*args: list</strong></dt><dd><p>Arguments of skimage.transform.resize</p>
+</dd>
+<dt><strong>**kwargs: dict</strong></dt><dd><p>Keyword arguments of skimage.transform.resize</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>Resized image.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -965,6 +1290,12 @@ order.</p>
 
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="bioio.writers.OmeZarrWriter2">
+<span class="sig-prename descclassname"><span class="pre">bioio.writers.</span></span><span class="sig-name descname"><span class="pre">OmeZarrWriter2</span></span><a class="headerlink" href="#bioio.writers.OmeZarrWriter2" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter" title="bioio.writers.ome_zarr_writer_2.OmeZarrWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">OmeZarrWriter</span></code></a></p>
+</dd></dl>
+
 </section>
 </section>
 
@@ -1041,6 +1372,32 @@ order.</p>
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-bioio.writers.ome_zarr_writer_2">bioio.writers.ome_zarr_writer_2 module</a><ul>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter</span></code></a><ul>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.generate_metadata"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.generate_metadata()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.init_store"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.init_store()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_metadata"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.write_metadata()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.write_t_batches()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_array"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.write_t_batches_array()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_image_sequence"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.write_t_batches_image_sequence()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel"><code class="docutils literal notranslate"><span class="pre">ZarrLevel</span></code></a><ul>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.chunk_size"><code class="docutils literal notranslate"><span class="pre">ZarrLevel.chunk_size</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.dtype"><code class="docutils literal notranslate"><span class="pre">ZarrLevel.dtype</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.shape"><code class="docutils literal notranslate"><span class="pre">ZarrLevel.shape</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.ZarrLevel.zarray"><code class="docutils literal notranslate"><span class="pre">ZarrLevel.zarray</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.build_ome"><code class="docutils literal notranslate"><span class="pre">build_ome()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.chunk_size_from_memory_target"><code class="docutils literal notranslate"><span class="pre">chunk_size_from_memory_target()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.compute_level_chunk_sizes_zslice"><code class="docutils literal notranslate"><span class="pre">compute_level_chunk_sizes_zslice()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.compute_level_shapes"><code class="docutils literal notranslate"><span class="pre">compute_level_shapes()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.dim_tuple_to_dict"><code class="docutils literal notranslate"><span class="pre">dim_tuple_to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.get_scale_ratio"><code class="docutils literal notranslate"><span class="pre">get_scale_ratio()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.writers.ome_zarr_writer_2.resize"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-bioio.writers.timeseries_writer">bioio.writers.timeseries_writer module</a><ul>
 <li><a class="reference internal" href="#bioio.writers.timeseries_writer.TimeseriesWriter"><code class="docutils literal notranslate"><span class="pre">TimeseriesWriter</span></code></a><ul>
 <li><a class="reference internal" href="#bioio.writers.timeseries_writer.TimeseriesWriter.DIM_ORDERS"><code class="docutils literal notranslate"><span class="pre">TimeseriesWriter.DIM_ORDERS</span></code></a></li>
@@ -1077,6 +1434,7 @@ order.</p>
 <li><a class="reference internal" href="#bioio.writers.OmeZarrWriter.write_image"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter.write_image()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#bioio.writers.OmeZarrWriter2"><code class="docutils literal notranslate"><span class="pre">OmeZarrWriter2</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1090,7 +1448,7 @@ order.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=3fc26011"></script>
+</div><script src="_static/documentation_options.js?v=41dc227d"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=4e2eecee"></script>

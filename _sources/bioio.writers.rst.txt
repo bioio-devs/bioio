@@ -20,6 +20,14 @@ bioio.writers.ome\_zarr\_writer module
    :undoc-members:
    :show-inheritance:
 
+bioio.writers.ome\_zarr\_writer\_2 module
+-----------------------------------------
+
+.. automodule:: bioio.writers.ome_zarr_writer_2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 bioio.writers.timeseries\_writer module
 ---------------------------------------
 

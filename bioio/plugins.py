@@ -233,6 +233,11 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
     # Save copy of plugins to cache then return
     plugins_by_ext_cache.clear()
     plugins_by_ext_cache.update(plugins_by_ext)
+
+    # Sort dict from longest to shortest key
+    plugins_by_ext = dict(
+        sorted(plugins_by_ext.items(), key=lambda x: len(x[0]), reverse=True)
+    )
     return plugins_by_ext
 
 

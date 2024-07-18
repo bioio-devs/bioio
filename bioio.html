@@ -5,12 +5,12 @@
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio.writers package" href="bioio.writers.html" /><link rel="prev" title="bioio" href="modules.html" />
 
-    <!-- Generated with Sphinx 7.3.7 and Furo 2024.05.06 -->
-        <title>bioio package - bioio 0.1.dev1+gd1d98c5 documentation</title>
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.07.18 -->
+        <title>bioio package - bioio 0.1.dev1+g4b7425a documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=613ab9ff" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     
     
 
@@ -89,19 +89,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -142,7 +129,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -180,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+gd1d98c5 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 0.1.dev1+g4b7425a documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -204,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+gd1d98c5 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g4b7425a documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -1137,6 +1124,19 @@ metadata for unit information.</p>
 <dt>reader: Reader</dt><dd><p>The object created to read the image file type.
 The intent is that if the BioImage class doesn’t provide a raw enough
 interface then the base class can be used directly.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="bioio.bio_image.BioImage.resolution_level_dims">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolution_level_dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.bio_image.BioImage.resolution_level_dims" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>resolution_level_dims: Dict[int, Tuple[int, …]]</dt><dd><p>resolution level dictionary of shapes.</p>
 </dd>
 </dl>
 </dd>
@@ -2223,6 +2223,19 @@ interface then the base class can be used directly.</p>
 </dd></dl>
 
 <dl class="py property">
+<dt class="sig sig-object py" id="bioio.BioImage.resolution_level_dims">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolution_level_dims</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.BioImage.resolution_level_dims" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>resolution_level_dims: Dict[int, Tuple[int, …]]</dt><dd><p>resolution level dictionary of shapes.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="bioio.BioImage.resolution_levels">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">resolution_levels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#bioio.BioImage.resolution_levels" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -2472,6 +2485,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.ome_metadata"><code class="docutils literal notranslate"><span class="pre">BioImage.ome_metadata</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">BioImage.physical_pixel_sizes</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.reader"><code class="docutils literal notranslate"><span class="pre">BioImage.reader</span></code></a></li>
+<li><a class="reference internal" href="#bioio.bio_image.BioImage.resolution_level_dims"><code class="docutils literal notranslate"><span class="pre">BioImage.resolution_level_dims</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.resolution_levels"><code class="docutils literal notranslate"><span class="pre">BioImage.resolution_levels</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.save"><code class="docutils literal notranslate"><span class="pre">BioImage.save()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.bio_image.BioImage.scenes"><code class="docutils literal notranslate"><span class="pre">BioImage.scenes</span></code></a></li>
@@ -2534,6 +2548,7 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 <li><a class="reference internal" href="#bioio.BioImage.ome_metadata"><code class="docutils literal notranslate"><span class="pre">BioImage.ome_metadata</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.physical_pixel_sizes"><code class="docutils literal notranslate"><span class="pre">BioImage.physical_pixel_sizes</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.reader"><code class="docutils literal notranslate"><span class="pre">BioImage.reader</span></code></a></li>
+<li><a class="reference internal" href="#bioio.BioImage.resolution_level_dims"><code class="docutils literal notranslate"><span class="pre">BioImage.resolution_level_dims</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.resolution_levels"><code class="docutils literal notranslate"><span class="pre">BioImage.resolution_levels</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.save"><code class="docutils literal notranslate"><span class="pre">BioImage.save()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.BioImage.scenes"><code class="docutils literal notranslate"><span class="pre">BioImage.scenes</span></code></a></li>
@@ -2557,10 +2572,10 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=41dc227d"></script>
+</div><script src="_static/documentation_options.js?v=105ac87c"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=30646c52"></script>
     </body>

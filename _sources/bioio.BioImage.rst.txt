@@ -48,6 +48,7 @@
       ~BioImage.ome_metadata
       ~BioImage.physical_pixel_sizes
       ~BioImage.reader
+      ~BioImage.resolution_level_dims
       ~BioImage.resolution_levels
       ~BioImage.scenes
       ~BioImage.shape

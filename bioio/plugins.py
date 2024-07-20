@@ -7,7 +7,6 @@ import sys
 from collections import OrderedDict
 from datetime import datetime
 from pathlib import Path
-from pprint import pprint
 from typing import get_args
 
 import semver
@@ -231,7 +230,6 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
                 # And worse can cause this plugin list to have multiple entries
                 # for the same extension (e.g. ".tif" and "tif")
                 if ext.startswith("."):
-                    print(f"Plugin: {plugin_entry} includes leading '.' in ext: {ext}")
                     ext = ext[1:]
 
                 # Start a new list of plugins for ext if it doesn't exist
@@ -242,12 +240,6 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
                 # insert in sorted order (sorted by most recently installed)
                 pluginlist = plugins_by_ext[ext]
                 insert_sorted_by_timestamp(pluginlist, plugin_entry)
-
-    print("Before sorting:")
-    pprint(plugins_by_ext)
-
-    print()
-    print()
 
     # Dictionary values (the lists of plugin entries) have already been sorted
     # by timestamp due to the "insert_sorted_by_timestamp" function
@@ -264,9 +256,6 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
             reverse=True,
         )
     )
-
-    print("After sorting:")
-    pprint(plugins_by_ext)
 
     # Save copy of plugins to cache then return
     plugins_by_ext_cache.clear()

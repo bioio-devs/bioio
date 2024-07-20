@@ -17,7 +17,7 @@ else:
     from importlib.metadata import entry_points, EntryPoint, requires
 
 import time
-from typing import Dict, List, NamedTuple, Optional, Tuple
+from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
@@ -38,9 +38,9 @@ class PluginEntry(NamedTuple):
 
 
 # global cache of plugins
-plugins_by_ext_cache: (
-    Dict[str, List[PluginEntry]] | OrderedDict[str, List[PluginEntry]]
-) = {}
+plugins_by_ext_cache: Union[
+    Dict[str, List[PluginEntry]], OrderedDict[str, List[PluginEntry]]
+] = {}
 
 
 def check_type(image: ImageLike, reader_class: Reader) -> bool:

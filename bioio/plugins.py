@@ -4,8 +4,10 @@
 import os
 import re
 import sys
+from collections import OrderedDict
 from datetime import datetime
 from pathlib import Path
+from pprint import pprint
 from typing import get_args
 
 import semver
@@ -37,7 +39,9 @@ class PluginEntry(NamedTuple):
 
 
 # global cache of plugins
-plugins_by_ext_cache: Dict[str, List[PluginEntry]] = {}
+plugins_by_ext_cache: (
+    Dict[str, List[PluginEntry]] | OrderedDict[str, List[PluginEntry]]
+) = {}
 
 
 def check_type(image: ImageLike, reader_class: Reader) -> bool:
@@ -222,6 +226,15 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
             # Add plugin entry
             plugin_entry = PluginEntry(plugin, reader_meta, timestamp)
             for ext in plugin_entry.metadata.get_supported_extensions():
+                # Always remove leading "." if there is one
+                # Some plugin authors may add it, but it's not necessary
+                # And worse can cause this plugin list to have multiple entries
+                # for the same extension (e.g. ".tif" and "tif")
+                if ext.startswith("."):
+                    print(f"Plugin: {plugin_entry} includes leading '.' in ext: {ext}")
+                    ext = ext[1:]
+
+                # Start a new list of plugins for ext if it doesn't exist
                 if ext not in plugins_by_ext:
                     plugins_by_ext[ext] = [plugin_entry]
                     continue
@@ -230,14 +243,35 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
                 pluginlist = plugins_by_ext[ext]
                 insert_sorted_by_timestamp(pluginlist, plugin_entry)
 
+    print("Before sorting:")
+    pprint(plugins_by_ext)
+
+    print()
+    print()
+
+    # Dictionary values (the lists of plugin entries) have already been sorted
+    # by timestamp due to the "insert_sorted_by_timestamp" function
+    # However, we further want to sort the dictionary keys (the extensions)
+    # by length so that longer extensions are checked first.
+    # We do not change the order of the plugins within each list.
+    plugins_by_ext = OrderedDict(
+        sorted(
+            # Get the key (suffix) and the value (list of plugins)
+            plugins_by_ext.items(),
+            # Sort by length of the key (suffix)
+            key=lambda ext_and_plugins: len(ext_and_plugins[0]),
+            # Reverse so that longer extensions are stored first
+            reverse=True,
+        )
+    )
+
+    print("After sorting:")
+    pprint(plugins_by_ext)
+
     # Save copy of plugins to cache then return
     plugins_by_ext_cache.clear()
     plugins_by_ext_cache.update(plugins_by_ext)
 
-    # Sort dict from longest to shortest key
-    plugins_by_ext = dict(
-        sorted(plugins_by_ext.items(), key=lambda x: len(x[0]), reverse=True)
-    )
     return plugins_by_ext
 
 

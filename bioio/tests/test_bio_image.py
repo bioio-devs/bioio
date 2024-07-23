@@ -27,6 +27,8 @@ from bioio_base.types import ImageLike
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
 
+from .conftest import DUMMY_PLUGIN
+
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
     with pytest.raises(biob.exceptions.UnsupportedFileFormatError):
@@ -84,11 +86,11 @@ def test_bioimage_submission_data_reader_type_alignment(
 
 
 def test_dump_plugins() -> None:
-    package_name = "bioio-czi"
+    package_name = "dummy-plugin"
 
     try:
         # Install the plugin
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", DUMMY_PLUGIN])
 
         # Reload the module to ensure it picks up the newly installed plugin
         importlib.reload(bioio)

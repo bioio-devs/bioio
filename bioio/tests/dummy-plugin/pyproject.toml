@@ -1,0 +1,101 @@
+# package build
+# https://peps.python.org/pep-0517/
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# package basics
+# https://peps.python.org/pep-0621/
+[project]
+name = "dummy-plugin"
+version = "0.1.0"
+description = "This is a dummy plugin for testing purposes"
+keywords = []
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "dummy-license" }
+authors = [
+  { email = "dummy-email@example.com", name = "dummy-name" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Natural Language :: English",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+  "bioio-base>=0.2.0",
+]
+
+# extra dependencies
+# https://peps.python.org/pep-0621/#dependencies-optional-dependencies
+[project.optional-dependencies]
+lint = [
+  "pre-commit>=2.20.0",
+]
+test = [
+  "coverage>=5.1",
+  "pytest>=5.4.3",
+  "pytest-cov>=2.9.0",
+  "pytest-raises>=0.11",
+]
+
+# entry points
+# https://peps.python.org/pep-0621/#entry-points
+[project.entry-points."bioio.readers"]
+dummy-plugin = "dummy_plugin"
+
+# build settings
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["*docs/*", "*tests/*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "py.typed"]
+
+# tools
+[tool.black]
+line-length = 88
+
+[tool.isort]
+ensure_newline_before_comments = true
+force_grid_wrap = 0
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+profile = "black"
+use_parentheses = true
+
+# https://github.com/mgedmin/check-manifest#configuration
+[tool.check-manifest]
+ignore = [
+  ".editorconfig",
+  ".pre-commit-config.yaml",
+  "CODE_OF_CONDUCT.md",
+  "CONTRIBUTING.md",
+  "Justfile",
+  ".cookiecutter.yaml",
+  "*docs/*",
+]
+
+[tool.mypy]
+files = "dummy-plugin/*.py"
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+show_error_codes = true
+
+# https://flake8.pycqa.org/en/latest/user/options.html
+# https://gitlab.com/durko/flake8-pyprojecttoml
+[tool.flake8]
+max-line-length = 88
+ignore = "E203,E402,W291,W503"
+min-python-version = "3.9.0"
+per-file-ignores = [
+  "__init__.py:F401",
+]

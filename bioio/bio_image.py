@@ -1280,10 +1280,10 @@ def plugin_feasibility_report(
 
     # Log feasibility report in a readable format
     print("Feasibility Report Summary:")
-    for plugin, status in feasibility_report.items():
+    for name, status in feasibility_report.items():
         if status["error"] is not None:
-            print(f"{plugin}: Unsupported - Error: {status['error']}")
+            print(f"{name}: Unsupported - Error: {status['error']}")
         else:
-            print(f"{plugin}: {'Supported' if status['supported'] else 'Unsupported'}")
+            print(f"{name}: {'Supported' if status['supported'] else 'Unsupported'}")
 
     return feasibility_report

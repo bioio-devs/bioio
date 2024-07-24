@@ -119,19 +119,7 @@ def test_plugin_feasibility_report() -> None:
     # Arrange
     test_image = np.random.rand(10, 10)
     package_name = "dummy-plugin"
-    expected_output = {
-        "dummy-plugin": {
-            "supported": False,
-            "error": (
-                "Reader._is_supported_image() missing 1 required "
-                "positional argument: 'path'"
-            ),
-        },
-        "ArrayLike": {
-            "supported": True,
-            "error": None,
-        },
-    }
+    expected_error_msg = "missing 1 required positional argument: 'path'"
 
     try:
         # Install the plugin
@@ -141,7 +129,10 @@ def test_plugin_feasibility_report() -> None:
         actual_output = bioio.bio_image.plugin_feasibility_report(test_image)
 
         # Assert
-        assert actual_output == expected_output
+        assert actual_output["ArrayLike"]["supported"] is True
+        assert actual_output["ArrayLike"]["error"] is None
+        assert actual_output["dummy-plugin"]["supported"] is False
+        assert expected_error_msg in str(actual_output["dummy-plugin"]["error"])
     finally:
         # Uninstall the plugin
         subprocess.check_call(

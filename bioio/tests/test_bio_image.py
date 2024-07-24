@@ -113,3 +113,37 @@ def test_dump_plugins() -> None:
         subprocess.check_call(
             [sys.executable, "-m", "pip", "uninstall", "-y", package_name]
         )
+
+
+def test_plugin_feasibility_report() -> None:
+    # Arrange
+    test_image = np.random.rand(10, 10)
+    package_name = "dummy-plugin"
+    expected_output = {
+        "dummy-plugin": {
+            "supported": False,
+            "error": (
+                "Reader._is_supported_image() missing 1 required "
+                "positional argument: 'path'"
+            ),
+        },
+        "ArrayLike": {
+            "supported": True,
+            "error": None,
+        },
+    }
+
+    try:
+        # Install the plugin
+        subprocess.check_call([sys.executable, "-m", "pip", "install", DUMMY_PLUGIN])
+
+        # Act
+        actual_output = bioio.bio_image.plugin_feasibility_report(test_image)
+
+        # Assert
+        assert actual_output == expected_output
+    finally:
+        # Uninstall the plugin
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "uninstall", "-y", package_name]
+        )

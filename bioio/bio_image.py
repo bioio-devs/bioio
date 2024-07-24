@@ -1245,7 +1245,7 @@ def _check_plugin_support(
             "error": None,
         }
     except Exception as e:
-        return {"supported": False, "error": e}
+        return {"supported": False, "error": str(e)}
 
 
 def plugin_feasibility_report(
@@ -1276,7 +1276,7 @@ def plugin_feasibility_report(
             "error": None,
         }
     except Exception as e:
-        feasibility_report["ArrayLike"] = {"supported": False, "error": e}
+        feasibility_report["ArrayLike"] = {"supported": False, "error": str(e)}
 
     # Log feasibility report in a readable format
     print("Feasibility Report Summary:")

@@ -134,19 +134,72 @@ class BioImage(biob.image_container.ImageContainer):
         **kwargs: Any,
     ) -> PluginEntry:
         """
-        Cheaply check to see if a given file is a recognized type and return the
-        appropriate reader for the image.
+        Determine the appropriate plugin to read a given image.
+
+        This function identifies the most suitable plugin to read the provided image
+        based on its type or file extension. It leverages the installed plugins for
+        `bioio`, each of which supports a subset of image formats. If a suitable
+        plugin is found, it is returned; otherwise, an error is raised.
+
+        Parameters
+        ----------
+        image : biob.types.ImageLike
+            The image to be read. This can be a file path (str or Path) or
+            an array-like object (e.g., numpy array).
+        fs_kwargs : Dict[str, Any], optional
+            Additional keyword arguments to be passed to the file system handler.
+        use_plugin_cache : bool, optional
+            Whether to use a cached version of the plugin mapping, by default False.
+        **kwargs : Any
+            Additional keyword arguments for plugin-specific configurations.
 
         Returns
         -------
-        PluginEntry: PluginEntry(NamedTuple)
-            A wrapper of release information and reader refrences for an individual
-            plugin.
+        PluginEntry
+            A `PluginEntry` NamedTuple which is a wrapper of release information and
+            reader references for an individual plugin.
 
         Raises
         ------
         exceptions.UnsupportedFileFormatError
-            No reader could be found that supports the provided image.
+            Raised if no suitable reader plugin can be found for the provided image.
+
+        Notes
+        -----
+        This function performs the following steps:
+        1. Fetches an updated mapping of available plugins,
+           optionally using a cached version.
+        2. If the `image` is a file path (str or Path), it checks for a matching
+           plugin based on the file extension.
+        3. If the `image` is an array-like object, it attempts to use the
+           built-in `ArrayLikeReader`.
+        4. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
+
+        Examples
+        --------
+        To determine the appropriate plugin for a given image file:
+
+        >>> image_path = "example_image.tif"
+        >>> plugin = determine_plugin(image_path)
+        >>> print(plugin)
+
+        To determine the appropriate plugin for an array-like image:
+
+        >>> import numpy as np
+        >>> image_array = np.random.random((5, 5, 5))
+        >>> plugin = determine_plugin(image_array)
+        >>> print(plugin)
+
+        Implementation Details
+        ----------------------
+        - The function first converts the image to a string representation.
+        - If the image is a file path, it verifies the path and checks the file
+          extension against the known plugins.
+        - For each matching plugin, it tries to instantiate a reader and checks
+          if it supports the image.
+        - If the image is array-like, it uses a built-in reader designed for
+          such objects.
+        - Detailed logging is provided for troubleshooting purposes.
         """
         # Fetch updated mapping of plugins
         plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
@@ -1174,3 +1227,63 @@ def imread(
         np.ndarray.
     """
     return _construct_img(image, scene_id, **kwargs).data
+
+
+from typing import Any, Dict
+
+
+def _check_plugin_support(
+    plugin: PluginEntry, image: biob.types.ImageLike, fs_kwargs: Dict[str, Any] = {}
+) -> Dict[str, Union[bool, Any]]:
+    """Helper function to check if a plugin supports the given image."""
+    try:
+        ReaderClass = plugin.metadata.get_reader()
+        return {
+            "supported": ReaderClass.is_supported_image(
+                image=image, fs_kwargs=fs_kwargs
+            ),
+            "error": None,
+        }
+    except Exception as e:
+        return {"supported": False, "error": e}
+
+
+def plugin_feasibility_report(
+    image: biob.types.ImageLike,
+    fs_kwargs: Dict[str, Any] = {},
+    use_plugin_cache: bool = False,
+    **kwargs: Any,
+) -> Dict[str, Dict[str, Union[bool, Any]]]:
+    """
+    Generate a feasibility report for each plugin,
+    determining if it can handle the specified image.
+    """
+    plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
+    feasibility_report = {}
+
+    # Check each plugin for support
+    for plugins in plugins_by_ext.values():
+        for plugin in plugins:
+            plugin_name = plugin.entrypoint.name
+            feasibility_report[plugin_name] = _check_plugin_support(
+                plugin, image, fs_kwargs
+            )
+
+    # Additional check for ArrayLike support
+    try:
+        feasibility_report["ArrayLike"] = {
+            "supported": isinstance(image, get_args(MetaArrayLike) + (list,)),
+            "error": None,
+        }
+    except Exception as e:
+        feasibility_report["ArrayLike"] = {"supported": False, "error": e}
+
+    # Log feasibility report in a readable format
+    print("Feasibility Report Summary:")
+    for plugin, status in feasibility_report.items():
+        if status["error"] is not None:
+            print(f"{plugin}: Unsupported - Error: {status['error']}")
+        else:
+            print(f"{plugin}: {'Supported' if status['supported'] else 'Unsupported'}")
+
+    return feasibility_report

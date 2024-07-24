@@ -4,10 +4,17 @@
 import pathlib
 import sys
 
+import bioio
+
 if sys.version_info < (3, 10):
     from importlib_metadata import EntryPoint
 else:
     from importlib.metadata import EntryPoint
+
+import importlib
+import subprocess
+import sys
+from io import StringIO
 
 import bioio_base as biob
 import numpy as np
@@ -19,6 +26,9 @@ from bioio_base.types import ImageLike
 
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
+
+from ..plugins import dump_plugins
+from .conftest import DUMMY_PLUGIN
 
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
@@ -74,3 +84,32 @@ def test_bioimage_submission_data_reader_type_alignment(
 ) -> None:
     with pytest.raises(expected_exception):
         BioImage(image, reader=reader_class)
+
+
+def test_dump_plugins() -> None:
+    package_name = "dummy-plugin"
+
+    try:
+        # Install the plugin
+        subprocess.check_call([sys.executable, "-m", "pip", "install", DUMMY_PLUGIN])
+
+        # Reload the module to ensure it picks up the newly installed plugin
+        importlib.reload(bioio)
+
+        # Capture the output of dump_plugins
+        old_stdout = sys.stdout
+        sys.stdout = StringIO()
+        try:
+            dump_plugins()
+            output = sys.stdout.getvalue()
+        finally:
+            sys.stdout = old_stdout
+
+        # Check if package name is in the output
+        assert package_name in output
+
+    finally:
+        # Uninstall the plugin
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "uninstall", "-y", package_name]
+        )

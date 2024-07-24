@@ -47,6 +47,33 @@ img.set_scene(1)
 # Use the same operations on a different scene
 # ...
 ```
+## Plug-in Registry
+
+Bioio handles a variety of different image types through specific plug-ins. The bioio-dev supported plug-ins can be found within
+this registry.
+
+
+| Plug-in                 | Extension   | Documentation       | Repository          |
+|------------------------|-------------|---------------------|---------------------|
+| arraylike              | [ArrayLike](https://github.com/bioio-devs/bioio-base/blob/9ff0a17a20d09b1b11639d149b1e71801c9d68d8/bioio_base/types.py#L15)  | [Docs](#)               | Built-In           |
+| bioio-czi              | .czi            | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-czi)           |
+| bioio-dv               | .dv, .r3d       | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-dv)           |
+| bioio-imageio          | .jpg, .png, [Full List](https://github.com/bioio-devs/bioio-imageio/blob/6829370644b9780cfde35fa9d2cd5cea9f743681/bioio_imageio/reader_metadata.py#L26)      | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-imageio)           |
+| bioio-lif              | .lif            | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-lif)           |
+| bioio-nd2              | .nd2            | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-nd2)           |
+| bioio-ome-tiff         | .ome.tiff, .tiff    | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-ome-tiff)           |
+| bioio-ome-tiled-tiff	 | .tiles.ome.tif     | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-ome-tiled-tiff)           |
+| bioio-ome-zarr         | .zarr           | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)           |
+| bioio-sldy             | .sldy, .dir     | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-sldy)           |
+| bioio-tifffile         | .tif , .tiff    | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-tifffile)           |
+| bioio-tiff-glob        | .tiff (glob)    | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-tiff-glob)           |
+| bioio-bioformats       | [Full List](https://github.com/bioio-devs/bioio-bioformats/blob/175399d10d64194adcc7a6048c7b7537591824de/bioio_bioformats/reader_metadata.py#L24)     | [Docs](#)           | [Repo](https://github.com/bioio-devs/bioio-bioformats)           |
+
+
 
 ## Issues
 [_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)
+
+
+
+

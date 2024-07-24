@@ -27,6 +27,7 @@ from bioio_base.types import ImageLike
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
 
+from ..plugins import dump_plugins
 from .conftest import DUMMY_PLUGIN
 
 
@@ -99,7 +100,7 @@ def test_dump_plugins() -> None:
         old_stdout = sys.stdout
         sys.stdout = StringIO()
         try:
-            bioio.plugins.dump_plugins()
+            dump_plugins()
             output = sys.stdout.getvalue()
         finally:
             sys.stdout = old_stdout

@@ -252,10 +252,10 @@ def dump_plugins() -> None:
         # Unpack dist
         dist = ep.dist
         if dist is not None:
-            author = dist.metadata.get("author")
-            license = dist.metadata.get("license")
+            author = dist.metadata.json.get("author")
+            license = dist.metadata.json.get("license")
 
-            print(f'  Author : {author if author is not None else "Not Specified"}')
+            print(f'  Author  : {author if author is not None else "Not Specified"}')
             print(f"  Version : {dist.version}")
             print(f'  License : {license if license is not None else "Not Specified"}')
 

@@ -11,8 +11,6 @@ if sys.version_info < (3, 10):
 else:
     from importlib.metadata import EntryPoint
 
-import importlib
-import subprocess
 import sys
 from io import StringIO
 
@@ -28,7 +26,7 @@ from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
 
 from ..plugins import dump_plugins
-from .conftest import DUMMY_PLUGIN
+from .conftest import DUMMY_PLUGIN_NAME, DUMMY_PLUGIN_PATH, InstallPackage
 
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
@@ -87,15 +85,7 @@ def test_bioimage_submission_data_reader_type_alignment(
 
 
 def test_dump_plugins() -> None:
-    package_name = "dummy-plugin"
-
-    try:
-        # Install the plugin
-        subprocess.check_call([sys.executable, "-m", "pip", "install", DUMMY_PLUGIN])
-
-        # Reload the module to ensure it picks up the newly installed plugin
-        importlib.reload(bioio)
-
+    with InstallPackage(package_path=DUMMY_PLUGIN_PATH, package_name=DUMMY_PLUGIN_NAME):
         # Capture the output of dump_plugins
         old_stdout = sys.stdout
         sys.stdout = StringIO()
@@ -106,35 +96,18 @@ def test_dump_plugins() -> None:
             sys.stdout = old_stdout
 
         # Check if package name is in the output
-        assert package_name in output
-
-    finally:
-        # Uninstall the plugin
-        subprocess.check_call(
-            [sys.executable, "-m", "pip", "uninstall", "-y", package_name]
-        )
+        assert DUMMY_PLUGIN_NAME in output
 
 
 def test_plugin_feasibility_report() -> None:
     # Arrange
     test_image = np.random.rand(10, 10)
-    package_name = "dummy-plugin"
     expected_error_msg = "missing 1 required positional argument: 'path'"
-
-    try:
-        # Install the plugin
-        subprocess.check_call([sys.executable, "-m", "pip", "install", DUMMY_PLUGIN])
-
+    with InstallPackage(package_path=DUMMY_PLUGIN_PATH, package_name=DUMMY_PLUGIN_NAME):
         # Act
         actual_output = bioio.bio_image.plugin_feasibility_report(test_image)
-
         # Assert
-        assert actual_output["ArrayLike"]["supported"] is True
-        assert actual_output["ArrayLike"]["error"] is None
-        assert actual_output["dummy-plugin"]["supported"] is False
-        assert expected_error_msg in str(actual_output["dummy-plugin"]["error"])
-    finally:
-        # Uninstall the plugin
-        subprocess.check_call(
-            [sys.executable, "-m", "pip", "uninstall", "-y", package_name]
-        )
+        assert actual_output["ArrayLike"].supported is True
+        assert actual_output["ArrayLike"].error is None
+        assert actual_output["dummy-plugin"].supported is False
+        assert expected_error_msg in (actual_output["dummy-plugin"].error or "")

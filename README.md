@@ -69,11 +69,7 @@ this registry.
 | bioio-tiff-glob        | .tiff (glob)| [Repo](https://github.com/bioio-devs/bioio-tiff-glob)           |
 | bioio-bioformats       | [Full List](https://github.com/bioio-devs/bioio-bioformats/blob/175399d10d64194adcc7a6048c7b7537591824de/bioio_bioformats/reader_metadata.py#L24) | [Repo](https://github.com/bioio-devs/bioio-bioformats)           |
 
-Each reader plugin should closely follow the specification laid out in `bioio-base`. As such, it is likely common that reader plugins won't distribution their own documentation and users should instead review  [`bioio_base.reader.Reader`](https://bioio-devs.github.io/bioio-base/bioio_base.html#bioio_base.reader.Reader) for API documentation for the underlying Reader API. We encourage plugin authors to publish their own documentation if they change or include new features into their published image readers.
+Each reader plugin should closely follow the specification laid out in `bioio-base`. As such, it is likely common that reader plugins won't distribute their own documentation and users should instead review  [`bioio_base.reader.Reader`](https://bioio-devs.github.io/bioio-base/bioio_base.html#bioio_base.reader.Reader) for API documentation for the underlying Reader API. We encourage plugin authors to publish their own documentation if they change or include new features into their published image readers.
 
 ## Issues
 [_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)
-
-
-
-

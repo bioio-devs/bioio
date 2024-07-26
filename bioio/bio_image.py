@@ -251,7 +251,12 @@ class BioImage(biob.image_container.ImageContainer):
             image_str,
             msg_extra=(
                 "You may need to install an extra format dependency. "
-                "See bioio README for list of some known plugins."
+                "See plug-in registry in the bioio README Here: "
+                "https://github.com/bioio-devs/bioio for a list of known plugins. "
+                "You can also call the 'bioio.plugins.dump_plugins()' method to "
+                "report information about currently installed plugins or the "
+                "'bioio.plugin_feasibility_report(image)' method to check if a "
+                "specific image can be handled by the available plugins."
             ),
         )
 

@@ -4,7 +4,7 @@
 
 from importlib.metadata import PackageNotFoundError, version
 
-from .bio_image import BioImage
+from .bio_image import BioImage, plugin_feasibility_report
 
 try:
     __version__ = version("bioio")
@@ -16,4 +16,5 @@ __email__ = "evamaxfieldbrown@gmail.com, danielt@alleninstitute.org"
 
 __all__ = [
     "BioImage",
+    "plugin_feasibility_report",
 ]

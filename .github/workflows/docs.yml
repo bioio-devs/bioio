@@ -11,6 +11,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          # We use https://pypi.org/project/setuptools-scm/ for dynamic lib versioning
+          # Without our tagged versions, it defaults to 0.1.dev*
+          fetch-tags: true
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

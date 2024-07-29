@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.07.18 -->
-        <title>bioio.plugins - bioio 0.1.dev1+ge530bf7 documentation</title>
+        <title>bioio.plugins - bioio 0.1.dev1+g670303a documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=613ab9ff" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+ge530bf7 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g670303a documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+ge530bf7 documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g670303a documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -263,12 +263,14 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">get_args</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">get_args</span>
 
 <span class="kn">import</span> <span class="nn">semver</span>
 
@@ -285,6 +287,10 @@
 <span class="kn">from</span> <span class="nn">bioio_base.types</span> <span class="kn">import</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">PathLike</span>
 
 <span class="kn">from</span> <span class="nn">.array_like_reader</span> <span class="kn">import</span> <span class="n">ArrayLikeReader</span><span class="p">,</span> <span class="n">ArrayLikeReaderMetadata</span>
+
+<span class="c1">###############################################################################</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="c1">###############################################################################</span>
 
@@ -562,6 +568,71 @@
         <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plugins</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
+
+
+<div class="viewcode-block" id="PluginSupport">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginSupport">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">PluginSupport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dataclass for reporting a plugins support for a specific image.&quot;&quot;&quot;</span>
+
+    <span class="n">supported</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_check_plugin_support</span><span class="p">(</span>
+    <span class="n">plugin</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginSupport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to check if a plugin supports the given image.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
+        <span class="n">supported</span> <span class="o">=</span> <span class="n">ReaderClass</span><span class="o">.</span><span class="n">is_supported_image</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="n">supported</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="plugin_feasibility_report">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.plugin_feasibility_report">[docs]</a>
+<span class="k">def</span> <span class="nf">plugin_feasibility_report</span><span class="p">(</span>
+    <span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span>
+    <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">use_plugin_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PluginSupport</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a feasibility report for each plugin,</span>
+<span class="sd">    determining if it can handle the specified image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">)</span>
+    <span class="n">feasibility_report</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Check each plugin for support</span>
+    <span class="k">for</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+            <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">feasibility_report</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_check_plugin_support</span><span class="p">(</span>
+                <span class="n">plugin</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Additional check for ArrayLike support</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">supported</span> <span class="o">=</span> <span class="n">ArrayLikeReader</span><span class="o">.</span><span class="n">is_supported_image</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">)</span>
+        <span class="n">feasibility_report</span><span class="p">[</span><span class="s2">&quot;ArrayLike&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="n">supported</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">feasibility_report</span><span class="p">[</span><span class="s2">&quot;ArrayLike&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="c1"># Log feasibility report in a readable format</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feasibility Report Summary:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">feasibility_report</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">status</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Unsupported - Error: </span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;Supported&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">status</span><span class="o">.</span><span class="n">supported</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Unsupported&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">feasibility_report</span></div>
+
 </pre></div>
         </article>
       </div>
@@ -594,7 +665,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=6987ffd7"></script>
+</div><script src="../../_static/documentation_options.js?v=ae60eab0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

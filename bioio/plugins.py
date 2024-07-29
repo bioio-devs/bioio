@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 import os
 import re
 import sys
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import get_args
+from typing import Any, get_args
 
 import semver
 
@@ -23,6 +25,10 @@ from bioio_base.reader_metadata import ReaderMetadata
 from bioio_base.types import ArrayLike, ImageLike, PathLike
 
 from .array_like_reader import ArrayLikeReader, ArrayLikeReaderMetadata
+
+###############################################################################
+
+log = logging.getLogger(__name__)
 
 ###############################################################################
 
@@ -279,3 +285,62 @@ def dump_plugins() -> None:
     for ext in sorted_exts:
         plugins = plugins_by_ext[ext]
         print(f"{ext}: {plugins}")
+
+
+@dataclass
+class PluginSupport:
+    """Dataclass for reporting a plugins support for a specific image."""
+
+    supported: bool
+    error: Optional[str]
+
+
+def _check_plugin_support(
+    plugin: PluginEntry, image: ImageLike, fs_kwargs: Dict[str, Any] = {}
+) -> PluginSupport:
+    """Helper function to check if a plugin supports the given image."""
+    try:
+        ReaderClass = plugin.metadata.get_reader()
+        supported = ReaderClass.is_supported_image(image=image, fs_kwargs=fs_kwargs)
+        return PluginSupport(supported=supported, error=None)
+    except Exception as e:
+        return PluginSupport(supported=False, error=str(e))
+
+
+def plugin_feasibility_report(
+    image: ImageLike,
+    fs_kwargs: Dict[str, Any] = {},
+    use_plugin_cache: bool = False,
+    **kwargs: Any,
+) -> Dict[str, PluginSupport]:
+    """
+    Generate a feasibility report for each plugin,
+    determining if it can handle the specified image.
+    """
+    plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
+    feasibility_report = {}
+
+    # Check each plugin for support
+    for plugins in plugins_by_ext.values():
+        for plugin in plugins:
+            plugin_name = plugin.entrypoint.name
+            feasibility_report[plugin_name] = _check_plugin_support(
+                plugin, image, fs_kwargs
+            )
+
+    # Additional check for ArrayLike support
+    try:
+        supported = ArrayLikeReader.is_supported_image(image=image, fs_kwargs=fs_kwargs)
+        feasibility_report["ArrayLike"] = PluginSupport(supported=supported, error=None)
+    except Exception as e:
+        feasibility_report["ArrayLike"] = PluginSupport(supported=False, error=str(e))
+
+    # Log feasibility report in a readable format
+    log.info("Feasibility Report Summary:")
+    for name, status in feasibility_report.items():
+        if status.error is not None:
+            log.info(f"{name}: Unsupported - Error: {status.error}")
+        else:
+            log.info(f"{name}: {'Supported' if status.supported else 'Unsupported'}")
+
+    return feasibility_report

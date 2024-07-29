@@ -134,19 +134,72 @@ class BioImage(biob.image_container.ImageContainer):
         **kwargs: Any,
     ) -> PluginEntry:
         """
-        Cheaply check to see if a given file is a recognized type and return the
-        appropriate reader for the image.
+        Determine the appropriate plugin to read a given image.
+
+        This function identifies the most suitable plugin to read the provided image
+        based on its type or file extension. It leverages the installed plugins for
+        `bioio`, each of which supports a subset of image formats. If a suitable
+        plugin is found, it is returned; otherwise, an error is raised.
+
+        Parameters
+        ----------
+        image : biob.types.ImageLike
+            The image to be read. This can be a file path (str or Path) or
+            an array-like object (e.g., numpy array).
+        fs_kwargs : Dict[str, Any], optional
+            Additional keyword arguments to be passed to the file system handler.
+        use_plugin_cache : bool, optional
+            Whether to use a cached version of the plugin mapping, by default False.
+        **kwargs : Any
+            Additional keyword arguments for plugin-specific configurations.
 
         Returns
         -------
-        PluginEntry: PluginEntry(NamedTuple)
-            A wrapper of release information and reader refrences for an individual
-            plugin.
+        PluginEntry
+            A `PluginEntry` NamedTuple which is a wrapper of release information and
+            reader references for an individual plugin.
 
         Raises
         ------
         exceptions.UnsupportedFileFormatError
-            No reader could be found that supports the provided image.
+            Raised if no suitable reader plugin can be found for the provided image.
+
+        Notes
+        -----
+        This function performs the following steps:
+        1. Fetches an updated mapping of available plugins,
+           optionally using a cached version.
+        2. If the `image` is a file path (str or Path), it checks for a matching
+           plugin based on the file extension.
+        3. If the `image` is an array-like object, it attempts to use the
+           built-in `ArrayLikeReader`.
+        4. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
+
+        Examples
+        --------
+        To determine the appropriate plugin for a given image file:
+
+        >>> image_path = "example_image.tif"
+        >>> plugin = determine_plugin(image_path)
+        >>> print(plugin)
+
+        To determine the appropriate plugin for an array-like image:
+
+        >>> import numpy as np
+        >>> image_array = np.random.random((5, 5, 5))
+        >>> plugin = determine_plugin(image_array)
+        >>> print(plugin)
+
+        Implementation Details
+        ----------------------
+        - The function first converts the image to a string representation.
+        - If the image is a file path, it verifies the path and checks the file
+          extension against the known plugins.
+        - For each matching plugin, it tries to instantiate a reader and checks
+          if it supports the image.
+        - If the image is array-like, it uses a built-in reader designed for
+          such objects.
+        - Detailed logging is provided for troubleshooting purposes.
         """
         # Fetch updated mapping of plugins
         plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
@@ -196,7 +249,12 @@ class BioImage(biob.image_container.ImageContainer):
             image_str,
             msg_extra=(
                 "You may need to install an extra format dependency. "
-                "See bioio README for list of some known plugins."
+                "See our list of known plugins in the bioio README here: "
+                "https://github.com/bioio-devs/bioio for a list of known plugins. "
+                "You can also call the 'bioio.plugins.dump_plugins()' method to "
+                "report information about currently installed plugins or the "
+                "'bioio.plugin_feasibility_report(image)' method to check if a "
+                "specific image can be handled by the available plugins."
             ),
         )
 

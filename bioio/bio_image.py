@@ -3,7 +3,6 @@
 
 import datetime
 import logging
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Type, Union, get_args
 
@@ -14,7 +13,6 @@ import xarray as xr
 from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
-from .array_like_reader import ArrayLikeReader
 from .ome_utils import generate_ome_channel_id
 from .plugins import PluginEntry, check_type, get_array_like_plugin, get_plugins
 
@@ -1234,62 +1232,3 @@ def imread(
         np.ndarray.
     """
     return _construct_img(image, scene_id, **kwargs).data
-
-
-@dataclass
-class PluginSupport:
-    """Dataclass for reporting a plugins support for a specific image."""
-
-    supported: bool
-    error: Optional[str]
-
-
-def _check_plugin_support(
-    plugin: PluginEntry, image: biob.types.ImageLike, fs_kwargs: Dict[str, Any] = {}
-) -> PluginSupport:
-    """Helper function to check if a plugin supports the given image."""
-    try:
-        ReaderClass = plugin.metadata.get_reader()
-        supported = ReaderClass.is_supported_image(image=image, fs_kwargs=fs_kwargs)
-        return PluginSupport(supported=supported, error=None)
-    except Exception as e:
-        return PluginSupport(supported=False, error=str(e))
-
-
-def plugin_feasibility_report(
-    image: biob.types.ImageLike,
-    fs_kwargs: Dict[str, Any] = {},
-    use_plugin_cache: bool = False,
-    **kwargs: Any,
-) -> Dict[str, PluginSupport]:
-    """
-    Generate a feasibility report for each plugin,
-    determining if it can handle the specified image.
-    """
-    plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
-    feasibility_report = {}
-
-    # Check each plugin for support
-    for plugins in plugins_by_ext.values():
-        for plugin in plugins:
-            plugin_name = plugin.entrypoint.name
-            feasibility_report[plugin_name] = _check_plugin_support(
-                plugin, image, fs_kwargs
-            )
-
-    # Additional check for ArrayLike support
-    try:
-        supported = ArrayLikeReader.is_supported_image(image=image, fs_kwargs=fs_kwargs)
-        feasibility_report["ArrayLike"] = PluginSupport(supported=supported, error=None)
-    except Exception as e:
-        feasibility_report["ArrayLike"] = PluginSupport(supported=False, error=str(e))
-
-    # Log feasibility report in a readable format
-    print("Feasibility Report Summary:")
-    for name, status in feasibility_report.items():
-        if status.error is not None:
-            print(f"{name}: Unsupported - Error: {status.error}")
-        else:
-            print(f"{name}: {'Supported' if status.supported else 'Unsupported'}")
-
-    return feasibility_report

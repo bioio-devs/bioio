@@ -4,7 +4,8 @@
 
 from importlib.metadata import PackageNotFoundError, version
 
-from .bio_image import BioImage, plugin_feasibility_report
+from .bio_image import BioImage
+from .plugins import plugin_feasibility_report
 
 try:
     __version__ = version("bioio")

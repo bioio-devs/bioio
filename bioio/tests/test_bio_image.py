@@ -4,15 +4,10 @@
 import pathlib
 import sys
 
-import bioio
-
 if sys.version_info < (3, 10):
     from importlib_metadata import EntryPoint
 else:
     from importlib.metadata import EntryPoint
-
-import sys
-from io import StringIO
 
 import bioio_base as biob
 import numpy as np
@@ -24,9 +19,6 @@ from bioio_base.types import ImageLike
 
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
-
-from ..plugins import dump_plugins
-from .conftest import DUMMY_PLUGIN_NAME, DUMMY_PLUGIN_PATH, InstallPackage
 
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
@@ -82,32 +74,3 @@ def test_bioimage_submission_data_reader_type_alignment(
 ) -> None:
     with pytest.raises(expected_exception):
         BioImage(image, reader=reader_class)
-
-
-def test_dump_plugins() -> None:
-    with InstallPackage(package_path=DUMMY_PLUGIN_PATH, package_name=DUMMY_PLUGIN_NAME):
-        # Capture the output of dump_plugins
-        old_stdout = sys.stdout
-        sys.stdout = StringIO()
-        try:
-            dump_plugins()
-            output = sys.stdout.getvalue()
-        finally:
-            sys.stdout = old_stdout
-
-        # Check if package name is in the output
-        assert DUMMY_PLUGIN_NAME in output
-
-
-def test_plugin_feasibility_report() -> None:
-    # Arrange
-    test_image = np.random.rand(10, 10)
-    expected_error_msg = "missing 1 required positional argument: 'path'"
-    with InstallPackage(package_path=DUMMY_PLUGIN_PATH, package_name=DUMMY_PLUGIN_NAME):
-        # Act
-        actual_output = bioio.bio_image.plugin_feasibility_report(test_image)
-        # Assert
-        assert actual_output["ArrayLike"].supported is True
-        assert actual_output["ArrayLike"].error is None
-        assert actual_output["dummy-plugin"].supported is False
-        assert expected_error_msg in (actual_output["dummy-plugin"].error or "")

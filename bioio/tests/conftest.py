@@ -15,14 +15,18 @@ read the file once then use the loaded content.
 Docs: https://docs.pytest.org/en/latest/example/simple.html
       https://docs.pytest.org/en/latest/plugins.html#requiring-loading-plugins-in-a-test-module-or-conftest-file
 """
-
+import importlib
 import logging
 import pathlib
+import subprocess
+import sys
 import typing
 
 import dask.array as da
 import numpy as np
 import pytest
+
+import bioio
 
 ###############################################################################
 
@@ -53,3 +57,36 @@ def da_random_from_shape(
 array_constructor = pytest.mark.parametrize(
     "array_constructor", [np_random_from_shape, da_random_from_shape]
 )
+
+DUMMY_PLUGIN_NAME = "dummy-plugin"
+DUMMY_PLUGIN_PATH = pathlib.Path(__file__).parent / DUMMY_PLUGIN_NAME
+
+
+class InstallPackage:
+    def __init__(
+        self, package_path: typing.Union[str, pathlib.Path], package_name: str
+    ):
+        if isinstance(package_path, pathlib.Path):
+            self.package_path = str(package_path)
+        else:
+            self.package_path = package_path
+        self.package_name = package_name
+
+    def __enter__(self) -> "InstallPackage":
+        # Install the plugin
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", self.package_path]
+        )
+        importlib.reload(bioio)
+        return self
+
+    def __exit__(
+        self,
+        exc_type: typing.Optional[type],
+        exc_value: typing.Optional[BaseException],
+        traceback: typing.Optional[typing.Type[typing.Any]],
+    ) -> None:
+        # Uninstall the plugin
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "uninstall", "-y", self.package_name]
+        )

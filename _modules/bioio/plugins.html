@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.07.18 -->
-        <title>bioio.plugins - bioio 0.1.dev1+g670303a documentation</title>
+        <title>bioio.plugins - bioio 0.1.dev1+g3d16713 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=613ab9ff" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g670303a documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g3d16713 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g670303a documentation</span>
+  <span class="sidebar-brand-text">bioio 0.1.dev1+g3d16713 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -267,6 +267,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -308,7 +309,7 @@
 
 
 <span class="c1"># global cache of plugins</span>
-<span class="n">plugins_by_ext_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">plugins_by_ext_cache</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="check_type">
@@ -507,6 +508,11 @@
             <span class="c1"># Add plugin entry</span>
             <span class="n">plugin_entry</span> <span class="o">=</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">reader_meta</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">plugin_entry</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">():</span>
+                <span class="n">ext</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+                    <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">ext</span>
+
+                <span class="c1"># Start a new list of plugins for ext if it doesn&#39;t exist</span>
                 <span class="k">if</span> <span class="n">ext</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="p">:</span>
                     <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">plugin_entry</span><span class="p">]</span>
                     <span class="k">continue</span>
@@ -515,9 +521,26 @@
                 <span class="n">pluginlist</span> <span class="o">=</span> <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
                 <span class="n">insert_sorted_by_timestamp</span><span class="p">(</span><span class="n">pluginlist</span><span class="p">,</span> <span class="n">plugin_entry</span><span class="p">)</span>
 
+    <span class="c1"># Dictionary values (the lists of plugin entries) have already been sorted</span>
+    <span class="c1"># by timestamp due to the &quot;insert_sorted_by_timestamp&quot; function</span>
+    <span class="c1"># However, we further want to sort the dictionary keys (the extensions)</span>
+    <span class="c1"># by length so that longer extensions are checked first.</span>
+    <span class="c1"># We do not change the order of the plugins within each list.</span>
+    <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
+        <span class="nb">sorted</span><span class="p">(</span>
+            <span class="c1"># Get the key (suffix) and the value (list of plugins)</span>
+            <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+            <span class="c1"># Sort by length of the key (suffix)</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ext_and_plugins</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ext_and_plugins</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+            <span class="c1"># Reverse so that longer extensions are stored first</span>
+            <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
     <span class="c1"># Save copy of plugins to cache then return</span>
     <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">plugins_by_ext</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">plugins_by_ext</span></div>
 
 
@@ -665,7 +688,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ae60eab0"></script>
+</div><script src="../../_static/documentation_options.js?v=e52230d2"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

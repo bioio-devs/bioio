@@ -217,10 +217,7 @@ class BioImage(biob.image_container.ImageContainer):
 
             # Check for extension in plugins_by_ext
             for format_ext, plugins in plugins_by_ext.items():
-                # Remove "." prefix if already there
-                if format_ext.startswith("."):
-                    format_ext = format_ext[1:]
-                if path.lower().endswith(f".{format_ext}"):
+                if path.lower().endswith(format_ext):
                     for plugin in plugins:
                         ReaderClass = plugin.metadata.get_reader()
                         try:

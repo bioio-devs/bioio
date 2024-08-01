@@ -5,6 +5,7 @@ import logging
 import os
 import re
 import sys
+from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -43,7 +44,7 @@ class PluginEntry(NamedTuple):
 
 
 # global cache of plugins
-plugins_by_ext_cache: Dict[str, List[PluginEntry]] = {}
+plugins_by_ext_cache: OrderedDict[str, List[PluginEntry]] = OrderedDict()
 
 
 def check_type(image: ImageLike, reader_class: Reader) -> bool:
@@ -228,6 +229,11 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
             # Add plugin entry
             plugin_entry = PluginEntry(plugin, reader_meta, timestamp)
             for ext in plugin_entry.metadata.get_supported_extensions():
+                ext = ext.lower()
+                if not ext.startswith("."):
+                    ext = "." + ext
+
+                # Start a new list of plugins for ext if it doesn't exist
                 if ext not in plugins_by_ext:
                     plugins_by_ext[ext] = [plugin_entry]
                     continue
@@ -236,9 +242,26 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
                 pluginlist = plugins_by_ext[ext]
                 insert_sorted_by_timestamp(pluginlist, plugin_entry)
 
+    # Dictionary values (the lists of plugin entries) have already been sorted
+    # by timestamp due to the "insert_sorted_by_timestamp" function
+    # However, we further want to sort the dictionary keys (the extensions)
+    # by length so that longer extensions are checked first.
+    # We do not change the order of the plugins within each list.
+    plugins_by_ext = OrderedDict(
+        sorted(
+            # Get the key (suffix) and the value (list of plugins)
+            plugins_by_ext.items(),
+            # Sort by length of the key (suffix)
+            key=lambda ext_and_plugins: len(ext_and_plugins[0]),
+            # Reverse so that longer extensions are stored first
+            reverse=True,
+        )
+    )
+
     # Save copy of plugins to cache then return
     plugins_by_ext_cache.clear()
     plugins_by_ext_cache.update(plugins_by_ext)
+
     return plugins_by_ext
 
 

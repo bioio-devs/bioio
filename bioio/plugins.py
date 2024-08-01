@@ -17,7 +17,7 @@ else:
     from importlib.metadata import entry_points, EntryPoint, requires
 
 import time
-from typing import Dict, List, NamedTuple, Optional, Tuple, Union
+from typing import Dict, List, NamedTuple, Optional, Tuple
 
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
@@ -38,9 +38,7 @@ class PluginEntry(NamedTuple):
 
 
 # global cache of plugins
-plugins_by_ext_cache: Union[
-    Dict[str, List[PluginEntry]], OrderedDict[str, List[PluginEntry]]
-] = {}
+plugins_by_ext_cache: OrderedDict[str, List[PluginEntry]] = OrderedDict()
 
 
 def check_type(image: ImageLike, reader_class: Reader) -> bool:
@@ -225,12 +223,9 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
             # Add plugin entry
             plugin_entry = PluginEntry(plugin, reader_meta, timestamp)
             for ext in plugin_entry.metadata.get_supported_extensions():
-                # Always remove leading "." if there is one
-                # Some plugin authors may add it, but it's not necessary
-                # And worse can cause this plugin list to have multiple entries
-                # for the same extension (e.g. ".tif" and "tif")
-                if ext.startswith("."):
-                    ext = ext[1:]
+                ext = ext.lower()
+                if not ext.startswith("."):
+                    ext = "." + ext
 
                 # Start a new list of plugins for ext if it doesn't exist
                 if ext not in plugins_by_ext:

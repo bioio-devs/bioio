@@ -74,3 +74,29 @@ def test_bioimage_submission_data_reader_type_alignment(
 ) -> None:
     with pytest.raises(expected_exception):
         BioImage(image, reader=reader_class)
+
+
+def test_bioimage_attempts_s3_read_with_anon_attr(
+    sample_text_file: pathlib.Path, dummy_plugin: str
+) -> None:
+    # Arrange
+    from dummy_plugin import Reader as DummyReader
+
+    err_msg = "anon is not True"
+
+    class FakeReader(DummyReader):
+        def __init__(self, _: ImageLike, fs_kwargs: dict = {}):
+            if fs_kwargs.get("anon", False) is not True:
+                raise biob.exceptions.UnsupportedFileFormatError(
+                    "test", "test", err_msg
+                )
+
+    # Act / Assert
+    BioImage("s3://this/could/go/anywhere.ome.zarr", reader=FakeReader)
+
+    # (sanity-check) Make sure it would have failed if not an S3 URI
+    # that gets given the anon attribute
+    with pytest.raises(biob.exceptions.UnsupportedFileFormatError) as err:
+        BioImage(sample_text_file, reader=FakeReader)
+
+    assert err_msg in str(err.value)

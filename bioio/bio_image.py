@@ -255,6 +255,35 @@ class BioImage(biob.image_container.ImageContainer):
             ),
         )
 
+    @staticmethod
+    def _get_reader(
+        image: biob.types.ImageLike,
+        reader: biob.reader.Reader,
+        use_plugin_cache: bool,
+        fs_kwargs: Dict[str, Any],
+        **kwargs: Any,
+    ) -> Tuple[biob.reader.Reader, Optional[PluginEntry]]:
+        """
+        Initializes and returns the reader (and plugin if relevant) for the provided
+        image based on provided args and/or the available bioio supported plugins
+        """
+        if reader is not None:
+            # Check specific reader image types in a situation where a specified reader
+            # only supports some of the ImageLike types.
+            if not check_type(image, reader):
+                raise biob.exceptions.UnsupportedFileFormatError(
+                    reader.__name__, str(type(image))
+                )
+
+            return reader(image, fs_kwargs=fs_kwargs, **kwargs), None
+
+        # Determine reader class based on available plugins
+        plugin = BioImage.determine_plugin(
+            image, fs_kwargs=fs_kwargs, use_plugin_cache=use_plugin_cache, **kwargs
+        )
+        ReaderClass = plugin.metadata.get_reader()
+        return ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs), plugin
+
     def __init__(
         self,
         image: biob.types.ImageLike,
@@ -264,25 +293,28 @@ class BioImage(biob.image_container.ImageContainer):
         fs_kwargs: Dict[str, Any] = {},
         **kwargs: Any,
     ):
-        if reader is None:
-            # Determine reader class and create dask delayed array
-            self._plugin = BioImage.determine_plugin(
-                image, fs_kwargs=fs_kwargs, use_plugin_cache=use_plugin_cache, **kwargs
+        try:
+            self._reader, self._plugin = self._get_reader(
+                image,
+                reader,
+                use_plugin_cache,
+                fs_kwargs,
+                **kwargs,
             )
-            ReaderClass = self._plugin.metadata.get_reader()
-        else:
-            # check specific reader image types in a situation where a specified reader
-            # only supports some of the ImageLike types.
-            if not check_type(image, reader):
-                raise biob.exceptions.UnsupportedFileFormatError(
-                    reader.__name__, str(type(image))
-                )
+        except biob.exceptions.UnsupportedFileFormatError:
+            # When reading from S3 if we failed trying to read
+            # try reading as an anonymous user otherwise re-raise
+            # the error
+            if not str(image).startswith("s3://"):
+                raise
 
-            # connect submitted reader
-            ReaderClass = reader
-
-        # Init and store reader
-        self._reader = ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs)
+            self._reader, self._plugin = self._get_reader(
+                image,
+                reader,
+                use_plugin_cache,
+                fs_kwargs | {"anon": True},
+                **kwargs,
+            )
 
         # Store delayed modifiers
         self._reconstruct_mosaic = reconstruct_mosaic
@@ -1097,13 +1129,16 @@ class BioImage(biob.image_container.ImageContainer):
         )
 
     def __str__(self) -> str:
-        return (
-            f"<BioImage ["
-            f"plugin: {self._plugin.entrypoint.name} installed "
-            f"at {datetime.datetime.fromtimestamp(self._plugin.timestamp)}, "
-            f"Image-is-in-Memory: {self._xarray_data is not None}"
-            f"]>"
-        )
+        if self._plugin is not None:
+            return (
+                f"<BioImage ["
+                f"plugin: {self._plugin.entrypoint.name} installed "
+                f"at {datetime.datetime.fromtimestamp(self._plugin.timestamp)}, "
+                f"Image-is-in-Memory: {self._xarray_data is not None}"
+                f"]>"
+            )
+
+        return f"<BioImage [Image-is-in-Memory: {self._xarray_data is not None}]>"
 
     def __repr__(self) -> str:
         return str(self)

@@ -36,10 +36,12 @@ log = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def sample_text_file(tmp_path: pathlib.Path) -> pathlib.Path:
+def sample_text_file(
+    tmp_path: pathlib.Path,
+) -> typing.Generator[pathlib.Path, None, None]:
     example_file = tmp_path / "temp-example.txt"
     example_file.write_text("just some example text here")
-    return example_file
+    yield example_file
 
 
 def np_random_from_shape(
@@ -90,3 +92,9 @@ class InstallPackage:
         subprocess.check_call(
             [sys.executable, "-m", "pip", "uninstall", "-y", self.package_name]
         )
+
+
+@pytest.fixture
+def dummy_plugin() -> typing.Generator[str, None, None]:
+    with InstallPackage(package_path=DUMMY_PLUGIN_PATH, package_name=DUMMY_PLUGIN_NAME):
+        yield DUMMY_PLUGIN_NAME

@@ -1137,7 +1137,7 @@ class BioImage(biob.image_container.ImageContainer):
                 f"]>"
             )
 
-        return "<BioImage [Image-is-in-Memory: {self._xarray_data is not None}]>"
+        return f"<BioImage [Image-is-in-Memory: {self._xarray_data is not None}]>"
 
     def __repr__(self) -> str:
         return str(self)

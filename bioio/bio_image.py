@@ -303,17 +303,18 @@ class BioImage(biob.image_container.ImageContainer):
             )
         except biob.exceptions.UnsupportedFileFormatError:
             # When reading from S3 if we failed trying to read
-            # try reading as an anonymous user
-            if image.startswith("s3://"):
-                self._reader, self._plugin = self._get_reader(
-                    image,
-                    reader,
-                    use_plugin_cache,
-                    fs_kwargs | {"anon": True},
-                    **kwargs,
-                )
+            # try reading as an anonymous user otherwise re-raise
+            # the error
+            if not str(image).startswith("s3://"):
+                raise
 
-            raise
+            self._reader, self._plugin = self._get_reader(
+                image,
+                reader,
+                use_plugin_cache,
+                fs_kwargs | {"anon": True},
+                **kwargs,
+            )
 
         # Store delayed modifiers
         self._reconstruct_mosaic = reconstruct_mosaic

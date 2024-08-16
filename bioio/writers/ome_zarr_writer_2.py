@@ -479,7 +479,11 @@ class OmeZarrWriter:
         log.info(f"Completed {start_t} to {end_t}")
 
     def write_t_batches(
-        self, im: BioImage, tbatch: int = 4, debug: bool = False
+        self,
+        im: BioImage,
+        channels: List[int] = [],
+        tbatch: int = 4,
+        debug: bool = False,
     ) -> None:
         """
         Write the image in batches of T.
@@ -501,12 +505,18 @@ class OmeZarrWriter:
             end_t = min(i + tbatch, numT)
             if end_t > start_t:
                 # assume start t and end t are in range (caller should guarantee this)
-                ti = im.get_image_dask_data("TCZYX", T=slice(start_t, end_t))
+                ti = im.get_image_dask_data(
+                    "TCZYX", T=slice(start_t, end_t), C=channels
+                )
                 self._downsample_and_write_batch_t(ti, start_t, end_t)
         log.info("Finished loop over T")
 
     def write_t_batches_image_sequence(
-        self, paths: List[str], tbatch: int = 4, debug: bool = False
+        self,
+        paths: List[str],
+        channels: List[int] = [],
+        tbatch: int = 4,
+        debug: bool = False,
     ) -> None:
         """
         Write the image in batches of T.
@@ -531,7 +541,7 @@ class OmeZarrWriter:
                 ti = []
                 for j in range(start_t, end_t):
                     im = BioImage(paths[j])
-                    ti.append(im.get_image_dask_data("CZYX"))
+                    ti.append(im.get_image_dask_data("CZYX", C=channels))
                 ti = da.stack(ti, axis=0)
                 self._downsample_and_write_batch_t(ti, start_t, end_t)
         log.info("Finished loop over T")
@@ -539,6 +549,7 @@ class OmeZarrWriter:
     def write_t_batches_array(
         self,
         im: Union[da.Array, np.ndarray],
+        channels: List[int] = [],
         tbatch: int = 4,
         debug: bool = False,
     ) -> None:
@@ -568,6 +579,9 @@ class OmeZarrWriter:
             if end_t > start_t:
                 # assume start t and end t are in range (caller should guarantee this)
                 ti = im_da[start_t:end_t]
+                if channels:
+                    for t in range(len(ti)):
+                        ti[t] = [ti[t][c] for c in channels]
                 self._downsample_and_write_batch_t(da.asarray(ti), start_t, end_t)
         log.info("Finished loop over T")
 

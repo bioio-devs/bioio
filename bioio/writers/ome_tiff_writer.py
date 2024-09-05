@@ -85,7 +85,7 @@ class OmeTiffWriter(Writer):
             Default: None
             If None is given, the list will be generated as a 0-indexed list of strings
             of the form "Channel:image_index:channel_index"
-        image_names: Optional[Union[str, List[Union[str, None]]]]
+        image_name: Optional[Union[str, List[Union[str, None]]]]
             List of strings representing the names of the images
             Default: None
             If None is given, the list will be generated as a 0-indexed list of strings
@@ -158,7 +158,7 @@ class OmeTiffWriter(Writer):
                 if len(image_name) != num_images:
                     raise biob.exceptions.ConflictingArgumentsError(
                         f"OmeTiffWriter received a list of arrays to use as scenes "
-                        f"but the provided list of image_names is of different "
+                        f"but the provided list of image_name is of different "
                         f"length. "
                         f"Number of provided scenes: {num_images}, "
                         f"Number of provided dimension strings: {len(image_name)}"
@@ -167,7 +167,7 @@ class OmeTiffWriter(Writer):
                 if len(physical_pixel_sizes) != num_images:
                     raise biob.exceptions.ConflictingArgumentsError(
                         f"OmeTiffWriter received a list of arrays to use as scenes "
-                        f"but the provided list of image_names is of different "
+                        f"but the provided list of image_name is of different "
                         f"length. "
                         f"Number of provided scenes: {num_images}, "
                         f"Number of provided dimension strings: "

@@ -452,7 +452,7 @@ class OmeZarrWriter:
         data_tczyx = data_tczyx.persist()
         # data_tczyx.compute()
         for k in range(start_t, end_t):
-            self.levels[0].zarray[k] = data_tczyx[k - start_t]
+            self.levels[0].zarray[k] = data_tczyx[k - start_t].compute()
 
         # downsample to next level then write
         for j in range(1, len(self.levels)):
@@ -469,7 +469,7 @@ class OmeZarrWriter:
             # lvls[j][start_t:end_t] = ti[:]
             # lvls[j].set_basic_selection(slice(start_t,end_t), ti[:])
             for k in range(start_t, end_t):
-                self.levels[j].zarray[k] = data_tczyx[k - start_t]
+                self.levels[j].zarray[k] = data_tczyx[k - start_t].compute()
             # for some reason this is not working: not allowed to write in
             # this way to a non-memory store
             # dask.array.to_zarr(ti, lvls[j], component=None,

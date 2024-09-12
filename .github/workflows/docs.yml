@@ -1,9 +1,16 @@
 name: Documentation
 
+# This will generate the docs on every push to main for logging and tracking purposes
+# But it will only publish the generated docs on a new tag push
+# We may want to move to mkdocs gh-deploy
+# Following: https://github.com/tlambert03/nd2/blob/main/.github/workflows/docs.yml
+
 on:
   push:
     branches:
       - main
+    tags:
+      - "v*"
 
 jobs:
   docs:
@@ -12,8 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # We use https://pypi.org/project/setuptools-scm/ for dynamic lib versioning
-          # Without our tagged versions, it defaults to 0.1.dev*
           fetch-tags: true
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,7 +36,10 @@ jobs:
           gitchangelog
           just generate-docs
           touch docs/_build/.nojekyll
+
       - name: Publish Docs
+        # Only publish docs on tag push
+        if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: docs/_build/

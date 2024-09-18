@@ -449,10 +449,9 @@ class OmeZarrWriter:
             raise ValueError("data_tczyx must have the same T length as end_t-start_t")
 
         # write level 0 first
-        data_tczyx = data_tczyx.persist()
-        # data_tczyx.compute()
         for k in range(start_t, end_t):
-            self.levels[0].zarray[k] = data_tczyx[k - start_t]
+            subset = data_tczyx[[k - start_t]]
+            da.to_zarr(subset, self.levels[0].zarray, region=(slice(k, k + 1),))
 
         # downsample to next level then write
         for j in range(1, len(self.levels)):
@@ -460,21 +459,11 @@ class OmeZarrWriter:
             nextshape = (end_t - start_t,) + self.levels[j].shape[1:]
             data_tczyx = resize(data_tczyx, nextshape, order=0)
             data_tczyx = data_tczyx.astype(dtype)
-            data_tczyx = data_tczyx.persist()
-            # data_tczyx.compute()
 
             # write ti to zarr
-            # for some reason this is not working: not allowed to write in
-            # this way to a non-memory store
-            # lvls[j][start_t:end_t] = ti[:]
-            # lvls[j].set_basic_selection(slice(start_t,end_t), ti[:])
             for k in range(start_t, end_t):
-                self.levels[j].zarray[k] = data_tczyx[k - start_t]
-            # for some reason this is not working: not allowed to write in
-            # this way to a non-memory store
-            # dask.array.to_zarr(ti, lvls[j], component=None,
-            # storage_options=None, overwrite=False, region=(slice(start_t,
-            # end_t)))
+                subset = data_tczyx[[k - start_t]]
+                da.to_zarr(subset, self.levels[j].zarray, region=(slice(k, k + 1),))
 
         log.info(f"Completed {start_t} to {end_t}")
 

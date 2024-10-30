@@ -157,7 +157,7 @@ def test_write_ome_zarr(
     writer.init_store(str(save_uri), shapes, chunk_sizes, im.dtype)
 
     # Write the image
-    writer.write_t_batches_array(im, tbatch=4)
+    writer.write_t_batches_array(im, channels=[], tbatch=4)
 
     # TODO: get this from source image
     physical_scale = {

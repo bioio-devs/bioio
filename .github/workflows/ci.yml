@@ -61,7 +61,7 @@ jobs:
       - name: Run Tests
         run: just test
       - name: Upload Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
 
   # Check linting, formating, types, etc.
   lint:

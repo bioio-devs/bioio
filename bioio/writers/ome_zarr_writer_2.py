@@ -1,5 +1,5 @@
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from math import prod
 from typing import Any, List, Tuple, Union
 
@@ -8,7 +8,12 @@ import numcodecs
 import numpy as np
 import skimage.transform
 import zarr
-from ngff_zarr.zarr_metadata import Axis, Dataset, Metadata, Scale, Translation
+from ome_zarr_models.v04.axes import Axis
+from ome_zarr_models.v04.coordinate_transformations import (
+    VectorScale,
+    VectorTranslation,
+)
+from ome_zarr_models.v04.multiscales import Dataset, Multiscale
 from zarr.storage import DirectoryStore, FSStore, default_compressor
 
 from bioio import BioImage
@@ -646,19 +651,23 @@ class OmeZarrWriter:
                 # TODO handle optional translations e.g. xy stage position,
                 # start time etc
                 translation.append(0.0)
-            coordinateTransformations = [Scale(scale), Translation(translation)]
+            coordinateTransformations = (
+                VectorScale(type="scale", scale=scale),
+                VectorTranslation(type="translation", translation=translation),
+            )
             dataset = Dataset(
                 path=path, coordinateTransformations=coordinateTransformations
             )
             datasets.append(dataset)
-        metadata = Metadata(
+        metadata = Multiscale(
+            version=OME_NGFF_VERSION,
             axes=axes,
             datasets=datasets,
             name="/",
             coordinateTransformations=None,
         )
 
-        metadata_dict = asdict(metadata)
+        metadata_dict = metadata.model_dump()
         metadata_dict = _pop_metadata_optionals(metadata_dict)
 
         # get the total shape as dict:

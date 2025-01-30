@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import enum
 import importlib.metadata
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -46,6 +47,7 @@ class OmeTiffWriter(Writer):
             Union[List[List[int]], List[Optional[List[List[int]]]]]
         ] = None,
         fs_kwargs: Dict[str, Any] = {},
+        compression: enum.IntEnum = TIFF.COMPRESSION.ADOBE_DEFLATE,
         **kwargs: Any,
     ) -> None:
         """
@@ -301,7 +303,7 @@ class OmeTiffWriter(Writer):
                     photometric=photometric,
                     metadata=None,
                     planarconfig=planarconfig,
-                    compression=TIFF.COMPRESSION.ADOBE_DEFLATE,
+                    compression=compression,
                 )
 
             tif.close()

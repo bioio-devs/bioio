@@ -104,6 +104,10 @@ class OmeTiffWriter(Writer):
             Any specific keyword arguments to pass down to the fsspec created
             filesystem.
             Default: {}
+        compression: enum.IntEnum
+            Which compression scheme to use during TIFF writing. See
+            tifffile.TIFF.COMPRESSION for all available options.
+            Default: "tifffile.TIFF.COMPRESSION.ADOBE_DEFLATE"
 
         Raises
         ------

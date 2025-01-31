@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import enum
 import importlib.metadata
 from typing import Any, Dict, List, Optional, Tuple, Union
 

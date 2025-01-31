@@ -30,6 +30,11 @@ from .writer import Writer
 # calculate it but for now this is a stopgap working value
 BIGTIFF_BYTE_LIMIT = 2**21
 
+# Default tifffile.write kwargs
+DEFAULT_TIFF_WRITE_KWARGS = {
+    "compression": TIFF.COMPRESSION.ADOBE_DEFLATE
+}
+
 
 class OmeTiffWriter(Writer):
     @staticmethod
@@ -47,7 +52,7 @@ class OmeTiffWriter(Writer):
             Union[List[List[int]], List[Optional[List[List[int]]]]]
         ] = None,
         fs_kwargs: Dict[str, Any] = {},
-        compression: enum.IntEnum = TIFF.COMPRESSION.ADOBE_DEFLATE,
+        tifffile_kwargs: Dict[str, Any] = DEFAULT_TIFF_WRITE_KWARGS,
         **kwargs: Any,
     ) -> None:
         """
@@ -104,10 +109,13 @@ class OmeTiffWriter(Writer):
             Any specific keyword arguments to pass down to the fsspec created
             filesystem.
             Default: {}
-        compression: enum.IntEnum
-            Which compression scheme to use during TIFF writing. See
-            tifffile.TIFF.COMPRESSION for all available options.
-            Default: "tifffile.TIFF.COMPRESSION.ADOBE_DEFLATE"
+        tifffile_kwargs: Dict[str, Any]
+            Any specific keyword arguments to pass down to tifffile write function. 
+            Do not use these kwargs to provide the image `description`, 
+            `photometric` configuration, or `planarconfig` parameters as those are all 
+            determined via the image and metadata provided from caller.
+            Default: DEFAULT_TIFF_WRITE_KWARGS
+                Compression using ADOBE_DEFLATE (ZLIB)
 
         Raises
         ------
@@ -135,6 +143,18 @@ class OmeTiffWriter(Writer):
         ...     "file.ome.tif",
         ...     dim_order="CZYX",  # this single value will be repeated to each image
         ...     channel_names=[["C00","C01","C02"],["C10","C11","C12"]]
+        ... )
+
+        Write data with custom compression scheme
+
+        >>> image = numpy.ndarray([1, 10, 3, 1024, 2048])
+        ... OmeTiffWriter.save(
+        ...     image,
+        ...     "file.ome.tif",
+        ...     tifffile_kwargs={
+        ...         "compression": "zlib",
+        ...         "compressionargs": {"level": 8},
+        ...     },
         ... )
         """
         # Resolve final destination
@@ -307,7 +327,7 @@ class OmeTiffWriter(Writer):
                     photometric=photometric,
                     metadata=None,
                     planarconfig=planarconfig,
-                    compression=compression,
+                    **tifffile_kwargs,
                 )
 
             tif.close()

@@ -30,9 +30,7 @@ from .writer import Writer
 BIGTIFF_BYTE_LIMIT = 2**21
 
 # Default tifffile.write kwargs
-DEFAULT_TIFF_WRITE_KWARGS = {
-    "compression": TIFF.COMPRESSION.ADOBE_DEFLATE
-}
+DEFAULT_TIFF_WRITE_KWARGS = {"compression": TIFF.COMPRESSION.ADOBE_DEFLATE}
 
 
 class OmeTiffWriter(Writer):
@@ -109,9 +107,9 @@ class OmeTiffWriter(Writer):
             filesystem.
             Default: {}
         tifffile_kwargs: Dict[str, Any]
-            Any specific keyword arguments to pass down to tifffile write function. 
-            Do not use these kwargs to provide the image `description`, 
-            `photometric` configuration, or `planarconfig` parameters as those are all 
+            Any specific keyword arguments to pass down to tifffile write function.
+            Do not use these kwargs to provide the image `description`,
+            `photometric` configuration, or `planarconfig` parameters as those are all
             determined via the image and metadata provided from caller.
             Default: DEFAULT_TIFF_WRITE_KWARGS
                 Compression using ADOBE_DEFLATE (ZLIB)

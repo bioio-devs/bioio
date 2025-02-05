@@ -88,13 +88,19 @@ def test_timeseries_writer(
         with imageio.get_reader(open_resource, format=extension, mode=mode) as reader:
             # Read and stack all frames
             frames = []
+            frame_count = 0
             for frame in reader:
-                print(frame.shape)
+                frame_shape = frame.shape
+                print(f"frame {frame_count} frame_shape {frame_shape}")
+                frame_shape = frame.shape
                 frames.append(frame)
+                frame_count += 1
 
             data = np.stack(frames)
 
             # Check basics
+            print(f"data.shape: {data.shape} read_shape:{read_shape}")
+            assert frame_count == 30
             assert data.shape == read_shape
             assert data.shape[-1] <= 4
 

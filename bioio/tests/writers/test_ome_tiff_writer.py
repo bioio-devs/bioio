@@ -476,3 +476,21 @@ def test_ome_tiff_writer_common_metadata(
                 scene = tiff.series[i]
                 assert scene.shape == read_shapes[i]
                 assert scene.pages.axes == read_dim_order[i]
+
+
+def test_ome_tiff_writer_custom_compression(tmp_path: pathlib.Path) -> None:
+    # Create array
+    arr = np.random.rand(5, 16, 16)
+
+    # Construct save end point
+    save_uri = tmp_path / "e.ome.tiff"
+
+    # Normal save
+    OmeTiffWriter.save(
+        arr,
+        save_uri,
+        tifffile_kwargs={
+            "compression": "zlib",
+            "compressionargs": {"level": 8},
+        },
+    )

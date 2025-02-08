@@ -220,7 +220,7 @@ def build_ome(
 class ZarrLevel:
     shape: DimTuple
     chunk_size: DimTuple
-    dtype: str
+    dtype: np.dtype
     zarray: zarr.core.Array
 
 
@@ -440,7 +440,7 @@ class OmeZarrWriter:
             self.levels.append(level)
 
     def _downsample_and_write_batch_t(
-        self, data_tczyx: da.Array, start_t: int, end_t: int
+        self, data_tczyx: da.Array, start_t: int, end_t: int, toffset: int = 0
     ) -> None:
         dtype = data_tczyx.dtype
         if len(data_tczyx.shape) != 5:
@@ -451,7 +451,11 @@ class OmeZarrWriter:
         # write level 0 first
         for k in range(start_t, end_t):
             subset = data_tczyx[[k - start_t]]
-            da.to_zarr(subset, self.levels[0].zarray, region=(slice(k, k + 1),))
+            da.to_zarr(
+                subset,
+                self.levels[0].zarray,
+                region=(slice(k + toffset, k + toffset + 1),),
+            )
 
         # downsample to next level then write
         for j in range(1, len(self.levels)):
@@ -463,7 +467,11 @@ class OmeZarrWriter:
             # write ti to zarr
             for k in range(start_t, end_t):
                 subset = data_tczyx[[k - start_t]]
-                da.to_zarr(subset, self.levels[j].zarray, region=(slice(k, k + 1),))
+                da.to_zarr(
+                    subset,
+                    self.levels[j].zarray,
+                    region=(slice(k + toffset, k + toffset + 1),),
+                )
 
         log.info(f"Completed {start_t} to {end_t}")
 
@@ -540,6 +548,7 @@ class OmeZarrWriter:
         im: Union[da.Array, np.ndarray],
         channels: List[int] = [],
         tbatch: int = 4,
+        toffset: int = 0,
         debug: bool = False,
     ) -> None:
         """
@@ -551,6 +560,8 @@ class OmeZarrWriter:
             An ArrayLike object. Should be 5D TCZYX.
         tbatch:
             The number of T to write at a time.
+        toffset:
+            The offset to start writing T from. All T in the input array will be written
         """
         # if isinstance(im, (np.ndarray)):
         #     im_da = da.from_array(im)
@@ -571,7 +582,9 @@ class OmeZarrWriter:
                 if channels:
                     for t in range(len(ti)):
                         ti[t] = [ti[t][c] for c in channels]
-                self._downsample_and_write_batch_t(da.asarray(ti), start_t, end_t)
+                self._downsample_and_write_batch_t(
+                    da.asarray(ti), start_t, end_t, toffset
+                )
         log.info("Finished loop over T")
 
     def _get_scale_ratio(self, level: int) -> Tuple[float, float, float, float, float]:

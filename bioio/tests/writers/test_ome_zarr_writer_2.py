@@ -193,3 +193,93 @@ def test_write_ome_zarr(
     axes = node.metadata["axes"]
     dims = "".join([a["name"] for a in axes]).upper()
     assert dims == "TCZYX"
+
+
+@array_constructor
+@pytest.mark.parametrize(
+    "shape, num_levels, scaling, expected_shapes",
+    [
+        (
+            (4, 2, 2, 64, 32),  # easy, powers of two
+            3,
+            (1, 1, 1, 2, 2),  # downscale xy by two
+            [(4, 2, 2, 64, 32), (4, 2, 2, 32, 16), (4, 2, 2, 16, 8)],
+        ),
+        (
+            (4, 2, 2, 8, 6),
+            1,  # no downscaling
+            (1, 1, 1, 1, 1),
+            [(4, 2, 2, 8, 6)],
+        ),
+    ],
+)
+@pytest.mark.parametrize("filename", ["e.zarr"])
+def test_write_ome_zarr_iterative(
+    array_constructor: Callable,
+    filename: str,
+    shape: DimTuple,
+    num_levels: int,
+    scaling: Tuple[float, float, float, float, float],
+    expected_shapes: List[DimTuple],
+    tmp_path: pathlib.Path,
+) -> None:
+    # TCZYX order, downsampling x and y only
+    im = array_constructor(shape, dtype=np.uint8)
+    C = shape[1]
+
+    shapes = compute_level_shapes(shape, scaling, num_levels)
+    chunk_sizes = compute_level_chunk_sizes_zslice(shapes)
+
+    # Create an OmeZarrWriter object
+    writer = OmeZarrWriter()
+
+    # Initialize the store. Use s3 url or local directory path!
+    save_uri = tmp_path / filename
+    writer.init_store(str(save_uri), shapes, chunk_sizes, im.dtype)
+
+    # Write the image iteratively as if we only have one timepoint at a time
+    for t in range(shape[0]):
+        t4d = im[t]
+        t5d = np.expand_dims(t4d, axis=0)
+        writer.write_t_batches_array(t5d, channels=[], tbatch=1, toffset=t)
+
+    # TODO: get this from source image
+    physical_scale = {
+        "c": 1.0,  # default value for channel
+        "t": 1.0,
+        "z": 1.0,
+        "y": 1.0,
+        "x": 1.0,
+    }
+    physical_units = {
+        "x": "micrometer",
+        "y": "micrometer",
+        "z": "micrometer",
+        "t": "minute",
+    }
+    meta = writer.generate_metadata(
+        image_name="TEST",
+        channel_names=[f"c{i}" for i in range(C)],
+        physical_dims=physical_scale,
+        physical_units=physical_units,
+        channel_colors=[0xFFFFFF for i in range(C)],
+    )
+    writer.write_metadata(meta)
+
+    # Read written result and check basics
+    reader = Reader(parse_url(save_uri))
+    node = list(reader())[0]
+    num_levels_read = len(node.data)
+    assert num_levels_read == num_levels
+    for level, shape in zip(range(num_levels), expected_shapes):
+        read_shape = node.data[level].shape
+        assert read_shape == shape
+    axes = node.metadata["axes"]
+    dims = "".join([a["name"] for a in axes]).upper()
+    assert dims == "TCZYX"
+
+    # check lvl 0 data values got written in order
+    for t in range(shape[0]):
+        t4d = im[t]
+        read_t4d = node.data[0][t]
+        np.testing.assert_array_equal(t4d, read_t4d)

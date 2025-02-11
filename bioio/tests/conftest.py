@@ -57,7 +57,8 @@ def da_random_from_shape(
 
 
 array_constructor = pytest.mark.parametrize(
-    "array_constructor", [np_random_from_shape, da_random_from_shape]
+    "array_constructor",
+    [np_random_from_shape, da_random_from_shape],
 )
 
 DUMMY_PLUGIN_NAME = "dummy-plugin"

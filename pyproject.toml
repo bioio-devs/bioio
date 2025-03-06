@@ -13,7 +13,7 @@ name = "bioio"
 description = "Image reading, metadata management, and image writing for Microscopy images in Python"
 keywords = []
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "BSD License" }
 authors = [
   { email = "evamaxfieldbrown@gmail.com", name = "Eva Maxfield Brown" },

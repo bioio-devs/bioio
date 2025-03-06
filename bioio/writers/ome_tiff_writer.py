@@ -13,7 +13,7 @@ from fsspec.implementations.local import LocalFileSystem
 from ome_types import from_xml, to_xml
 from ome_types.model import OME, Channel, Image, Pixels, TiffData
 from ome_types.model.simple_types import ChannelID, Color, PositiveFloat, PositiveInt
-from tifffile import TIFF
+from tifffile import COMPRESSION, PHOTOMETRIC, PLANARCONFIG
 
 from ..ome_utils import (
     dtype_to_ome_type,
@@ -29,8 +29,9 @@ from .writer import Writer
 # calculate it but for now this is a stopgap working value
 BIGTIFF_BYTE_LIMIT = 2**21
 
+
 # Default tifffile.write kwargs
-DEFAULT_TIFF_WRITE_KWARGS = {"compression": TIFF.COMPRESSION.ADOBE_DEFLATE}
+DEFAULT_TIFF_WRITE_KWARGS = {"compression": COMPRESSION.ADOBE_DEFLATE}
 
 
 class OmeTiffWriter(Writer):
@@ -314,10 +315,8 @@ class OmeTiffWriter(Writer):
                 # assume if first channel is rgb then all of it is
                 spp = ome_xml.images[scene_index].pixels.channels[0].samples_per_pixel
                 is_rgb = spp is not None and spp > 1
-                photometric = (
-                    TIFF.PHOTOMETRIC.RGB if is_rgb else TIFF.PHOTOMETRIC.MINISBLACK
-                )
-                planarconfig = TIFF.PLANARCONFIG.CONTIG if is_rgb else None
+                photometric = PHOTOMETRIC.RGB if is_rgb else PHOTOMETRIC.MINISBLACK
+                planarconfig = PLANARCONFIG.CONTIG if is_rgb else None
                 tif.write(
                     image_data,
                     description=description,

@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio.writers.ome_zarr_writer_2 - bioio 0.1.dev1+g7be08f6 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+        <title>bioio.writers.ome_zarr_writer_2 - bioio 1.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">bioio 0.1.dev1+g7be08f6 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">bioio 1.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g7be08f6 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -260,20 +260,20 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for bioio.writers.ome_zarr_writer_2</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">asdict</span><span class="p">,</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">prod</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">asdict</span><span class="p">,</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">prod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
-<span class="kn">import</span> <span class="nn">numcodecs</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">skimage.transform</span>
-<span class="kn">import</span> <span class="nn">zarr</span>
-<span class="kn">from</span> <span class="nn">ngff_zarr.zarr_metadata</span> <span class="kn">import</span> <span class="n">Axis</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">Scale</span><span class="p">,</span> <span class="n">Translation</span>
-<span class="kn">from</span> <span class="nn">zarr.storage</span> <span class="kn">import</span> <span class="n">DirectoryStore</span><span class="p">,</span> <span class="n">FSStore</span><span class="p">,</span> <span class="n">default_compressor</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numcodecs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">skimage.transform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ngff_zarr.zarr_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axis</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">Scale</span><span class="p">,</span> <span class="n">Translation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zarr.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">DirectoryStore</span><span class="p">,</span> <span class="n">FSStore</span><span class="p">,</span> <span class="n">default_compressor</span>
 
-<span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -284,7 +284,7 @@
 
 <div class="viewcode-block" id="chunk_size_from_memory_target">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.chunk_size_from_memory_target">[docs]</a>
-<span class="k">def</span> <span class="nf">chunk_size_from_memory_target</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">chunk_size_from_memory_target</span><span class="p">(</span>
     <span class="n">shape</span><span class="p">:</span> <span class="n">DimTuple</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">memory_target</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DimTuple</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -327,7 +327,7 @@
 
 <div class="viewcode-block" id="dim_tuple_to_dict">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.dim_tuple_to_dict">[docs]</a>
-<span class="k">def</span> <span class="nf">dim_tuple_to_dict</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dim_tuple_to_dict</span><span class="p">(</span>
     <span class="n">dims</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
@@ -338,7 +338,7 @@
 
 <div class="viewcode-block" id="resize">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.resize">[docs]</a>
-<span class="k">def</span> <span class="nf">resize</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resize</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">output_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -381,7 +381,7 @@
     <span class="p">)</span>
 
     <span class="c1"># Map overlap</span>
-    <span class="k">def</span> <span class="nf">resize_block</span><span class="p">(</span><span class="n">image_block</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">block_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resize_block</span><span class="p">(</span><span class="n">image_block</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">block_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
         <span class="c1"># if the input block is smaller than a &#39;regular&#39; chunk (e.g. edge of image)</span>
         <span class="c1"># we need to calculate target size for each chunk...</span>
         <span class="n">chunk_output_shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
@@ -399,7 +399,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_pop_metadata_optionals</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_pop_metadata_optionals</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">metadata_dict</span><span class="p">[</span><span class="s2">&quot;axes&quot;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="n">ax</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;unit&quot;</span><span class="p">)</span>
@@ -412,7 +412,7 @@
 
 <div class="viewcode-block" id="build_ome">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.build_ome">[docs]</a>
-<span class="k">def</span> <span class="nf">build_ome</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_ome</span><span class="p">(</span>
     <span class="n">size_z</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">image_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">channel_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -493,17 +493,17 @@
 <div class="viewcode-block" id="ZarrLevel">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.ZarrLevel">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">ZarrLevel</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ZarrLevel</span><span class="p">:</span>
     <span class="n">shape</span><span class="p">:</span> <span class="n">DimTuple</span>
     <span class="n">chunk_size</span><span class="p">:</span> <span class="n">DimTuple</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>
     <span class="n">zarray</span><span class="p">:</span> <span class="n">zarr</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Array</span></div>
 
 
 
 <div class="viewcode-block" id="compute_level_shapes">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.compute_level_shapes">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_level_shapes</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_level_shapes</span><span class="p">(</span>
     <span class="n">lvl0shape</span><span class="p">:</span> <span class="n">DimTuple</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">nlevels</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -543,7 +543,7 @@
 
 <div class="viewcode-block" id="get_scale_ratio">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.get_scale_ratio">[docs]</a>
-<span class="k">def</span> <span class="nf">get_scale_ratio</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_scale_ratio</span><span class="p">(</span>
     <span class="n">level0</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">level1</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
     <span class="k">return</span> <span class="p">(</span>
@@ -558,7 +558,7 @@
 
 <div class="viewcode-block" id="compute_level_chunk_sizes_zslice">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.compute_level_chunk_sizes_zslice">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_level_chunk_sizes_zslice</span><span class="p">(</span><span class="n">shapes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_level_chunk_sizes_zslice</span><span class="p">(</span><span class="n">shapes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convenience function to calculate chunk sizes for each of the input level</span>
 <span class="sd">    shapes assuming that the shapes are TCZYX and we want the chunking to be</span>
@@ -611,7 +611,7 @@
 
 <div class="viewcode-block" id="OmeZarrWriter">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter">[docs]</a>
-<span class="k">class</span> <span class="nc">OmeZarrWriter</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OmeZarrWriter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to write OME-Zarr files.</span>
 <span class="sd">    Example usage:</span>
@@ -650,7 +650,7 @@
 <span class="sd">            writer.write_metadata(meta)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ZarrLevel</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">:</span> <span class="n">zarr</span><span class="o">.</span><span class="n">Store</span> <span class="o">=</span> <span class="kc">None</span>
@@ -658,7 +658,7 @@
 
 <div class="viewcode-block" id="OmeZarrWriter.init_store">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.init_store">[docs]</a>
-    <span class="k">def</span> <span class="nf">init_store</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_store</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">shapes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">],</span>
@@ -706,7 +706,7 @@
         <span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_create_levels</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_levels</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">root</span><span class="p">:</span> <span class="n">zarr</span><span class="o">.</span><span class="n">Group</span><span class="p">,</span>
         <span class="n">level_shapes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DimTuple</span><span class="p">],</span>
@@ -730,8 +730,8 @@
             <span class="n">level</span> <span class="o">=</span> <span class="n">ZarrLevel</span><span class="p">(</span><span class="n">level_shapes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">level_chunk_sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">lvl</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_downsample_and_write_batch_t</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">data_tczyx</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">start_t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end_t</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_downsample_and_write_batch_t</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data_tczyx</span><span class="p">:</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">start_t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">end_t</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toffset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">data_tczyx</span><span class="o">.</span><span class="n">dtype</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_tczyx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">5</span><span class="p">:</span>
@@ -742,7 +742,11 @@
         <span class="c1"># write level 0 first</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">):</span>
             <span class="n">subset</span> <span class="o">=</span> <span class="n">data_tczyx</span><span class="p">[[</span><span class="n">k</span> <span class="o">-</span> <span class="n">start_t</span><span class="p">]]</span>
-            <span class="n">da</span><span class="o">.</span><span class="n">to_zarr</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">zarray</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),))</span>
+            <span class="n">da</span><span class="o">.</span><span class="n">to_zarr</span><span class="p">(</span>
+                <span class="n">subset</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">zarray</span><span class="p">,</span>
+                <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">toffset</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">toffset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),),</span>
+            <span class="p">)</span>
 
         <span class="c1"># downsample to next level then write</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">)):</span>
@@ -754,14 +758,22 @@
             <span class="c1"># write ti to zarr</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">):</span>
                 <span class="n">subset</span> <span class="o">=</span> <span class="n">data_tczyx</span><span class="p">[[</span><span class="n">k</span> <span class="o">-</span> <span class="n">start_t</span><span class="p">]]</span>
-                <span class="n">da</span><span class="o">.</span><span class="n">to_zarr</span><span class="p">(</span><span class="n">subset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">zarray</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),))</span>
+                <span class="n">da</span><span class="o">.</span><span class="n">to_zarr</span><span class="p">(</span>
+                    <span class="n">subset</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">zarray</span><span class="p">,</span>
+                    <span class="n">region</span><span class="o">=</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">toffset</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="n">toffset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),),</span>
+                <span class="p">)</span>
 
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed </span><span class="si">{</span><span class="n">start_t</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">end_t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OmeZarrWriter.write_t_batches">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_t_batches</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">im</span><span class="p">:</span> <span class="n">BioImage</span><span class="p">,</span> <span class="n">tbatch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_t_batches</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">im</span><span class="p">:</span> <span class="n">BioImage</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">tbatch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the image in batches of T.</span>
@@ -783,15 +795,21 @@
             <span class="n">end_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">tbatch</span><span class="p">,</span> <span class="n">numT</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">end_t</span> <span class="o">&gt;</span> <span class="n">start_t</span><span class="p">:</span>
                 <span class="c1"># assume start t and end t are in range (caller should guarantee this)</span>
-                <span class="n">ti</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;TCZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">))</span>
+                <span class="n">ti</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span>
+                    <span class="s2">&quot;TCZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">),</span> <span class="n">C</span><span class="o">=</span><span class="n">channels</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_downsample_and_write_batch_t</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">)</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished loop over T&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="OmeZarrWriter.write_t_batches_image_sequence">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_image_sequence">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_t_batches_image_sequence</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">tbatch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_t_batches_image_sequence</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">tbatch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the image in batches of T.</span>
@@ -816,7 +834,7 @@
                 <span class="n">ti</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">):</span>
                     <span class="n">im</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-                    <span class="n">ti</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">))</span>
+                    <span class="n">ti</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">channels</span><span class="p">))</span>
                 <span class="n">ti</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_downsample_and_write_batch_t</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">)</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished loop over T&quot;</span><span class="p">)</span></div>
@@ -824,10 +842,12 @@
 
 <div class="viewcode-block" id="OmeZarrWriter.write_t_batches_array">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_t_batches_array">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_t_batches_array</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_t_batches_array</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">im</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
         <span class="n">tbatch</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="n">toffset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -839,6 +859,8 @@
 <span class="sd">            An ArrayLike object. Should be 5D TCZYX.</span>
 <span class="sd">        tbatch:</span>
 <span class="sd">            The number of T to write at a time.</span>
+<span class="sd">        toffset:</span>
+<span class="sd">            The offset to start writing T from. All T in the input array will be written</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># if isinstance(im, (np.ndarray)):</span>
         <span class="c1">#     im_da = da.from_array(im)</span>
@@ -856,11 +878,16 @@
             <span class="k">if</span> <span class="n">end_t</span> <span class="o">&gt;</span> <span class="n">start_t</span><span class="p">:</span>
                 <span class="c1"># assume start t and end t are in range (caller should guarantee this)</span>
                 <span class="n">ti</span> <span class="o">=</span> <span class="n">im_da</span><span class="p">[</span><span class="n">start_t</span><span class="p">:</span><span class="n">end_t</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_downsample_and_write_batch_t</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ti</span><span class="p">),</span> <span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">channels</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ti</span><span class="p">)):</span>
+                        <span class="n">ti</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ti</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_downsample_and_write_batch_t</span><span class="p">(</span>
+                    <span class="n">da</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ti</span><span class="p">),</span> <span class="n">start_t</span><span class="p">,</span> <span class="n">end_t</span><span class="p">,</span> <span class="n">toffset</span>
+                <span class="p">)</span>
         <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished loop over T&quot;</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_get_scale_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_scale_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="n">lvl_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="n">level</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">lvl0_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -873,7 +900,7 @@
 
 <div class="viewcode-block" id="OmeZarrWriter.generate_metadata">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.generate_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">generate_metadata</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_metadata</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">image_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">channel_names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -970,7 +997,7 @@
 
 <div class="viewcode-block" id="OmeZarrWriter.write_metadata">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_zarr_writer_2.OmeZarrWriter.write_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write the metadata.</span>
 
@@ -1016,7 +1043,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ec906cc9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ca842793"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

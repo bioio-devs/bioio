@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio.writers.ome_tiff_writer - bioio 0.1.dev1+g7be08f6 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+        <title>bioio.writers.ome_tiff_writer - bioio 1.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">bioio 0.1.dev1+g7be08f6 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">bioio 1.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g7be08f6 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -263,27 +263,27 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">import</span> <span class="nn">importlib.metadata</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.metadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="kn">import</span> <span class="nn">bioio_base</span> <span class="k">as</span> <span class="nn">biob</span>
-<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">tifffile</span>
-<span class="kn">from</span> <span class="nn">bioio_base.types</span> <span class="kn">import</span> <span class="n">PhysicalPixelSizes</span>
-<span class="kn">from</span> <span class="nn">fsspec.implementations.local</span> <span class="kn">import</span> <span class="n">LocalFileSystem</span>
-<span class="kn">from</span> <span class="nn">ome_types</span> <span class="kn">import</span> <span class="n">from_xml</span><span class="p">,</span> <span class="n">to_xml</span>
-<span class="kn">from</span> <span class="nn">ome_types.model</span> <span class="kn">import</span> <span class="n">OME</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Pixels</span><span class="p">,</span> <span class="n">TiffData</span>
-<span class="kn">from</span> <span class="nn">ome_types.model.simple_types</span> <span class="kn">import</span> <span class="n">ChannelID</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">PositiveFloat</span><span class="p">,</span> <span class="n">PositiveInt</span>
-<span class="kn">from</span> <span class="nn">tifffile</span> <span class="kn">import</span> <span class="n">TIFF</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bioio_base</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">biob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tifffile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhysicalPixelSizes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fsspec.implementations.local</span><span class="w"> </span><span class="kn">import</span> <span class="n">LocalFileSystem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">from_xml</span><span class="p">,</span> <span class="n">to_xml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_types.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">OME</span><span class="p">,</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">Image</span><span class="p">,</span> <span class="n">Pixels</span><span class="p">,</span> <span class="n">TiffData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ome_types.model.simple_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChannelID</span><span class="p">,</span> <span class="n">Color</span><span class="p">,</span> <span class="n">PositiveFloat</span><span class="p">,</span> <span class="n">PositiveInt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tifffile</span><span class="w"> </span><span class="kn">import</span> <span class="n">TIFF</span>
 
-<span class="kn">from</span> <span class="nn">..ome_utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..ome_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">dtype_to_ome_type</span><span class="p">,</span>
     <span class="n">generate_ome_channel_id</span><span class="p">,</span>
     <span class="n">generate_ome_image_id</span><span class="p">,</span>
     <span class="n">ome_to_numpy_dtype</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.writer</span> <span class="kn">import</span> <span class="n">Writer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.writer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Writer</span>
 
 <span class="c1"># This is the threshold to use BigTiff, if it&#39;s the 4GB boundary it should be 2**22 but</span>
 <span class="c1"># the libtiff writer was unable to handle a 2GB numpy array.</span>
@@ -291,14 +291,17 @@
 <span class="c1"># calculate it but for now this is a stopgap working value</span>
 <span class="n">BIGTIFF_BYTE_LIMIT</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">21</span>
 
+<span class="c1"># Default tifffile.write kwargs</span>
+<span class="n">DEFAULT_TIFF_WRITE_KWARGS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;compression&quot;</span><span class="p">:</span> <span class="n">TIFF</span><span class="o">.</span><span class="n">COMPRESSION</span><span class="o">.</span><span class="n">ADOBE_DEFLATE</span><span class="p">}</span>
+
 
 <div class="viewcode-block" id="OmeTiffWriter">
 <a class="viewcode-back" href="../../../bioio.writers.OmeTiffWriter.html#bioio.writers.ome_tiff_writer.OmeTiffWriter">[docs]</a>
-<span class="k">class</span> <span class="nc">OmeTiffWriter</span><span class="p">(</span><span class="n">Writer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OmeTiffWriter</span><span class="p">(</span><span class="n">Writer</span><span class="p">):</span>
 <div class="viewcode-block" id="OmeTiffWriter.save">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_tiff_writer.OmeTiffWriter.save">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">],</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">],</span>
         <span class="n">uri</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
         <span class="n">dim_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -312,6 +315,7 @@
             <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]]]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">tifffile_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_TIFF_WRITE_KWARGS</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -368,6 +372,13 @@
 <span class="sd">            Any specific keyword arguments to pass down to the fsspec created</span>
 <span class="sd">            filesystem.</span>
 <span class="sd">            Default: {}</span>
+<span class="sd">        tifffile_kwargs: Dict[str, Any]</span>
+<span class="sd">            Any specific keyword arguments to pass down to tifffile write function.</span>
+<span class="sd">            Do not use these kwargs to provide the image `description`,</span>
+<span class="sd">            `photometric` configuration, or `planarconfig` parameters as those are all</span>
+<span class="sd">            determined via the image and metadata provided from caller.</span>
+<span class="sd">            Default: DEFAULT_TIFF_WRITE_KWARGS</span>
+<span class="sd">                Compression using ADOBE_DEFLATE (ZLIB)</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -395,6 +406,18 @@
 <span class="sd">        ...     &quot;file.ome.tif&quot;,</span>
 <span class="sd">        ...     dim_order=&quot;CZYX&quot;,  # this single value will be repeated to each image</span>
 <span class="sd">        ...     channel_names=[[&quot;C00&quot;,&quot;C01&quot;,&quot;C02&quot;],[&quot;C10&quot;,&quot;C11&quot;,&quot;C12&quot;]]</span>
+<span class="sd">        ... )</span>
+
+<span class="sd">        Write data with custom compression scheme</span>
+
+<span class="sd">        &gt;&gt;&gt; image = numpy.ndarray([1, 10, 3, 1024, 2048])</span>
+<span class="sd">        ... OmeTiffWriter.save(</span>
+<span class="sd">        ...     image,</span>
+<span class="sd">        ...     &quot;file.ome.tif&quot;,</span>
+<span class="sd">        ...     tifffile_kwargs={</span>
+<span class="sd">        ...         &quot;compression&quot;: &quot;zlib&quot;,</span>
+<span class="sd">        ...         &quot;compressionargs&quot;: {&quot;level&quot;: 8},</span>
+<span class="sd">        ...     },</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Resolve final destination</span>
@@ -567,14 +590,14 @@
                     <span class="n">photometric</span><span class="o">=</span><span class="n">photometric</span><span class="p">,</span>
                     <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">planarconfig</span><span class="o">=</span><span class="n">planarconfig</span><span class="p">,</span>
-                    <span class="n">compression</span><span class="o">=</span><span class="n">TIFF</span><span class="o">.</span><span class="n">COMPRESSION</span><span class="o">.</span><span class="n">ADOBE_DEFLATE</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">tifffile_kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
 
             <span class="n">tif</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_resolve_OME_dimension_order</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_OME_dimension_order</span><span class="p">(</span>
         <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dimension_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -691,7 +714,7 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">dimension_order</span><span class="p">),</span> <span class="n">is_rgb</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_size_of_ndarray</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_size_of_ndarray</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the size of data to determine if we require bigtiff</span>
 
@@ -709,14 +732,14 @@
         <span class="k">return</span> <span class="n">size</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_extend_data_shape</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">num_dims</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extend_data_shape</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">num_dims</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
         <span class="c1"># extend data shape to be same len as dimension_order</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_dims</span><span class="p">:</span>
             <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_dims</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)))</span> <span class="o">+</span> <span class="n">shape</span>
         <span class="k">return</span> <span class="n">shape</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_build_ome_image</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_ome_image</span><span class="p">(</span>
         <span class="n">image_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">tiff_plane_offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">data_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
@@ -741,7 +764,7 @@
                 <span class="n">data_shape</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dimension_order</span><span class="p">)</span>
             <span class="p">)</span>
 
-        <span class="k">def</span> <span class="nf">dim_or_1</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">dim_or_1</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="n">dimension_order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
             <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="n">data_shape</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
@@ -848,7 +871,7 @@
 <div class="viewcode-block" id="OmeTiffWriter.build_ome">
 <a class="viewcode-back" href="../../../bioio.writers.html#bioio.writers.ome_tiff_writer.OmeTiffWriter.build_ome">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">build_ome</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">build_ome</span><span class="p">(</span>
         <span class="n">data_shapes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span>
         <span class="n">data_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">],</span>
         <span class="n">dimension_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -951,7 +974,7 @@
 
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_check_ome_dims</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_ome_dims</span><span class="p">(</span>
         <span class="n">ome_xml</span><span class="p">:</span> <span class="n">OME</span><span class="p">,</span> <span class="n">image_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">data_dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ome_xml</span><span class="o">.</span><span class="n">images</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -1033,7 +1056,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=ec906cc9"></script>
+</div><script src="../../../_static/documentation_options.js?v=ca842793"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -5,8 +5,8 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio.plugins - bioio 0.1.dev1+g7be08f6 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+        <title>bioio.plugins - bioio 1.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 0.1.dev1+g7be08f6 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 1.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g7be08f6 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -263,31 +263,31 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">get_args</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">get_args</span>
 
-<span class="kn">import</span> <span class="nn">semver</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">semver</span>
 
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">importlib_metadata</span> <span class="kn">import</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">requires</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">requires</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">requires</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">requires</span>
 
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">bioio_base.reader</span> <span class="kn">import</span> <span class="n">Reader</span>
-<span class="kn">from</span> <span class="nn">bioio_base.reader_metadata</span> <span class="kn">import</span> <span class="n">ReaderMetadata</span>
-<span class="kn">from</span> <span class="nn">bioio_base.types</span> <span class="kn">import</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">PathLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.reader_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReaderMetadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">PathLike</span>
 
-<span class="kn">from</span> <span class="nn">.array_like_reader</span> <span class="kn">import</span> <span class="n">ArrayLikeReader</span><span class="p">,</span> <span class="n">ArrayLikeReaderMetadata</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.array_like_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLikeReader</span><span class="p">,</span> <span class="n">ArrayLikeReaderMetadata</span>
 
 <span class="c1">###############################################################################</span>
 
@@ -301,7 +301,7 @@
 
 <div class="viewcode-block" id="PluginEntry">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginEntry">[docs]</a>
-<span class="k">class</span> <span class="nc">PluginEntry</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginEntry</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">entrypoint</span><span class="p">:</span> <span class="n">EntryPoint</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">ReaderMetadata</span>
     <span class="n">timestamp</span><span class="p">:</span> <span class="nb">float</span></div>
@@ -314,7 +314,7 @@
 
 <div class="viewcode-block" id="check_type">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.check_type">[docs]</a>
-<span class="k">def</span> <span class="nf">check_type</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">reader_class</span><span class="p">:</span> <span class="n">Reader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_type</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">reader_class</span><span class="p">:</span> <span class="n">Reader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if the provided image is compatible with the specified reader class.</span>
 
@@ -362,7 +362,7 @@
 
 <div class="viewcode-block" id="get_array_like_plugin">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_array_like_plugin">[docs]</a>
-<span class="k">def</span> <span class="nf">get_array_like_plugin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PluginEntry</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_array_like_plugin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PluginEntry</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create and return a PluginEntry for ArrayLikeReader.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -379,7 +379,7 @@
 
 <div class="viewcode-block" id="insert_sorted_by_timestamp">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.insert_sorted_by_timestamp">[docs]</a>
-<span class="k">def</span> <span class="nf">insert_sorted_by_timestamp</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">],</span> <span class="n">item</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">insert_sorted_by_timestamp</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">],</span> <span class="n">item</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Insert into list of PluginEntrys sorted by their timestamps (install dates)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -393,7 +393,7 @@
 
 <div class="viewcode-block" id="get_dependency_version_range_for_distribution">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_dependency_version_range_for_distribution">[docs]</a>
-<span class="k">def</span> <span class="nf">get_dependency_version_range_for_distribution</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dependency_version_range_for_distribution</span><span class="p">(</span>
     <span class="n">distribution_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dependency_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -450,7 +450,7 @@
 
 <div class="viewcode-block" id="get_plugins">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_plugins">[docs]</a>
-<span class="k">def</span> <span class="nf">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gather a mapping from support file extensions</span>
 <span class="sd">    to plugins installed that support said extension</span>
@@ -547,7 +547,7 @@
 
 <div class="viewcode-block" id="dump_plugins">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.dump_plugins">[docs]</a>
-<span class="k">def</span> <span class="nf">dump_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">dump_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Report information about plugins currently installed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -596,7 +596,7 @@
 <div class="viewcode-block" id="PluginSupport">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginSupport">[docs]</a>
 <span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">PluginSupport</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginSupport</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Dataclass for reporting a plugins support for a specific image.&quot;&quot;&quot;</span>
 
     <span class="n">supported</span><span class="p">:</span> <span class="nb">bool</span>
@@ -604,7 +604,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_check_plugin_support</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_plugin_support</span><span class="p">(</span>
     <span class="n">plugin</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginSupport</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to check if a plugin supports the given image.&quot;&quot;&quot;</span>
@@ -618,7 +618,7 @@
 
 <div class="viewcode-block" id="plugin_feasibility_report">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.plugin_feasibility_report">[docs]</a>
-<span class="k">def</span> <span class="nf">plugin_feasibility_report</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plugin_feasibility_report</span><span class="p">(</span>
     <span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span>
     <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
     <span class="n">use_plugin_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -688,7 +688,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ec906cc9"></script>
+</div><script src="../../_static/documentation_options.js?v=ca842793"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

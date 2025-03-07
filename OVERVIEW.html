@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio" href="modules.html" /><link rel="prev" title="Welcome to bioio’s documentation!" href="index.html" />
 
     <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>BioIO - bioio 0.1.dev1+g7be08f6 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+        <title>BioIO - bioio 1.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 0.1.dev1+g7be08f6 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 1.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 0.1.dev1+g7be08f6 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -451,7 +451,7 @@ BioIO will then determine which reader to use for which file automatically.</p>
 <section id="full-image-reading">
 <h3>Full Image Reading<a class="headerlink" href="#full-image-reading" title="Link to this heading">¶</a></h3>
 <p>If your image fits in memory:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
@@ -488,7 +488,7 @@ the specified chunk.</p>
 <section id="delayed-image-reading">
 <h3>Delayed Image Reading<a class="headerlink" href="#delayed-image-reading" title="Link to this heading">¶</a></h3>
 <p>If your image doesn’t fit in memory:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
@@ -585,7 +585,7 @@ to help with single tile positioning:</p>
 </section>
 <section id="metadata-reading">
 <h3>Metadata Reading<a class="headerlink" href="#metadata-reading" title="Link to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
@@ -602,7 +602,7 @@ to help with single tile positioning:</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">bioio</span></code> finds coordinate information for the spatial-temporal dimensions of
 the image in metadata, you can use
 <a class="reference external" href="http://xarray.pydata.org/en/stable/index.html">xarray</a> for indexing by coordinates.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.ome.tiff&quot;</span><span class="p">)</span>
@@ -631,7 +631,7 @@ for common object storage services (S3, GCS, etc.) to act like normal filesystem
 following the same base specification across them all. BioIO utilizes this
 standard specification to make it possible to read directly from remote resources when
 the specification is installed.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;http://my-website.com/my_file.tiff&quot;</span><span class="p">)</span>
@@ -657,7 +657,7 @@ target backend is installed.</p>
 <h3>Saving to OME-TIFF<a class="headerlink" href="#saving-to-ome-tiff" title="Link to this heading">¶</a></h3>
 <p>The simpliest method to save your image as an OME-TIFF file with key pieces of
 metadata is to use the <code class="docutils literal notranslate"><span class="pre">save</span></code> function.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bioio</span> <span class="kn">import</span> <span class="n">BioImage</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.czi&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;my_file.ome.tiff&quot;</span><span class="p">)</span>
 </pre></div>
@@ -667,8 +667,8 @@ along from the reader to the OME model. This function currently does not do a fu
 metadata translation.</p>
 <p>For finer grain customization of the metadata, scenes, or if you want to save an array
 as an OME-TIFF, the writer class can also be used to customize as needed.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bioio.writers</span> <span class="kn">import</span> <span class="n">OmeTiffWriter</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio.writers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OmeTiffWriter</span>
 
 <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>
 <span class="n">OmeTiffWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.ome.tif&quot;</span><span class="p">,</span> <span class="n">dim_order</span><span class="o">=</span><span class="s2">&quot;ZCYX&quot;</span><span class="p">)</span>
@@ -810,7 +810,7 @@ for information related to developing the code.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=ec906cc9"></script>
+</div><script src="_static/documentation_options.js?v=ca842793"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

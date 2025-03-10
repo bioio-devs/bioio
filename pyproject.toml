@@ -40,7 +40,8 @@ dependencies = [
   # or a private package index, this will prevent usage
   "scikit-image!=0.23.0",
   "semver>=3.0.1",
-  "tifffile>=2021.8.30",
+  # enumeration constants renamed, breaking bioio
+  "tifffile>=2021.8.30,<2025.2.18", # breaking changes introduced
   "zarr>=2.6.0",
 ]
 

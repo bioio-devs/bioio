@@ -971,55 +971,6 @@ class BioImage(biob.image_container.ImageContainer):
         """
         return self.reader.physical_pixel_sizes
 
-    @property
-    def scale(self) -> biob.types.Scale:
-        """
-        Returns
-        -------
-        scale: Scale
-            A Scale object constructed from the Reader's time_interval and
-            physical_pixel_sizes.
-
-        Notes
-        -----
-        * Combines temporal and spatial scaling information into a single object.
-        * The channel scaling (`C`) is not derived from metadata and defaults to None.
-        """
-        return self.reader.scale
-
-    @property
-    def time_interval(self) -> biob.types.TimeInterval:
-        """
-        Returns
-        -------
-        sizes: Time Interval
-            Using available metadata, this float represents the time interval for
-            dimension T.
-
-        Notes
-        -----
-        We currently do not handle unit attachment to these values. Please see the file
-        metadata for unit information.
-        """
-        return self.reader.time_interval
-
-    @property
-    def manifest(self) -> Dict[str, Any]:
-        """
-        Returns
-        -------
-        manifest: Dict[str, Any]
-            A dictionary of embedded metadata.
-
-        Notes
-        -----
-        Iterates over all properties decorated with @embedded_metadata, including those
-        defined in subclasses, and builds a manifest dictionary.
-        If a property returns None, that key will be excluded from the resulting
-        dictionary.
-        """
-        return self.reader.manifest
-
     def get_mosaic_tile_position(
         self, mosaic_tile_index: int, **kwargs: int
     ) -> Tuple[int, int]:

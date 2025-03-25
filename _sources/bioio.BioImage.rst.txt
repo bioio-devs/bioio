@@ -50,8 +50,10 @@
       ~BioImage.reader
       ~BioImage.resolution_level_dims
       ~BioImage.resolution_levels
+      ~BioImage.scale
       ~BioImage.scenes
       ~BioImage.shape
+      ~BioImage.time_interval
       ~BioImage.xarray_dask_data
       ~BioImage.xarray_data
    

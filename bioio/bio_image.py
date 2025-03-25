@@ -1003,23 +1003,6 @@ class BioImage(biob.image_container.ImageContainer):
         """
         return self.reader.time_interval
 
-    @property
-    def manifest(self) -> Dict[str, Any]:
-        """
-        Returns
-        -------
-        manifest: Dict[str, Any]
-            A dictionary of embedded metadata.
-
-        Notes
-        -----
-        Iterates over all properties decorated with @embedded_metadata, including those
-        defined in subclasses, and builds a manifest dictionary.
-        If a property returns None, that key will be excluded from the resulting
-        dictionary.
-        """
-        return self.reader.manifest
-
     def get_mosaic_tile_position(
         self, mosaic_tile_index: int, **kwargs: int
     ) -> Tuple[int, int]:

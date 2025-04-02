@@ -1006,7 +1006,7 @@ class BioImage(biob.image_container.ImageContainer):
     @property
     def standard_metadata(self) -> biob.standard_metadata.StandardMetadata:
         """
-        Return the manifest of standard metadata as a dictionary. The possible
+        Return a set of standardized metadata. The possible
         fields are predefined by the StandardMetadata dataclass.
         """
         return self.reader.standard_metadata

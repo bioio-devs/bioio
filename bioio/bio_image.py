@@ -1003,6 +1003,14 @@ class BioImage(biob.image_container.ImageContainer):
         """
         return self.reader.time_interval
 
+    @property
+    def standard_metadata(self) -> biob.standard_metadata.StandardMetadata:
+        """
+        Return a set of standardized metadata. The possible
+        fields are predefined by the StandardMetadata dataclass.
+        """
+        return self.reader.standard_metadata
+
     def get_mosaic_tile_position(
         self, mosaic_tile_index: int, **kwargs: int
     ) -> Tuple[int, int]:

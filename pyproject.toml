@@ -28,7 +28,8 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-  "bioio-base>=1.0.6",
+  "bioio-base==1.0.6", # We always pin a specific version of bioio-base with
+  # each release so that we avoid bioio , bioio-base misalignment.
   "dask[array]>=2021.4.1",
   "fsspec>=2022.8.0",
   "imageio[ffmpeg]>=2.11.0,<2.28.0",

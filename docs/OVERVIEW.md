@@ -23,7 +23,7 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 
 ## Installation
 
-BioIO requires Python version 3.9 and up
+BioIO requires Python version 3.10 and up
 
 **Stable Release:** `pip install bioio`<br>
 **Development Head:** `pip install git+https://github.com/bioio-devs/bioio.git`

@@ -38,7 +38,9 @@ dependencies = [
   "numpy>=1.21.0",
   "ome-types[lxml]>=0.4.0",
   "ome-zarr>=0.6.1",
-  "ome-zarr-models>=0.1.1",
+  # Use ngff-zarr for Python 3.10 or lower and ome-zarr-models for Python 3.11 or higher.
+  'ngff-zarr>=0.8.2,<0.9.1; python_version < "3.11"',
+  'ome-zarr-models>=0.1.1; python_version >= "3.11"',
   # This version was revoked from PyPi, but in case of using a stale version
   # or a private package index, this will prevent usage
   "scikit-image!=0.23.0",

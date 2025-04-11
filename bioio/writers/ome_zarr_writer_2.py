@@ -1,5 +1,5 @@
 import logging
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from math import prod
 from typing import Any, List, Tuple, Union
 
@@ -8,10 +8,27 @@ import numcodecs
 import numpy as np
 import skimage.transform
 import zarr
-from ngff_zarr.zarr_metadata import Axis, Dataset, Metadata, Scale, Translation
 from zarr.storage import DirectoryStore, FSStore, default_compressor
 
 from bioio import BioImage
+
+# Try importing the new ome-zarr models; if that fails,
+# fall back to the legacy ngff implementation.
+try:
+    from ome_zarr_models.v04.axes import Axis
+    from ome_zarr_models.v04.coordinate_transformations import (
+        VectorScale,
+        VectorTranslation,
+    )
+    from ome_zarr_models.v04.multiscales import Dataset, Multiscale
+
+    USE_NEW_MODELS = True
+except ImportError:
+    from dataclasses import asdict
+
+    from ngff_zarr.zarr_metadata import Axis, Dataset, Metadata, Scale, Translation
+
+    USE_NEW_MODELS = False
 
 log = logging.getLogger(__name__)
 
@@ -659,19 +676,35 @@ class OmeZarrWriter:
                 # TODO handle optional translations e.g. xy stage position,
                 # start time etc
                 translation.append(0.0)
-            coordinateTransformations = [Scale(scale), Translation(translation)]
+
+            if USE_NEW_MODELS:
+                coordinateTransformations = (
+                    VectorScale(type="scale", scale=scale),
+                    VectorTranslation(type="translation", translation=translation),
+                )
+            else:
+                coordinateTransformations = (Scale(scale), Translation(translation))
             dataset = Dataset(
                 path=path, coordinateTransformations=coordinateTransformations
             )
             datasets.append(dataset)
-        metadata = Metadata(
-            axes=axes,
-            datasets=datasets,
-            name="/",
-            coordinateTransformations=None,
-        )
-
-        metadata_dict = asdict(metadata)
+        if USE_NEW_MODELS:
+            metadata = Multiscale(
+                version=OME_NGFF_VERSION,
+                axes=axes,
+                datasets=datasets,
+                name="/",
+                coordinateTransformations=None,
+            )
+            metadata_dict = metadata.model_dump()
+        else:
+            metadata = Metadata(
+                axes=axes,
+                datasets=datasets,
+                name="/",
+                coordinateTransformations=None,
+            )
+            metadata_dict = asdict(metadata)
         metadata_dict = _pop_metadata_optionals(metadata_dict)
 
         # get the total shape as dict:

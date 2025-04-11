@@ -22,9 +22,10 @@ authors = [
 classifiers = [
   "Development Status :: 4 - Beta",
   "Natural Language :: English",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 dynamic = ["version"]
 dependencies = [
@@ -33,17 +34,18 @@ dependencies = [
   "bioio-base==1.0.6", 
   "dask[array]>=2021.4.1",
   "fsspec>=2022.8.0",
-  "imageio[ffmpeg]>=2.11.0,<2.28.0",
-  "ngff-zarr>=0.8.2,<0.9.1",
-  "numpy>=1.21.0,<2.0.0",
+  "imageio[ffmpeg]>=2.11.0",
+  "numpy>=1.21.0",
   "ome-types[lxml]>=0.4.0",
   "ome-zarr>=0.6.1",
+  # Use ngff-zarr for Python 3.10 or lower and ome-zarr-models for Python 3.11 or higher.
+  'ngff-zarr>=0.8.2; python_version < "3.11"',
+  'ome-zarr-models>=0.1.1; python_version >= "3.11"',
   # This version was revoked from PyPi, but in case of using a stale version
   # or a private package index, this will prevent usage
   "scikit-image!=0.23.0",
   "semver>=3.0.1",
-  # enumeration constants renamed, breaking bioio
-  "tifffile>=2021.8.30,<2025.2.18", # breaking changes introduced
+  "tifffile>=2021.8.30",
   "zarr>=2.6.0",
 ]
 
@@ -136,7 +138,7 @@ show_error_codes = true
 [tool.flake8]
 max-line-length = 88
 ignore = "E203,E402,W291,W503"
-min-python-version = "3.9.0"
+min-python-version = "3.10.0"
 per-file-ignores = [
   "__init__.py:F401",
 ]

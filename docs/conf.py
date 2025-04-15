@@ -57,10 +57,10 @@ copyright = "2022"
 author = "Eva Maxfield Brown"
 
 # The version info for the project you"re documenting, acts as replacement
- # for |version| and |release|, also used in various other places throughout
- # the built documents.
- #
- # The short X.Y version.
+# for |version| and |release|, also used in various other places throughout
+# the built documents.
+#
+# The short X.Y version.
 version = bioio.__version__
 # The full version, including alpha/beta/rc tags.
 release = bioio.__version__
@@ -121,7 +121,7 @@ man_pages = [(main_doc, "bioio", "bioio Documentation", [author], 1)]
 
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
-#  dir menu entry, description, category)
+# dir menu entry, description, category)
 texinfo_documents = [
     (
         main_doc,

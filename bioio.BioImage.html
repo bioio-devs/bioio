@@ -2,11 +2,11 @@
 <html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio.writers.OmeTiffWriter" href="bioio.writers.OmeTiffWriter.html" /><link rel="prev" title="Migration from AICSImageIO v4 to BioIO v1" href="MIGRATION.html" />
 
-    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio.BioImage - bioio 1.4.0 documentation</title>
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>bioio.BioImage - bioio 1.5.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 1.4.0 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 1.5.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 1.4.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.5.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -270,7 +270,7 @@
 <h1>bioio.BioImage<a class="headerlink" href="#bioio-bioimage" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="bioio.BioImage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">BioImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">BioImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage" title="Link to this definition">¶</a></dt>
 <dd><p>BioImage takes microscopy image data types (files or arrays) of varying
 dimensions (“ZYX”, “TCZYX”, “CYX”) and reads them as consistent 5D “TCZYX”
 (“Time-Channel-Z-Y-X”) ordered array(s). The data and metadata are lazy
@@ -425,151 +425,70 @@ stored in their own dimension (M).</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.channel_names" title="bioio.BioImage.channel_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">channel_names</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_resolution_level" title="bioio.BioImage.current_resolution_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_resolution_level</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_scene" title="bioio.BioImage.current_scene"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_scene</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.current_scene_index" title="bioio.BioImage.current_scene_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">current_scene_index</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dask_data" title="bioio.BioImage.dask_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dask_data</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.data" title="bioio.BioImage.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dims" title="bioio.BioImage.dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dims</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.dtype" title="bioio.BioImage.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.metadata" title="bioio.BioImage.metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metadata</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.mosaic_tile_dims" title="bioio.BioImage.mosaic_tile_dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mosaic_tile_dims</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.ome_metadata" title="bioio.BioImage.ome_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ome_metadata</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.physical_pixel_sizes" title="bioio.BioImage.physical_pixel_sizes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">physical_pixel_sizes</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.reader" title="bioio.BioImage.reader"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reader</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.resolution_level_dims" title="bioio.BioImage.resolution_level_dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolution_level_dims</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.resolution_levels" title="bioio.BioImage.resolution_levels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolution_levels</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.scale" title="bioio.BioImage.scale"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.scenes" title="bioio.BioImage.scenes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scenes</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.shape" title="bioio.BioImage.shape"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.time_interval" title="bioio.BioImage.time_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_interval</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.standard_metadata" title="bioio.BioImage.standard_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standard_metadata</span></code></a></p></td>
+<td><p>Return a set of standardized metadata.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.xarray_dask_data" title="bioio.BioImage.xarray_dask_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xarray_dask_data</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.time_interval" title="bioio.BioImage.time_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_interval</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.xarray_data" title="bioio.BioImage.xarray_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xarray_data</span></code></a></p></td>
-<td><p><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.xarray_dask_data" title="bioio.BioImage.xarray_dask_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xarray_dask_data</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="bioio.html#bioio.BioImage.xarray_data" title="bioio.BioImage.xarray_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xarray_data</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -649,8 +568,8 @@ stored in their own dimension (M).</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=9172181d"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
+</div><script src="_static/documentation_options.js?v=73275c37"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>

@@ -2,11 +2,11 @@
 <html class="no-js" lang="en" data-content_root="./">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="bioio" href="modules.html" /><link rel="prev" title="Welcome to bioio’s documentation!" href="index.html" />
 
-    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>BioIO - bioio 1.4.0 documentation</title>
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>BioIO - bioio 1.5.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -167,7 +167,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 1.4.0 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 1.5.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -191,7 +191,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">bioio 1.4.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.5.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -275,7 +275,7 @@
 <ul class="simple">
 <li><p>Image Reading</p>
 <ul>
-<li><p>BioIO can read many various image formats (ex. <code class="docutils literal notranslate"><span class="pre">OME-TIFF</span></code>, <code class="docutils literal notranslate"><span class="pre">PNG</span></code>,  <code class="docutils literal notranslate"><span class="pre">ND2</span></code>), but only when paired with the appropriate plug-in for the image format. See <a class="reference external" href="#id1">Reader Installation</a> for a full list of the currently supported image formats as well as how to install them.</p></li>
+<li><p>BioIO can read many various image formats (ex. <code class="docutils literal notranslate"><span class="pre">OME-TIFF</span></code>, <code class="docutils literal notranslate"><span class="pre">PNG</span></code>,  <code class="docutils literal notranslate"><span class="pre">ND2</span></code>), but only when paired with the appropriate plug-in for the image format. See <a class="reference internal" href="#id1"><span class="xref myst">Reader Installation</span></a> for a full list of the currently supported image formats as well as how to install them.</p></li>
 </ul>
 </li>
 <li><p>Image Writing</p>
@@ -299,20 +299,20 @@
 <li><p><a class="reference external" href="https://github.com/dask/gcsfs">gcsfs</a> (i.e. <code class="docutils literal notranslate"><span class="pre">gcs://my-bucket/my-file.png</span></code>)</p></li>
 </ul>
 </li>
-<li><p>See <a class="reference external" href="#id2">Cloud IO Support</a> for more details.</p></li>
+<li><p>See <a class="reference internal" href="#id2"><span class="xref myst">Cloud IO Support</span></a> for more details.</p></li>
 </ul>
 </li>
 </ul>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
-<p>BioIO requires Python version 3.9 and up</p>
-<p><strong>Stable Release:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span></code><span class="raw-html-m2r"><br></span>
+<p>BioIO requires Python version 3.10 and up</p>
+<p><strong>Stable Release:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span></code><br>
 <strong>Development Head:</strong> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">git+https://github.com/bioio-devs/bioio.git</span></code></p>
 <p>BioIO is supported on Windows, Mac, and Ubuntu.
 For other platforms, you will likely need to build from source.</p>
-<section id="id1">
-<h3>Reader Installation<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<section id="reader-installation">
+<h3>Reader Installation<a class="headerlink" href="#reader-installation" title="Link to this heading">¶</a></h3>
 <p>BioIO is a plug-in based system of readers meaning in addition to the <code class="docutils literal notranslate"><span class="pre">bioio</span></code> package you need to install the packages
 that support the file types you are using. For example, if attempting to read <code class="docutils literal notranslate"><span class="pre">.ome.tiff</span></code> and <code class="docutils literal notranslate"><span class="pre">.zarr</span></code> files you’ll want to install the <code class="docutils literal notranslate"><span class="pre">bioio-ome-tiff</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">bioio-ome-zarr</span></code> packages alongside <code class="docutils literal notranslate"><span class="pre">bioio</span></code> (ex. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bioio</span> <span class="pre">bioio-ome-zarr</span> <span class="pre">bioio-ome-tiff</span></code>).
 BioIO will then determine which reader to use for which file automatically.</p>
@@ -444,7 +444,8 @@ BioIO will then determine which reader to use for which file automatically.</p>
         Files supported by <a class="reference external" href="https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html">Bio-Formats</a> (Requires <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">maven</span></code>, see below for details)
     </td>
   </tr>
-</table></section>
+</table>
+</section>
 </section>
 <section id="quickstart">
 <h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">¶</a></h2>
@@ -624,8 +625,8 @@ the image in metadata, you can use
 <a class="reference external" href="http://xarray.pydata.org/en/stable/indexing.html">“Indexing and Selecting Data” Documentation</a>
 for more information.</p>
 </section>
-<section id="id2">
-<h3>Cloud IO Support<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<section id="cloud-io-support">
+<h3>Cloud IO Support<a class="headerlink" href="#cloud-io-support" title="Link to this heading">¶</a></h3>
 <p><a class="reference external" href="https://github.com/intake/filesystem_spec">File-System Specification (fsspec)</a> allows
 for common object storage services (S3, GCS, etc.) to act like normal filesystems by
 following the same base specification across them all. BioIO utilizes this
@@ -770,7 +771,7 @@ for information related to developing the code.</p>
 <li><a class="reference internal" href="#">BioIO</a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
-<li><a class="reference internal" href="#id1">Reader Installation</a></li>
+<li><a class="reference internal" href="#reader-installation">Reader Installation</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#quickstart">Quickstart</a><ul>
@@ -790,7 +791,7 @@ for information related to developing the code.</p>
 </li>
 <li><a class="reference internal" href="#metadata-reading">Metadata Reading</a></li>
 <li><a class="reference internal" href="#xarray-coordinate-plane-attachment">Xarray Coordinate Plane Attachment</a></li>
-<li><a class="reference internal" href="#id2">Cloud IO Support</a></li>
+<li><a class="reference internal" href="#cloud-io-support">Cloud IO Support</a></li>
 <li><a class="reference internal" href="#saving-to-ome-tiff">Saving to OME-TIFF</a><ul>
 <li><a class="reference internal" href="#other-writers">Other Writers</a></li>
 </ul>
@@ -810,8 +811,8 @@ for information related to developing the code.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=9172181d"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
+</div><script src="_static/documentation_options.js?v=73275c37"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>

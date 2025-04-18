@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 -->
-        <title>bioio.writers.ome_zarr_writer_2 - bioio 1.4.0 documentation</title>
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>bioio.writers.ome_zarr_writer_2 - bioio 1.5.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">bioio 1.4.0 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">bioio 1.5.2 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 1.4.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 1.5.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -261,7 +261,7 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for bioio.writers.ome_zarr_writer_2</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">asdict</span><span class="p">,</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">prod</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
@@ -270,10 +270,27 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">skimage.transform</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">ngff_zarr.zarr_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axis</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">Scale</span><span class="p">,</span> <span class="n">Translation</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">zarr.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">DirectoryStore</span><span class="p">,</span> <span class="n">FSStore</span><span class="p">,</span> <span class="n">default_compressor</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
+
+<span class="c1"># Try importing the new ome-zarr models; if that fails,</span>
+<span class="c1"># fall back to the legacy ngff implementation.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr_models.v04.axes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axis</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr_models.v04.coordinate_transformations</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+        <span class="n">VectorScale</span><span class="p">,</span>
+        <span class="n">VectorTranslation</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ome_zarr_models.v04.multiscales</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Multiscale</span>
+
+    <span class="n">USE_NEW_MODELS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">asdict</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ngff_zarr.zarr_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axis</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">Scale</span><span class="p">,</span> <span class="n">Translation</span>
+
+    <span class="n">USE_NEW_MODELS</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -961,19 +978,35 @@
                 <span class="c1"># TODO handle optional translations e.g. xy stage position,</span>
                 <span class="c1"># start time etc</span>
                 <span class="n">translation</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
-            <span class="n">coordinateTransformations</span> <span class="o">=</span> <span class="p">[</span><span class="n">Scale</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">Translation</span><span class="p">(</span><span class="n">translation</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="n">USE_NEW_MODELS</span><span class="p">:</span>
+                <span class="n">coordinateTransformations</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">VectorScale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">),</span>
+                    <span class="n">VectorTranslation</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;translation&quot;</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">coordinateTransformations</span> <span class="o">=</span> <span class="p">(</span><span class="n">Scale</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">Translation</span><span class="p">(</span><span class="n">translation</span><span class="p">))</span>
             <span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span>
                 <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">coordinateTransformations</span><span class="o">=</span><span class="n">coordinateTransformations</span>
             <span class="p">)</span>
             <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="n">Metadata</span><span class="p">(</span>
-            <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
-            <span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
-            <span class="n">coordinateTransformations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">asdict</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">USE_NEW_MODELS</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">Multiscale</span><span class="p">(</span>
+                <span class="n">version</span><span class="o">=</span><span class="n">OME_NGFF_VERSION</span><span class="p">,</span>
+                <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                <span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+                <span class="n">coordinateTransformations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">Metadata</span><span class="p">(</span>
+                <span class="n">axes</span><span class="o">=</span><span class="n">axes</span><span class="p">,</span>
+                <span class="n">datasets</span><span class="o">=</span><span class="n">datasets</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>
+                <span class="n">coordinateTransformations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">asdict</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
         <span class="n">metadata_dict</span> <span class="o">=</span> <span class="n">_pop_metadata_optionals</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">)</span>
 
         <span class="c1"># get the total shape as dict:</span>
@@ -1043,8 +1076,8 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=9172181d"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+</div><script src="../../../_static/documentation_options.js?v=73275c37"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>

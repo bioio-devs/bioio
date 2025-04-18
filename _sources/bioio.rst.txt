@@ -17,37 +17,37 @@ bioio.array\_like\_reader module
 
 .. automodule:: bioio.array_like_reader
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 bioio.bio\_image module
 -----------------------
 
 .. automodule:: bioio.bio_image
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 bioio.ome\_utils module
 -----------------------
 
 .. automodule:: bioio.ome_utils
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 bioio.plugins module
 --------------------
 
 .. automodule:: bioio.plugins
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: bioio
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

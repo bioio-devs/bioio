@@ -271,9 +271,11 @@ class BioImage(biob.image_container.ImageContainer):
         >>> BioImage._path_has_extension("./file.ome.zarr", ".ome")
         False
         """
-        path_without_query_string = path.split("?")[0]
-        return path.lower().endswith(extension) or path_without_query_string.lower().endswith(extension)
 
+        def ends_with_ext(string: str) -> bool:
+            return string.lower().endswith(extension)
+
+        return ends_with_ext(path) or ends_with_ext(path.split("?")[0])
 
     @staticmethod
     def _get_reader(

@@ -1,2 +1,2 @@
 recursive-include bioio *.toml
-exclude */tests
+exclude */tests  # Excluded for licensing clarity

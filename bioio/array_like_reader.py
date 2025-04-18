@@ -160,7 +160,7 @@ class ArrayLikeReader(Reader):
         channel_names: Optional[Union[List[str], List[List[str]]]] = None,
         physical_pixel_sizes: Optional[
             Union[List[float], Dict[str, float], PhysicalPixelSizes]
-        ] = PhysicalPixelSizes(None, None, None),
+        ] = None,
         **kwargs: Any,
     ):
         # Enforce valid image
@@ -422,7 +422,7 @@ class ArrayLikeReader(Reader):
         elif isinstance(physical_pixel_sizes, dict):
             self._physical_pixel_sizes = PhysicalPixelSizes(**physical_pixel_sizes)
         else:
-            self._physical_pixel_sizes = PhysicalPixelSizes(None, None, None)
+            self._physical_pixel_sizes = None
 
     @property
     def scenes(self) -> Tuple[str, ...]:

@@ -217,7 +217,7 @@ class BioImage(biob.image_container.ImageContainer):
 
             # Check for extension in plugins_by_ext
             for format_ext, plugins in plugins_by_ext.items():
-                if path.lower().endswith(format_ext):
+                if BioImage._path_has_extension(path, format_ext):
                     for plugin in plugins:
                         ReaderClass = plugin.metadata.get_reader()
                         try:
@@ -254,6 +254,28 @@ class BioImage(biob.image_container.ImageContainer):
                 "specific image can be handled by the available plugins."
             ),
         )
+
+    @staticmethod
+    def _path_has_extension(path: str, extension: str) -> bool:
+        """
+        Examples
+        --------
+        >>> BioImage._path_has_extension("https://example.com/file.czi", ".czi")
+        True
+        >>> BioImage._path_has_extension("https://example.com/file.czi?x=123", ".czi")
+        True
+        >>> BioImage._path_has_extension("./file.ome.zarr", ".ome.zarr")
+        True
+        >>> BioImage._path_has_extension("./file.ome.zarr", ".zarr")
+        True
+        >>> BioImage._path_has_extension("./file.ome.zarr", ".ome")
+        False
+        """
+
+        def ends_with_ext(string: str) -> bool:
+            return string.lower().endswith(extension)
+
+        return ends_with_ext(path) or ends_with_ext(path.split("?")[0])
 
     @staticmethod
     def _get_reader(

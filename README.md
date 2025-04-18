@@ -73,3 +73,10 @@ Each reader plugin should closely follow the specification laid out in `bioio-ba
 
 ## Issues
 [_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)
+
+# License
+`bioio` is provided under the terms of the permissive open source 3-clause BSD license,
+with the exception of some tests for developers of `bioio`.
+Specifically, the integration tests in the `test_bioio_czi` module are provided under
+the copyleft GPLv3 or later.
+This testing module is irrelevant for regular users of bioio.

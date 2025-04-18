@@ -265,11 +265,16 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
     return plugins_by_ext
 
 
-def dump_plugins() -> None:
+def dump_plugins(use_cache: bool = True) -> None:
     """
     Report information about plugins currently installed
+
+    Parameters
+    ----------
+    use_cache : bool
+        Whether to use the cached plugins list. Mainly exposed for testing purposes.
     """
-    plugins_by_ext = get_plugins(use_cache=True)
+    plugins_by_ext = get_plugins(use_cache=use_cache)
     plugin_set = set()
     for _, plugins in plugins_by_ext.items():
         plugin_set.update(plugins)

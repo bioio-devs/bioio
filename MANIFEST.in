@@ -1,1 +1,2 @@
 recursive-include bioio *.toml
+exclude */tests

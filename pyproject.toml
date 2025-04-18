@@ -121,7 +121,8 @@ ignore = [
   "CONTRIBUTING.md",
   "Justfile",
   ".cookiecutter.yaml",
-  "*docs/*",
+  "*docs/**",
+  "*tests/**",
 ]
 
 [tool.mypy]

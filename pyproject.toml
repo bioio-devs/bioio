@@ -31,7 +31,7 @@ dynamic = ["version"]
 dependencies = [
   # We always pin a specific version of bioio-base with
   # each release so that we avoid bioio + bioio-base misalignment.
-  "bioio-base==1.0.7", 
+  "bioio-base==1.0.7",
   "dask[array]>=2021.4.1",
   "fsspec>=2022.8.0",
   "imageio[ffmpeg]>=2.11.0",
@@ -62,6 +62,7 @@ lint = [
   "pre-commit>=2.20.0",
 ]
 test = [
+  "bioio-czi @ git+https://github.com/bioio-devs/bioio-czi.git@main",
   "coverage>=5.1",
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",

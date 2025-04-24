@@ -22,10 +22,11 @@ import subprocess
 import sys
 import typing
 
-import bioio
 import dask.array as da
 import numpy as np
 import pytest
+
+import bioio
 
 ###############################################################################
 

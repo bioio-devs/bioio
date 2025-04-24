@@ -12,12 +12,13 @@ else:
 import bioio_base as biob
 import numpy as np
 import pytest
-from bioio import BioImage
-from bioio.array_like_reader import ArrayLikeReader
 from bioio_base import exceptions
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
 from bioio_base.types import ImageLike
+
+from bioio import BioImage
+from bioio.array_like_reader import ArrayLikeReader
 
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:

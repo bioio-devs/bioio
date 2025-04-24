@@ -1,11 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from typing import List
 
 import bioio_base.reader_metadata
-
-###############################################################################
 
 
 class ReaderMetadata(bioio_base.reader_metadata.ReaderMetadata):
@@ -21,7 +16,8 @@ class ReaderMetadata(bioio_base.reader_metadata.ReaderMetadata):
         """
         Return a list of file extensions this plugin supports reading.
         """
-        # Feel free to add more extensions here
+        # Feel free to add any extensions here. This plugin is intended to pretend to
+        # read anything.
         return [
             ".tiff",
             ".tif",

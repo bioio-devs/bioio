@@ -22,11 +22,10 @@ import subprocess
 import sys
 import typing
 
+import bioio
 import dask.array as da
 import numpy as np
 import pytest
-
-import bioio
 
 ###############################################################################
 
@@ -63,6 +62,8 @@ array_constructor = pytest.mark.parametrize(
 
 DUMMY_PLUGIN_NAME = "dummy-plugin"
 DUMMY_PLUGIN_PATH = pathlib.Path(__file__).parent / DUMMY_PLUGIN_NAME
+ACCEPTING_PLUGIN_NAME = "accepting-plugin"
+ACCEPTING_PLUGIN_PATH = pathlib.Path(__file__).parent / ACCEPTING_PLUGIN_NAME
 
 
 class InstallPackage:
@@ -99,3 +100,11 @@ class InstallPackage:
 def dummy_plugin() -> typing.Generator[str, None, None]:
     with InstallPackage(package_path=DUMMY_PLUGIN_PATH, package_name=DUMMY_PLUGIN_NAME):
         yield DUMMY_PLUGIN_NAME
+
+
+@pytest.fixture
+def accepting_plugin() -> typing.Generator[str, None, None]:
+    with InstallPackage(
+        package_path=ACCEPTING_PLUGIN_PATH, package_name=ACCEPTING_PLUGIN_NAME
+    ):
+        yield ACCEPTING_PLUGIN_NAME

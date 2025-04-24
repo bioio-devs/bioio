@@ -12,13 +12,12 @@ else:
 import bioio_base as biob
 import numpy as np
 import pytest
+from bioio import BioImage
+from bioio.array_like_reader import ArrayLikeReader
 from bioio_base import exceptions
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
 from bioio_base.types import ImageLike
-
-from bioio import BioImage
-from bioio.array_like_reader import ArrayLikeReader
 
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
@@ -100,3 +99,14 @@ def test_bioimage_attempts_s3_read_with_anon_attr(
         BioImage(sample_text_file, reader=FakeReader)
 
     assert err_msg in str(err.value)
+
+
+def test_bioimage_can_ignore_query_strings(accepting_plugin: str) -> None:
+    # The accepting-plugin claims to support .czi files, and it will not error
+    # when instantiating a reader. The following should succeed if bioio correctly
+    # ignores the query string when evaluating plugin support.
+    BioImage(
+        "https://allencell.s3.amazonaws.com/aics/hipsc_12x_overview_image_dataset/"
+        "stitchedwelloverviewimagepath/05080558_3500003720_10X_20191220_D3.czi"
+        "?versionId=_KYMRhRvKxnu727ssMD2_fZD5CmQMNw6"
+    )

@@ -16,7 +16,8 @@ def test_dump_plugins(dummy_plugin: str) -> None:
     old_stdout = sys.stdout
     sys.stdout = StringIO()
     try:
-        dump_plugins()
+        # Disable plugin caching to prevent other tests from interfering
+        dump_plugins(use_cache=False)
         output = sys.stdout.getvalue()
     finally:
         sys.stdout = old_stdout

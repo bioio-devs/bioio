@@ -1,23 +1,21 @@
 # package build
 # https://peps.python.org/pep-0517/
 [build-system]
-requires = ["setuptools>=65", "wheel", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools_scm]
 
 # package basics
 # https://peps.python.org/pep-0621/
 [project]
-name = "bioio"
-description = "Image reading, metadata management, and image writing for Microscopy images in Python"
+name = "accepting-plugin"
+version = "0.1.0"
+description = "This is a dummy plugin for testing purposes. It accepts many file types (e.g., tiff, czi, zarr), but only pretends to read them."
 keywords = []
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "BSD License" }
+license = { text = "dummy-license" }
 authors = [
-  { email = "evamaxfieldbrown@gmail.com", name = "Eva Maxfield Brown" },
-  { email = "danielt@alleninstitute.org", name = "Dan Toloudis" },
+  { email = "dummy-email@example.com", name = "dummy-name" },
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -27,29 +25,9 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
 ]
-dynamic = ["version"]
 dependencies = [
-  # We always pin a specific version of bioio-base with
-  # each release so that we avoid bioio + bioio-base misalignment.
-  "bioio-base==1.0.7",
-  "dask[array]>=2021.4.1",
-  "fsspec>=2022.8.0",
-  "imageio[ffmpeg]>=2.11.0",
-  "numpy>=1.21.0",
-  "ome-types[lxml]>=0.4.0",
-  # This version was revoked from PyPi, but in case of using a stale version
-  # or a private package index, this will prevent usage
-  "scikit-image!=0.23.0",
-  "semver>=3.0.1",
-  "tifffile>=2021.8.30",
-  "zarr>=3.0.6",
+  "bioio-base>=0.2.0",
 ]
-
-[project.urls]
-Homepage = "https://github.com/bioio-devs/bioio"
-"Bug Tracker" = "https://github.com/bioio-devs/bioio/issues"
-Documentation = "https://bioio-devs.github.io/bioio"
-"User Support" = "https://github.com/bioio-devs/bioio/issues"
 
 # extra dependencies
 # https://peps.python.org/pep-0621/#dependencies-optional-dependencies
@@ -58,30 +36,16 @@ lint = [
   "pre-commit>=2.20.0",
 ]
 test = [
-  "bioio-czi @ git+https://github.com/bioio-devs/bioio-czi.git@main",
   "coverage>=5.1",
-  "ngff-zarr>=0.8.2",
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",
   "pytest-raises>=0.11",
-  "quilt3",  # no pin to avoid pip cycling (boto is really hard to manage)
-]
-docs = [
-  "gitchangelog>=3.0.4",
-  "Sphinx>=8.0.0",
-  "furo>=2022.4.7",
-  "numpydoc",
-  "sphinx-copybutton",
-  "myst-parser>=1.0",
-  "linkify-it-py>=2.0.0",
-]
-dev = [
-  "ipython>=8.4.0",
 ]
 
 # entry points
 # https://peps.python.org/pep-0621/#entry-points
-# [project.entry-points."console_scripts"]
+[project.entry-points."bioio.readers"]
+accepting-plugin = "accepting_plugin"
 
 # build settings
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
@@ -113,17 +77,15 @@ use_parentheses = true
 ignore = [
   ".editorconfig",
   ".pre-commit-config.yaml",
-  ".gitchangelog.rc",
   "CODE_OF_CONDUCT.md",
   "CONTRIBUTING.md",
   "Justfile",
   ".cookiecutter.yaml",
-  "*docs/**",
-  "*tests/**",
+  "*docs/*",
 ]
 
 [tool.mypy]
-files = "bioio/*.py"
+files = "dummy-plugin/*.py"
 ignore_missing_imports = true
 disallow_untyped_defs = true
 check_untyped_defs = true

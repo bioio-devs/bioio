@@ -62,7 +62,6 @@ lint = [
   "pre-commit>=2.20.0",
 ]
 test = [
-  "bioio-czi @ git+https://github.com/bioio-devs/bioio-czi.git@main",
   "coverage>=5.1",
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",

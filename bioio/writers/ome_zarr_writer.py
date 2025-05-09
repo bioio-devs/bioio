@@ -1,431 +1,478 @@
 import math
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-import bioio_base as biob
+import numpy as np
 import zarr
-from ome_zarr.io import parse_url
-from ome_zarr.scale import Scaler
-from ome_zarr.writer import write_image
-from zarr.storage import default_compressor
-
-from ..ome_utils import generate_ome_channel_id
+from zarr.codecs import BloscCodec, BloscShuffle
 
 
-class OmeZarrWriter:
-    def __init__(self, uri: biob.types.PathLike):
+def downsample_data(
+    data: np.ndarray, factors: Tuple[int, int, int, int, int]
+) -> np.ndarray:
+    """
+    Downsample a 5D array (T, C, Z, Y, X) by integer factors for Z, Y, X.
+
+    Parameters
+    ----------
+    data : np.ndarray
+        The input 5D array (T, C, Z, Y, X).
+    factors : Tuple[int, int, int, int, int]
+        Downsampling factors (t_factor, c_factor ignored, zf, yf, xf).
+
+    Returns
+    -------
+    np.ndarray
+        Downsampled array.
+    """
+    # TODO: There is probably a much more efficent way to do this
+
+    # Only spatial downsampling (time & channel stay intact)
+    zf, yf, xf = factors[2], factors[3], factors[4]
+    T, C, Z, Y, X = data.shape
+
+    # Clamp to avoid factors > dimension
+    zf, yf, xf = min(zf, Z), min(yf, Y), min(xf, X)
+
+    # Compute how many full blocks fit
+    nz, ny, nx = Z // zf, Y // yf, X // xf
+
+    # Trim off remainders so reshape works
+    d = data[..., : nz * zf, : ny * yf, : nx * xf]
+
+    # Reshape into blocks and average
+    # new shape: (T,C,nz,zf,ny,yf,nx,xf)
+    d = d.reshape(T, C, nz, zf, ny, yf, nx, xf)
+    out = d.mean(axis=(3, 5, 7))
+
+    # Round back if integer
+    if not np.issubdtype(data.dtype, np.floating):
+        out = np.rint(out).astype(data.dtype)
+    return out
+
+
+def default_axes(
+    names: List[str], types: List[str], units: List[Optional[str]]
+) -> List[dict]:
+    """
+    Build axes metadata list from provided names, types, and units.
+
+    Parameters
+    ----------
+    names : List[str]
+        Axis names.
+    types : List[str]
+        Axis types.
+    units : List[Optional[str]]
+        Axis units (or None).
+
+    Returns
+    -------
+    List[dict]
+        List of axis metadata dictionaries.
+    """
+
+    # TODO: should this be a constant or a util or something?
+    axes = []
+    for n, t, u in zip(names, types, units):
+        entry = {"name": n, "type": t}
+        if u:
+            entry["unit"] = u
+        axes.append(entry)
+    return axes
+
+
+class OMEZarrWriter:
+    """
+    OMEZarrWriter is a fully compliant OME-Zarr v0.5.0 writer built on Zarr v3 stores.
+    """
+
+    def __init__(
+        self,
+        store: Union[str, zarr.storage.StoreLike],
+        shape: Tuple[int, int, int, int, int],
+        dtype: Union[np.dtype, str],
+        axes_names: List[str] = ["t", "c", "z", "y", "x"],
+        axes_types: List[str] = ["time", "channel", "space", "space", "space"],
+        axes_units: List[Optional[str]] = [None, None, None, None, None],
+        axes_scale: List[float] = [1.0, 1.0, 1.0, 1.0, 1.0],
+        scale_factors: Tuple[int, int, int, int, int] = (1, 1, 2, 2, 2),
+        num_levels: Optional[int] = None,
+        chunks: Union[str, Tuple[int, ...], List[Tuple[int, ...]]] = "auto",
+        shards: Optional[Union[Tuple[int, ...], List[Tuple[int, ...]]]] = None,
+        compressor: Optional[BloscCodec] = None,
+        image_name: str = "Image",
+        channel_names: Optional[List[str]] = None,
+        channel_colors: Optional[List[str]] = None,
+        creator_info: Optional[dict] = None,
+    ):
         """
-        Constructor.
+        Initialize writer and automatically build axes and channel metadata.
 
         Parameters
         ----------
-        uri: biob.types.PathLike
-            The URI or local path for where to save the data.
+        store : Union[str, zarr.storage.StoreLike]
+            Path or Zarr Store for output.
+        shape : Tuple[int, int, int, int, int]
+            Base image shape (T, C, Z, Y, X).
+        dtype : Union[np.dtype, str]
+            NumPy dtype of the image data.
+        axes_names : List[str]
+            Axis names.
+        axes_types : List[str]
+            Axis types.
+        axes_units : List[Optional[str]]
+            Axis units.
+        axes_scale : List[float]
+            Physical scale per axis.
+        scale_factors : Tuple[int, int, int, int, int]
+            Downsampling factors per axis.
+        num_levels : Optional[int]
+            Maximum number of pyramid levels.
+        chunks : Union[str, Tuple[int, ...], List[Tuple[int, ...]]]
+            Chunk specification or "auto".
+        shards : Optional[Union[Tuple[int, ...], List[Tuple[int, ...]]]]
+            Shard specification.
+        compressor : Optional[BloscCodec]
+            Compressor codec to use.
+        image_name : str
+            Name for multiscale metadata.
+        channel_names : Optional[List[str]]
+            Channel labels.
+        channel_colors : Optional[List[str]]
+            Channel hex colors.
+        creator_info : Optional[dict]
+            Creator metadata.
         """
-        # Resolve final destination
-        fs, path = biob.io.pathlike_to_fs(uri)
+        self.shape = tuple(shape)
+        self.dtype = np.dtype(dtype)
+        self.axes_scale = axes_scale
+        self.scale_factors = scale_factors
+        # Multiscale shapes
+        self.level_shapes = self._compute_levels(num_levels)
+        # Chunks & shards
+        self.chunks = self._prepare_parameter(chunks, self._suggest_chunks, "chunks")
+        self.shards = self._prepare_parameter(
+            shards, lambda s: s, "shards", required=False
+        )
+        # Zarr store & arrays
+        self.root = self._init_store(store)
+        self.datasets = self._create_arrays(compressor)
 
-        # Save image to zarr store!
-        self.store = parse_url(uri, mode="w").store
-        self.root_group = zarr.group(store=self.store)
+        # Build metadata
+        axes_meta = default_axes(axes_names, axes_types, axes_units)
+        channel_meta = None
+        if channel_names or channel_colors:
+            C = shape[1]
+            channel_meta = []
+            default_colors = [
+                "FF0000",
+                "00FF00",
+                "0000FF",
+                "FFFF00",
+                "FF00FF",
+                "00FFFF",
+            ]
+            for i in range(C):
+                color = (
+                    channel_colors[i]
+                    if channel_colors and i < len(channel_colors)
+                    else default_colors[i % len(default_colors)]
+                )
+                label = (
+                    channel_names[i]
+                    if channel_names and i < len(channel_names)
+                    else f"Channel {i}"
+                )
+                info = (
+                    np.iinfo(self.dtype)
+                    if np.issubdtype(self.dtype, np.integer)
+                    else None
+                )
+                win_min, win_max = (
+                    (int(info.min), int(info.max)) if info else (0.0, 1.0)
+                )
+                ch = {
+                    "active": True,
+                    "coefficient": 1.0,
+                    "color": color,
+                    "family": "linear",
+                    "window": {
+                        "min": float(win_min),
+                        "max": float(win_max),
+                        "start": float(win_min),
+                        "end": float(win_max),
+                    },
+                    "label": label,
+                }
+                channel_meta.append(ch)
 
-    @staticmethod
-    def build_ome(
-        size_z: int,
-        image_name: str,
-        channel_names: List[str],
-        channel_colors: List[int],
-        channel_minmax: List[Tuple[float, float]],
-    ) -> Dict:
+        # Write metadata
+        self._write_metadata(image_name, axes_meta, channel_meta, creator_info)
+
+    def _compute_levels(self, max_levels: Optional[int]) -> List[Tuple[int, ...]]:
         """
-        Create the omero metadata for an OME zarr image
+        Calculate all multiresolution level shapes by repeatedly scaling.
+        Minimum dimension size will always be 1 and stops when no further reduction
+        or at max_levels.
 
         Parameters
         ----------
-        size_z:
-            Number of z planes
-        image_name:
-            The name of the image
-        channel_names:
-            The names for each channel
-        channel_colors:
-            List of all channel colors
-        channel_minmax:
-            List of all (min, max) pairs of channel intensities
+        max_levels : Optional[int]
+            Number of levels to compute (including base level). None for full descent.
 
         Returns
         -------
-        Dict
-            An "omero" metadata object suitable for writing to ome-zarr
+        List[Tuple[int, ...]]
+            List of 5D shape tuples for each pyramid level.
         """
-        ch = []
-        for i in range(len(channel_names)):
-            ch.append(
-                {
-                    "active": True,
-                    "coefficient": 1,
-                    "color": f"{channel_colors[i]:06x}",
-                    "family": "linear",
-                    "inverted": False,
-                    "label": channel_names[i],
-                    "window": {
-                        "end": float(channel_minmax[i][1]),
-                        "max": float(channel_minmax[i][1]),
-                        "min": float(channel_minmax[i][0]),
-                        "start": float(channel_minmax[i][0]),
-                    },
-                }
+        shapes = [self.shape]
+        lvl = 1
+        while max_levels is None or lvl < max_levels:
+            prev = shapes[-1]
+            nxt = tuple(
+                max(1, prev[i] // self.scale_factors[i])
+                if i >= 2 and self.scale_factors[i] > 1
+                else prev[i]
+                for i in range(5)
             )
+            if nxt == prev:
+                break
+            shapes.append(nxt)
+            lvl += 1
+        return shapes
 
-        omero = {
-            "id": 1,  # ID in OMERO
-            "name": image_name,  # Name as shown in the UI
-            "version": "0.4",  # Current version
-            "channels": ch,
-            "rdefs": {
-                "defaultT": 0,  # First timepoint to show the user
-                "defaultZ": size_z // 2,  # First Z section to show the user
-                "model": "color",  # "color" or "greyscale"
-            },
-            # TODO: can we add more metadata here?
-            # # from here down this is all extra and not part of the ome-zarr spec
-            # "meta": {
-            #     "projectDescription": "20+ lines of gene edited cells etc",
-            #     "datasetName": "aics_hipsc_v2020.1",
-            #     "projectId": 2,
-            #     "imageDescription": "foo bar",
-            #     "imageTimestamp": 1277977808.0,
-            #     "imageId": 12,
-            #     "imageAuthor": "danielt",
-            #     "imageName": "AICS-12_143.ome.tif",
-            #     "datasetDescription": "variance dataset after QC",
-            #     "projectName": "aics cell variance project",
-            #     "datasetId": 3
-            # },
-        }
-        return omero
-
-    @staticmethod
-    def _build_chunk_dims(
-        chunk_dim_map: Dict[str, int],
-        dimension_order: str = biob.dimensions.DEFAULT_DIMENSION_ORDER,
-    ) -> Tuple[int, ...]:
-        return tuple(chunk_dim_map[d] for d in dimension_order)
-
-    def write_image(
+    def _prepare_parameter(
         self,
-        # TODO how to pass in precomputed multiscales?
-        image_data: biob.types.ArrayLike,  # must be 3D, 4D or 5D
-        image_name: str,
-        physical_pixel_sizes: Optional[biob.types.PhysicalPixelSizes],
-        channel_names: Optional[List[str]],
-        channel_colors: Optional[List[int]],
-        chunk_dims: Optional[Tuple] = None,
-        scale_num_levels: int = 1,
-        scale_factor: float = 2.0,
-        dimension_order: Optional[str] = None,
-    ) -> None:
+        param: Any,
+        default_fn: Callable[[Tuple[int, ...]], Tuple[int, ...]],
+        name: str,
+        required: bool = True,
+    ) -> List[Optional[Tuple[int, ...]]]:
         """
-        Write a data array to a file.
-        NOTE that this API is not yet finalized and will change in the future.
+        Standardize chunk or shard specification across levels.
 
         Parameters
         ----------
-        image_data: biob.types.ArrayLike
-            The array of data to store. Data arrays must have 2 to 6 dimensions. If a
-            list is provided, then it is understood to be multiple images written to the
-            ome-tiff file. All following metadata parameters will be expanded to the
-            length of this list.
-        image_name: str
-            string representing the name of the image
-        physical_pixel_sizes: Optional[biob.types.PhysicalPixelSizes]
-            PhysicalPixelSizes object representing the physical pixel sizes in Z, Y, X
-            in microns.
-            Default: None
-        channel_names: Optional[List[str]]
-            Lists of strings representing the names of the data channels
-            Default: None
-            If None is given, the list will be generated as a 0-indexed list of strings
-            of the form "Channel:image_index:channel_index"
-        channel_colors: Optional[List[int]]
-            List of rgb color values per channel or a list of lists for each image.
-            These must be values compatible with the OME spec.
-            Default: None
-        scale_num_levels: Optional[int]
-            Number of pyramid levels to use for the image.
-            Default: 1 (represents no downsampled levels)
-        scale_factor: Optional[float]
-            The scale factor to use for the image. Only active if scale_num_levels > 1.
-            Default: 2.0
-        dimension_order: Optional[str]
-            The dimension order of the data. If None is given, the dimension order will
-            be guessed from the number of dimensions in the data according to TCZYX
-            order.
+        param : Union[str, Tuple[int, ...], List[Tuple[int, ...]], None]
+            "auto", None, a tuple, or list of tuples per level.
+        default_fn : Callable
+            Function to generate default value for a level.
+        name : str
+            Parameter name ("chunks" or "shards").
+        required : bool
+            If False, None is allowed and yields None per level
 
-        Examples
-        --------
-        Write a TCZYX data set to OME-Zarr
-
-        >>> image = numpy.ndarray([1, 10, 3, 1024, 2048])
-        ... writer = OmeZarrWriter("/path/to/file.ome.zarr")
-        ... writer.write_image(image)
-
-        Write multi-scene data to OME-Zarr, specifying channel names
-
-        >>> image0 = numpy.ndarray([3, 10, 1024, 2048])
-        ... image1 = numpy.ndarray([3, 10, 512, 512])
-        ... writer = OmeZarrWriter("/path/to/file.ome.zarr")
-        ... writer.write_image(image0, "Image:0", ["C00","C01","C02"])
-        ... writer.write_image(image1, "Image:1", ["C10","C11","C12"])
+        Returns
+        -------
+        List[Optional[Tuple[int, ...]]]
+            List of parameter tuples (or None) per level.
         """
-        ndims = len(image_data.shape)
-        if ndims < 2 or ndims > 5:
-            raise biob.exceptions.InvalidDimensionOrderingError(
-                f"Image data must have 2, 3, 4, or 5 dimensions. "
-                f"Received image data with shape: {image_data.shape}"
-            )
-        if dimension_order is None:
-            dimension_order = biob.dimensions.DEFAULT_DIMENSION_ORDER[-ndims:]
-        if len(dimension_order) != ndims:
-            raise biob.exceptions.InvalidDimensionOrderingError(
-                f"Dimension order {dimension_order} does not match data "
-                f"shape: {image_data.shape}"
-            )
-        if (
-            len(set(dimension_order) - set(biob.dimensions.DEFAULT_DIMENSION_ORDER)) > 0
-        ) or len(dimension_order) != len(set(dimension_order)):
-            raise biob.exceptions.InvalidDimensionOrderingError(
-                f"Dimension order {dimension_order} is invalid or contains"
-                f"unexpected dimensions. Only {biob.dimensions.DEFAULT_DIMENSION_ORDER}"
-                f"currently supported."
-            )
-        xdimindex = dimension_order.find(biob.dimensions.DimensionNames.SpatialX)
-        ydimindex = dimension_order.find(biob.dimensions.DimensionNames.SpatialY)
-        zdimindex = dimension_order.find(biob.dimensions.DimensionNames.SpatialZ)
-        cdimindex = dimension_order.find(biob.dimensions.DimensionNames.Channel)
-        if cdimindex > min(i for i in [xdimindex, ydimindex, zdimindex] if i > -1):
-            raise biob.exceptions.InvalidDimensionOrderingError(
-                f"Dimension order {dimension_order} is invalid. Channel dimension "
-                f"must be before X, Y, and Z."
-            )
 
-        if chunk_dims is not None and len(chunk_dims) != ndims:
-            raise biob.exceptions.UnexpectedShapeError(
-                f"Chunk dimensions:{chunk_dims} do not match data. "
-                f"Expected chunk dimension length:{ndims}"
-            )
+        # TODO: This function kinda sucks, needs better
+        levels = len(self.level_shapes)
 
-        if physical_pixel_sizes is None:
-            pixelsizes = (1.0, 1.0, 1.0)
+        # Auto-chunk only applies when name == "chunks"
+        if param == "auto" and name == "chunks":
+            return [default_fn(s) for s in self.level_shapes]
+
+        if param is None:
+            if not required:
+                return [None] * levels
+            # repeat the default tuple for every level
+            default = default_fn(self.level_shapes[0])
+            return [default] * levels
+
+        # Normalize into a list of length `levels`
+        items: List[Tuple[int, ...]]
+        if isinstance(param, list):
+            items = param
         else:
-            pixelsizes = (
-                physical_pixel_sizes.Z if physical_pixel_sizes.Z is not None else 1.0,
-                physical_pixel_sizes.Y if physical_pixel_sizes.Y is not None else 1.0,
-                physical_pixel_sizes.X if physical_pixel_sizes.X is not None else 1.0,
-            )
-        if channel_names is None:
-            # TODO this isn't generating a very pretty looking name but it will be
-            # unique
-            channel_names = (
-                [
-                    generate_ome_channel_id(image_id=image_name, channel_id=i)
-                    for i in range(image_data.shape[cdimindex])
-                ]
-                if cdimindex > -1
-                else [generate_ome_channel_id(image_id=image_name, channel_id=0)]
-            )
-        if channel_colors is None:
-            # TODO generate proper colors or confirm that the underlying lib can handle
-            # None
-            channel_colors = (
-                [i for i in range(image_data.shape[cdimindex])]
-                if cdimindex > -1
-                else [0]
-            )
-        # Chunk spatial dimensions
-        scale_dim_map = {
-            biob.dimensions.DimensionNames.Time: 1.0,
-            biob.dimensions.DimensionNames.Channel: 1.0,
-            biob.dimensions.DimensionNames.SpatialZ: pixelsizes[0],
-            biob.dimensions.DimensionNames.SpatialY: pixelsizes[1],
-            biob.dimensions.DimensionNames.SpatialX: pixelsizes[2],
-        }
-        transforms = [
-            [
-                # the voxel size for the first scale level
-                {
-                    "type": "scale",
-                    "scale": [scale_dim_map[d] for d in dimension_order],
-                }
-            ]
+            items = [param] * levels
+
+        if len(items) != levels:
+            raise ValueError(f"Length of {name} list must be {levels}")
+
+        # Clamp each item to the level shape
+        return [
+            tuple(min(items[i][d], self.level_shapes[i][d]) for d in range(5))
+            for i in range(levels)
         ]
-        # TODO precompute sizes for downsampled also.
-        plane_size = (
-            image_data.shape[xdimindex]
-            * image_data.shape[ydimindex]
-            * image_data.itemsize
+
+    @staticmethod
+    def _init_store(store: Union[str, zarr.storage.StoreLike]) -> zarr.Group:
+        """
+        Create or open a Zarr group at the given store location.
+
+        Parameters
+        ----------
+        store : Union[str, zarr.storage.StoreLike]
+            Path or Store object for output.
+
+        Returns
+        -------
+        zarr.Group
+            The root Zarr group for writing.
+        """
+        if isinstance(store, str) and "://" in store:  # TODO: make this a better check
+            fs = zarr.storage.FsspecStore(store, mode="w")
+            return zarr.group(store=fs, overwrite=True)
+        return zarr.group(store=store, overwrite=True)
+
+    def _create_arrays(self, resolver: Optional[BloscCodec]) -> List[zarr.Array]:
+        """
+        Create Zarr arrays for each multiscale level in the root group.
+
+        Parameters
+        ----------
+        compressor : Optional[BloscCodec]
+            Compressor codec to apply to chunks.
+
+        Returns
+        -------
+        List[zarr.Array]
+            Zarr array objects for each level.
+        """
+        comp = resolver or BloscCodec(
+            cname="zstd", clevel=3, shuffle=BloscShuffle.bitshuffle
         )
+        arrays: List[zarr.Array] = []
+        for lvl, shape in enumerate(self.level_shapes):
+            chunks_lvl = self.chunks[lvl]
+            shards_lvl = self.shards[lvl]
+            if chunks_lvl is not None and shards_lvl is not None:
+                # safe to zip two tuples
+                shards_param = tuple(c * s for c, s in zip(chunks_lvl, shards_lvl))
+            else:
+                shards_param = None
 
-        target_chunk_size = 16 * (1024 * 1024)  # 16 MB
-        # this is making an assumption of chunking whole XY planes.
-
-        if chunk_dims is None:
-            nplanes_per_chunk = int(math.ceil(target_chunk_size / plane_size))
-            nplanes_per_chunk = (
-                min(nplanes_per_chunk, image_data.shape[zdimindex])
-                if zdimindex > -1
-                else 1
+            arr = self.root.create_array(
+                name=str(lvl),
+                shape=shape,
+                chunks=chunks_lvl,
+                shards=shards_param,
+                dtype=self.dtype,
+                compressors=comp,
             )
-            chunk_dim_map = {
-                biob.dimensions.DimensionNames.Time: 1,
-                biob.dimensions.DimensionNames.Channel: 1,
-                biob.dimensions.DimensionNames.SpatialZ: nplanes_per_chunk,
-                biob.dimensions.DimensionNames.SpatialY: image_data.shape[ydimindex],
-                biob.dimensions.DimensionNames.SpatialX: image_data.shape[xdimindex],
-            }
-            chunks = [
-                dict(
-                    chunks=OmeZarrWriter._build_chunk_dims(
-                        chunk_dim_map=chunk_dim_map, dimension_order=dimension_order
-                    ),
-                    compressor=default_compressor,
-                )
-            ]
-        else:
-            chunks = [
-                dict(
-                    chunks=chunk_dims,
-                    compressor=default_compressor,
-                )
-            ]
+            arrays.append(arr)
+        return arrays
 
-        lasty = image_data.shape[ydimindex]
-        lastx = image_data.shape[xdimindex]
-        # TODO scaler might want to use different method for segmentations than raw
-        # TODO allow custom scaler or pre-computed multiresolution levels
-        if scale_num_levels > 1:
-            # TODO As of this writing, this Scaler is not the most general
-            # implementation (it does things by xy plane) but it's code already
-            # written that also works with dask, so it's a good starting point.
-            scaler = Scaler()
-            scaler.method = "nearest"
-            scaler.max_layer = scale_num_levels - 1
-            scaler.downscale = scale_factor if scale_factor is not None else 2
-            for _ in range(scale_num_levels - 1):
-                scale_dim_map[
-                    biob.dimensions.DimensionNames.SpatialY
-                ] *= scaler.downscale
-                scale_dim_map[
-                    biob.dimensions.DimensionNames.SpatialX
-                ] *= scaler.downscale
-                transforms.append(
-                    [
+    def _write_metadata(
+        self,
+        name: str,
+        axes: List[dict],
+        channels: Optional[List[dict]],
+        creator: Optional[dict],
+    ) -> None:
+        """
+        Write the 'ome' attribute on the root group with multiscale, OMERO,
+        and creator metadata.
+
+        Parameters
+        ----------
+        name : str
+            Image name for metadata.
+        axes : List[dict]
+            Axes metadata list.
+        channels : Optional[List[dict]]
+            OMERO channel metadata list.
+        creator : Optional[dict]
+            Creator metadata dictionary.
+
+        Returns
+        -------
+        None
+        """
+        multiscale: Dict[str, Any] = {
+            "version": "0.5",
+            "name": name,
+            "axes": axes,
+            "datasets": [
+                {
+                    "path": str(i),
+                    "coordinateTransformations": [
                         {
                             "type": "scale",
-                            "scale": [scale_dim_map[d] for d in dimension_order],
+                            "scale": [
+                                self.axes_scale[j]
+                                * (self.scale_factors[j] ** i if j >= 2 else 1)
+                                for j in range(len(self.shape))
+                            ],
                         }
-                    ]
-                )
-
-                if chunk_dims is None:
-                    lasty = int(math.ceil(lasty / scaler.downscale))
-                    lastx = int(math.ceil(lastx / scaler.downscale))
-                    chunk_dim_map = {
-                        biob.dimensions.DimensionNames.Time: 1,
-                        biob.dimensions.DimensionNames.Channel: 1,
-                    }
-                    plane_size = lasty * lastx * image_data.itemsize
-                    nplanes_per_chunk = int(math.ceil(target_chunk_size / plane_size))
-                    nplanes_per_chunk = (
-                        min(nplanes_per_chunk, image_data.shape[zdimindex])
-                        if zdimindex > -1
-                        else 1
-                    )
-
-                    chunk_dim_map[
-                        biob.dimensions.DimensionNames.SpatialZ
-                    ] = nplanes_per_chunk
-                    chunk_dim_map[biob.dimensions.DimensionNames.SpatialY] = lasty
-                    chunk_dim_map[biob.dimensions.DimensionNames.SpatialX] = lastx
-
-                    chunks.append(
-                        dict(
-                            chunks=OmeZarrWriter._build_chunk_dims(
-                                chunk_dim_map=chunk_dim_map,
-                                dimension_order=dimension_order,
-                            ),
-                            compressor=default_compressor,
-                        )
-                    )
-                else:
-                    rescaley = int(math.ceil(chunk_dims[ydimindex] / scaler.downscale))
-                    rescalex = int(math.ceil(chunk_dims[xdimindex] / scaler.downscale))
-                    chunk_dims = tuple(list(chunk_dims[:-2]) + [rescaley, rescalex])
-
-                    chunks.append(
-                        dict(
-                            chunks=chunk_dims,
-                            compressor=default_compressor,
-                        )
-                    )
-
-        else:
-            scaler = None
-
-        # try to construct per-image metadata
-        ome_json = OmeZarrWriter.build_ome(
-            image_data.shape[zdimindex] if zdimindex > -1 else 1,
-            image_name,
-            channel_names=channel_names,  # type: ignore
-            channel_colors=channel_colors,  # type: ignore
-            # This can be slow if computed here.
-            # TODO: Rely on user to supply the per-channel min/max.
-            channel_minmax=[
-                (0.0, 1.0)
-                for i in range(image_data.shape[cdimindex] if cdimindex > -1 else 1)
+                    ],
+                }
+                for i in range(len(self.level_shapes))
             ],
-        )
-        # TODO user supplies units?
-        dim_to_axis = {
-            biob.dimensions.DimensionNames.Time: {
-                "name": "t",
-                "type": "time",
-                "unit": "millisecond",
-            },
-            biob.dimensions.DimensionNames.Channel: {"name": "c", "type": "channel"},
-            biob.dimensions.DimensionNames.SpatialZ: {
-                "name": "z",
-                "type": "space",
-                "unit": "micrometer",
-            },
-            biob.dimensions.DimensionNames.SpatialY: {
-                "name": "y",
-                "type": "space",
-                "unit": "micrometer",
-            },
-            biob.dimensions.DimensionNames.SpatialX: {
-                "name": "x",
-                "type": "space",
-                "unit": "micrometer",
-            },
         }
+        ome: Dict[str, Any] = {"multiscales": [multiscale], "version": "0.5"}
+        if channels:
+            ome["omero"] = {"version": "0.5", "channels": channels}
+        if creator:
+            ome["_creator"] = creator
+        self.root.attrs.update({"ome": ome})
 
-        axes = [dim_to_axis[d] for d in dimension_order]
+    def _suggest_chunks(self, shape: Tuple[int, ...]) -> Tuple[int, ...]:
+        """
+        Suggest chunk shapes targeting ~64MB per chunk based on level shape.
 
-        # TODO image name must be unique within this root group
-        group = self.root_group  # .create_group(image_name, overwrite=True)
-        group.attrs["omero"] = ome_json
+        Parameters
+        ----------
+        shape : Tuple[int, ...]
+            5D shape of the multiscale level.
 
-        write_image(
-            image=image_data,
-            group=group,
-            scaler=scaler,
-            axes=axes,
-            # For each resolution, we have a List of transformation Dicts (not
-            # validated). Each list of dicts are added to each datasets in order.
-            coordinate_transformations=transforms,
-            # Options to be passed on to the storage backend. A list would need to
-            # match the number of datasets in a multiresolution pyramid. One can
-            # provide different chunk size for each level of a pyramid using this
-            # option.
-            storage_options=chunks,
-        )
+        Returns
+        -------
+        Tuple[int, ...]
+            Chunk sizes (t, c, z, y, x).
+        """
+        bpe = self.dtype.itemsize
+        maxe = (64 << 20) // bpe
+        base = int(math.sqrt(maxe))
+        y = min(shape[3], base)
+        x = min(shape[4], maxe // y) or 1
+        z = min(shape[2], max(1, maxe // (y * x)))
+        return (1, 1, z, y, x)
+
+    def write_full_volume(self, data: np.ndarray) -> None:
+        """
+        Write an entire 5D image (T, C, Z, Y, X) into the Zarr store at all levels.
+
+        Parameters
+        ----------
+        data : np.ndarray
+            Full-resolution 5D image array.
+
+        Returns
+        -------
+        None
+        """
+        assert data.shape == self.shape, "Input data shape must match base shape"
+        self.datasets[0][:] = data
+        cur = data
+        for i in range(1, len(self.level_shapes)):
+            dn = downsample_data(cur, self.scale_factors)
+            self.datasets[i][:] = dn
+            cur = dn
+
+    def write_timepoint(self, t_index: int, data_t: np.ndarray) -> None:
+        """
+        Write a single timepoint (C, Z, Y, X) across all pyramid levels.
+
+        Parameters
+        ----------
+        t_index : int
+            Index of the timepoint to write.
+        data_t : np.ndarray
+            4D image array (C, Z, Y, X) for the given timepoint.
+
+        Returns
+        -------
+        None
+        """
+        expected = (self.shape[1], self.shape[2], self.shape[3], self.shape[4])
+        assert data_t.shape == expected, f"data_t must have shape {expected}"
+        self.datasets[0][t_index, :, :, :, :] = data_t
+        cur = data_t[np.newaxis, ...]
+        for i in range(1, len(self.level_shapes)):
+            dn = downsample_data(cur, self.scale_factors)
+            self.datasets[i][t_index, :, :, :, :] = dn[0]
+            cur = dn

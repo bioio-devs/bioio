@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from .ome_tiff_writer import OmeTiffWriter
-from .ome_zarr_writer import OmeZarrWriter
-from .ome_zarr_writer_2 import OmeZarrWriter as OmeZarrWriter2
+from .ome_zarr_writer import OMEZarrWriter, default_axes, downsample_data
 
 __all__ = [
     "OmeTiffWriter",
-    "OmeZarrWriter",
-    "OmeZarrWriter2",
+    "OMEZarrWriter",
+    "default_axes",
+    "downsample_data",
 ]

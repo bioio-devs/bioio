@@ -1,4 +1,5 @@
 import shutil
+import sys
 import tempfile
 
 import numpy as np
@@ -6,7 +7,13 @@ import pytest
 import zarr
 from ngff_zarr.validate import validate
 
-from bioio.writers import OMEZarrWriter, default_axes, downsample_data
+from bioio.writers import V3OmeZarrWriter, default_axes, downsample_data
+
+# Marker to skip all OMEZarrWriter–dependent tests on Python < 3.11
+needs_py311 = pytest.mark.skipif(
+    sys.version_info < (3, 11),
+    reason="V3OmeZarrWriter requires Python ≥3.11 and zarr≥3.0.6",
+)
 
 
 def test_downsample_data() -> None:
@@ -32,6 +39,7 @@ def test_default_axes() -> None:
     assert axes == expected
 
 
+@needs_py311
 @pytest.mark.parametrize(
     "scale_factors,num_levels",
     [
@@ -47,7 +55,7 @@ def test_write_full_volume_and_metadata(
     data = np.random.randint(0, 255, size=shape, dtype=np.uint8)
     tmpdir = tempfile.mkdtemp()
     try:
-        writer = OMEZarrWriter(
+        writer = V3OmeZarrWriter(
             store=tmpdir,
             shape=shape,
             dtype=data.dtype,
@@ -86,7 +94,7 @@ def test_write_full_volume_and_metadata(
         shutil.rmtree(tmpdir)
 
 
-# Test compute_level_shapes matches original cases with potential early stopping
+@needs_py311
 @pytest.mark.parametrize(
     "in_shape,scale_factors,num_levels,expected",
     [
@@ -116,7 +124,7 @@ def test_compute_level_shapes(
     num_levels: int,
     expected: list[tuple[int, int, int, int, int]],
 ) -> None:
-    writer = OMEZarrWriter(
+    writer = V3OmeZarrWriter(
         store=tempfile.mkdtemp(),
         shape=in_shape,
         dtype=np.uint8,
@@ -131,18 +139,20 @@ def test_compute_level_shapes(
     assert out == expected
 
 
+@needs_py311
 def test_suggest_chunks() -> None:
     shape = (1, 1, 1, 5000, 5000)
-    writer = OMEZarrWriter(store=tempfile.mkdtemp(), shape=shape, dtype=np.uint32)
+    writer = V3OmeZarrWriter(store=tempfile.mkdtemp(), shape=shape, dtype=np.uint32)
     ck = writer._suggest_chunks(shape)
     assert ck == (1, 1, 1, 4096, 4096)
 
 
+@needs_py311
 def test_sharding_parameter() -> None:
     shape = (1, 1, 1, 4, 4)
     requested_shards = (1, 1, 2, 2, 2)
     chunks = (1, 1, 1, 2, 2)
-    writer = OMEZarrWriter(
+    writer = V3OmeZarrWriter(
         store=tempfile.mkdtemp(),
         shape=shape,
         dtype=np.uint8,
@@ -161,13 +171,14 @@ def test_sharding_parameter() -> None:
     assert writer.chunks == expected_chunks
 
 
+@needs_py311
 def test_ome_ngff_metadata_validation() -> None:
     # Validate OME-Zarr metadata against NGFF schema v0.5
     shape = (1, 1, 1, 4, 4)
     data = np.random.randint(0, 255, size=shape, dtype=np.uint8)
     tmpdir = tempfile.mkdtemp()
     try:
-        writer = OMEZarrWriter(store=tmpdir, shape=shape, dtype=data.dtype)
+        writer = V3OmeZarrWriter(store=tmpdir, shape=shape, dtype=data.dtype)
         writer.write_full_volume(data)
         grp = zarr.open(tmpdir, mode="r")
         ome_meta = grp.attrs.asdict()

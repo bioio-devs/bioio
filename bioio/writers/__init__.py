@@ -1,4 +1,4 @@
-# bioio/writers/__init__.py
+#!/usr/bin/env python
 
 import sys
 from typing import List

@@ -1,5 +1,3 @@
-# bioio/tests/test_writer.py
-
 from importlib.metadata import entry_points
 
 import pytest

@@ -1168,7 +1168,7 @@ class BioImage(biob.image_container.ImageContainer):
             )
             return
 
-        # Gather per-scene data…
+        # Get all parameters as dict of lists, or static because of unchanging values
         datas: List[biob.types.ArrayLike] = []
         dim_orders: List[Optional[str]] = []
         channel_names: List[Optional[List[str]]] = []
@@ -1186,7 +1186,7 @@ class BioImage(biob.image_container.ImageContainer):
             image_names.append(self.current_scene)
             physical_pixel_sizes.append(self.physical_pixel_sizes)
 
-        # Delegate write to the plugin
+        # Save all selected scenes
         OmeTiffWriter.save(
             data=datas,
             uri=uri,

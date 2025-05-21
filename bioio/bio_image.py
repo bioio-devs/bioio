@@ -1156,31 +1156,37 @@ class BioImage(biob.image_container.ImageContainer):
         ids in each Image's name attribute but IDs will be generated. The order of the
         scenes will be the same (or whatever order was specified / provided).
         """
-        from .writers import OmeTiffWriter
+        import bioio.writers as _writers  # type: ignore[attr-defined]
 
-        # Get all parameters as dict of lists, or static because of unchanging values
+        OmeTiffWriter = getattr(_writers, "OmeTiffWriter", None)
+
+        if OmeTiffWriter is None:
+            log.warning(
+                "TIFF writing support (OmeTiffWriter) is not available. "
+                "To enable it, install the plugin:\n"
+                "    pip install bioio-ome-tiff"
+            )
+            return
+
+        # Gather per-scene data…
         datas: List[biob.types.ArrayLike] = []
         dim_orders: List[Optional[str]] = []
         channel_names: List[Optional[List[str]]] = []
         image_names: List[Optional[str]] = []
         physical_pixel_sizes: List[biob.types.PhysicalPixelSizes] = []
 
-        # Get selected scenes / handle None scenes
         if select_scenes is None:
             select_scenes = self.scenes
 
-        # Iter through scenes to get data
         for scene in select_scenes:
             self.set_scene(scene)
-
-            # Append this scene details
             datas.append(self.dask_data)
             dim_orders.append(self.dims.order)
             channel_names.append(self.channel_names)
             image_names.append(self.current_scene)
             physical_pixel_sizes.append(self.physical_pixel_sizes)
 
-        # Save all selected scenes
+        # Delegate write to the plugin
         OmeTiffWriter.save(
             data=datas,
             uri=uri,

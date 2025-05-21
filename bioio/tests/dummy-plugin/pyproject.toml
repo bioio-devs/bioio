@@ -47,6 +47,9 @@ test = [
 [project.entry-points."bioio.readers"]
 dummy-plugin = "dummy_plugin"
 
+[project.entry-points."bioio.writers"]
+DummyWriter = "dummy_plugin.writer:DummyWriter"
+
 # build settings
 # https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
 [tool.setuptools]

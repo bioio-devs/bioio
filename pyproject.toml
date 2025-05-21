@@ -31,7 +31,7 @@ dynamic = ["version"]
 dependencies = [
   # We always pin a specific version of bioio-base with
   # each release so that we avoid bioio + bioio-base misalignment.
-  "bioio-base==1.0.7",
+  "bioio-base>=1.0.7",
   "dask[array]>=2021.4.1",
   "fsspec[http]>=2022.8.0",
   "imageio[ffmpeg]>=2.11.0",

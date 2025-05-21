@@ -1,15 +1,21 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# bioio/writers/__init__.py
 
-from .ome_tiff_writer import OmeTiffWriter
-from .ome_zarr_writer_v2 import OmeZarrWriter as V2OmeZarrWriter
-from .ome_zarr_writer_v3 import OMEZarrWriter as V3OmeZarrWriter
-from .ome_zarr_writer_v3 import default_axes, downsample_data
+import sys
+from typing import List
 
-__all__ = [
-    "V3OmeZarrWriter",
-    "V2OmeZarrWriter",
-    "OmeTiffWriter",
-    "default_axes",
-    "downsample_data",
-]
+# Choose the right entry_points based on Python version
+if sys.version_info >= (3, 10):
+    from importlib.metadata import entry_points as _entry_points
+else:
+    from importlib_metadata import entry_points as _entry_points
+
+# Public API list
+__all__: List[str] = []
+
+# Discover all registered writers
+_eps = _entry_points(group="bioio.writers")
+
+for ep in _eps:
+    cls = ep.load()
+    globals()[ep.name] = cls
+    __all__.append(ep.name)

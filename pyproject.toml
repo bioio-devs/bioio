@@ -33,19 +33,9 @@ dependencies = [
   # each release so that we avoid bioio + bioio-base misalignment.
   "bioio-base>=1.0.7",
   "dask[array]>=2021.4.1",
-  "fsspec[http]>=2022.8.0",
-  "imageio[ffmpeg]>=2.11.0",
-  "ngff-zarr>=0.8.2",
   "numpy>=1.21.0",
   "ome-types[lxml]>=0.4.0",
-  # This version was revoked from PyPi, but in case of using a stale version
-  # or a private package index, this will prevent usage
-  "scikit-image!=0.23.0",
   "semver>=3.0.1",
-  "tifffile>=2021.8.30",
-  # Only support V3 Zarr reading python 3.11 +
-  "zarr>=3.0.6; python_version >= '3.11'",
-  "zarr<3; python_version < '3.11'",
 ]
 
 [project.urls]

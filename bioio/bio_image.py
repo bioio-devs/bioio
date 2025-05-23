@@ -1182,6 +1182,7 @@ class BioImage(biob.image_container.ImageContainer):
         # Iter through scenes to get data
         for scene in select_scenes:
             self.set_scene(scene)
+
             # Append this scene details
             datas.append(self.dask_data)
             dim_orders.append(self.dims.order)

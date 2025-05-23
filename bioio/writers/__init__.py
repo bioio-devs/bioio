@@ -1,13 +1,7 @@
 #!/usr/bin/env python
 
-import sys
+from importlib.metadata import entry_points as _entry_points
 from typing import List
-
-# Choose the right entry_points based on Python version
-if sys.version_info >= (3, 10):
-    from importlib.metadata import entry_points as _entry_points
-else:
-    from importlib_metadata import entry_points as _entry_points
 
 # Public API list
 __all__: List[str] = []

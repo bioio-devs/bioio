@@ -1175,11 +1175,14 @@ class BioImage(biob.image_container.ImageContainer):
         image_names: List[Optional[str]] = []
         physical_pixel_sizes: List[biob.types.PhysicalPixelSizes] = []
 
+        # Get selected scenes / handle None scenes
         if select_scenes is None:
             select_scenes = self.scenes
 
+        # Iter through scenes to get data
         for scene in select_scenes:
             self.set_scene(scene)
+            # Append this scene details
             datas.append(self.dask_data)
             dim_orders.append(self.dims.order)
             channel_names.append(self.channel_names)

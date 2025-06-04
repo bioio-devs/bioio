@@ -1134,6 +1134,7 @@ class BioImage(biob.image_container.ImageContainer):
     ) -> None:
         """
         Saves the file data to OME-TIFF format with general naive best practices.
+        (Requires bioio-ome-tiff plugin installed)
 
         Parameters
         ----------
@@ -1146,9 +1147,9 @@ class BioImage(biob.image_container.ImageContainer):
 
         Notes
         -----
-        See `bioio.writers.OmeTiffWriter` for more in-depth specification
-        and the `bioio.writers` module as a whole for list of all available
-        file writers.
+        See `bioio_ome_tiff.writers.OmeTiffWriter` for more in-depth specification
+        and the bioio writer registry in the README module as a whole for list of
+        all available file writers.
 
         When reading in the produced OME-TIFF file, scenes IDs may have changed.
         This is due to how certain file and metadata formats do or do-not have IDs

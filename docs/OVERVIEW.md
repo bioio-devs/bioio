@@ -391,7 +391,8 @@ See the [list of known implementations](https://filesystem-spec.readthedocs.io/e
 ### Saving to OME-TIFF
 
 The simpliest method to save your image as an OME-TIFF file with key pieces of
-metadata is to use the `save` function.
+metadata is to use the `save` function. This requires having the `bioio-ome-tiff`
+plugin installed
 
 ```python
 from bioio import BioImage
@@ -408,21 +409,21 @@ as an OME-TIFF, the writer class can also be used to customize as needed.
 
 ```python
 import numpy as np
-from bioio.writers import OmeTiffWriter
+from bioio.writers import OmeTiffWriter # with bioio-ome-tiff installed
 
 image = np.random.rand(10, 3, 1024, 2048)
-OmeTiffWriter.save(image, "file.ome.tif", dim_order="ZCYX")
+OmeTiffWriter.save(image, "file.ome.tiff", dim_order="ZCYX")
 ```
 
 See
-[OmeTiffWriter documentation](https://bioio-devs.github.io/bioio/bioio.writers.html)
+[OmeTiffWriter documentation](https://github.com/bioio-devs/bioio-ome-tiff/blob/main/README.md)
 for more details.
 
 #### Other Writers
 
 In most cases, `BioImage.save` is usually a good default but there are other image
-writers available. For more information, please refer to
-[our writers documentation](https://bioio-devs.github.io/bioio/bioio.writers.html).
+writers available. For more information, please refer to the writer registry.
+[our writers registry](https://github.com/bioio-devs/bioio/blob/main/README.md).
 
 ## Development
 

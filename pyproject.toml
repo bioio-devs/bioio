@@ -31,22 +31,11 @@ dynamic = ["version"]
 dependencies = [
   # We always pin a specific version of bioio-base with
   # each release so that we avoid bioio + bioio-base misalignment.
-  "bioio-base==1.0.7",
+  "bioio-base==1.4.0",
   "dask[array]>=2021.4.1",
-  "fsspec>=2022.8.0",
-  "imageio[ffmpeg]>=2.11.0",
   "numpy>=1.21.0",
   "ome-types[lxml]>=0.4.0",
-  "ome-zarr>=0.6.1",
-  # Use ngff-zarr for Python 3.10 or lower and ome-zarr-models for Python 3.11 or higher.
-  'ngff-zarr>=0.8.2; python_version < "3.11"',
-  'ome-zarr-models>=0.1.1; python_version >= "3.11"',
-  # This version was revoked from PyPi, but in case of using a stale version
-  # or a private package index, this will prevent usage
-  "scikit-image!=0.23.0",
   "semver>=3.0.1",
-  "tifffile>=2021.8.30",
-  "zarr>=2.6.0",
 ]
 
 [project.urls]
@@ -63,6 +52,7 @@ lint = [
 ]
 test = [
   "coverage>=5.1",
+  "fsspec[http]>=2022.8.0",
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",
   "pytest-raises>=0.11",

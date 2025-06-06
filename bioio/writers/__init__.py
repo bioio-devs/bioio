@@ -1,12 +1,15 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
-from .ome_tiff_writer import OmeTiffWriter
-from .ome_zarr_writer import OmeZarrWriter
-from .ome_zarr_writer_2 import OmeZarrWriter as OmeZarrWriter2
+from importlib.metadata import entry_points as _entry_points
+from typing import List
 
-__all__ = [
-    "OmeTiffWriter",
-    "OmeZarrWriter",
-    "OmeZarrWriter2",
-]
+# Public API list
+__all__: List[str] = []
+
+# Discover all registered writers
+_eps = _entry_points(group="bioio.writers")
+
+for ep in _eps:
+    cls = ep.load()
+    globals()[ep.name] = cls
+    __all__.append(ep.name)

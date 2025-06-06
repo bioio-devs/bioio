@@ -2,12 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import pathlib
-import sys
-
-if sys.version_info < (3, 10):
-    from importlib_metadata import EntryPoint
-else:
-    from importlib.metadata import EntryPoint
+from importlib.metadata import EntryPoint
 
 import bioio_base as biob
 import numpy as np

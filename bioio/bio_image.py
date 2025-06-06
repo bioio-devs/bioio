@@ -1134,6 +1134,7 @@ class BioImage(biob.image_container.ImageContainer):
     ) -> None:
         """
         Saves the file data to OME-TIFF format with general naive best practices.
+        (Requires bioio-ome-tiff plugin installed)
 
         Parameters
         ----------
@@ -1146,9 +1147,9 @@ class BioImage(biob.image_container.ImageContainer):
 
         Notes
         -----
-        See `bioio.writers.OmeTiffWriter` for more in-depth specification
-        and the `bioio.writers` module as a whole for list of all available
-        file writers.
+        See `bioio_ome_tiff.writers.OmeTiffWriter` for more in-depth specification
+        and the bioio writer registry in the README module as a whole for list of
+        all available file writers.
 
         When reading in the produced OME-TIFF file, scenes IDs may have changed.
         This is due to how certain file and metadata formats do or do-not have IDs
@@ -1156,7 +1157,17 @@ class BioImage(biob.image_container.ImageContainer):
         ids in each Image's name attribute but IDs will be generated. The order of the
         scenes will be the same (or whatever order was specified / provided).
         """
-        from .writers import OmeTiffWriter
+        import bioio.writers as _writers  # type: ignore[attr-defined]
+
+        OmeTiffWriter = getattr(_writers, "OmeTiffWriter", None)
+
+        if OmeTiffWriter is None:
+            log.warning(
+                "TIFF writing support (OmeTiffWriter) is not available. "
+                "To enable it, install the plugin:\n"
+                "    pip install bioio-ome-tiff"
+            )
+            return
 
         # Get all parameters as dict of lists, or static because of unchanging values
         datas: List[biob.types.ArrayLike] = []

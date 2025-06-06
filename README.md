@@ -71,5 +71,30 @@ this registry.
 
 Each reader plugin should closely follow the specification laid out in `bioio-base`. As such, it is likely common that reader plugins won't distribute their own documentation and users should instead review  [`bioio_base.reader.Reader`](https://bioio-devs.github.io/bioio-base/bioio_base.html#bioio_base.reader.Reader) for API documentation for the underlying Reader API. We encourage plugin authors to publish their own documentation if they change or include new features into their published image readers.
 
+## Writer Registry
+
+BioIO supports a set of writer backends for exporting image data. The writer registry below lists maintained writer plug-ins.
+
+| Writer           | Extension                                              | Documentation |
+| ---------------- | ------------------------------------------------------ | ------------- |
+| OmeTiffWriter    | .ome.tiff                                              | [Repo](https://github.com/bioio-devs/bioio-ome-tiff)          |
+| OmeZarrWriterV2  | .ome.zarr (OME 0.4.0, Zarr 2)                           | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
+| OmeZarrWriterV3  | .ome.zarr (OME 0.5.0, Zarr 3)                           | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
+| TimeSeriesWriter | .gif, .mp4, .mkv                                       | [Repo](https://github.com/bioio-devs/bioio-imageio)          |
+| TwoDWriter       | .png, .bmp, .jpg, .mov, .avi, .mpg, .mpeg, .mp4, .mkv, .wmv, .ogg | [Repo](https://github.com/bioio-devs/bioio-imageio)          |
+
+
+### Writer Installation and Usage
+Writers will be installed with the respective plugin. Once installed they can be imported via `bioio.writers`.
+ex. `bioio.writers<Writer Name>`
+
+```python
+import numpy as np
+from bioio.writers import OmeTiffWriter # with bioio-ome-tiff installed
+
+image = np.random.rand(10, 3, 1024, 2048)
+OmeTiffWriter.save(image, "file.ome.tiff", dim_order="ZCYX")
+```
+
 ## Issues
 [_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)

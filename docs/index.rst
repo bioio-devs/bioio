@@ -21,10 +21,6 @@ Specific Doc Pages
    :caption: Important Classes:
 
    bioio.BioImage
-   bioio.writers.OmeTiffWriter
-   bioio.writers.OmeZarrWriter
-   bioio.writers.timeseries_writer.TimeseriesWriter
-   bioio.writers.two_d_writer.TwoDWriter
 
 Indices and tables
 ==================

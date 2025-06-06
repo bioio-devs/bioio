@@ -78,13 +78,15 @@ BioIO supports a set of writer backends for exporting image data. The writer reg
 | Writer           | Extension                                              | Documentation |
 | ---------------- | ------------------------------------------------------ | ------------- |
 | OmeTiffWriter    | .ome.tiff                                              | [Repo](https://github.com/bioio-devs/bioio-ome-tiff)          |
-| TimeSeriesWriter | gif, mp4, mkv                                          | [Repo](https://github.com/bioio-devs/bioio-imageio)          |
-| TwoDWriter       | png, bmp, jpg, mov, avi, mpg, mpeg, mp4, mkv, wmv, ogg | [Repo](https://github.com/bioio-devs/bioio-imageio)          |
-| OmeZarrWriterV2  | .ome.zarr (OME 0.4.0, Zarr 2)                          | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
-| OmeZarrWriterV3  | .ome.zarr (OME 0.5.0, Zarr 3)                          | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
+| OmeZarrWriterV2  | .ome.zarr (OME 0.4.0, Zarr 2)                           | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
+| OmeZarrWriterV3  | .ome.zarr (OME 0.5.0, Zarr 3)                           | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
+| TimeSeriesWriter | .gif, .mp4, .mkv                                       | [Repo](https://github.com/bioio-devs/bioio-imageio)          |
+| TwoDWriter       | .png, .bmp, .jpg, .mov, .avi, .mpg, .mpeg, .mp4, .mkv, .wmv, .ogg | [Repo](https://github.com/bioio-devs/bioio-imageio)          |
+
 
 ### Writer Installation and Usage
-Writers will be installed with the respective plugin. Once installed they can be imported via `bioio.writers.<Writer Name>`
+Writers will be installed with the respective plugin. Once installed they can be imported via `bioio.writers`.
+ex. `bioio.writers<Writer Name>`
 
 ```python
 import numpy as np

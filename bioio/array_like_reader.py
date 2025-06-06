@@ -110,10 +110,22 @@ class ArrayLikeReader(Reader):
     def _is_supported_image(  # type: ignore
         image: Union[List[MetaArrayLike], MetaArrayLike], *args: Any, **kwargs: Any
     ) -> bool:
+        errors = []
         if isinstance(image, list):
-            return all(
-                isinstance(scene, (np.ndarray, da.Array, xr.DataArray))
-                for scene in image
+            for scene in image:
+                if isinstance(scene, (np.ndarray, da.Array, xr.DataArray)):
+                    continue
+                else:
+                    errors.append(f"Unsupported scene type: {type(scene)}. ")
+        else:
+            if isinstance(image, (np.ndarray, da.Array, xr.DataArray)):
+                return True
+            else:
+                errors.append(f"Unsupported image type: {type(image)}. ")
+        if errors:
+            errors.append(
+                "ArrayLikeReader supported types are numpy ndarray, dask Array,"
+                + "or xarray DataArray."
             )
 
         return isinstance(image, (np.ndarray, da.Array, xr.DataArray))

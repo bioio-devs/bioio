@@ -127,8 +127,12 @@ class ArrayLikeReader(Reader):
                 "ArrayLikeReader supported types are numpy ndarray, dask Array,"
                 + "or xarray DataArray."
             )
-
-        return isinstance(image, (np.ndarray, da.Array, xr.DataArray))
+            raise exceptions.UnsupportedFileFormatError(
+                "ArrayLikeReader", ", ".join(errors)
+            )
+        else:
+            return True
+        # If we got here, we have a supported image type
 
     @staticmethod
     def _guess_dim_order(shape: Tuple[int, ...]) -> str:

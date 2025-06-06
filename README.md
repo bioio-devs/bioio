@@ -84,7 +84,7 @@ BioIO supports a set of writer backends for exporting image data. The writer reg
 | OmeZarrWriterV3  | .ome.zarr (OME 0.5.0, Zarr 3)                          | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)          |
 
 ### Writer Installation and Usage
-Writers will be installed with the respective plugin. Once installed they can be imported via `bioio.writers.WRITERNAME`
+Writers will be installed with the respective plugin. Once installed they can be imported via `bioio.writers.<Writer Name>`
 
 ```python
 import numpy as np

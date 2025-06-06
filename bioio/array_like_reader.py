@@ -180,10 +180,7 @@ class ArrayLikeReader(Reader):
         **kwargs: Any,
     ):
         # Enforce valid image
-        if not self._is_supported_image(image):
-            raise exceptions.UnsupportedFileFormatError(
-                self.__class__.__name__, str(type(image))
-            )
+        self._is_supported_image(image)
 
         # General note
         # Any time we do a `channel_names[0]` it's because the type check for

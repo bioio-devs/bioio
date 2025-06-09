@@ -110,29 +110,22 @@ class ArrayLikeReader(Reader):
     def _is_supported_image(  # type: ignore
         image: Union[List[MetaArrayLike], MetaArrayLike], *args: Any, **kwargs: Any
     ) -> bool:
-        errors = []
         if isinstance(image, list):
-            for scene in image:
-                if isinstance(scene, (np.ndarray, da.Array, xr.DataArray)):
-                    continue
-                else:
-                    errors.append(f"Unsupported scene type: {type(scene)}. ")
+            values = image
         else:
-            if isinstance(image, (np.ndarray, da.Array, xr.DataArray)):
-                return True
+            values = [image]
+        for scene in values:
+            if isinstance(scene, (np.ndarray, da.Array, xr.DataArray)):
+                continue
             else:
-                errors.append(f"Unsupported image type: {type(image)}. ")
-        if errors:
-            errors.append(
-                "ArrayLikeReader supported types are numpy ndarray, dask Array,"
-                + "or xarray DataArray."
-            )
-            raise exceptions.UnsupportedFileFormatError(
-                "ArrayLikeReader", ", ".join(errors)
-            )
-        else:
-            return True
+                raise exceptions.UnsupportedFileFormatError(
+                    "ArrayLikeReader",
+                    f"Unsupported image type: {type(image)}. "
+                    + "ArrayLikeReader supported types are numpy ndarray, dask Array,"
+                    + "or xarray DataArray.",
+                )
         # If we got here, we have a supported image type
+        return True
 
     @staticmethod
     def _guess_dim_order(shape: Tuple[int, ...]) -> str:

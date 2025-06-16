@@ -10,6 +10,7 @@ import bioio_base as biob
 import dask.array as da
 import numpy as np
 import xarray as xr
+from bioio_base.standard_metadata import StandardMetadata
 from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
@@ -1026,7 +1027,7 @@ class BioImage(biob.image_container.ImageContainer):
         return self.reader.time_interval
 
     @property
-    def standard_metadata(self) -> biob.standard_metadata.StandardMetadata:
+    def standard_metadata(self) -> StandardMetadata:
         """
         Return a set of standardized metadata. The possible
         fields are predefined by the StandardMetadata dataclass.

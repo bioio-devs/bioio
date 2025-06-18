@@ -150,7 +150,10 @@ def _pop_metadata_optionals(metadata_dict: dict) -> dict:
         if ax["unit"] is None:
             ax.pop("unit")
 
-    if metadata_dict["coordinateTransformations"] is None:
+    if (
+        hasattr(metadata_dict, "coordinateTransformations")
+        and metadata_dict["coordinateTransformations"] is None
+    ):
         metadata_dict.pop("coordinateTransformations")
 
     return metadata_dict

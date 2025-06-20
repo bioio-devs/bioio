@@ -1,57 +1,6 @@
 bioio.writers package
 =====================
 
-Submodules
-----------
-
-bioio.writers.ome\_tiff\_writer module
---------------------------------------
-
-.. automodule:: bioio.writers.ome_tiff_writer
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-bioio.writers.ome\_zarr\_writer module
---------------------------------------
-
-.. automodule:: bioio.writers.ome_zarr_writer
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-bioio.writers.ome\_zarr\_writer\_2 module
------------------------------------------
-
-.. automodule:: bioio.writers.ome_zarr_writer_2
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-bioio.writers.timeseries\_writer module
----------------------------------------
-
-.. automodule:: bioio.writers.timeseries_writer
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-bioio.writers.two\_d\_writer module
------------------------------------
-
-.. automodule:: bioio.writers.two_d_writer
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-bioio.writers.writer module
----------------------------
-
-.. automodule:: bioio.writers.writer
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 Module contents
 ---------------
 

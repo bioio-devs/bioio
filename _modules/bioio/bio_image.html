@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
-        <title>bioio.bio_image - bioio 1.6.1 documentation</title>
+        <title>bioio.bio_image - bioio 2.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -166,7 +166,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 1.6.1 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 2.0.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -190,7 +190,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
   
-  <span class="sidebar-brand-text">bioio 1.6.1 documentation</span>
+  <span class="sidebar-brand-text">bioio 2.0.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -221,10 +221,6 @@
 <p class="caption" role="heading"><span class="caption-text">Important Classes:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../bioio.BioImage.html">bioio.BioImage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.OmeTiffWriter.html">bioio.writers.OmeTiffWriter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.OmeZarrWriter.html">bioio.writers.OmeZarrWriter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.timeseries_writer.TimeseriesWriter.html">bioio.writers.timeseries_writer.TimeseriesWriter</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.writers.two_d_writer.TwoDWriter.html">bioio.writers.two_d_writer.TwoDWriter</a></li>
 </ul>
 
 </div>
@@ -272,6 +268,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.standard_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardMetadata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetaArrayLike</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ome_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OME</span>
 
@@ -1320,7 +1317,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">time_interval</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">standard_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">standard_metadata</span><span class="o">.</span><span class="n">StandardMetadata</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">standard_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StandardMetadata</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a set of standardized metadata. The possible</span>
 <span class="sd">        fields are predefined by the StandardMetadata dataclass.</span>
@@ -1436,6 +1433,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Saves the file data to OME-TIFF format with general naive best practices.</span>
+<span class="sd">        (Requires bioio-ome-tiff plugin installed)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1448,9 +1446,9 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        See `bioio.writers.OmeTiffWriter` for more in-depth specification</span>
-<span class="sd">        and the `bioio.writers` module as a whole for list of all available</span>
-<span class="sd">        file writers.</span>
+<span class="sd">        See `bioio_ome_tiff.writers.OmeTiffWriter` for more in-depth specification</span>
+<span class="sd">        and the bioio writer registry in the README module as a whole for list of</span>
+<span class="sd">        all available file writers.</span>
 
 <span class="sd">        When reading in the produced OME-TIFF file, scenes IDs may have changed.</span>
 <span class="sd">        This is due to how certain file and metadata formats do or do-not have IDs</span>
@@ -1458,7 +1456,17 @@
 <span class="sd">        ids in each Image&#39;s name attribute but IDs will be generated. The order of the</span>
 <span class="sd">        scenes will be the same (or whatever order was specified / provided).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">.writers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OmeTiffWriter</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">bioio.writers</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_writers</span>  <span class="c1"># type: ignore[attr-defined]</span>
+
+        <span class="n">OmeTiffWriter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_writers</span><span class="p">,</span> <span class="s2">&quot;OmeTiffWriter&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">OmeTiffWriter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;TIFF writing support (OmeTiffWriter) is not available. &quot;</span>
+                <span class="s2">&quot;To enable it, install the plugin:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;    pip install bioio-ome-tiff&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
 
         <span class="c1"># Get all parameters as dict of lists, or static because of unchanging values</span>
         <span class="n">datas</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1674,7 +1682,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d6a008b6"></script>
+</div><script src="../../_static/documentation_options.js?v=51b770b3"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

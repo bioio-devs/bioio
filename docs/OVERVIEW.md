@@ -423,7 +423,7 @@ for more details.
 
 In most cases, `BioImage.save` is usually a good default but there are other image
 writers available. For more information, please refer to the writer registry.
-[our writers registry](https://github.com/bioio-devs/bioio/blob/main/README.md).
+[our writers registry](https://github.com/bioio-devs/bioio/blob/main/README.md#writer-registry).
 
 ## Development
 

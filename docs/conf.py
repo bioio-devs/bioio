@@ -36,6 +36,7 @@ numpydoc_show_class_members = False
 sphinx_tabs_disable_tab_closing = True
 
 autoclass_content = "both"
+autodoc_mock_imports = ["bioio_base"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

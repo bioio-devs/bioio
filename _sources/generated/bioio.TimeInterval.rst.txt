@@ -1,0 +1,6 @@
+﻿bioio.TimeInterval
+==================
+
+.. currentmodule:: bioio
+
+.. autodata:: TimeInterval

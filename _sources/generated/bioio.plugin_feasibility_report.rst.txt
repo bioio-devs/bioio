@@ -1,0 +1,6 @@
+﻿bioio.plugin\_feasibility\_report
+=================================
+
+.. currentmodule:: bioio
+
+.. autofunction:: plugin_feasibility_report

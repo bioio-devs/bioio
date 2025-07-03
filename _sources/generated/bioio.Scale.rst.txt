@@ -1,0 +1,34 @@
+﻿bioio.Scale
+===========
+
+.. currentmodule:: bioio
+
+.. autoclass:: Scale
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Scale.__init__
+      ~Scale.count
+      ~Scale.index
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Scale.C
+      ~Scale.T
+      ~Scale.X
+      ~Scale.Y
+      ~Scale.Z
+   
+   

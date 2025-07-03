@@ -1,0 +1,6 @@
+﻿bioio.PathLike
+==============
+
+.. currentmodule:: bioio
+
+.. autodata:: PathLike

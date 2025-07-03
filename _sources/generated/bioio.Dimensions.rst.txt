@@ -1,0 +1,30 @@
+﻿bioio.Dimensions
+================
+
+.. currentmodule:: bioio
+
+.. autoclass:: Dimensions
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Dimensions.__init__
+      ~Dimensions.items
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Dimensions.order
+      ~Dimensions.shape
+   
+   

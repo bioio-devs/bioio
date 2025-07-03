@@ -1,0 +1,6 @@
+﻿bioio.ArrayLike
+===============
+
+.. currentmodule:: bioio
+
+.. autodata:: ArrayLike

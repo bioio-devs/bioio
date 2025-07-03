@@ -1,0 +1,32 @@
+﻿bioio.PhysicalPixelSizes
+========================
+
+.. currentmodule:: bioio
+
+.. autoclass:: PhysicalPixelSizes
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~PhysicalPixelSizes.__init__
+      ~PhysicalPixelSizes.count
+      ~PhysicalPixelSizes.index
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PhysicalPixelSizes.X
+      ~PhysicalPixelSizes.Y
+      ~PhysicalPixelSizes.Z
+   
+   

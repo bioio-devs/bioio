@@ -1,0 +1,6 @@
+﻿bioio.MetaArrayLike
+===================
+
+.. currentmodule:: bioio
+
+.. autodata:: MetaArrayLike

@@ -1,0 +1,48 @@
+﻿bioio.StandardMetadata
+======================
+
+.. currentmodule:: bioio
+
+.. autoclass:: StandardMetadata
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~StandardMetadata.__init__
+      ~StandardMetadata.to_dict
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~StandardMetadata.FIELD_LABELS
+      ~StandardMetadata.binning
+      ~StandardMetadata.column
+      ~StandardMetadata.dimensions_present
+      ~StandardMetadata.image_size_c
+      ~StandardMetadata.image_size_t
+      ~StandardMetadata.image_size_x
+      ~StandardMetadata.image_size_y
+      ~StandardMetadata.image_size_z
+      ~StandardMetadata.imaged_by
+      ~StandardMetadata.imaging_datetime
+      ~StandardMetadata.objective
+      ~StandardMetadata.pixel_size_x
+      ~StandardMetadata.pixel_size_y
+      ~StandardMetadata.pixel_size_z
+      ~StandardMetadata.position_index
+      ~StandardMetadata.row
+      ~StandardMetadata.timelapse
+      ~StandardMetadata.timelapse_interval
+      ~StandardMetadata.total_time_duration
+   
+   

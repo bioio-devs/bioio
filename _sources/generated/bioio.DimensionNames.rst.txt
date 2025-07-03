@@ -1,0 +1,34 @@
+﻿bioio.DimensionNames
+====================
+
+.. currentmodule:: bioio
+
+.. autoclass:: DimensionNames
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~DimensionNames.__init__
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~DimensionNames.Channel
+      ~DimensionNames.MosaicTile
+      ~DimensionNames.Samples
+      ~DimensionNames.SpatialX
+      ~DimensionNames.SpatialY
+      ~DimensionNames.SpatialZ
+      ~DimensionNames.Time
+   
+   

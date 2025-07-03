@@ -1,0 +1,23 @@
+﻿bioio.Writer
+============
+
+.. currentmodule:: bioio
+
+.. autoclass:: Writer
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~Writer.__init__
+      ~Writer.save
+   
+   
+
+   
+   
+   

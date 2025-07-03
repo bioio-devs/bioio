@@ -8,7 +8,7 @@ Welcome to bioio's documentation!
 
    Overview <OVERVIEW>
    Installation <INSTALLATION>
-   Full API Reference <modules>
+   Full API Reference <api_reference>
    Developer Resources <developer_resources>
    Changelog <CHANGELOG>
    AICSImageIO Migration <MIGRATION>

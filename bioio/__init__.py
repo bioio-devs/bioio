@@ -20,17 +20,17 @@ try:
 except ImportError:
     # Safe fallback during install/docs build
     _fallback_symbols = [
-        "StandardMetadata",
-        "Writer",
+        "ArrayLike",
         "DimensionNames",
         "Dimensions",
-        "ArrayLike",
-        "MetaArrayLike",
-        "Scale",
-        "PhysicalPixelSizes",
         "ImageLike",
-        "TimeInterval",
+        "MetaArrayLike",
         "PathLike",
+        "PhysicalPixelSizes",
+        "Scale",
+        "StandardMetadata",
+        "TimeInterval",
+        "Writer",
     ]
     globals().update({name: None for name in _fallback_symbols})
 

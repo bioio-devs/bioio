@@ -111,3 +111,4 @@ ENV/
 
 # VSCode
 .vscode
+docs/generated

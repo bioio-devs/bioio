@@ -684,12 +684,8 @@ class BioImage(biob.image_container.ImageContainer):
         dims: dimensions.Dimensions
             Object with the paired dimension names and their sizes.
         """
-        if self._dims is None:
-            self._dims = biob.dimensions.Dimensions(
-                dims=self.xarray_dask_data.dims, shape=self.shape
-            )
 
-        return self._dims
+        return self.reader.dims
 
     def get_image_dask_data(
         self, dimension_order_out: Optional[str] = None, **kwargs: Any

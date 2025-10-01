@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0  # Full history needed for tags and changelog
           ref: ${{ github.ref }}
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
       - uses: extractions/setup-just@v3

@@ -85,7 +85,7 @@ BioIO supports a set of writer backends for exporting image data. The writer reg
 
 ### Writer Installation and Usage
 Writers will be installed with the respective plugin. Once installed they can be imported via `bioio.writers`.
-ex. `bioio.writers<Writer Name>` or directly from the reader.
+ex. `bioio.writers<Writer Name>`
 
 ```python
 import numpy as np

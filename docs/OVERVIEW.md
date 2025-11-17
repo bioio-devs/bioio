@@ -162,7 +162,7 @@ This is a list of currently known and maintained reader plug-ins available, howe
         <a class="reference external" href="https://github.com/bioio-devs/bioio-bioformats">bioio-bioformats</a>
     </td>
     <td>
-        Files supported by <a class="reference external" href="https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html">Bio-Formats</a> (Requires <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">maven</span></code>, see below for details)
+        Files supported by <a class="reference external" href="https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html">Bio-Formats</a> (Requires <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">maven</span></code>, <a class="reference external" href="https://github.com/bioio-devs/bioio-bioformats?tab=readme-ov-file#special-installation-instructions">see details</a> )
     </td>
   </tr>
 </table>

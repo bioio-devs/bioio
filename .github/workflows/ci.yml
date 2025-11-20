@@ -62,6 +62,8 @@ jobs:
         run: just test
       - name: Upload Codecov
         uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   # Check linting, formating, types, etc.
   lint:

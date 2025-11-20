@@ -64,13 +64,6 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Debug Codecov Token Length
-        run: |
-          if [ -z "${{ secrets.CODECOV_TOKEN }}" ]; then
-            echo "Codecov token is EMPTY"
-          else
-            echo "Codecov token length: ${#{{ secrets.CODECOV_TOKEN }}}"
-          fi
 
   # Check linting, formating, types, etc.
   lint:

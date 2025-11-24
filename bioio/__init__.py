@@ -9,6 +9,7 @@ try:
     from bioio_base.standard_metadata import StandardMetadata
     from bioio_base.types import (
         ArrayLike,
+        DimensionProperties,
         ImageLike,
         MetaArrayLike,
         PathLike,
@@ -22,6 +23,7 @@ except ImportError:
     _fallback_symbols = [
         "ArrayLike",
         "DimensionNames",
+        "DimensionProperties",
         "Dimensions",
         "ImageLike",
         "MetaArrayLike",
@@ -50,6 +52,7 @@ __all__ = [
     "ArrayLike",
     "BioImage",
     "DimensionNames",
+    "DimensionProperties",
     "Dimensions",
     "ImageLike",
     "MetaArrayLike",

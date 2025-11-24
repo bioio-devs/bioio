@@ -1011,6 +1011,17 @@ class BioImage(biob.image_container.ImageContainer):
         return self.reader.scale
 
     @property
+    def dimension_properties(self) -> biob.types.DimensionProperties:
+        """
+        Returns
+        -------
+        dimension_properties: DimensionProperties
+            Per-dimension properties (value, type, unit) derived from the
+            underlying reader.
+        """
+        return self.reader.dimension_properties
+
+    @property
     def time_interval(self) -> biob.types.TimeInterval:
         """
         Returns

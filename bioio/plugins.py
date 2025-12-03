@@ -9,7 +9,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, get_args
+from typing import Any, Sequence, Type, get_args
 
 import semver
 
@@ -115,6 +115,42 @@ def insert_sorted_by_timestamp(list: List[PluginEntry], item: PluginEntry) -> No
             list.insert(i, item)
             return
     list.append(item)
+
+
+def order_plugins_by_priority(
+    plugins: List[PluginEntry],
+    plugin_priority: Optional[Sequence[Type[Reader]]] = None,
+) -> List[PluginEntry]:
+    """
+    Reorder a list of PluginEntry objects according to a user-provided
+    list of Reader classes.
+
+    Parameters
+    ----------
+    plugins : List[PluginEntry]
+        The candidate plugins for a given extension.
+    plugin_priority : Sequence[Type[Reader]], optional
+        Reader classes that should be preferred first, e.g.
+
+            from bioio_czi import Reader as CziReader
+            from bioio_tifffile import Reader as TiffReader
+
+            plugin_priority = [CziReader, TiffReader]
+
+    Returns
+    -------
+    List[PluginEntry]
+        Prioritized plugin list.
+    """
+    if not plugin_priority:
+        return plugins
+
+    priority_index = {cls: i for i, cls in enumerate(plugin_priority)}
+
+    return sorted(
+        plugins,
+        key=lambda p: priority_index.get(p.metadata.get_reader(), len(priority_index)),
+    )
 
 
 def get_dependency_version_range_for_distribution(
@@ -344,18 +380,49 @@ def plugin_feasibility_report(
     """
     Generate a feasibility report for each plugin,
     determining if it can handle the specified image.
+
+    For debugging purposes, this function checks every installed plugin’s
+    `is_supported_image(...)` implementation — even if the plugin would
+    *not* normally be selected by BioImage’s extension-based routing.
+
+    A warning is logged if a plugin *can* read the file but the file’s
+    extension is NOT listed in that plugin’s advertised supported extensions.
+    In such cases, BioImage will NOT auto-select that plugin for the file,
+    but the user may explicitly choose it via the `reader=` parameter.
     """
     plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
-    feasibility_report = {}
+    feasibility_report: Dict[str, PluginSupport] = {}
+
+    ext = None
+    if isinstance(image, (str, Path)):
+        # Strip any query parameters, then extract suffix
+        clean_path = str(image).split("?")[0]
+        ext = Path(clean_path).suffix.lower()
 
     # Check each plugin for support
     for plugins in plugins_by_ext.values():
         for plugin in plugins:
             plugin_name = plugin.entrypoint.name
-            feasibility_report[plugin_name] = _check_plugin_support(
-                plugin, image, fs_kwargs
-            )
+            support = _check_plugin_support(plugin, image, fs_kwargs)
+            feasibility_report[plugin_name] = support
 
+            if support.supported and ext is not None:
+                advertised_exts = [
+                    e.lower() if e.startswith(".") else f".{e.lower()}"
+                    for e in plugin.metadata.get_supported_extensions()
+                ]
+
+                if ext not in advertised_exts:
+                    ReaderClass = plugin.metadata.get_reader()
+
+                    log.warning(
+                        f"Plugin '{plugin_name}' CAN read the file '{image}', "
+                        f"but the file extension '{ext}' is NOT listed in its "
+                        f"get_supported_extensions(): {advertised_exts}.  BioImage "
+                        f"will NOT auto-select this reader based on extension.\n"
+                        f"To use this reader manually, instantiate BioImage with:\n"
+                        f"    BioImage('{image}', reader={ReaderClass.__name__})"
+                    )
     # Additional check for ArrayLike support
     try:
         supported = ArrayLikeReader.is_supported_image(image=image, fs_kwargs=fs_kwargs)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
 import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_args
@@ -1262,11 +1261,16 @@ class BioImage(biob.image_container.ImageContainer):
         )
 
     def __str__(self) -> str:
+        """
+        Summary of this BioImage.
+
+        If a plugin was used to construct the reader, we report the plugin
+        entrypoint name. Otherwise, we only show whether the image is in memory.
+        """
         if self._plugin is not None:
             return (
                 f"<BioImage ["
-                f"plugin: {self._plugin.entrypoint.name} installed "
-                f"at {datetime.datetime.fromtimestamp(self._plugin.timestamp)}, "
+                f"plugin: {self._plugin.entrypoint.name}, "
                 f"Image-is-in-Memory: {self._xarray_data is not None}"
                 f"]>"
             )

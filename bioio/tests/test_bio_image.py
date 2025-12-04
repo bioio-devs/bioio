@@ -38,7 +38,6 @@ def test_bioimage_determine_arraylike() -> None:
     # Assert
     assert isinstance(result.entrypoint, EntryPoint)
     assert isinstance(result.metadata, ReaderMetadata)
-    assert isinstance(result.timestamp, float)
     assert issubclass(result.metadata.get_reader(), Reader)
     assert result.metadata.get_reader() is ArrayLikeReader
 

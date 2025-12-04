@@ -147,6 +147,7 @@ def order_plugins_by_priority(
 
     priority_index = {cls: i for i, cls in enumerate(plugin_priority)}
 
+    # From the docs: "The built-in [sorted()](https://docs.python.org/3/library/functions.html#sorted) function is guaranteed to be stable. A sort is stable if it guarantees not to change the relative order of elements that compare equal."
     return sorted(
         plugins,
         key=lambda p: priority_index.get(p.metadata.get_reader(), len(priority_index)),

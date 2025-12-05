@@ -34,6 +34,9 @@ jobs:
   # Check tests pass on multiple Python and OS combinations
   test:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:
@@ -62,6 +65,8 @@ jobs:
         run: just test
       - name: Upload Codecov
         uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
 
   # Check linting, formating, types, etc.
   lint:

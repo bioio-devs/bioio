@@ -7,7 +7,7 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
 ## Features
 
 - Image Reading
-    - BioIO can read many various image formats (ex. `OME-TIFF`, `PNG`,  `ND2`), but only when paired with the appropriate plug-in for the image format. See [Reader Installation](#id1) for a full list of the currently supported image formats as well as how to install them.
+    - BioIO can read many various image formats (ex. `OME-TIFF`, `PNG`,  `ND2`), but only when paired with the appropriate plug-in for the image format. See [Reader Installation](#reader-installation) for a full list of the currently supported image formats as well as how to install them.
 - Image Writing
     - Supports writing metadata and imaging data for:
         - `OME-TIFF`
@@ -19,7 +19,7 @@ Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in P
         -   HTTP URLs (i.e. `https://my-domain.com/my-file.png`)
         -   [s3fs](https://github.com/dask/s3fs) (i.e. `s3://my-bucket/my-file.png`)
         -   [gcsfs](https://github.com/dask/gcsfs) (i.e. `gcs://my-bucket/my-file.png`)
-    - See [Cloud IO Support](#id2) for more details.
+    - See [Cloud IO Support](#cloud-io-support) for more details.
 
 ## Installation
 
@@ -162,7 +162,7 @@ This is a list of currently known and maintained reader plug-ins available, howe
         <a class="reference external" href="https://github.com/bioio-devs/bioio-bioformats">bioio-bioformats</a>
     </td>
     <td>
-        Files supported by <a class="reference external" href="https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html">Bio-Formats</a> (Requires <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">maven</span></code>, see below for details)
+        Files supported by <a class="reference external" href="https://docs.openmicroscopy.org/bio-formats/latest/supported-formats.html">Bio-Formats</a> (Requires <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">maven</span></code>, <a class="reference external" href="https://github.com/bioio-devs/bioio-bioformats?tab=readme-ov-file#special-installation-instructions">see details</a> )
     </td>
   </tr>
 </table>

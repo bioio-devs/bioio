@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="bioio.ArrayLike" href="bioio.ArrayLike.html"><link rel="prev" title="bioio.StandardMetadata" href="bioio.StandardMetadata.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="bioio.MetaArrayLike" href="bioio.MetaArrayLike.html"><link rel="prev" title="bioio.ArrayLike" href="bioio.ArrayLike.html">
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>bioio.Writer - bioio 3.1.0 documentation</title>
+        <title>bioio.DimensionProperties - bioio 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -197,9 +197,9 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api_reference.html">Full API Reference</a><input aria-label="Toggle navigation of Full API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="bioio.BioImage.html">bioio.BioImage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioio.StandardMetadata.html">bioio.StandardMetadata</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">bioio.Writer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bioio.Writer.html">bioio.Writer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioio.ArrayLike.html">bioio.ArrayLike</a></li>
-<li class="toctree-l2"><a class="reference internal" href="bioio.DimensionProperties.html">bioio.DimensionProperties</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">bioio.DimensionProperties</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioio.MetaArrayLike.html">bioio.MetaArrayLike</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioio.Scale.html">bioio.Scale</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bioio.TimeInterval.html">bioio.TimeInterval</a></li>
@@ -244,7 +244,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/generated/bioio.Writer.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/generated/bioio.DimensionProperties.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -262,26 +262,53 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="bioio-writer">
-<h1>bioio.Writer<a class="headerlink" href="#bioio-writer" title="Link to this heading">¶</a></h1>
+          <section id="bioio-dimensionproperties">
+<h1>bioio.DimensionProperties<a class="headerlink" href="#bioio-dimensionproperties" title="Link to this heading">¶</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="bioio.Writer">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">Writer</span></span><a class="reference internal" href="../_modules/bioio_base/writer.html#Writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.Writer" title="Link to this definition">¶</a></dt>
-<dd><p>A small class to build standardized image writer functions.</p>
+<dt class="sig sig-object py" id="bioio.DimensionProperties">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">DimensionProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DimensionProperty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DimensionProperty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DimensionProperty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DimensionProperty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DimensionProperty</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bioio_base/types.html#DimensionProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.DimensionProperties" title="Link to this definition">¶</a></dt>
+<dd><p>Container for dimension properties for all supported dims.</p>
+<p>These align with the standard bioio dimension order (T, C, Z, Y, X).</p>
+<p>Create new instance of DimensionProperties(T, C, Z, Y, X)</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="bioio.Writer.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bioio.Writer.__init__" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="bioio.DimensionProperties.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#bioio.DimensionProperties.__init__" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p class="rubric">Methods</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bioio.Writer.__init__" title="bioio.Writer.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bioio.DimensionProperties.__init__" title="bioio.DimensionProperties.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(*args, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../bioio.html#bioio.Writer.save" title="bioio.Writer.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(data, uri[, dim_order])</p></td>
-<td><p>Write a data array to a file.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">count</span></code>(value, /)</p></td>
+<td><p>Return number of occurrences of value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code>(value[, start, stop])</p></td>
+<td><p>Return first index of value.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Attributes</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../bioio.html#bioio.DimensionProperties.C" title="bioio.DimensionProperties.C"><code class="xref py py-obj docutils literal notranslate"><span class="pre">C</span></code></a></p></td>
+<td><p>Alias for field number 1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../bioio.html#bioio.DimensionProperties.T" title="bioio.DimensionProperties.T"><code class="xref py py-obj docutils literal notranslate"><span class="pre">T</span></code></a></p></td>
+<td><p>Alias for field number 0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../bioio.html#bioio.DimensionProperties.X" title="bioio.DimensionProperties.X"><code class="xref py py-obj docutils literal notranslate"><span class="pre">X</span></code></a></p></td>
+<td><p>Alias for field number 4</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../bioio.html#bioio.DimensionProperties.Y" title="bioio.DimensionProperties.Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Y</span></code></a></p></td>
+<td><p>Alias for field number 3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../bioio.html#bioio.DimensionProperties.Z" title="bioio.DimensionProperties.Z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Z</span></code></a></p></td>
+<td><p>Alias for field number 2</p></td>
 </tr>
 </tbody>
 </table>
@@ -295,23 +322,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="bioio.ArrayLike.html">
+          <a class="next-page" href="bioio.MetaArrayLike.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">bioio.ArrayLike</div>
+                <div class="title">bioio.MetaArrayLike</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="bioio.StandardMetadata.html">
+          <a class="prev-page" href="bioio.ArrayLike.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">bioio.StandardMetadata</div>
+                <div class="title">bioio.ArrayLike</div>
                 
               </div>
             </a>
@@ -345,9 +372,9 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">bioio.Writer</a><ul>
-<li><a class="reference internal" href="#bioio.Writer"><code class="docutils literal notranslate"><span class="pre">Writer</span></code></a><ul>
-<li><a class="reference internal" href="#bioio.Writer.__init__"><code class="docutils literal notranslate"><span class="pre">Writer.__init__()</span></code></a></li>
+<li><a class="reference internal" href="#">bioio.DimensionProperties</a><ul>
+<li><a class="reference internal" href="#bioio.DimensionProperties"><code class="docutils literal notranslate"><span class="pre">DimensionProperties</span></code></a><ul>
+<li><a class="reference internal" href="#bioio.DimensionProperties.__init__"><code class="docutils literal notranslate"><span class="pre">DimensionProperties.__init__()</span></code></a></li>
 </ul>
 </li>
 </ul>

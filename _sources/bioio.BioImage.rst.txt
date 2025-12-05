@@ -41,6 +41,7 @@
       ~BioImage.current_scene_index
       ~BioImage.dask_data
       ~BioImage.data
+      ~BioImage.dimension_properties
       ~BioImage.dims
       ~BioImage.dtype
       ~BioImage.metadata

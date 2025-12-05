@@ -34,6 +34,9 @@ jobs:
   # Check tests pass on multiple Python and OS combinations
   test:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: false
       matrix:

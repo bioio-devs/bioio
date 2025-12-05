@@ -24,6 +24,7 @@ Types and Aliases
    :recursive:
 
    ArrayLike
+   DimensionProperties
    MetaArrayLike
    Scale
    TimeInterval

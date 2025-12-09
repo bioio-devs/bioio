@@ -80,7 +80,7 @@ def test_bioimage_plugin_priority_modulates_reader(
 
     # Build a controlled plugin mapping where both readers claim the same extension
     # and where the base order is [Dummy, Accepting]. This lets us see exactly how
-    # plugin_priority changes which reader BioImage selects.
+    # the reader list changes which reader BioImage selects.
     test_ext = ".czi"
     fake_plugins_by_ext = {test_ext: [dummy_entry, accepting_entry]}
 
@@ -132,12 +132,12 @@ def test_bioimage_plugin_priority_modulates_reader(
         "accepting": AcceptingReader,
     }
 
-    plugin_priority = [name_to_cls[name] for name in priority_order]
+    reader_priority = [name_to_cls[name] for name in priority_order]
     expected_cls = name_to_cls[expected_first]
     test_path = f"test{test_ext}"
 
-    # Act
-    img = BioImage(test_path, plugin_priority=plugin_priority)
+    # Act: pass the priority list via `reader=` (new API)
+    img = BioImage(test_path, reader=reader_priority)
 
     # Assert
     assert isinstance(img.reader, expected_cls)

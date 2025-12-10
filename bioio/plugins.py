@@ -335,7 +335,7 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
       skip plugins that are incompatible.
     * This default ordering controls BioIO's automatic choice of reader based
       on extension. A user can still override the order of candidate plugins
-      for a given file via the ``plugin_priority`` argument on ``BioImage``.
+      for a given file via the ``reader`` argument on ``BioImage``.
     """
     if use_cache and plugins_by_ext_cache:
         return plugins_by_ext_cache.copy()

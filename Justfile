@@ -42,6 +42,7 @@ build:
 generate-docs:
 	rm -f docs/bioio*.rst
 	rm -f docs/modules.rst
+	gitchangelog > docs/CHANGELOG.rst
 	sphinx-apidoc -o docs bioio **/tests
 	python -msphinx "docs" "docs/_build"
 

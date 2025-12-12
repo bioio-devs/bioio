@@ -356,7 +356,7 @@ class BioImage(biob.image_container.ImageContainer):
         * If ``reader`` is ``None``, the default plugin ordering is used.
         """
 
-        # Force specific reader
+        # Assert reader is type class object (single selection)
         if isinstance(reader, type):
             forced_reader = cast(Type[biob.reader.Reader], reader)
             if not check_type(image, forced_reader):

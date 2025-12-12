@@ -245,8 +245,8 @@ def plugin_factory(
 
     Examples
     --------
-    Multiple plugins registration):
-        def test_two_plugins_same_ext(plugin_factory, sample_text_file):
+    Multiple plugins registration:
+        def test_two_plugins(plugin_factory, sample_text_file):
             plugin_factory([
                 TestPluginSpec(name="a", supported_extensions=[".txt"]),
                 TestPluginSpec(name="b", supported_extensions=[".tiff"]),

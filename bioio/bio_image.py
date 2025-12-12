@@ -3,18 +3,7 @@
 
 import logging
 from pathlib import Path
-from typing import (
-    Any,
-    Dict,
-    List,
-    Optional,
-    Sequence,
-    Tuple,
-    Type,
-    Union,
-    cast,
-    get_args,
-)
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_args
 
 import bioio_base as biob
 import dask.array as da
@@ -356,14 +345,13 @@ class BioImage(biob.image_container.ImageContainer):
         * If ``reader`` is ``None``, the default plugin ordering is used.
         """
 
-        # Assert reader is type class object (single selection)
-        if isinstance(reader, type):
-            forced_reader = cast(Type[biob.reader.Reader], reader)
-            if not check_type(image, forced_reader):
+        # Assert reader is class object and subclass of base reader
+        if isinstance(reader, type) and issubclass(reader, biob.reader.Reader):
+            if not check_type(image, reader):
                 raise biob.exceptions.UnsupportedFileFormatError(
-                    forced_reader.__name__, str(type(image))
+                    reader.__name__, str(type(image))
                 )
-            return forced_reader(image, fs_kwargs=fs_kwargs, **kwargs), None
+            return reader(image, fs_kwargs=fs_kwargs, **kwargs), None
 
         # Determine plugin with priority
         plugin_priority: Optional[Sequence[Type[biob.reader.Reader]]] = None

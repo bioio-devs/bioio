@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
 import logging
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Type, Union, get_args
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_args
 
 import bioio_base as biob
 import dask.array as da
@@ -15,7 +14,13 @@ from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import PluginEntry, check_type, get_array_like_plugin, get_plugins
+from .plugins import (
+    PluginEntry,
+    check_type,
+    get_array_like_plugin,
+    get_plugins,
+    order_plugins_by_priority,
+)
 
 ###############################################################################
 
@@ -35,9 +40,22 @@ class BioImage(biob.image_container.ImageContainer):
     ----------
     image: biob.types.ImageLike
         A string, Path, fsspec supported URI, or arraylike to read.
-    reader: Optional[Type[Reader]]
-        The Reader class to specifically use for reading the provided image.
-        Default: None (find matching reader)
+    reader: Optional[Union[Type[biob.reader.Reader],
+                           Sequence[Type[biob.reader.Reader]]]]
+        Controls how BioImage selects the underlying Reader:
+
+        * If a **single Reader subclass** is provided (e.g. ``reader=TiffReader``),
+          that reader is used directly and plugin ordering is bypassed.
+
+        * If a **sequence of Reader subclasses** is provided
+          (e.g. ``reader=[TiffReader, OmeTiffReader]``), the list is treated as a
+          *priority list* when selecting among installed plugins that support the
+          file’s extension. Readers earlier in the list are tried first.
+
+        * A warning is raised if the priority list does not contain a
+          reader that can read the provided image
+
+        * If ``None`` (default), BioImage uses its default plugin ordering.
     reconstruct_mosaic: bool
         Boolean for setting that data for this object to the reconstructed / stitched
         mosaic image.
@@ -101,7 +119,16 @@ class BioImage(biob.image_container.ImageContainer):
 
     >>> img = BioImage("malformed_metadata.ome.tiff", reader=readers.TiffReader)
 
-    Data for a mosaic file is returned pre-stitched (if the base reader supports it).
+    Initialize an image and override plugin selection order when multiple readers
+    support the same extension.
+
+    >>> from bioio_tifffile import Reader as TiffReader
+    >>> from bioio_ome_tiff import Reader as OmeTiffReader
+    >>> img = BioImage(
+    ...     "multi_plugin_file.ome.tiff",
+    ...     reader=[TiffReader, OmeTiffReader],
+    ... )
+    ... # TiffReader will be tried before OmeTiffReader for this instance.
 
     >>> img = BioImage("big_mosaic.czi")
     ... img.dims  # <Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]>
@@ -132,6 +159,7 @@ class BioImage(biob.image_container.ImageContainer):
         image: biob.types.ImageLike,
         fs_kwargs: Dict[str, Any] = {},
         use_plugin_cache: bool = False,
+        plugin_priority: Optional[Sequence[Type[biob.reader.Reader]]] = None,
         **kwargs: Any,
     ) -> PluginEntry:
         """
@@ -151,6 +179,11 @@ class BioImage(biob.image_container.ImageContainer):
             Additional keyword arguments to be passed to the file system handler.
         use_plugin_cache : bool, optional
             Whether to use a cached version of the plugin mapping, by default False.
+        plugin_priority : Optional[Sequence[Type[biob.reader.Reader]]], optional
+            Optional ordered list of Reader classes defining the order in which
+            matching plugins should be tried. This overrides the default ordering
+            when multiple plugins support the same extension. Only Reader classes
+            from installed plugins may be included.
         **kwargs : Any
             Additional keyword arguments for plugin-specific configurations.
 
@@ -172,9 +205,11 @@ class BioImage(biob.image_container.ImageContainer):
            optionally using a cached version.
         2. If the `image` is a file path (str or Path), it checks for a matching
            plugin based on the file extension.
-        3. If the `image` is an array-like object, it attempts to use the
+        4. If multiple plugins support the same extension, the optional
+           ``plugin_priority`` list determines the order in which they are tried.
+        5. If the `image` is an array-like object, it attempts to use the
            built-in `ArrayLikeReader`.
-        4. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
+        6. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
 
         Examples
         --------
@@ -198,6 +233,7 @@ class BioImage(biob.image_container.ImageContainer):
           extension against the known plugins.
         - For each matching plugin, it tries to instantiate a reader and checks
           if it supports the image.
+        - If multiple plugins match, optional ``plugin_priority`` takes precedence.
         - If the image is array-like, it uses a built-in reader designed for
           such objects.
         - Detailed logging is provided for troubleshooting purposes.
@@ -219,7 +255,12 @@ class BioImage(biob.image_container.ImageContainer):
             # Check for extension in plugins_by_ext
             for format_ext, plugins in plugins_by_ext.items():
                 if BioImage._path_has_extension(path, format_ext):
-                    for plugin in plugins:
+                    # Reorder plugins for this extension according to user priority
+                    ordered_plugins = order_plugins_by_priority(
+                        plugins, plugin_priority
+                    )
+
+                    for plugin in ordered_plugins:
                         ReaderClass = plugin.metadata.get_reader()
                         try:
                             if ReaderClass.is_supported_image(
@@ -281,36 +322,68 @@ class BioImage(biob.image_container.ImageContainer):
     @staticmethod
     def _get_reader(
         image: biob.types.ImageLike,
-        reader: biob.reader.Reader,
+        reader: Optional[
+            Union[Type[biob.reader.Reader], Sequence[Type[biob.reader.Reader]]]
+        ],
         use_plugin_cache: bool,
         fs_kwargs: Dict[str, Any],
         **kwargs: Any,
     ) -> Tuple[biob.reader.Reader, Optional[PluginEntry]]:
         """
-        Initializes and returns the reader (and plugin if relevant) for the provided
-        image based on provided args and/or the available bioio supported plugins
+        Initialize and return the underlying reader (and its PluginEntry, if any)
+        for the provided image.
+
+        Behavior
+        --------
+        * If ``reader`` is a single Reader subclass, that reader is used directly
+          and the plugin system is bypassed.
+
+        * If ``reader`` is a sequence of Reader subclasses, it is treated as a
+          priority list passed to the plugin system. Readers earlier in the list
+          are tried first when multiple plugins support the same extension.
+
+        * If ``reader`` is ``None``, the default plugin ordering is used.
         """
-        if reader is not None:
-            # Check specific reader image types in a situation where a specified reader
-            # only supports some of the ImageLike types.
+
+        # Assert reader is class object and subclass of base reader
+        if isinstance(reader, type) and issubclass(reader, biob.reader.Reader):
             if not check_type(image, reader):
                 raise biob.exceptions.UnsupportedFileFormatError(
                     reader.__name__, str(type(image))
                 )
-
             return reader(image, fs_kwargs=fs_kwargs, **kwargs), None
 
-        # Determine reader class based on available plugins
+        # Determine plugin with priority
+        plugin_priority: Optional[Sequence[Type[biob.reader.Reader]]] = None
+        if isinstance(reader, Sequence):
+            plugin_priority = reader
         plugin = BioImage.determine_plugin(
-            image, fs_kwargs=fs_kwargs, use_plugin_cache=use_plugin_cache, **kwargs
+            image,
+            fs_kwargs=fs_kwargs,
+            use_plugin_cache=use_plugin_cache,
+            plugin_priority=plugin_priority,
+            **kwargs,
         )
         ReaderClass = plugin.metadata.get_reader()
+
+        # Warn if user prioritized specific readers but none were usable
+        if plugin_priority and ReaderClass not in plugin_priority:
+            log.warning(
+                "A reader priority list was provided (%s), but none of those "
+                "readers could open '%s'. Falling back to '%s'.",
+                ", ".join(cls.__name__ for cls in plugin_priority),
+                image,
+                ReaderClass.__name__,
+            )
+
         return ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs), plugin
 
     def __init__(
         self,
         image: biob.types.ImageLike,
-        reader: Optional[Type[biob.reader.Reader]] = None,
+        reader: Optional[
+            Union[Type[biob.reader.Reader], Sequence[Type[biob.reader.Reader]]]
+        ] = None,
         reconstruct_mosaic: bool = True,
         use_plugin_cache: bool = False,
         fs_kwargs: Dict[str, Any] = {},
@@ -1214,11 +1287,16 @@ class BioImage(biob.image_container.ImageContainer):
         )
 
     def __str__(self) -> str:
+        """
+        Summary of this BioImage.
+
+        If a plugin was used to construct the reader, we report the plugin
+        entrypoint name. Otherwise, we only show whether the image is in memory.
+        """
         if self._plugin is not None:
             return (
                 f"<BioImage ["
-                f"plugin: {self._plugin.entrypoint.name} installed "
-                f"at {datetime.datetime.fromtimestamp(self._plugin.timestamp)}, "
+                f"plugin: {self._plugin.entrypoint.name}, "
                 f"Image-is-in-Memory: {self._xarray_data is not None}"
                 f"]>"
             )

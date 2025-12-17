@@ -4,33 +4,16 @@
 import logging
 import os
 import re
-import sys
 from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime
+from importlib.metadata import EntryPoint, entry_points, requires
 from pathlib import Path
-from typing import (
-    Any,
-    Dict,
-    List,
-    NamedTuple,
-    Optional,
-    Sequence,
-    Tuple,
-    Type,
-    get_args,
-)
+from typing import Any, Dict, List, NamedTuple, Optional, Sequence, Tuple
 
 import semver
-
-if sys.version_info < (3, 10):
-    from importlib_metadata import EntryPoint, entry_points, requires
-else:
-    from importlib.metadata import entry_points, EntryPoint, requires
-
-from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
-from bioio_base.types import ArrayLike, ImageLike, PathLike
+from bioio_base.types import ImageLike
 
 from .array_like_reader import ArrayLikeReader, ArrayLikeReaderMetadata
 
@@ -114,52 +97,6 @@ def _count_extension_families(exts: Sequence[str]) -> int:
     return len(families)
 
 
-def check_type(image: ImageLike, reader_class: Reader) -> bool:
-    """
-    Check if the provided image is compatible with the specified reader class.
-
-    Parameters
-    ----------
-    image : ImageLike
-        The image to be checked. It can be a PathLike, ArrayLike, MetaArrayLike,
-        a list of MetaArrayLike, or a list of PathLike.
-
-    reader_class : Reader
-        The reader class to be checked against.
-
-    Returns
-    -------
-    bool
-        Returns True if the image is compatible with the reader class, False otherwise.
-    """
-    arraylike_types = tuple(get_args(ArrayLike))
-    pathlike_types = tuple(get_args(PathLike))
-
-    # Check if image is type ArrayLike or list of ArrayLike and reader
-    # is not an ArrayLikeReader
-    if (
-        isinstance(image, arraylike_types)
-        or (
-            isinstance(image, list)
-            and all(isinstance(item, arraylike_types) for item in image)
-        )
-    ) and not (reader_class is ArrayLikeReader):
-        return False
-
-    # Check if image is type PathLike or list of PathLike and reader
-    # is an ArrayLikeReader
-    if (
-        isinstance(image, pathlike_types)
-        or (
-            isinstance(image, list)
-            and all(isinstance(item, pathlike_types) for item in image)
-        )
-    ) and (reader_class is ArrayLikeReader):
-        return False
-
-    return True
-
-
 def get_array_like_plugin() -> PluginEntry:
     """
     Create and return a PluginEntry for ArrayLikeReader.
@@ -171,46 +108,6 @@ def get_array_like_plugin() -> PluginEntry:
     )
     metadata = ArrayLikeReaderMetadata()
     return PluginEntry(entrypoint=entrypoint, metadata=metadata)
-
-
-def order_plugins_by_priority(
-    plugins: List[PluginEntry],
-    plugin_priority: Optional[Sequence[Type[Reader]]] = None,
-) -> List[PluginEntry]:
-    """
-    Reorder a list of PluginEntry objects according to a user-provided
-    list of Reader classes.
-
-    Parameters
-    ----------
-    plugins : List[PluginEntry]
-        The candidate plugins for a given extension.
-    plugin_priority : Sequence[Type[Reader]], optional
-        Reader classes that should be preferred first, e.g.
-
-            from bioio_czi import Reader as CziReader
-            from bioio_tifffile import Reader as TiffReader
-
-            plugin_priority = [CziReader, TiffReader]
-
-    Returns
-    -------
-    List[PluginEntry]
-        Prioritized plugin list.
-    """
-    if not plugin_priority:
-        return plugins
-
-    priority_index = {cls: i for i, cls in enumerate(plugin_priority)}
-
-    # From the docs:
-    # "The built-in [sorted()](https://docs.python.org/3/library/functions.html#sorted)
-    # function is guaranteed to be stable. A sort is stable if it guarantees not to
-    # change the relative order of elements that compare equal."
-    return sorted(
-        plugins,
-        key=lambda p: priority_index.get(p.metadata.get_reader(), len(priority_index)),
-    )
 
 
 def get_dependency_version_range_for_distribution(

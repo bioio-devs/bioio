@@ -103,10 +103,14 @@ def _make_reader_class(spec: TestPluginSpec) -> Type[BaseReader]:
         ) -> None:
             fs_kwargs = fs_kwargs or {}
 
+            TestReader._is_supported_image(image, fs_kwargs=fs_kwargs)
+
             # Optional invariant for tests that expect anon=True (S3)
             if spec.check_anon_in_init and not fs_kwargs.get("anon", False):
                 raise bioio_base.exceptions.UnsupportedFileFormatError(
-                    "test", "test", spec.fail_message
+                    "test",
+                    "test",
+                    spec.fail_message,
                 )
 
         @property
@@ -119,16 +123,19 @@ def _make_reader_class(spec: TestPluginSpec) -> Type[BaseReader]:
         def _read_delayed(self, *args: Any, **kwargs: Any) -> Any:
             raise NotImplementedError
 
-        @classmethod
+        @staticmethod
         def _is_supported_image(
-            cls,
             image: Any,
             fs_kwargs: Optional[dict[str, Any]] = None,
             **kwargs: Any,
         ) -> bool:
             # Used to simulate failing or buggy support checks
             if spec.fail_on_is_supported:
-                raise TypeError(spec.fail_message)
+                raise bioio_base.exceptions.UnsupportedFileFormatError(
+                    "TestReader",
+                    str(image),
+                    msg_extra=spec.fail_message,
+                )
             return True
 
     TestReader.__name__ = f"{spec.name.title().replace('-', '_')}Reader"

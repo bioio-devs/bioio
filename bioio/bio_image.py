@@ -14,13 +14,7 @@ from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import (
-    PluginEntry,
-    check_type,
-    get_array_like_plugin,
-    get_plugins,
-    order_plugins_by_priority,
-)
+from .plugins import PluginEntry, get_array_like_plugin, get_plugins
 
 ###############################################################################
 
@@ -40,22 +34,28 @@ class BioImage(biob.image_container.ImageContainer):
     ----------
     image: biob.types.ImageLike
         A string, Path, fsspec supported URI, or arraylike to read.
-    reader: Optional[Union[Type[biob.reader.Reader],
-                           Sequence[Type[biob.reader.Reader]]]]
+    reader: Optional[
+        Union[
+            Type[biob.reader.Reader],
+            Sequence[Type[biob.reader.Reader]],
+        ]
+    ]
         Controls how BioImage selects the underlying Reader:
 
-        * If a **single Reader subclass** is provided (e.g. ``reader=TiffReader``),
-          that reader is used directly and plugin ordering is bypassed.
+        * If a **single Reader subclass** is provided
+        (e.g. ``reader=TiffReader``), that reader is used directly.
+        Plugin discovery, extension matching, and default ordering are
+        bypassed entirely.
 
         * If a **sequence of Reader subclasses** is provided
-          (e.g. ``reader=[TiffReader, OmeTiffReader]``), the list is treated as a
-          *priority list* when selecting among installed plugins that support the
-          file’s extension. Readers earlier in the list are tried first.
+        (e.g. ``reader=[TiffReader, OmeTiffReader]``), the sequence is
+        treated as an explicit *try-order*. BioImage attempts to
+        construct each reader in order and uses the **first one that
+        successfully constructs**.
 
-        * A warning is raised if the priority list does not contain a
-          reader that can read the provided image
-
-        * If ``None`` (default), BioImage uses its default plugin ordering.
+        * If ``None`` (default), BioImage uses its default plugin discovery
+        and ordering logic based on the input image. For a detailed
+        description of this behavior, see ``bioio.plugins.get_plugins``.
     reconstruct_mosaic: bool
         Boolean for setting that data for this object to the reconstructed / stitched
         mosaic image.
@@ -159,7 +159,6 @@ class BioImage(biob.image_container.ImageContainer):
         image: biob.types.ImageLike,
         fs_kwargs: Dict[str, Any] = {},
         use_plugin_cache: bool = False,
-        plugin_priority: Optional[Sequence[Type[biob.reader.Reader]]] = None,
         **kwargs: Any,
     ) -> PluginEntry:
         """
@@ -233,7 +232,6 @@ class BioImage(biob.image_container.ImageContainer):
           extension against the known plugins.
         - For each matching plugin, it tries to instantiate a reader and checks
           if it supports the image.
-        - If multiple plugins match, optional ``plugin_priority`` takes precedence.
         - If the image is array-like, it uses a built-in reader designed for
           such objects.
         - Detailed logging is provided for troubleshooting purposes.
@@ -255,26 +253,19 @@ class BioImage(biob.image_container.ImageContainer):
             # Check for extension in plugins_by_ext
             for format_ext, plugins in plugins_by_ext.items():
                 if BioImage._path_has_extension(path, format_ext):
-                    # Reorder plugins for this extension according to user priority
-                    ordered_plugins = order_plugins_by_priority(
-                        plugins, plugin_priority
-                    )
-
-                    for plugin in ordered_plugins:
+                    for plugin in plugins:
                         ReaderClass = plugin.metadata.get_reader()
                         try:
                             if ReaderClass.is_supported_image(
-                                image,
-                                fs_kwargs=fs_kwargs,
+                                image, fs_kwargs=fs_kwargs
                             ):
                                 return plugin
-
                         except FileNotFoundError as fe:
                             raise fe
                         except Exception as e:
                             log.warning(
-                                f"Attempted file ({path}) load with "
-                                f"reader: {ReaderClass} failed with error: {e}"
+                                f"Attempted file ({path}) load with reader: "
+                                f"{ReaderClass} failed with error: {e}"
                             )
 
         # Use built-in ArrayLikeReader if type MetaArrayLike
@@ -330,53 +321,71 @@ class BioImage(biob.image_container.ImageContainer):
         **kwargs: Any,
     ) -> Tuple[biob.reader.Reader, Optional[PluginEntry]]:
         """
-        Initialize and return the underlying reader (and its PluginEntry, if any)
-        for the provided image.
+        Select and initialize a reader for the provided image.
 
         Behavior
         --------
-        * If ``reader`` is a single Reader subclass, that reader is used directly
-          and the plugin system is bypassed.
+        * If ``reader`` is ``None``, BioImage selects a reader using the default
+        plugin discovery and ordering logic and returns both the reader instance
+        and its corresponding ``PluginEntry``.
 
-        * If ``reader`` is a sequence of Reader subclasses, it is treated as a
-          priority list passed to the plugin system. Readers earlier in the list
-          are tried first when multiple plugins support the same extension.
+        * If ``reader`` is a single Reader subclass, that reader is used exclusively
+        and the plugin system is bypassed.
 
-        * If ``reader`` is ``None``, the default plugin ordering is used.
+        * If ``reader`` is a sequence of Reader subclasses, BioImage attempts to
+        initialize each reader in order and returns the first one that successfully
+        constructs. No other readers or plugins are considered.
         """
 
-        # Assert reader is class object and subclass of base reader
-        if isinstance(reader, type) and issubclass(reader, biob.reader.Reader):
-            if not check_type(image, reader):
-                raise biob.exceptions.UnsupportedFileFormatError(
-                    reader.__name__, str(type(image))
-                )
-            return reader(image, fs_kwargs=fs_kwargs, **kwargs), None
-
-        # Determine plugin with priority
-        plugin_priority: Optional[Sequence[Type[biob.reader.Reader]]] = None
-        if isinstance(reader, Sequence):
-            plugin_priority = reader
-        plugin = BioImage.determine_plugin(
-            image,
-            fs_kwargs=fs_kwargs,
-            use_plugin_cache=use_plugin_cache,
-            plugin_priority=plugin_priority,
-            **kwargs,
-        )
-        ReaderClass = plugin.metadata.get_reader()
-
-        # Warn if user prioritized specific readers but none were usable
-        if plugin_priority and ReaderClass not in plugin_priority:
-            log.warning(
-                "A reader priority list was provided (%s), but none of those "
-                "readers could open '%s'. Falling back to '%s'.",
-                ", ".join(cls.__name__ for cls in plugin_priority),
+        # Case 1: Default Priority
+        if reader is None:
+            plugin = BioImage.determine_plugin(
                 image,
-                ReaderClass.__name__,
+                fs_kwargs=fs_kwargs,
+                use_plugin_cache=use_plugin_cache,
+                **kwargs,
+            )
+            ReaderClass = plugin.metadata.get_reader()
+            return ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs), plugin
+
+        # Case 2: User Selection of Readers
+        readers = (
+            [reader]
+            if isinstance(reader, type) and issubclass(reader, biob.reader.Reader)
+            else list(reader)
+            if isinstance(reader, Sequence) and not isinstance(reader, (str, bytes))
+            else None
+        )
+        if not readers or not all(
+            isinstance(r, type) and issubclass(r, biob.reader.Reader) for r in readers
+        ):
+            raise TypeError(
+                "BioImage(reader=...) must be a Reader subclass, "
+                "a non-empty sequence of Reader subclasses, or None."
             )
 
-        return ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs), plugin
+        failures: list[str] = []
+        for ReaderClass in readers:
+            name = getattr(ReaderClass, "__name__", repr(ReaderClass))
+            try:
+                return ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs), None
+            except Exception as e:
+                log.warning(
+                    "Exclusive reader attempt failed. reader=%s image=%r error=%s",
+                    name,
+                    image,
+                    e,
+                )
+                failures.append(f"{name}: {e}")
+
+        raise biob.exceptions.UnsupportedFileFormatError(
+            "BioImage",
+            str(image) if isinstance(image, (str, Path)) else str(type(image)),
+            msg_extra=(
+                "None of the specified readers were able to read this image.\n"
+                "Readers attempted:\n  - " + "\n  - ".join(failures)
+            ),
+        )
 
     def __init__(
         self,
@@ -389,6 +398,9 @@ class BioImage(biob.image_container.ImageContainer):
         fs_kwargs: Dict[str, Any] = {},
         **kwargs: Any,
     ):
+        self._reader: Optional[biob.reader.Reader] = None
+        self._plugin: Optional[PluginEntry] = None
+
         try:
             self._reader, self._plugin = self._get_reader(
                 image,
@@ -1290,18 +1302,26 @@ class BioImage(biob.image_container.ImageContainer):
         """
         Summary of this BioImage.
 
-        If a plugin was used to construct the reader, we report the plugin
-        entrypoint name. Otherwise, we only show whether the image is in memory.
+        Reports the plugin entrypoint name if the reader was selected via the
+        plugin system; otherwise reports the explicit reader name in use.
         """
+        in_memory = self._xarray_data is not None
+
         if self._plugin is not None:
             return (
                 f"<BioImage ["
                 f"plugin: {self._plugin.entrypoint.name}, "
-                f"Image-is-in-Memory: {self._xarray_data is not None}"
+                f"image-in-memory: {in_memory}"
                 f"]>"
             )
 
-        return f"<BioImage [Image-is-in-Memory: {self._xarray_data is not None}]>"
+        reader_name = self._reader.name if self._reader is not None else "None"
+        return (
+            f"<BioImage ["
+            f"reader: {reader_name}, "
+            f"image-in-memory: {in_memory}"
+            f"]>"
+        )
 
     def __repr__(self) -> str:
         return str(self)

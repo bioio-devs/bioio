@@ -1,4 +1,5 @@
 import pathlib
+from importlib import import_module
 from importlib.metadata import EntryPoint
 from typing import Callable, Iterable
 
@@ -28,7 +29,7 @@ def test_bioimage_with_missing_file(tmp_path: pathlib.Path) -> None:
 
 
 def test_bioimage_determine_arraylike() -> None:
-    # Arrage
+    # Arrange
     test_image = np.random.rand(10, 10)
 
     # Act
@@ -121,108 +122,138 @@ def test_bioimage_can_ignore_query_strings(
     )
 
 
-def test_bioimage_reader_priority_usage(
-    tmp_path: pathlib.Path,
+@pytest.mark.parametrize(
+    "specs, reader_module_names, expected_winner_idx",
+    [
+        # Case 1: single explicit reader overrides extensions
+        (
+            [
+                TestPluginSpec(
+                    name="single_reader_plugin",
+                    supported_extensions=[".txt"],  # does not match ".weird"
+                    fail_on_is_supported=False,
+                )
+            ],
+            ["single_reader_plugin"],
+            0,
+        ),
+        # Case 2: explicit reader list also overrides extensions (first wins)
+        (
+            [
+                TestPluginSpec(
+                    name="list_reader_plugin_a",
+                    supported_extensions=[".txt"],
+                    fail_on_is_supported=False,
+                ),
+                TestPluginSpec(
+                    name="list_reader_plugin_b",
+                    supported_extensions=[".txt"],
+                    fail_on_is_supported=False,
+                ),
+            ],
+            ["list_reader_plugin_a", "list_reader_plugin_b"],
+            0,
+        ),
+    ],
+)
+def test_bioimage_explicit_readers_override_extensions(
+    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    specs: list[TestPluginSpec],
+    reader_module_names: list[str],
+    expected_winner_idx: int,
+) -> None:
+    """
+    If a reader (or reader list) is explicitly provided to BioImage, extension
+    matching and plugin discovery are bypassed. BioImage tries ONLY the provided
+    readers, in order, and uses the first one that constructs successfully.
+    """
+    # Arrange
+    plugin_factory(specs)
+
+    readers = []
+    for name in reader_module_names:
+        mod = import_module(f"bioio_test_plugins.{name}")
+        readers.append(getattr(mod, "Reader"))
+
+    reader_arg = readers[0] if len(readers) == 1 else readers
+
+    # Act
+    img = BioImage("image.weird", reader=reader_arg)
+
+    # Assert
+    assert isinstance(img.reader, readers[expected_winner_idx])
+
+
+def test_bioimage_reader_list_uses_first_supported_reader(
     plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
 ) -> None:
-    # Arrange: two plugins that both claim support for the same extension
+    """
+    With an explicit reader list, BioImage tries ONLY those readers, in order,
+    and uses the first one that successfully constructs (i.e. supports the image).
+    """
+    # Arrange
     specs = [
         TestPluginSpec(
-            name="priority_first",
+            name="first_unsupported",
             supported_extensions=[".foo"],
-            fail_on_is_supported=False,
+            fail_on_is_supported=True,
+            fail_message="unsupported - first",
         ),
         TestPluginSpec(
-            name="priority_second",
+            name="second_supported",
             supported_extensions=[".foo"],
             fail_on_is_supported=False,
         ),
     ]
     plugin_factory(specs)
 
-    img_path = tmp_path / "image.foo"
-    img_path.write_text("dummy")
+    readers = []
+    for name in ["first_unsupported", "second_supported"]:
+        mod = import_module(f"bioio_test_plugins.{name}")
+        readers.append(getattr(mod, "Reader"))
 
-    # Import the synthetic Reader classes from our ephemeral modules
-    from bioio_test_plugins.priority_first import Reader as FirstReader
-    from bioio_test_plugins.priority_second import Reader as SecondReader
+    # Act
+    img = BioImage("image.foo", reader=readers)
 
-    # Act: pass a *priority list* of readers.
-    img = BioImage(str(img_path), reader=[SecondReader, FirstReader])
-
-    # Assert: Correct Reader
-    assert isinstance(img.reader, SecondReader)
+    # Assert
+    assert isinstance(img.reader, readers[1])
 
 
-def test_bioimage_reader_priority_overrides_default_order(
-    tmp_path: pathlib.Path,
+def test_bioimage_reader_list_aggregates_failures_when_all_fail(
     plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
 ) -> None:
-    # Arrange: two plugins for the SAME extension, but with different
-    # "specificity" according to bioio.plugins.get_plugins()
-    specs = [
-        TestPluginSpec(
-            name="specific_plugin",
-            supported_extensions=[".ome.tiff", ".tiff"],
-            fail_on_is_supported=False,
-        ),
-        TestPluginSpec(
-            name="generic_plugin",
-            supported_extensions=[".ome.tiff", ".tiff", ".ome.tif", ".tif", ".png"],
-            fail_on_is_supported=False,
-        ),
-    ]
-    plugin_factory(specs)
-
-    img_path = tmp_path / "image.ome.tiff"
-    img_path.write_text("dummy")
-
-    # Import the synthetic Reader classes
-    from bioio_test_plugins.generic_plugin import Reader as GenericReader
-    from bioio_test_plugins.specific_plugin import Reader as SpecificReader
-
-    # Act 1: Verify default
-    default_img = BioImage(str(img_path))
-
-    # Act 2: Override
-    priority_img = BioImage(
-        str(img_path),
-        reader=[GenericReader, SpecificReader],
+    """
+    If all explicitly provided readers fail initialization,
+    BioImage raises and includes the per-reader failure reasons.
+    """
+    # Arrange
+    plugin_factory(
+        [
+            TestPluginSpec(
+                name="fails_a",
+                supported_extensions=[".foo"],
+                fail_on_is_supported=True,
+                fail_message="unsupported - A",
+            ),
+            TestPluginSpec(
+                name="fails_b",
+                supported_extensions=[".foo"],
+                fail_on_is_supported=True,
+                fail_message="unsupported - B",
+            ),
+        ]
     )
 
-    # Assert 1: Correct default
-    assert isinstance(default_img.reader, SpecificReader)
+    readers = []
+    for name in ["fails_a", "fails_b"]:
+        mod = import_module(f"bioio_test_plugins.{name}")
+        readers.append(getattr(mod, "Reader"))
 
-    # Assert 2: Priority Override
-    assert isinstance(priority_img.reader, GenericReader)
+    # Act / Assert
+    with pytest.raises(biob.exceptions.UnsupportedFileFormatError) as err:
+        BioImage("image.foo", reader=readers)
 
-
-def test_bioimage_single_reader_overrides_plugins_and_extensions(
-    tmp_path: pathlib.Path,
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
-) -> None:
-    # Arrange: create a synthetic plugin whose supported_extensions DO NOT
-    # match the file we are about to read.
-    specs = [
-        TestPluginSpec(
-            name="single_reader_plugin",
-            supported_extensions=[".txt"],
-            fail_on_is_supported=False,
-        )
-    ]
-    plugin_factory(specs)
-
-    img_path = tmp_path / "image.weird"
-    img_path.write_text("dummy")
-
-    # Import the synthetic Reader class created by the plugin spec
-    from bioio_test_plugins.single_reader_plugin import Reader as SingleReader
-
-    # Act: pass single Reader
-    img = BioImage(str(img_path), reader=SingleReader)
-
-    # Assert: the forced reader was used
-    assert isinstance(img.reader, SingleReader)
-
-    # And plugin discovery was bypassed (no PluginEntry stored)
-    assert img._plugin is None  # type: ignore[attr-defined]
+    # Assert
+    msg = str(err.value)
+    assert "unsupported - A" in msg
+    assert "unsupported - B" in msg

@@ -159,3 +159,29 @@ def test_get_plugins_orders_plugins_alphabetically_on_tie(
 
     # Assert: alphabetical
     assert tif_plugin_names == ["a_plugin", "z_plugin"]
+
+
+def test_get_plugins_normalizes_extensions(
+    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+) -> None:
+    # Arrange: mixed-case and missing-dot extensions
+    specs = [
+        TestPluginSpec(
+            name="norm_plugin",
+            supported_extensions=["tif", ".TIF", ".tif"],
+        )
+    ]
+    plugin_factory(specs)
+
+    # Act
+    plugins_by_ext = get_plugins(use_cache=False)
+    keys = list(plugins_by_ext.keys())
+
+    # Assert: normalized key exists and raw forms do not
+    assert ".tif" in keys
+    assert "tif" not in keys
+    assert ".TIF" not in keys
+
+    # Assert: plugin appears under normalized key
+    tif_plugins = plugins_by_ext[".tif"]
+    assert any(p.entrypoint.name == "norm_plugin" for p in tif_plugins)

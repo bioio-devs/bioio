@@ -165,9 +165,11 @@ class BioImage(biob.image_container.ImageContainer):
         Determine the appropriate plugin to read a given image.
 
         This function identifies the most suitable plugin to read the provided image
-        based on its type or file extension. It leverages the installed plugins for
-        `bioio`, each of which supports a subset of image formats. If a suitable
-        plugin is found, it is returned; otherwise, an error is raised.
+        based on its type or file extension. It consults the installed `bioio` reader
+        plugins (discovered via :func:`bioio.plugins.get_plugins`) and, when the image
+        is path-like, probes candidate readers in priority order using
+        ``ReaderClass.is_supported_image(...)``. If a suitable plugin is found, it is
+        returned; otherwise, an error is raised.
 
         Parameters
         ----------
@@ -178,11 +180,6 @@ class BioImage(biob.image_container.ImageContainer):
             Additional keyword arguments to be passed to the file system handler.
         use_plugin_cache : bool, optional
             Whether to use a cached version of the plugin mapping, by default False.
-        plugin_priority : Optional[Sequence[Type[biob.reader.Reader]]], optional
-            Optional ordered list of Reader classes defining the order in which
-            matching plugins should be tried. This overrides the default ordering
-            when multiple plugins support the same extension. Only Reader classes
-            from installed plugins may be included.
         **kwargs : Any
             Additional keyword arguments for plugin-specific configurations.
 
@@ -200,41 +197,36 @@ class BioImage(biob.image_container.ImageContainer):
         Notes
         -----
         This function performs the following steps:
+
         1. Fetches an updated mapping of available plugins,
            optionally using a cached version.
         2. If the `image` is a file path (str or Path), it checks for a matching
            plugin based on the file extension.
-        4. If multiple plugins support the same extension, the optional
-           ``plugin_priority`` list determines the order in which they are tried.
-        5. If the `image` is an array-like object, it attempts to use the
-           built-in `ArrayLikeReader`.
-        6. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
+        3. For matching extensions, tries candidate readers in the order provided by
+        the plugin mapping, returning the first constructed plugin whose reader.
+        4. If `image` is array-like (or a list of array-like), returns the built-in
+        ArrayLike reader plugin.
+        5. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
+
+        Extension ordering and plugin ordering are defined by
+        :func:`bioio.plugins.get_plugins`. See that function for the
+        description of BioIO’s default selection policy.
 
         Examples
         --------
         To determine the appropriate plugin for a given image file:
 
         >>> image_path = "example_image.tif"
-        >>> plugin = determine_plugin(image_path)
+        >>> plugin = BioImage.determine_plugin(image_path)
         >>> print(plugin)
 
         To determine the appropriate plugin for an array-like image:
 
         >>> import numpy as np
         >>> image_array = np.random.random((5, 5, 5))
-        >>> plugin = determine_plugin(image_array)
+        >>> plugin = BioImage.determine_plugin(image_array)
         >>> print(plugin)
 
-        Implementation Details
-        ----------------------
-        - The function first converts the image to a string representation.
-        - If the image is a file path, it verifies the path and checks the file
-          extension against the known plugins.
-        - For each matching plugin, it tries to instantiate a reader and checks
-          if it supports the image.
-        - If the image is array-like, it uses a built-in reader designed for
-          such objects.
-        - Detailed logging is provided for troubleshooting purposes.
         """
         # Fetch updated mapping of plugins
         plugins_by_ext = get_plugins(use_cache=use_plugin_cache)

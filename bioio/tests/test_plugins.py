@@ -1,17 +1,15 @@
-from importlib.metadata import EntryPoint
-from typing import Callable, Iterable
-
 import numpy as np
 from pytest import CaptureFixture
 
 import bioio
+from bioio.tests.helpers.mock_reader import PluginFactoryFixture
 
 from ..plugins import dump_plugins, get_plugins
 from .conftest import TestPluginSpec
 
 
 def test_dump_plugins(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
     capsys: CaptureFixture[str],
 ) -> None:
     # Arrange: create synthetic plugin
@@ -35,7 +33,7 @@ def test_dump_plugins(
 
 
 def test_plugin_feasibility_report(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: synthetic dummy plugin that FAILS in is_supported_image
     expected_error_msg = "This reader does not support"
@@ -67,7 +65,7 @@ def test_plugin_feasibility_report(
 
 
 def test_get_plugins_orders_extension_keys_by_descending_length(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: fake plugins that support tiff files.
     specs = [
@@ -99,7 +97,7 @@ def test_get_plugins_orders_extension_keys_by_descending_length(
 
 
 def test_get_plugins_orders_plugins_by_family_count_and_raw_ext_count(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: fake plugins that support tiff files.
     specs = [
@@ -137,7 +135,7 @@ def test_get_plugins_orders_plugins_by_family_count_and_raw_ext_count(
 
 
 def test_get_plugins_orders_plugins_alphabetically_on_tie(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: plugins with same support but different names.
     specs = [
@@ -162,7 +160,7 @@ def test_get_plugins_orders_plugins_alphabetically_on_tie(
 
 
 def test_get_plugins_normalizes_extensions(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: mixed-case and missing-dot extensions
     specs = [

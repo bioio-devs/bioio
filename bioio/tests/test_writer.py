@@ -4,11 +4,13 @@ from typing import Callable, Iterable
 
 import pytest
 
+from bioio.tests.helpers.mock_writer import WriterFactoryFixture
+
 from .conftest import TestWriterSpec
 
 
 def test_dummy_writer_discovery_and_api(
-    writer_factory: Callable[[Iterable[TestWriterSpec]], list[EntryPoint]],
+    writer_factory: WriterFactoryFixture,
 ) -> None:
     # Arrange: synthetic DummyWriter
     specs = [

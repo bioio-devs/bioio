@@ -2,7 +2,7 @@ import sys
 import types
 from dataclasses import dataclass
 from importlib.metadata import EntryPoint
-from typing import Any, Callable, Iterable, List, Type
+from typing import Any, Iterable, List, Protocol, Type
 
 import bioio_base
 import pytest
@@ -37,6 +37,18 @@ class TestWriterSpec:
     name: str
     raises_on_save: bool = True
     save_message: str = "Dummy writer stub"
+
+
+class WriterFactoryFixture(Protocol):
+    """
+    Type for the `writer_factory` pytest fixture.
+
+    Calling the fixture installs synthetic writers defined by
+    `TestWriterSpec` and returns the created EntryPoint objects.
+    """
+
+    def __call__(self, specs: Iterable[TestWriterSpec]) -> List[EntryPoint]:
+        ...
 
 
 # -----------------------------------------------------------------------------
@@ -113,7 +125,7 @@ def _make_writer_entry_points(specs: Iterable[TestWriterSpec]) -> List[EntryPoin
 @pytest.fixture
 def writer_factory(
     monkeypatch: MonkeyPatch,
-) -> Callable[[Iterable[TestWriterSpec]], List[EntryPoint]]:
+) -> WriterFactoryFixture:
     """
     Factory fixture that installs synthetic writers for a test.
 

@@ -2,7 +2,7 @@ import sys
 import types
 from dataclasses import dataclass
 from importlib.metadata import EntryPoint
-from typing import Any, Callable, Iterable, List, Optional, Type
+from typing import Any, Callable, Iterable, List, Optional, Protocol, Type
 
 import bioio_base
 import pytest
@@ -48,6 +48,18 @@ class TestPluginSpec:
     fail_on_is_supported: bool = False
     fail_message: str = "missing 1 required positional argument: 'path'"
     check_anon_in_init: bool = False
+
+
+class PluginFactoryFixture(Protocol):
+    """
+    Type for the `plugin_factory` pytest fixture.
+
+    Calling the fixture installs synthetic reader plugins defined by
+    `TestPluginSpec` and returns the created EntryPoint objects.
+    """
+
+    def __call__(self, specs: Iterable[TestPluginSpec]) -> list[EntryPoint]:
+        ...
 
 
 # -----------------------------------------------------------------------------
@@ -261,7 +273,7 @@ def plugin_factory(
             img = BioImage(sample_text_file)
     """
 
-    def factory(specs: Iterable[TestPluginSpec]) -> List[EntryPoint]:
+    def factory(specs: Iterable[TestPluginSpec]) -> list[EntryPoint]:
         created_eps = _make_entry_points(specs)
 
         # Force BioIO to see only these synthetic reader plugins

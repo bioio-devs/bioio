@@ -305,9 +305,7 @@ class BioImage(biob.image_container.ImageContainer):
     @staticmethod
     def _get_reader(
         image: biob.types.ImageLike,
-        reader: Optional[
-            Union[Type[biob.reader.Reader], Sequence[Type[biob.reader.Reader]]]
-        ],
+        readers: Optional[Sequence[Type[biob.reader.Reader]]],
         use_plugin_cache: bool,
         fs_kwargs: Dict[str, Any],
         **kwargs: Any,
@@ -321,16 +319,13 @@ class BioImage(biob.image_container.ImageContainer):
         plugin discovery and ordering logic and returns both the reader instance
         and its corresponding ``PluginEntry``.
 
-        * If ``reader`` is a single Reader subclass, that reader is used exclusively
-        and the plugin system is bypassed.
-
         * If ``reader`` is a sequence of Reader subclasses, BioImage attempts to
         initialize each reader in order and returns the first one that successfully
         constructs. No other readers or plugins are considered.
         """
 
         # Case 1: Default Priority
-        if reader is None:
+        if readers is None:
             plugin = BioImage.determine_plugin(
                 image,
                 fs_kwargs=fs_kwargs,
@@ -341,13 +336,6 @@ class BioImage(biob.image_container.ImageContainer):
             return ReaderClass(image, fs_kwargs=fs_kwargs, **kwargs), plugin
 
         # Case 2: User Selection of Readers
-        readers = (
-            [reader]
-            if isinstance(reader, type) and issubclass(reader, biob.reader.Reader)
-            else list(reader)
-            if isinstance(reader, Sequence) and not isinstance(reader, (str, bytes))
-            else None
-        )
         if not readers or not all(
             isinstance(r, type) and issubclass(r, biob.reader.Reader) for r in readers
         ):
@@ -392,6 +380,10 @@ class BioImage(biob.image_container.ImageContainer):
     ):
         self._reader: Optional[biob.reader.Reader] = None
         self._plugin: Optional[PluginEntry] = None
+
+        # Normalize Single Reader
+        if reader is not None and isinstance(reader, type):
+            reader = [reader]
 
         try:
             self._reader, self._plugin = self._get_reader(

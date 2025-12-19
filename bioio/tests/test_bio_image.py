@@ -1,7 +1,6 @@
 import pathlib
 from importlib import import_module
 from importlib.metadata import EntryPoint
-from typing import Callable, Iterable
 
 import bioio_base as biob
 import numpy as np
@@ -14,6 +13,7 @@ from bioio_base.types import ImageLike
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
 from bioio.tests.conftest import TestPluginSpec
+from bioio.tests.helpers.mock_reader import PluginFactoryFixture
 
 
 def test_bioimage_with_text_file(sample_text_file: pathlib.Path) -> None:
@@ -72,7 +72,7 @@ def test_bioimage_submission_data_reader_type_alignment(
 
 def test_bioimage_attempts_s3_read_with_anon_attr(
     sample_text_file: pathlib.Path,
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: Fake s3 plugin Reader.__init__ checks fs_kwargs["anon"]
     err_msg = "anon is not True"
@@ -100,7 +100,7 @@ def test_bioimage_attempts_s3_read_with_anon_attr(
 
 
 def test_bioimage_can_ignore_query_strings(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]]
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     # Arrange: Fake czi plugin
     specs = [
@@ -154,10 +154,45 @@ def test_bioimage_can_ignore_query_strings(
             ["list_reader_plugin_a", "list_reader_plugin_b"],
             0,
         ),
+        # Case 3: Second explicit reader supports file (dif ext)
+        (
+            [
+                TestPluginSpec(
+                    name="wrong_ext",
+                    supported_extensions=[".tiff"],
+                    fail_on_is_supported=True,
+                ),
+                TestPluginSpec(
+                    name="supported",
+                    supported_extensions=[".txt"],
+                    fail_on_is_supported=False,
+                ),
+            ],
+            ["wrong_ext", "supported"],
+            1,
+        ),
+        # Case 4: Second explicit reader supports file (same ext)
+        (
+            [
+                TestPluginSpec(
+                    name="first_unsupported",
+                    supported_extensions=[".foo"],
+                    fail_on_is_supported=True,
+                    fail_message="unsupported - first",
+                ),
+                TestPluginSpec(
+                    name="second_supported",
+                    supported_extensions=[".foo"],
+                    fail_on_is_supported=False,
+                ),
+            ],
+            ["first_unsupported", "second_supported"],
+            1,
+        ),
     ],
 )
-def test_bioimage_explicit_readers_override_extensions(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+def test_bioimage_explicit_readers_priority(
+    plugin_factory: PluginFactoryFixture,
     specs: list[TestPluginSpec],
     reader_module_names: list[str],
     expected_winner_idx: int,
@@ -184,43 +219,8 @@ def test_bioimage_explicit_readers_override_extensions(
     assert isinstance(img.reader, readers[expected_winner_idx])
 
 
-def test_bioimage_reader_list_uses_first_supported_reader(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
-) -> None:
-    """
-    With an explicit reader list, BioImage tries ONLY those readers, in order,
-    and uses the first one that successfully constructs (i.e. supports the image).
-    """
-    # Arrange
-    specs = [
-        TestPluginSpec(
-            name="first_unsupported",
-            supported_extensions=[".foo"],
-            fail_on_is_supported=True,
-            fail_message="unsupported - first",
-        ),
-        TestPluginSpec(
-            name="second_supported",
-            supported_extensions=[".foo"],
-            fail_on_is_supported=False,
-        ),
-    ]
-    plugin_factory(specs)
-
-    readers = []
-    for name in ["first_unsupported", "second_supported"]:
-        mod = import_module(f"bioio_test_plugins.{name}")
-        readers.append(getattr(mod, "Reader"))
-
-    # Act
-    img = BioImage("image.foo", reader=readers)
-
-    # Assert
-    assert isinstance(img.reader, readers[1])
-
-
 def test_bioimage_reader_list_aggregates_failures_when_all_fail(
-    plugin_factory: Callable[[Iterable[TestPluginSpec]], list[EntryPoint]],
+    plugin_factory: PluginFactoryFixture,
 ) -> None:
     """
     If all explicitly provided readers fail initialization,

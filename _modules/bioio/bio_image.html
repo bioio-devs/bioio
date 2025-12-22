@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>bioio.bio_image - bioio 3.1.0 documentation</title>
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>bioio.bio_image - bioio 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.1.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.1.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.2.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -220,10 +220,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../CHANGELOG.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../MIGRATION.html">AICSImageIO Migration</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Important Classes:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.BioImage.html">bioio.BioImage</a></li>
-</ul>
 
 </div>
 </div>
@@ -259,10 +255,9 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">get_args</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">get_args</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">bioio_base</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">biob</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">dask.array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">da</span>
@@ -273,7 +268,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">ome_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OME</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.ome_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_ome_channel_id</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginEntry</span><span class="p">,</span> <span class="n">check_type</span><span class="p">,</span> <span class="n">get_array_like_plugin</span><span class="p">,</span> <span class="n">get_plugins</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginEntry</span><span class="p">,</span> <span class="n">get_array_like_plugin</span><span class="p">,</span> <span class="n">get_plugins</span>
 
 <span class="c1">###############################################################################</span>
 
@@ -295,9 +290,28 @@
 <span class="sd">    ----------</span>
 <span class="sd">    image: biob.types.ImageLike</span>
 <span class="sd">        A string, Path, fsspec supported URI, or arraylike to read.</span>
-<span class="sd">    reader: Optional[Type[Reader]]</span>
-<span class="sd">        The Reader class to specifically use for reading the provided image.</span>
-<span class="sd">        Default: None (find matching reader)</span>
+<span class="sd">    reader: Optional[</span>
+<span class="sd">        Union[</span>
+<span class="sd">            Type[biob.reader.Reader],</span>
+<span class="sd">            Sequence[Type[biob.reader.Reader]],</span>
+<span class="sd">        ]</span>
+<span class="sd">    ]</span>
+<span class="sd">        Controls how BioImage selects the underlying Reader:</span>
+
+<span class="sd">        * If a **single Reader subclass** is provided</span>
+<span class="sd">        (e.g. ``reader=TiffReader``), that reader is used directly.</span>
+<span class="sd">        Plugin discovery, extension matching, and default ordering are</span>
+<span class="sd">        bypassed entirely.</span>
+
+<span class="sd">        * If a **sequence of Reader subclasses** is provided</span>
+<span class="sd">        (e.g. ``reader=[TiffReader, OmeTiffReader]``), the sequence is</span>
+<span class="sd">        treated as an explicit *try-order*. BioImage attempts to</span>
+<span class="sd">        construct each reader in order and uses the **first one that</span>
+<span class="sd">        successfully constructs**.</span>
+
+<span class="sd">        * If ``None`` (default), BioImage uses its default plugin discovery</span>
+<span class="sd">        and ordering logic based on the input image. For a detailed</span>
+<span class="sd">        description of this behavior, see ``bioio.plugins.get_plugins``.</span>
 <span class="sd">    reconstruct_mosaic: bool</span>
 <span class="sd">        Boolean for setting that data for this object to the reconstructed / stitched</span>
 <span class="sd">        mosaic image.</span>
@@ -361,7 +375,16 @@
 
 <span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;malformed_metadata.ome.tiff&quot;, reader=readers.TiffReader)</span>
 
-<span class="sd">    Data for a mosaic file is returned pre-stitched (if the base reader supports it).</span>
+<span class="sd">    Initialize an image and override plugin selection order when multiple readers</span>
+<span class="sd">    support the same extension.</span>
+
+<span class="sd">    &gt;&gt;&gt; from bioio_tifffile import Reader as TiffReader</span>
+<span class="sd">    &gt;&gt;&gt; from bioio_ome_tiff import Reader as OmeTiffReader</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage(</span>
+<span class="sd">    ...     &quot;multi_plugin_file.ome.tiff&quot;,</span>
+<span class="sd">    ...     reader=[TiffReader, OmeTiffReader],</span>
+<span class="sd">    ... )</span>
+<span class="sd">    ... # TiffReader will be tried before OmeTiffReader for this instance.</span>
 
 <span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;big_mosaic.czi&quot;)</span>
 <span class="sd">    ... img.dims  # &lt;Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]&gt;</span>
@@ -400,9 +423,11 @@
 <span class="sd">        Determine the appropriate plugin to read a given image.</span>
 
 <span class="sd">        This function identifies the most suitable plugin to read the provided image</span>
-<span class="sd">        based on its type or file extension. It leverages the installed plugins for</span>
-<span class="sd">        `bioio`, each of which supports a subset of image formats. If a suitable</span>
-<span class="sd">        plugin is found, it is returned; otherwise, an error is raised.</span>
+<span class="sd">        based on its type or file extension. It consults the installed `bioio` reader</span>
+<span class="sd">        plugins (discovered via :func:`bioio.plugins.get_plugins`) and, when the image</span>
+<span class="sd">        is path-like, probes candidate readers in priority order using</span>
+<span class="sd">        ``ReaderClass.is_supported_image(...)``. If a suitable plugin is found, it is</span>
+<span class="sd">        returned; otherwise, an error is raised.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -430,39 +455,36 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        This function performs the following steps:</span>
+
 <span class="sd">        1. Fetches an updated mapping of available plugins,</span>
 <span class="sd">           optionally using a cached version.</span>
 <span class="sd">        2. If the `image` is a file path (str or Path), it checks for a matching</span>
 <span class="sd">           plugin based on the file extension.</span>
-<span class="sd">        3. If the `image` is an array-like object, it attempts to use the</span>
-<span class="sd">           built-in `ArrayLikeReader`.</span>
-<span class="sd">        4. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.</span>
+<span class="sd">        3. For matching extensions, tries candidate readers in the order provided by</span>
+<span class="sd">        the plugin mapping, returning the first constructed plugin whose reader.</span>
+<span class="sd">        4. If `image` is array-like (or a list of array-like), returns the built-in</span>
+<span class="sd">        ArrayLike reader plugin.</span>
+<span class="sd">        5. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.</span>
+
+<span class="sd">        Extension ordering and plugin ordering are defined by</span>
+<span class="sd">        :func:`bioio.plugins.get_plugins`. See that function for the</span>
+<span class="sd">        description of BioIO’s default selection policy.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        To determine the appropriate plugin for a given image file:</span>
 
 <span class="sd">        &gt;&gt;&gt; image_path = &quot;example_image.tif&quot;</span>
-<span class="sd">        &gt;&gt;&gt; plugin = determine_plugin(image_path)</span>
+<span class="sd">        &gt;&gt;&gt; plugin = BioImage.determine_plugin(image_path)</span>
 <span class="sd">        &gt;&gt;&gt; print(plugin)</span>
 
 <span class="sd">        To determine the appropriate plugin for an array-like image:</span>
 
 <span class="sd">        &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">        &gt;&gt;&gt; image_array = np.random.random((5, 5, 5))</span>
-<span class="sd">        &gt;&gt;&gt; plugin = determine_plugin(image_array)</span>
+<span class="sd">        &gt;&gt;&gt; plugin = BioImage.determine_plugin(image_array)</span>
 <span class="sd">        &gt;&gt;&gt; print(plugin)</span>
 
-<span class="sd">        Implementation Details</span>
-<span class="sd">        ----------------------</span>
-<span class="sd">        - The function first converts the image to a string representation.</span>
-<span class="sd">        - If the image is a file path, it verifies the path and checks the file</span>
-<span class="sd">          extension against the known plugins.</span>
-<span class="sd">        - For each matching plugin, it tries to instantiate a reader and checks</span>
-<span class="sd">          if it supports the image.</span>
-<span class="sd">        - If the image is array-like, it uses a built-in reader designed for</span>
-<span class="sd">          such objects.</span>
-<span class="sd">        - Detailed logging is provided for troubleshooting purposes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Fetch updated mapping of plugins</span>
         <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">)</span>
@@ -485,17 +507,15 @@
                         <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
                         <span class="k">try</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">ReaderClass</span><span class="o">.</span><span class="n">is_supported_image</span><span class="p">(</span>
-                                <span class="n">image</span><span class="p">,</span>
-                                <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span>
+                                <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span>
                             <span class="p">):</span>
                                 <span class="k">return</span> <span class="n">plugin</span>
-
                         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">fe</span><span class="p">:</span>
                             <span class="k">raise</span> <span class="n">fe</span>
                         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                             <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Attempted file (</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">) load with &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;reader: </span><span class="si">{</span><span class="n">ReaderClass</span><span class="si">}</span><span class="s2"> failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;Attempted file (</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">) load with reader: &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ReaderClass</span><span class="si">}</span><span class="s2"> failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
                             <span class="p">)</span>
 
         <span class="c1"># Use built-in ArrayLikeReader if type MetaArrayLike</span>
@@ -544,43 +564,88 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
-        <span class="n">reader</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">,</span>
+        <span class="n">readers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">]]],</span>
         <span class="n">use_plugin_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
         <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes and returns the reader (and plugin if relevant) for the provided</span>
-<span class="sd">        image based on provided args and/or the available bioio supported plugins</span>
+<span class="sd">        Select and initialize a reader for the provided image.</span>
+
+<span class="sd">        Behavior</span>
+<span class="sd">        --------</span>
+<span class="sd">        * If ``reader`` is ``None``, BioImage selects a reader using the default</span>
+<span class="sd">        plugin discovery and ordering logic and returns both the reader instance</span>
+<span class="sd">        and its corresponding ``PluginEntry``.</span>
+
+<span class="sd">        * If ``reader`` is a sequence of Reader subclasses, BioImage attempts to</span>
+<span class="sd">        initialize each reader in order and returns the first one that successfully</span>
+<span class="sd">        constructs. No other readers or plugins are considered.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Check specific reader image types in a situation where a specified reader</span>
-            <span class="c1"># only supports some of the ImageLike types.</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">check_type</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">reader</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">biob</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">UnsupportedFileFormatError</span><span class="p">(</span>
-                    <span class="n">reader</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
+
+        <span class="c1"># Case 1: Default Priority</span>
+        <span class="k">if</span> <span class="n">readers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span>
+                <span class="n">image</span><span class="p">,</span>
+                <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span>
+                <span class="n">use_plugin_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">ReaderClass</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">plugin</span>
+
+        <span class="c1"># Case 2: User Selection of Readers</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">readers</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">readers</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;BioImage(reader=...) must be a Reader subclass, &quot;</span>
+                <span class="s2">&quot;a non-empty sequence of Reader subclasses, or None.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">failures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">ReaderClass</span> <span class="ow">in</span> <span class="n">readers</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ReaderClass</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">ReaderClass</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ReaderClass</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="kc">None</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Exclusive reader attempt failed. reader=</span><span class="si">%s</span><span class="s2"> image=</span><span class="si">%r</span><span class="s2"> error=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">name</span><span class="p">,</span>
+                    <span class="n">image</span><span class="p">,</span>
+                    <span class="n">e</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="n">failures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">reader</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="kc">None</span>
-
-        <span class="c1"># Determine reader class based on available plugins</span>
-        <span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span>
-            <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="n">use_plugin_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="k">raise</span> <span class="n">biob</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">UnsupportedFileFormatError</span><span class="p">(</span>
+            <span class="s2">&quot;BioImage&quot;</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">))</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">)),</span>
+            <span class="n">msg_extra</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;None of the specified readers were able to read this image.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Readers attempted:</span><span class="se">\n</span><span class="s2">  - &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  - &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">failures</span><span class="p">)</span>
+            <span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">ReaderClass</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">plugin</span>
 
 <div class="viewcode-block" id="BioImage.__init__">
 <a class="viewcode-back" href="../../generated/bioio.BioImage.html#bioio.bio_image.BioImage.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">image</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">ImageLike</span><span class="p">,</span>
-        <span class="n">reader</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reader</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">]]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reconstruct_mosaic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">use_plugin_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Normalize Single Reader</span>
+        <span class="k">if</span> <span class="n">reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="p">[</span><span class="n">reader</span><span class="p">]</span>
+
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_reader</span><span class="p">(</span>
                 <span class="n">image</span><span class="p">,</span>
@@ -1513,16 +1578,29 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary of this BioImage.</span>
+
+<span class="sd">        Reports the plugin entrypoint name if the reader was selected via the</span>
+<span class="sd">        plugin system; otherwise reports the explicit reader name in use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">in_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;plugin: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> installed &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;at </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">timestamp</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Image-is-in-Memory: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;plugin: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;]&gt;&quot;</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [Image-is-in-Memory: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="si">}</span><span class="s2">]&gt;&quot;</span>
+        <span class="n">reader_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;reader: </span><span class="si">{</span><span class="n">reader_name</span><span class="si">}</span><span class="s2">, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;]&gt;&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -1693,7 +1771,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=dd1205ac"></script>
+</div><script src="../../_static/documentation_options.js?v=4f6ddb47"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

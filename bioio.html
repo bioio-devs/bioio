@@ -5,10 +5,10 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>bioio package - bioio 3.1.0 documentation</title>
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>bioio package - bioio 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 3.1.0 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 3.2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio 3.1.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.2.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -220,10 +220,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="CHANGELOG.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MIGRATION.html">AICSImageIO Migration</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Important Classes:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="bioio.BioImage.html">bioio.BioImage</a></li>
 </ul>
 
 </div>
@@ -416,19 +412,43 @@ metadata for unit information.</p>
 <span id="bioio-bio-image-module"></span><h2>bioio.bio_image module<a class="headerlink" href="#module-bioio.bio_image" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="bioio.bio_image.BioImage">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.bio_image.</span></span><span class="sig-name descname"><span class="pre">BioImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.bio_image.BioImage" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.bio_image.</span></span><span class="sig-name descname"><span class="pre">BioImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.bio_image.BioImage" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ImageContainer</span></code></p>
 <p>BioImage takes microscopy image data types (files or arrays) of varying
 dimensions (“ZYX”, “TCZYX”, “CYX”) and reads them as consistent 5D “TCZYX”
 (“Time-Channel-Z-Y-X”) ordered array(s). The data and metadata are lazy
 loaded and can be accessed as needed.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image: biob.types.ImageLike</strong></dt><dd><p>A string, Path, fsspec supported URI, or arraylike to read.</p>
 </dd>
-<dt><strong>reader: Optional[Type[Reader]]</strong></dt><dd><p>The Reader class to specifically use for reading the provided image.
-Default: None (find matching reader)</p>
+<dt><strong>reader: Optional[</strong></dt><dd><dl class="simple">
+<dt>Union[</dt><dd><p>Type[biob.reader.Reader],
+Sequence[Type[biob.reader.Reader]],</p>
+</dd>
+</dl>
+<p>]</p>
+</dd>
+<dt><strong>]</strong></dt><dd><p>Controls how BioImage selects the underlying Reader:</p>
+<ul class="simple">
+<li><p>If a <strong>single Reader subclass</strong> is provided</p></li>
+</ul>
+<p>(e.g. <code class="docutils literal notranslate"><span class="pre">reader=TiffReader</span></code>), that reader is used directly.
+Plugin discovery, extension matching, and default ordering are
+bypassed entirely.</p>
+<ul class="simple">
+<li><p>If a <strong>sequence of Reader subclasses</strong> is provided</p></li>
+</ul>
+<p>(e.g. <code class="docutils literal notranslate"><span class="pre">reader=[TiffReader,</span> <span class="pre">OmeTiffReader]</span></code>), the sequence is
+treated as an explicit <em>try-order</em>. BioImage attempts to
+construct each reader in order and uses the <strong>first one that
+successfully constructs</strong>.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), BioImage uses its default plugin discovery</p></li>
+</ul>
+<p>and ordering logic based on the input image. For a detailed
+description of this behavior, see <code class="docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins</span></code>.</p>
 </dd>
 <dt><strong>reconstruct_mosaic: bool</strong></dt><dd><p>Boolean for setting that data for this object to the reconstructed / stitched
 mosaic image.
@@ -499,7 +519,17 @@ internally. Useful when reading from remote sources to reduce network round trip
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;malformed_metadata.ome.tiff&quot;</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">readers</span><span class="o">.</span><span class="n">TiffReader</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Data for a mosaic file is returned pre-stitched (if the base reader supports it).</p>
+<p>Initialize an image and override plugin selection order when multiple readers
+support the same extension.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_tifffile</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">TiffReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_ome_tiff</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">OmeTiffReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;multi_plugin_file.ome.tiff&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">reader</span><span class="o">=</span><span class="p">[</span><span class="n">TiffReader</span><span class="p">,</span> <span class="n">OmeTiffReader</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">... </span><span class="c1"># TiffReader will be tried before OmeTiffReader for this instance.</span>
+</pre></div>
+</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;big_mosaic.czi&quot;</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]&gt;</span>
 </pre></div>
@@ -604,9 +634,11 @@ Recommended to use <cite>dask_data</cite> for large mosaic images.</p>
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">determine_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a></span></span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage.determine_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.bio_image.BioImage.determine_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Determine the appropriate plugin to read a given image.</p>
 <p>This function identifies the most suitable plugin to read the provided image
-based on its type or file extension. It leverages the installed plugins for
-<cite>bioio</cite>, each of which supports a subset of image formats. If a suitable
-plugin is found, it is returned; otherwise, an error is raised.</p>
+based on its type or file extension. It consults the installed <cite>bioio</cite> reader
+plugins (discovered via <a class="reference internal" href="#bioio.plugins.get_plugins" title="bioio.plugins.get_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins()</span></code></a>) and, when the image
+is path-like, probes candidate readers in priority order using
+<code class="docutils literal notranslate"><span class="pre">ReaderClass.is_supported_image(...)</span></code>. If a suitable plugin is found, it is
+returned; otherwise, an error is raised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -636,29 +668,32 @@ reader references for an individual plugin.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function performs the following steps:
-1. Fetches an updated mapping of available plugins,</p>
-<blockquote>
-<div><p>optionally using a cached version.</p>
-</div></blockquote>
-<ol class="arabic simple" start="2">
+<p>This function performs the following steps:</p>
+<ol class="arabic simple">
+<li><p>Fetches an updated mapping of available plugins,
+optionally using a cached version.</p></li>
 <li><p>If the <cite>image</cite> is a file path (str or Path), it checks for a matching
 plugin based on the file extension.</p></li>
-<li><p>If the <cite>image</cite> is an array-like object, it attempts to use the
-built-in <cite>ArrayLikeReader</cite>.</p></li>
-<li><p>If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p></li>
 </ol>
+<p>3. For matching extensions, tries candidate readers in the order provided by
+the plugin mapping, returning the first constructed plugin whose reader.
+4. If <cite>image</cite> is array-like (or a list of array-like), returns the built-in
+ArrayLike reader plugin.
+5. If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p>
+<p>Extension ordering and plugin ordering are defined by
+<a class="reference internal" href="#bioio.plugins.get_plugins" title="bioio.plugins.get_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins()</span></code></a>. See that function for the
+description of BioIO’s default selection policy.</p>
 <p class="rubric">Examples</p>
 <p>To determine the appropriate plugin for a given image file:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;example_image.tif&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To determine the appropriate plugin for an array-like image:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">image_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_array</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_array</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1526,9 +1561,9 @@ index of the scene / image.</p>
 <span id="bioio-plugins-module"></span><h2>bioio.plugins module<a class="headerlink" href="#module-bioio.plugins" title="Link to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="bioio.plugins.PluginEntry">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">PluginEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entrypoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/plugins.html#PluginEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.PluginEntry" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">PluginEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entrypoint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/plugins.html#PluginEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.PluginEntry" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
-<p>Create new instance of PluginEntry(entrypoint, metadata, timestamp)</p>
+<p>Create new instance of PluginEntry(entrypoint, metadata)</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="bioio.plugins.PluginEntry.entrypoint">
 <span class="sig-name descname"><span class="pre">entrypoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EntryPoint</span></em><a class="headerlink" href="#bioio.plugins.PluginEntry.entrypoint" title="Link to this definition">¶</a></dt>
@@ -1539,12 +1574,6 @@ index of the scene / image.</p>
 <dt class="sig sig-object py" id="bioio.plugins.PluginEntry.metadata">
 <span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ReaderMetadata</span></em><a class="headerlink" href="#bioio.plugins.PluginEntry.metadata" title="Link to this definition">¶</a></dt>
 <dd><p>Alias for field number 1</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="bioio.plugins.PluginEntry.timestamp">
-<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#bioio.plugins.PluginEntry.timestamp" title="Link to this definition">¶</a></dt>
-<dd><p>Alias for field number 2</p>
 </dd></dl>
 
 </dd></dl>
@@ -1564,27 +1593,6 @@ index of the scene / image.</p>
 <span class="sig-name descname"><span class="pre">supported</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#bioio.plugins.PluginSupport.supported" title="Link to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="bioio.plugins.check_type">
-<span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">check_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Reader</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#check_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.check_type" title="Link to this definition">¶</a></dt>
-<dd><p>Check if the provided image is compatible with the specified reader class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>image</strong><span class="classifier">ImageLike</span></dt><dd><p>The image to be checked. It can be a PathLike, ArrayLike, MetaArrayLike,
-a list of MetaArrayLike, or a list of PathLike.</p>
-</dd>
-<dt><strong>reader_class</strong><span class="classifier">Reader</span></dt><dd><p>The reader class to be checked against.</p>
-</dd>
-<dt><strong>Returns</strong></dt><dd></dd>
-<dt><strong>——-</strong></dt><dd></dd>
-<dt><strong>bool</strong></dt><dd><p>Returns True if the image is compatible with the reader class, False otherwise.</p>
-</dd>
-</dl>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -1618,14 +1626,22 @@ by the given distribution.
 <dl class="py function">
 <dt class="sig sig-object py" id="bioio.plugins.get_plugins">
 <span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">get_plugins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#get_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.get_plugins" title="Link to this definition">¶</a></dt>
-<dd><p>Gather a mapping from support file extensions
-to plugins installed that support said extension</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="bioio.plugins.insert_sorted_by_timestamp">
-<span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">insert_sorted_by_timestamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#insert_sorted_by_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.insert_sorted_by_timestamp" title="Link to this definition">¶</a></dt>
-<dd><p>Insert into list of PluginEntrys sorted by their timestamps (install dates)</p>
+<dd><p>Gather a ordered mapping from supported file extensions to installed plugins.</p>
+<p>The return value is an OrderedDict:</p>
+<blockquote>
+<div><p>{ normalized_extension (str) -&gt; [PluginEntry, …] }</p>
+</div></blockquote>
+<p>where both the <strong>extension keys</strong> and the <strong>plugin lists</strong> are ordered to
+encode BioIO’s default selection policy.</p>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Before including a plugin, we check its declared <code class="docutils literal notranslate"><span class="pre">bioio-base</span></code> version
+range against the version required by the core <code class="docutils literal notranslate"><span class="pre">bioio</span></code> distribution and
+skip plugins that are incompatible.</p></li>
+<li><p>This default ordering controls BioIO’s automatic choice of reader based
+on extension. A user can still override the order of candidate plugins
+for a given file via the <code class="docutils literal notranslate"><span class="pre">reader</span></code> argument on <code class="docutils literal notranslate"><span class="pre">BioImage</span></code>.</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py function">
@@ -1633,6 +1649,13 @@ to plugins installed that support said extension</p>
 <span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">plugin_feasibility_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#bioio.plugins.PluginSupport" title="bioio.plugins.PluginSupport"><span class="pre">PluginSupport</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#plugin_feasibility_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.plugin_feasibility_report" title="Link to this definition">¶</a></dt>
 <dd><p>Generate a feasibility report for each plugin,
 determining if it can handle the specified image.</p>
+<p>For debugging purposes, this function checks every installed plugin’s
+<cite>is_supported_image(…)</cite> implementation — even if the plugin would
+<em>not</em> normally be selected by BioImage’s extension-based routing.</p>
+<p>A warning is logged if a plugin <em>can</em> read the file but the file’s
+extension is NOT listed in that plugin’s advertised supported extensions.
+In such cases, BioImage will NOT auto-select that plugin for the file,
+but the user may explicitly choose it via the <cite>reader=</cite> parameter.</p>
 </dd></dl>
 
 </section>
@@ -1641,19 +1664,43 @@ determining if it can handle the specified image.</p>
 <p>Top-level package for bioio.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="bioio.BioImage">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">BioImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">BioImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">Reader</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reconstruct_mosaic</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ImageContainer</span></code></p>
 <p>BioImage takes microscopy image data types (files or arrays) of varying
 dimensions (“ZYX”, “TCZYX”, “CYX”) and reads them as consistent 5D “TCZYX”
 (“Time-Channel-Z-Y-X”) ordered array(s). The data and metadata are lazy
 loaded and can be accessed as needed.</p>
-<dl class="field-list simple">
+<dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
+<dd class="field-odd"><dl>
 <dt><strong>image: biob.types.ImageLike</strong></dt><dd><p>A string, Path, fsspec supported URI, or arraylike to read.</p>
 </dd>
-<dt><strong>reader: Optional[Type[Reader]]</strong></dt><dd><p>The Reader class to specifically use for reading the provided image.
-Default: None (find matching reader)</p>
+<dt><strong>reader: Optional[</strong></dt><dd><dl class="simple">
+<dt>Union[</dt><dd><p>Type[biob.reader.Reader],
+Sequence[Type[biob.reader.Reader]],</p>
+</dd>
+</dl>
+<p>]</p>
+</dd>
+<dt><strong>]</strong></dt><dd><p>Controls how BioImage selects the underlying Reader:</p>
+<ul class="simple">
+<li><p>If a <strong>single Reader subclass</strong> is provided</p></li>
+</ul>
+<p>(e.g. <code class="docutils literal notranslate"><span class="pre">reader=TiffReader</span></code>), that reader is used directly.
+Plugin discovery, extension matching, and default ordering are
+bypassed entirely.</p>
+<ul class="simple">
+<li><p>If a <strong>sequence of Reader subclasses</strong> is provided</p></li>
+</ul>
+<p>(e.g. <code class="docutils literal notranslate"><span class="pre">reader=[TiffReader,</span> <span class="pre">OmeTiffReader]</span></code>), the sequence is
+treated as an explicit <em>try-order</em>. BioImage attempts to
+construct each reader in order and uses the <strong>first one that
+successfully constructs</strong>.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">None</span></code> (default), BioImage uses its default plugin discovery</p></li>
+</ul>
+<p>and ordering logic based on the input image. For a detailed
+description of this behavior, see <code class="docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins</span></code>.</p>
 </dd>
 <dt><strong>reconstruct_mosaic: bool</strong></dt><dd><p>Boolean for setting that data for this object to the reconstructed / stitched
 mosaic image.
@@ -1724,7 +1771,17 @@ internally. Useful when reading from remote sources to reduce network round trip
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;malformed_metadata.ome.tiff&quot;</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">readers</span><span class="o">.</span><span class="n">TiffReader</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Data for a mosaic file is returned pre-stitched (if the base reader supports it).</p>
+<p>Initialize an image and override plugin selection order when multiple readers
+support the same extension.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_tifffile</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">TiffReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_ome_tiff</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">OmeTiffReader</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;multi_plugin_file.ome.tiff&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">reader</span><span class="o">=</span><span class="p">[</span><span class="n">TiffReader</span><span class="p">,</span> <span class="n">OmeTiffReader</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">... </span><span class="c1"># TiffReader will be tried before OmeTiffReader for this instance.</span>
+</pre></div>
+</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;big_mosaic.czi&quot;</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]&gt;</span>
 </pre></div>
@@ -1829,9 +1886,11 @@ Recommended to use <cite>dask_data</cite> for large mosaic images.</p>
 <em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">determine_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a></span></span><a class="reference internal" href="_modules/bioio/bio_image.html#BioImage.determine_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.BioImage.determine_plugin" title="Link to this definition">¶</a></dt>
 <dd><p>Determine the appropriate plugin to read a given image.</p>
 <p>This function identifies the most suitable plugin to read the provided image
-based on its type or file extension. It leverages the installed plugins for
-<cite>bioio</cite>, each of which supports a subset of image formats. If a suitable
-plugin is found, it is returned; otherwise, an error is raised.</p>
+based on its type or file extension. It consults the installed <cite>bioio</cite> reader
+plugins (discovered via <a class="reference internal" href="#bioio.plugins.get_plugins" title="bioio.plugins.get_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins()</span></code></a>) and, when the image
+is path-like, probes candidate readers in priority order using
+<code class="docutils literal notranslate"><span class="pre">ReaderClass.is_supported_image(...)</span></code>. If a suitable plugin is found, it is
+returned; otherwise, an error is raised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -1861,29 +1920,32 @@ reader references for an individual plugin.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>This function performs the following steps:
-1. Fetches an updated mapping of available plugins,</p>
-<blockquote>
-<div><p>optionally using a cached version.</p>
-</div></blockquote>
-<ol class="arabic simple" start="2">
+<p>This function performs the following steps:</p>
+<ol class="arabic simple">
+<li><p>Fetches an updated mapping of available plugins,
+optionally using a cached version.</p></li>
 <li><p>If the <cite>image</cite> is a file path (str or Path), it checks for a matching
 plugin based on the file extension.</p></li>
-<li><p>If the <cite>image</cite> is an array-like object, it attempts to use the
-built-in <cite>ArrayLikeReader</cite>.</p></li>
-<li><p>If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p></li>
 </ol>
+<p>3. For matching extensions, tries candidate readers in the order provided by
+the plugin mapping, returning the first constructed plugin whose reader.
+4. If <cite>image</cite> is array-like (or a list of array-like), returns the built-in
+ArrayLike reader plugin.
+5. If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p>
+<p>Extension ordering and plugin ordering are defined by
+<a class="reference internal" href="#bioio.plugins.get_plugins" title="bioio.plugins.get_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins()</span></code></a>. See that function for the
+description of BioIO’s default selection policy.</p>
 <p class="rubric">Examples</p>
 <p>To determine the appropriate plugin for a given image file:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;example_image.tif&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To determine the appropriate plugin for an array-like image:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">image_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_array</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_array</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2940,6 +3002,13 @@ time point to the beginning of the final time point.</p>
 <span class="sig-prename descclassname"><span class="pre">bioio.</span></span><span class="sig-name descname"><span class="pre">plugin_feasibility_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Array</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataArray</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_plugin_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#bioio.plugins.PluginSupport" title="bioio.plugins.PluginSupport"><span class="pre">PluginSupport</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#plugin_feasibility_report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugin_feasibility_report" title="Link to this definition">¶</a></dt>
 <dd><p>Generate a feasibility report for each plugin,
 determining if it can handle the specified image.</p>
+<p>For debugging purposes, this function checks every installed plugin’s
+<cite>is_supported_image(…)</cite> implementation — even if the plugin would
+<em>not</em> normally be selected by BioImage’s extension-based routing.</p>
+<p>A warning is logged if a plugin <em>can</em> read the file but the file’s
+extension is NOT listed in that plugin’s advertised supported extensions.
+In such cases, BioImage will NOT auto-select that plugin for the file,
+but the user may explicitly choose it via the <cite>reader=</cite> parameter.</p>
 </dd></dl>
 
 </section>
@@ -3054,7 +3123,6 @@ determining if it can handle the specified image.</p>
 <li><a class="reference internal" href="#bioio.plugins.PluginEntry"><code class="docutils literal notranslate"><span class="pre">PluginEntry</span></code></a><ul>
 <li><a class="reference internal" href="#bioio.plugins.PluginEntry.entrypoint"><code class="docutils literal notranslate"><span class="pre">PluginEntry.entrypoint</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.PluginEntry.metadata"><code class="docutils literal notranslate"><span class="pre">PluginEntry.metadata</span></code></a></li>
-<li><a class="reference internal" href="#bioio.plugins.PluginEntry.timestamp"><code class="docutils literal notranslate"><span class="pre">PluginEntry.timestamp</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#bioio.plugins.PluginSupport"><code class="docutils literal notranslate"><span class="pre">PluginSupport</span></code></a><ul>
@@ -3062,12 +3130,10 @@ determining if it can handle the specified image.</p>
 <li><a class="reference internal" href="#bioio.plugins.PluginSupport.supported"><code class="docutils literal notranslate"><span class="pre">PluginSupport.supported</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bioio.plugins.check_type"><code class="docutils literal notranslate"><span class="pre">check_type()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.dump_plugins"><code class="docutils literal notranslate"><span class="pre">dump_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_array_like_plugin"><code class="docutils literal notranslate"><span class="pre">get_array_like_plugin()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_dependency_version_range_for_distribution"><code class="docutils literal notranslate"><span class="pre">get_dependency_version_range_for_distribution()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_plugins"><code class="docutils literal notranslate"><span class="pre">get_plugins()</span></code></a></li>
-<li><a class="reference internal" href="#bioio.plugins.insert_sorted_by_timestamp"><code class="docutils literal notranslate"><span class="pre">insert_sorted_by_timestamp()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.plugin_feasibility_report"><code class="docutils literal notranslate"><span class="pre">plugin_feasibility_report()</span></code></a></li>
 </ul>
 </li>
@@ -3190,7 +3256,7 @@ determining if it can handle the specified image.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=dd1205ac"></script>
+</div><script src="_static/documentation_options.js?v=4f6ddb47"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

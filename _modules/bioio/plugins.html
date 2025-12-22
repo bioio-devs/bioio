@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.09.25 -->
-        <title>bioio.plugins - bioio 3.1.0 documentation</title>
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
+        <title>bioio.plugins - bioio 3.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.1.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.2.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.1.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.2.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -219,10 +219,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../CHANGELOG.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../MIGRATION.html">AICSImageIO Migration</a></li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Important Classes:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../../bioio.BioImage.html">bioio.BioImage</a></li>
 </ul>
 
 </div>
@@ -262,26 +258,16 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">requires</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">get_args</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">semver</span>
-
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">requires</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">entry_points</span><span class="p">,</span> <span class="n">EntryPoint</span><span class="p">,</span> <span class="n">requires</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.reader_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReaderMetadata</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">PathLike</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bioio_base.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageLike</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.array_like_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLikeReader</span><span class="p">,</span> <span class="n">ArrayLikeReaderMetadata</span>
 
@@ -299,8 +285,7 @@
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginEntry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginEntry</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">entrypoint</span><span class="p">:</span> <span class="n">EntryPoint</span>
-    <span class="n">metadata</span><span class="p">:</span> <span class="n">ReaderMetadata</span>
-    <span class="n">timestamp</span><span class="p">:</span> <span class="nb">float</span></div>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">ReaderMetadata</span></div>
 
 
 
@@ -308,52 +293,65 @@
 <span class="n">plugins_by_ext_cache</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="check_type">
-<a class="viewcode-back" href="../../bioio.html#bioio.plugins.check_type">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">check_type</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">reader_class</span><span class="p">:</span> <span class="n">Reader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_extensions</span><span class="p">(</span><span class="n">exts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check if the provided image is compatible with the specified reader class.</span>
+<span class="sd">    Normalize and deduplicate a sequence of extensions.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    image : ImageLike</span>
-<span class="sd">        The image to be checked. It can be a PathLike, ArrayLike, MetaArrayLike,</span>
-<span class="sd">        a list of MetaArrayLike, or a list of PathLike.</span>
-
-<span class="sd">    reader_class : Reader</span>
-<span class="sd">        The reader class to be checked against.</span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    bool</span>
-<span class="sd">        Returns True if the image is compatible with the reader class, False otherwise.</span>
+<span class="sd">    - Lowercases all entries</span>
+<span class="sd">    - Ensures each extension starts with &#39;.&#39;</span>
+<span class="sd">    - Removes duplicates while preserving first-seen order</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">arraylike_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">get_args</span><span class="p">(</span><span class="n">ArrayLike</span><span class="p">))</span>
-    <span class="n">pathlike_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">get_args</span><span class="p">(</span><span class="n">PathLike</span><span class="p">))</span>
+    <span class="n">normalized</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-    <span class="c1"># Check if image is type ArrayLike or list of ArrayLike and reader</span>
-    <span class="c1"># is not an ArrayLikeReader</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">arraylike_types</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="p">(</span>
-            <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">arraylike_types</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">image</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">reader_class</span> <span class="ow">is</span> <span class="n">ArrayLikeReader</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">e</span>
 
-    <span class="c1"># Check if image is type PathLike or list of PathLike and reader</span>
-    <span class="c1"># is an ArrayLikeReader</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">pathlike_types</span><span class="p">)</span>
-        <span class="ow">or</span> <span class="p">(</span>
-            <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">pathlike_types</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">image</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">reader_class</span> <span class="ow">is</span> <span class="n">ArrayLikeReader</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">normalized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="k">return</span> <span class="n">normalized</span>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_count_extension_families</span><span class="p">(</span><span class="n">exts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a list of *normalized* extensions (lowercase, leading &#39;.&#39;), compute</span>
+<span class="sd">    how many distinct &#39;families&#39; of extensions this plugin effectively supports.</span>
+
+<span class="sd">    Two extensions belong to the same family if one is a suffix of the other.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    [&quot;.ome.tiff&quot;, &quot;.tiff&quot;, &quot;.ome.tif&quot;, &quot;.tif&quot;] -&gt; 2 families:</span>
+<span class="sd">        {&quot;.ome.tiff&quot;, &quot;.tiff&quot;}, {&quot;.ome.tif&quot;, &quot;.tif&quot;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">families</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
+        <span class="n">matching_families</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">families</span><span class="p">):</span>
+            <span class="c1"># Any overlap by suffix membership → same family</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">fam</span><span class="p">):</span>
+                <span class="n">matching_families</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">matching_families</span><span class="p">:</span>
+            <span class="c1"># New family</span>
+            <span class="n">families</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">ext</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Merge into the first matching family</span>
+            <span class="n">base_idx</span> <span class="o">=</span> <span class="n">matching_families</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">families</span><span class="p">[</span><span class="n">base_idx</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
+
+            <span class="c1"># If we matched multiple existing families, merge them</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">matching_families</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="n">families</span><span class="p">[</span><span class="n">base_idx</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">families</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+                <span class="k">del</span> <span class="n">families</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">families</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_array_like_plugin">
@@ -364,26 +362,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">entrypoint</span> <span class="o">=</span> <span class="n">EntryPoint</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ArrayLikeReader&quot;</span><span class="p">,</span>
-        <span class="n">group</span><span class="o">=</span><span class="s2">&quot;readers&quot;</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;.array_like_reader.ArrayLikeReader&quot;</span><span class="p">,</span>
+        <span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;bioio.array_like_reader:ArrayLikeReader&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="n">ArrayLikeReaderMetadata</span><span class="p">()</span>
-    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">entrypoint</span><span class="o">=</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="n">timestamp</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="insert_sorted_by_timestamp">
-<a class="viewcode-back" href="../../bioio.html#bioio.plugins.insert_sorted_by_timestamp">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">insert_sorted_by_timestamp</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">],</span> <span class="n">item</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Insert into list of PluginEntrys sorted by their timestamps (install dates)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">other</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">timestamp</span><span class="p">:</span>
-            <span class="nb">list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
-            <span class="k">return</span>
-    <span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">entrypoint</span><span class="o">=</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span></div>
 
 
 
@@ -448,17 +431,85 @@
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_plugins">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Gather a mapping from support file extensions</span>
-<span class="sd">    to plugins installed that support said extension</span>
+<span class="sd">    Gather a ordered mapping from supported file extensions to installed plugins.</span>
+
+<span class="sd">    The return value is an OrderedDict:</span>
+
+<span class="sd">        { normalized_extension (str) -&gt; [PluginEntry, ...] }</span>
+
+<span class="sd">    where both the **extension keys** and the **plugin lists** are ordered to</span>
+<span class="sd">    encode BioIO&#39;s default selection policy.</span>
+
+<span class="sd">    Ordering semantics</span>
+<span class="sd">    ------------------</span>
+<span class="sd">    1. Extension ordering (which extension group is checked first)</span>
+<span class="sd">       ----------------------------------------------------------</span>
+<span class="sd">       Extension keys are sorted by **descending length of the extension</span>
+<span class="sd">       string**. This controls the order in which *extension groups* are</span>
+<span class="sd">       considered when matching a path, independent of which plugins live</span>
+<span class="sd">       under each key.</span>
+
+<span class="sd">       Example:</span>
+<span class="sd">         Keys: [&quot;.ome.tiff&quot;, &quot;.tiff&quot;, &quot;.tif&quot;]</span>
+<span class="sd">         Ordered as: [&quot;.ome.tiff&quot;, &quot;.tiff&quot;, &quot;.tif&quot;]</span>
+
+<span class="sd">       For a path ending with &quot;file.ome.tiff&quot;, we will:</span>
+<span class="sd">         * first consider plugins registered under the &quot;.ome.tiff&quot; key</span>
+<span class="sd">         * then, if needed, fall back to the &quot;.tiff&quot; key</span>
+<span class="sd">         * and finally &quot;.tif&quot;, etc.</span>
+
+<span class="sd">       This ordering is purely about the suffix string itself; it does **not**</span>
+<span class="sd">       depend on how many extensions any plugin declares.</span>
+
+<span class="sd">    2. Plugin ordering within each extension (which reader is tried first)</span>
+<span class="sd">       -------------------------------------------------------------------</span>
+<span class="sd">       For all plugins that advertise a given normalized extension key,</span>
+<span class="sd">       we compute:</span>
+
+<span class="sd">         * ``family_count`` — the number of **extension families** supported by</span>
+<span class="sd">           that plugin, using ``_count_extension_families`` on its normalized</span>
+<span class="sd">           extension list. Two extensions are in the same family if the</span>
+<span class="sd">           dot-separated segment list of one is a suffix of the other&#39;s.</span>
+
+<span class="sd">           Examples (normalized):</span>
+<span class="sd">             [&quot;.ome.tiff&quot;, &quot;.tiff&quot;]  -&gt; 1 family   ({&quot;.ome.tiff&quot;, &quot;.tiff&quot;})</span>
+<span class="sd">             [&quot;.ome.tif&quot;, &quot;.tif&quot;]    -&gt; 1 family   ({&quot;.ome.tif&quot;,  &quot;.tif&quot;})</span>
+<span class="sd">             [&quot;.tif&quot;, &quot;.tiff&quot;]       -&gt; 2 families ({&quot;.tif&quot;}, {&quot;.tiff&quot;})</span>
+<span class="sd">             [&quot;.a.b&quot;, &quot;.b&quot;]          -&gt; 1 family   ({&quot;.a.b&quot;, &quot;.b&quot;})</span>
+<span class="sd">             [&quot;.ab&quot;, &quot;.a&quot;]           -&gt; 2 families ({&quot;.ab&quot;},  {&quot;.a&quot;})</span>
+
+<span class="sd">         * ``raw_ext_count`` — the number of extensions returned directly by</span>
+<span class="sd">           ``ReaderMetadata.get_supported_extensions()`` (before normalization).</span>
+
+<span class="sd">       Plugins for a given extension key are then sorted by:</span>
+<span class="sd">         1) increasing ``family_count``      (fewer families → more specific)</span>
+<span class="sd">         2) increasing ``raw_ext_count``     (fewer declared extensions → more focused)</span>
+<span class="sd">         3) alphabetical entrypoint name     (deterministic tie-breaker)</span>
+
+<span class="sd">       This means that, **for the same extension key**, a plugin that handles</span>
+<span class="sd">       fewer, tightly related families and declares fewer total extensions will</span>
+<span class="sd">       be tried *before* a broader, more generic reader.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    * Before including a plugin, we check its declared ``bioio-base`` version</span>
+<span class="sd">      range against the version required by the core ``bioio`` distribution and</span>
+<span class="sd">      skip plugins that are incompatible.</span>
+<span class="sd">    * This default ordering controls BioIO&#39;s automatic choice of reader based</span>
+<span class="sd">      on extension. A user can still override the order of candidate plugins</span>
+<span class="sd">      for a given file via the ``reader`` argument on ``BioImage``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">use_cache</span> <span class="ow">and</span> <span class="n">plugins_by_ext_cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="n">plugins</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Mapping of extensions -&gt; applicable plugins</span>
-    <span class="c1"># note there can be multiple readers for the same extension</span>
+    <span class="c1"># Mapping of extension -&gt; list[PluginEntry]</span>
     <span class="n">plugins_by_ext</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Per-plugin specificity metrics</span>
+    <span class="n">plugin_family_counts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">plugin_raw_ext_counts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="p">(</span>
         <span class="n">min_compatible_bioio_base_version</span><span class="p">,</span>
@@ -466,13 +517,15 @@
     <span class="p">)</span> <span class="o">=</span> <span class="n">get_dependency_version_range_for_distribution</span><span class="p">(</span>
         <span class="n">BIOIO_DIST_NAME</span><span class="p">,</span> <span class="n">BIOIO_BASE_DIST_NAME</span>
     <span class="p">)</span>
-    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+
+    <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">eps</span><span class="p">:</span>
         <span class="p">(</span>
             <span class="n">_</span><span class="p">,</span>
             <span class="n">max_bioio_base_version_for_plugin</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">=</span> <span class="n">get_dependency_version_range_for_distribution</span><span class="p">(</span>
-            <span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">BIOIO_BASE_DIST_NAME</span>
-        <span class="p">)</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">get_dependency_version_range_for_distribution</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">BIOIO_BASE_DIST_NAME</span><span class="p">)</span>
+
+        <span class="c1"># Skip plugins whose maximum supported bioio-base version is older</span>
+        <span class="c1"># than the minimum that this bioio distribution requires.</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">min_compatible_bioio_base_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="n">max_bioio_base_version_for_plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -483,61 +536,59 @@
             <span class="o">&lt;</span> <span class="mi">0</span>
         <span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Plugin `</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` does not meet &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Plugin `</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` does not meet &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;minimum `</span><span class="si">{</span><span class="n">BIOIO_BASE_DIST_NAME</span><span class="si">}</span><span class="s2">` of &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">min_compatible_bioio_base_version</span><span class="si">}</span><span class="s2">, ignoring&quot;</span>
             <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># ReaderMetadata knows how to instantiate the actual Reader</span>
-            <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="o">.</span><span class="n">ReaderMetadata</span>
-            <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">files</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">dist</span><span class="o">.</span><span class="n">files</span>
-                <span class="k">if</span> <span class="n">files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">firstfile</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">firstfile</span><span class="o">.</span><span class="n">locate</span><span class="p">())</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No files found for plugin: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find distribution for plugin: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
-                <span class="n">timestamp</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">continue</span>
 
-            <span class="c1"># Add plugin entry</span>
-            <span class="n">plugin_entry</span> <span class="o">=</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">reader_meta</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">plugin_entry</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">():</span>
-                <span class="n">ext</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-                    <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">ext</span>
+        <span class="c1"># ReaderMetadata knows how to instantiate the actual Reader</span>
+        <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="o">.</span><span class="n">ReaderMetadata</span>
 
-                <span class="c1"># Start a new list of plugins for ext if it doesn&#39;t exist</span>
-                <span class="k">if</span> <span class="n">ext</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="p">:</span>
-                    <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">plugin_entry</span><span class="p">]</span>
-                    <span class="k">continue</span>
+        <span class="c1"># Raw + normalized extensions</span>
+        <span class="n">raw_exts</span> <span class="o">=</span> <span class="n">reader_meta</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">()</span>
+        <span class="n">normalized_exts</span> <span class="o">=</span> <span class="n">_normalize_extensions</span><span class="p">(</span><span class="n">raw_exts</span><span class="p">)</span>
 
-                <span class="c1"># insert in sorted order (sorted by most recently installed)</span>
-                <span class="n">pluginlist</span> <span class="o">=</span> <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
-                <span class="n">insert_sorted_by_timestamp</span><span class="p">(</span><span class="n">pluginlist</span><span class="p">,</span> <span class="n">plugin_entry</span><span class="p">)</span>
+        <span class="n">family_count</span> <span class="o">=</span> <span class="n">_count_extension_families</span><span class="p">(</span><span class="n">normalized_exts</span><span class="p">)</span>
+        <span class="n">raw_ext_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_exts</span><span class="p">)</span>
 
-    <span class="c1"># Dictionary values (the lists of plugin entries) have already been sorted</span>
-    <span class="c1"># by timestamp due to the &quot;insert_sorted_by_timestamp&quot; function</span>
-    <span class="c1"># However, we further want to sort the dictionary keys (the extensions)</span>
-    <span class="c1"># by length so that longer extensions are checked first.</span>
-    <span class="c1"># We do not change the order of the plugins within each list.</span>
-    <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
+        <span class="n">plugin_entry</span> <span class="o">=</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="n">reader_meta</span><span class="p">)</span>
+
+        <span class="n">plugin_family_counts</span><span class="p">[</span><span class="n">plugin_entry</span><span class="p">]</span> <span class="o">=</span> <span class="n">family_count</span>
+        <span class="n">plugin_raw_ext_counts</span><span class="p">[</span><span class="n">plugin_entry</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_ext_count</span>
+
+        <span class="c1"># Register this plugin for each normalized extension it claims</span>
+        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">normalized_exts</span><span class="p">:</span>
+            <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_entry</span><span class="p">)</span>
+
+    <span class="c1"># Order plugins within each extension:</span>
+    <span class="c1">#   1) fewer extension families (more specific)</span>
+    <span class="c1">#   2) fewer raw declared extensions</span>
+    <span class="c1">#   3) alphabetical entrypoint name</span>
+    <span class="k">for</span> <span class="n">ext</span><span class="p">,</span> <span class="n">plugin_list</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">plugin_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">plugin_family_counts</span><span class="p">[</span><span class="n">p</span><span class="p">],</span>
+                <span class="n">plugin_raw_ext_counts</span><span class="p">[</span><span class="n">p</span><span class="p">],</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Order the extension keys by length (descending) so more specific suffixes</span>
+    <span class="c1"># (e.g., &quot;.ome.tiff&quot;) are checked before shorter ones (e.g., &quot;.tiff&quot;).</span>
+    <span class="n">plugins_by_ext_ordered</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
         <span class="nb">sorted</span><span class="p">(</span>
-            <span class="c1"># Get the key (suffix) and the value (list of plugins)</span>
             <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
-            <span class="c1"># Sort by length of the key (suffix)</span>
             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ext_and_plugins</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ext_and_plugins</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-            <span class="c1"># Reverse so that longer extensions are stored first</span>
             <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># Save copy of plugins to cache then return</span>
     <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-    <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">plugins_by_ext</span><span class="p">)</span>
+    <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">plugins_by_ext_ordered</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">plugins_by_ext</span></div>
+    <span class="k">return</span> <span class="n">plugins_by_ext_ordered</span></div>
 
 
 
@@ -582,7 +633,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  No Distribution Found...&quot;</span><span class="p">)</span>
 
-            <span class="c1"># print(f&quot;  Description : {ep.dist.metadata[&#39;description&#39;]}&quot;)</span>
         <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span>
         <span class="n">exts</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reader_meta</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">())</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Supported Extensions : </span><span class="si">{</span><span class="n">exts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -628,17 +678,48 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a feasibility report for each plugin,</span>
 <span class="sd">    determining if it can handle the specified image.</span>
+
+<span class="sd">    For debugging purposes, this function checks every installed plugin’s</span>
+<span class="sd">    `is_supported_image(...)` implementation — even if the plugin would</span>
+<span class="sd">    *not* normally be selected by BioImage’s extension-based routing.</span>
+
+<span class="sd">    A warning is logged if a plugin *can* read the file but the file’s</span>
+<span class="sd">    extension is NOT listed in that plugin’s advertised supported extensions.</span>
+<span class="sd">    In such cases, BioImage will NOT auto-select that plugin for the file,</span>
+<span class="sd">    but the user may explicitly choose it via the `reader=` parameter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">)</span>
-    <span class="n">feasibility_report</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">feasibility_report</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PluginSupport</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">ext</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+        <span class="c1"># Strip any query parameters, then extract suffix</span>
+        <span class="n">clean_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">clean_path</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="c1"># Check each plugin for support</span>
     <span class="k">for</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
             <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">feasibility_report</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_check_plugin_support</span><span class="p">(</span>
-                <span class="n">plugin</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span>
-            <span class="p">)</span>
+            <span class="n">support</span> <span class="o">=</span> <span class="n">_check_plugin_support</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="p">)</span>
+            <span class="n">feasibility_report</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">support</span>
+
+            <span class="k">if</span> <span class="n">support</span><span class="o">.</span><span class="n">supported</span> <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">advertised_exts</span> <span class="o">=</span> <span class="n">_normalize_extensions</span><span class="p">(</span>
+                    <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">()</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">ext</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">advertised_exts</span><span class="p">:</span>
+                    <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
+
+                    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Plugin &#39;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">&#39; CAN read the file &#39;</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">&#39;, &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;but the file extension &#39;</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">&#39; is NOT listed in its &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;get_supported_extensions(): </span><span class="si">{</span><span class="n">advertised_exts</span><span class="si">}</span><span class="s2">.  BioImage &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;will NOT auto-select this reader based on extension.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;To use this reader manually, instantiate BioImage with:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;    BioImage(&#39;</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">&#39;, reader=</span><span class="si">{</span><span class="n">ReaderClass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="p">)</span>
 
     <span class="c1"># Additional check for ArrayLike support</span>
     <span class="k">try</span><span class="p">:</span>
@@ -689,7 +770,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=dd1205ac"></script>
+</div><script src="../../_static/documentation_options.js?v=4f6ddb47"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

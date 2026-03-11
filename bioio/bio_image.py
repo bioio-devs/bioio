@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_args
 
@@ -1112,7 +1113,24 @@ class BioImage(biob.image_container.ImageContainer):
         Return a set of standardized metadata. The possible
         fields are predefined by the StandardMetadata dataclass.
         """
-        return self.reader.standard_metadata
+        base = self.reader.standard_metadata
+
+        return replace(
+            base,
+            image_size_c=getattr(
+                self.dims, biob.dimensions.DimensionNames.Channel, None
+            ),
+            image_size_t=getattr(self.dims, biob.dimensions.DimensionNames.Time, None),
+            image_size_x=getattr(
+                self.dims, biob.dimensions.DimensionNames.SpatialX, None
+            ),
+            image_size_y=getattr(
+                self.dims, biob.dimensions.DimensionNames.SpatialY, None
+            ),
+            image_size_z=getattr(
+                self.dims, biob.dimensions.DimensionNames.SpatialZ, None
+            ),
+        )
 
     def get_mosaic_tile_position(
         self, mosaic_tile_index: int, **kwargs: int

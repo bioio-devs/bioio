@@ -1117,7 +1117,6 @@ class BioImage(biob.image_container.ImageContainer):
 
         return replace(
             base,
-            dimensions_present=self.dims.order,
             image_size_c=getattr(
                 self.dims, biob.dimensions.DimensionNames.Channel, None
             ),

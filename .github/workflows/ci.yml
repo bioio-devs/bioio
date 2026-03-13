@@ -37,8 +37,6 @@ jobs:
       contents: read
       id-token: write
     uses: bioio-devs/bioio-base/.github/workflows/shared_test.yml@main
-    with:
-      install_ffmpeg_macos: true
 
   # Shared lint workflow from bioio-base
   lint:

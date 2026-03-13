@@ -39,7 +39,6 @@ jobs:
     uses: bioio-devs/bioio-base/.github/workflows/shared_test.yml@main
     with:
       install_ffmpeg_macos: true
-      codecov_use_oidc: true
 
   # Shared lint workflow from bioio-base
   lint:

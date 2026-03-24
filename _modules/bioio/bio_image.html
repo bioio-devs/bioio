@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.12.19 -->
-        <title>bioio.bio_image - bioio 3.2.0 documentation</title>
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>bioio.bio_image - bioio 3.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.2.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.3.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.2.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.3.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -256,6 +256,7 @@
 <span class="c1"># -*- coding: utf-8 -*-</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">get_args</span>
 
@@ -1398,7 +1399,24 @@
 <span class="sd">        Return a set of standardized metadata. The possible</span>
 <span class="sd">        fields are predefined by the StandardMetadata dataclass.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">standard_metadata</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">standard_metadata</span>
+
+        <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
+            <span class="n">base</span><span class="p">,</span>
+            <span class="n">image_size_c</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Channel</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="p">),</span>
+            <span class="n">image_size_t</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Time</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">image_size_x</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">SpatialX</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="p">),</span>
+            <span class="n">image_size_y</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">SpatialY</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="p">),</span>
+            <span class="n">image_size_z</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">SpatialZ</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
 
 <div class="viewcode-block" id="BioImage.get_mosaic_tile_position">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_mosaic_tile_position">[docs]</a>
@@ -1771,9 +1789,9 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=4f6ddb47"></script>
-    <script src="../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="../../_static/documentation_options.js?v=3eb8911e"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=30646c52"></script>

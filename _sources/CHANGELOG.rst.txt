@@ -2,6 +2,23 @@ Changelog
 =========
 
 
+v3.3.0 (2026-03-24)
+-------------------
+
+Fix
+~~~
+- bugfix/standard-metadata-stitched-dims [Brian Whitney]
+
+Other
+~~~~~
+- admin/bump-base [Brian Whitney]
+- try without ffmpeg [Kevin Mitcham]
+- remove codecov [Kevin Mitcham]
+- allow lint for 3.13 [Kevin Mitcham]
+- use shared lint and test [Kevin Mitcham]
+- use reader dims for SM [Brian Whitney]
+
+
 v3.2.0 (2025-12-22)
 -------------------
 

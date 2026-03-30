@@ -316,9 +316,9 @@ class ArrayLikeReader(Reader):
                     if DimensionNames.Channel not in this_scene.coords:
                         # Use provided
                         if this_scene_channel_names is not None:
-                            this_scene.coords[
-                                DimensionNames.Channel
-                            ] = this_scene_channel_names
+                            this_scene.coords[DimensionNames.Channel] = (
+                                this_scene_channel_names
+                            )
 
                         # Generate
                         else:
@@ -331,9 +331,9 @@ class ArrayLikeReader(Reader):
                                     )
                                 )
 
-                            this_scene.coords[
-                                DimensionNames.Channel
-                            ] = set_channel_names
+                            this_scene.coords[DimensionNames.Channel] = (
+                                set_channel_names
+                            )
 
                 # Provided None, generate
                 if this_scene_channel_names is None:

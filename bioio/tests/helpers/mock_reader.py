@@ -58,7 +58,8 @@ class PluginFactoryFixture(Protocol):
     `TestPluginSpec` and returns the created EntryPoint objects.
     """
 
-    def __call__(self, specs: Iterable[TestPluginSpec]) -> list[EntryPoint]: ...
+    def __call__(self, specs: Iterable[TestPluginSpec]) -> list[EntryPoint]:
+        ...
 
 
 # -----------------------------------------------------------------------------

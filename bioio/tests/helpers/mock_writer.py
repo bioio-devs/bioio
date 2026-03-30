@@ -47,7 +47,8 @@ class WriterFactoryFixture(Protocol):
     `TestWriterSpec` and returns the created EntryPoint objects.
     """
 
-    def __call__(self, specs: Iterable[TestWriterSpec]) -> List[EntryPoint]: ...
+    def __call__(self, specs: Iterable[TestWriterSpec]) -> List[EntryPoint]:
+        ...
 
 
 # -----------------------------------------------------------------------------

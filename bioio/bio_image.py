@@ -1318,12 +1318,7 @@ class BioImage(biob.image_container.ImageContainer):
             )
 
         reader_name = self._reader.name if self._reader is not None else "None"
-        return (
-            f"<BioImage ["
-            f"reader: {reader_name}, "
-            f"image-in-memory: {in_memory}"
-            f"]>"
-        )
+        return f"<BioImage [reader: {reader_name}, image-in-memory: {in_memory}]>"
 
     def __repr__(self) -> str:
         return str(self)

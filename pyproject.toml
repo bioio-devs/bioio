@@ -115,6 +115,10 @@ ignore = [
   "*tests/**",
 ]
 
+[tool.pytest.ini_options]
+addopts = "--cov=bioio --cov-report=xml --cov-report=html"
+testpaths = ["bioio/tests"]
+
 [tool.mypy]
 files = "bioio/*.py"
 ignore_missing_imports = true

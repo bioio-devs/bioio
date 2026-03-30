@@ -31,7 +31,7 @@ lint:
 
 # run tests
 test:
-	pytest --cov-report xml --cov-report html --cov=bioio bioio/tests
+	pytest
 
 # run lint and then run tests
 build:

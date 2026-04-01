@@ -1,30 +1,13 @@
 files: bioio
 repos:
-    - repo: https://github.com/PyCQA/isort
-      rev: 5.12.0
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.11.2
       hooks:
-          - id: isort
-
-    - repo: https://github.com/myint/autoflake
-      rev: v2.2.0
-      hooks:
-          - id: autoflake
-            args: ["--in-place", "--remove-all-unused-imports"]
-
-    - repo: https://github.com/psf/black
-      rev: 23.3.0
-      hooks:
-          - id: black
-
-    - repo: https://github.com/PyCQA/flake8
-      rev: 6.1.0
-      hooks:
-          - id: flake8
-            additional_dependencies:
-                - flake8-typing-imports>=1.9.0
-                - flake8-pyprojecttoml
+          - id: ruff
+            args: ["--fix"]
+          - id: ruff-format
 
     - repo: https://github.com/pre-commit/mirrors-mypy
-      rev: v1.4.1
+      rev: v1.19.1
       hooks:
           - id: mypy

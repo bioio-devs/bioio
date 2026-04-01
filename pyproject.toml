@@ -88,17 +88,20 @@ exclude = ["*docs/*", "*tests/*"]
 "*" = ["*.yaml", "py.typed"]
 
 # tools
-[tool.black]
+[tool.ruff]
 line-length = 88
+target-version = "py310"
 
-[tool.isort]
-ensure_newline_before_comments = true
-force_grid_wrap = 0
-include_trailing_comma = true
-line_length = 88
-multi_line_output = 3
-profile = "black"
-use_parentheses = true
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E402"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 
 # https://github.com/mgedmin/check-manifest#configuration
 [tool.check-manifest]
@@ -114,6 +117,10 @@ ignore = [
   "*tests/**",
 ]
 
+[tool.pytest.ini_options]
+addopts = "--cov=bioio --cov-report=xml --cov-report=html"
+testpaths = ["bioio/tests"]
+
 [tool.mypy]
 files = "bioio/*.py"
 ignore_missing_imports = true
@@ -121,12 +128,3 @@ disallow_untyped_defs = true
 check_untyped_defs = true
 show_error_codes = true
 
-# https://flake8.pycqa.org/en/latest/user/options.html
-# https://gitlab.com/durko/flake8-pyprojecttoml
-[tool.flake8]
-max-line-length = 88
-ignore = "E203,E402,W291,W503"
-min-python-version = "3.10.0"
-per-file-ignores = [
-  "__init__.py:F401",
-]

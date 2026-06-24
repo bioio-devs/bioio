@@ -905,15 +905,14 @@ class BioImage(biob.image_container.ImageContainer):
         See `bioio_base.transforms.reshape_data` for more details.
         """
 
-        # direct reader sub-region read
-        if (
-            dimension_order_out is not None
-            and kwargs
-            and not (
-                self._reconstruct_mosaic
-                and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
-            )
-        ):
+        # Determine if image needs to be stitched
+        stitching_mosaic = (
+            self._reconstruct_mosaic
+            and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
+        )
+        # direct reader sub-region read for kwarg slice. The only accepted kwargs
+        # is slice definitions so we can assert directly on their presence.
+        if dimension_order_out is not None and kwargs and not stitching_mosaic:
             return self.reader.get_image_data(dimension_order_out, **kwargs)
 
         # Otherwise read the full image: return it as-is, or reshape/slice it.

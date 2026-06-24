@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio.bio_image - bioio 3.3.0 documentation</title>
+        <title>bioio.bio_image - bioio 3.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.3.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.4.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.3.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.4.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -1177,11 +1177,20 @@
 
 <span class="sd">        See `bioio_base.transforms.reshape_data` for more details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># If no out orientation, simply return current data as dask array</span>
+
+        <span class="c1"># Determine if image needs to be stitched</span>
+        <span class="n">stitching_mosaic</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_mosaic</span>
+            <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
+        <span class="p">)</span>
+        <span class="c1"># direct reader sub-region read for kwarg slice. The only accepted kwargs</span>
+        <span class="c1"># is slice definitions so we can assert directly on their presence.</span>
+        <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">stitching_mosaic</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="n">dimension_order_out</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Otherwise read the full image: return it as-is, or reshape/slice it.</span>
         <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
-
-        <span class="c1"># Transform and return</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">reshape_data</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">given_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
@@ -1613,12 +1622,7 @@
             <span class="p">)</span>
 
         <span class="n">reader_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;reader: </span><span class="si">{</span><span class="n">reader_name</span><span class="si">}</span><span class="s2">, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;]&gt;&quot;</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [reader: </span><span class="si">{</span><span class="n">reader_name</span><span class="si">}</span><span class="s2">, image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">]&gt;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -1789,7 +1793,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=3eb8911e"></script>
+</div><script src="../../_static/documentation_options.js?v=b0e360d0"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

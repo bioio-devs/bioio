@@ -2,6 +2,32 @@ Changelog
 =========
 
 
+v3.4.0 (2026-06-24)
+-------------------
+
+New
+~~~
+- feature/finegrain-region-read [Brian Whitney]
+
+Other
+~~~~~
+- update boolean logic and comments [Brian Whitney]
+- ci(dependabot): bump extractions/setup-just from 3 to 4
+  [dependabot[bot]]
+- chore: update Development Status classifier to Production/Stable
+  [Brian Whitney, Claude Sonnet 4.6]
+- style: apply ruff-format to existing source files [Brian Whitney,
+  Claude Sonnet 4.6]
+- revert: restore Python source files to pre-formatter state [Brian
+  Whitney, Claude Sonnet 4.6]
+- chore: replace black/isort/flake8/autoflake with ruff [Brian Whitney,
+  Claude Sonnet 4.6]
+- chore: move pytest config into pyproject.toml [Brian Whitney, Claude
+  Sonnet 4.6]
+- chore: update pre-commit hooks and fix compatibility issues [Brian
+  Whitney, Claude Sonnet 4.6]
+
+
 v3.3.0 (2026-03-24)
 -------------------
 

@@ -904,11 +904,21 @@ class BioImage(biob.image_container.ImageContainer):
 
         See `bioio_base.transforms.reshape_data` for more details.
         """
-        # If no out orientation, simply return current data as dask array
+
+        # direct reader sub-region read
+        if (
+            dimension_order_out is not None
+            and kwargs
+            and not (
+                self._reconstruct_mosaic
+                and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
+            )
+        ):
+            return self.reader.get_image_data(dimension_order_out, **kwargs)
+
+        # Otherwise read the full image: return it as-is, or reshape/slice it.
         if dimension_order_out is None and not kwargs:
             return self.data
-
-        # Transform and return
         return biob.transforms.reshape_data(
             data=self.data,
             given_dims=self.dims.order,

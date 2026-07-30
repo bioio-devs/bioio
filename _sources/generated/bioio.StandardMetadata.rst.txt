@@ -41,6 +41,8 @@
       ~StandardMetadata.pixel_size_z
       ~StandardMetadata.position_index
       ~StandardMetadata.row
+      ~StandardMetadata.stage_position_x
+      ~StandardMetadata.stage_position_y
       ~StandardMetadata.timelapse
       ~StandardMetadata.timelapse_interval
       ~StandardMetadata.total_time_duration

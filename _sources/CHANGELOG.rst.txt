@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+v3.5.0 (2026-07-30)
+-------------------
+- ci(dependabot): bump actions/checkout from 6 to 7 [dependabot[bot]]
+- bump base 3.5.0 [Brian Whitney]
+
+
 v3.4.0 (2026-06-24)
 -------------------
 

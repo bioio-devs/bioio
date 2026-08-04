@@ -95,5 +95,24 @@ image = np.random.rand(10, 3, 1024, 2048)
 OmeTiffWriter.save(image, "file.ome.tiff", dim_order="ZCYX")
 ```
 
+## Citation
+
+If you use BioIO in your research, please cite the core bioio package. This applies whether you are using `bioio` directly or any bioio plugin (`bioio-czi`, `bioio-tifffile`, etc.) — plugins do not require separate citations.
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+
+```bibtex
+@software{bioio,
+  author    = {BioIO Contributors},
+  title     = {{BioIO}},
+  url       = {https://github.com/bioio-devs/bioio},
+  doi       = {10.5281/zenodo.XXXXXXX},
+  version   = {3.5.0},
+  year      = {2026},
+}
+```
+
+For other citation formats, use the **Cite this repository** button at the top of this page (powered by the `CITATION.cff` file).
+
 ## Issues
 [_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)

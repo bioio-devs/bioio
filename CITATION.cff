@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: BioIO
+message: >-
+  If you use BioIO in your research, please cite it using
+  this metadata. This applies to all bioio plugin packages —
+  cite the core bioio ecosystem, not individual plugins.
+type: software
+authors:
+  - name: BioIO Contributors
+repository-code: https://github.com/bioio-devs/bioio
+url: https://bioio-devs.github.io/bioio
+license: BSD-3-Clause
+version: 3.5.0
+date-released: "2026-07-30"
+abstract: >-
+  BioIO is a plugin-based Python library for reading, writing,
+  and converting microscopy image data. It provides a unified
+  interface across a wide variety of image formats through a
+  modular ecosystem of reader and writer plugins built on bioio-base.
+keywords:
+  - microscopy
+  - bioimaging
+  - image-io
+  - python
+  - plugins
+  - ome

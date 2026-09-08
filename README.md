@@ -50,7 +50,7 @@ img.set_scene(1)
 ## Plug-in Registry
 
 Bioio handles a variety of different image types through specific plug-ins. The bioio-dev supported plug-ins can be found within
-this registry.
+this registry. Plug-ins marked with * are community contributed and are maintained by external contributors.
 
 
 | Plug-in                | Extension   | Repository          |
@@ -59,11 +59,13 @@ this registry.
 | bioio-czi              | .czi        | [Repo](https://github.com/bioio-devs/bioio-czi)           |
 | bioio-dv               | .dv, .r3d   | [Repo](https://github.com/bioio-devs/bioio-dv)           |
 | bioio-imageio          | .jpg, .png, [Full List](https://github.com/bioio-devs/bioio-imageio/blob/6829370644b9780cfde35fa9d2cd5cea9f743681/bioio_imageio/reader_metadata.py#L26)  | [Repo](https://github.com/bioio-devs/bioio-imageio)           |
+| bioio-imzml \*         | .imzml      | [Repo](https://github.com/DBP008/bioio-imzml)           |
 | bioio-lif              | .lif        | [Repo](https://github.com/bioio-devs/bioio-lif)           |
 | bioio-nd2              | .nd2        | [Repo](https://github.com/bioio-devs/bioio-nd2)           |
 | bioio-ome-tiff         | .ome.tiff, .tiff  | [Repo](https://github.com/bioio-devs/bioio-ome-tiff)           |
 | bioio-ome-tiled-tiff   | .tiles.ome.tif   | [Repo](https://github.com/bioio-devs/bioio-ome-tiled-tiff)           |
 | bioio-ome-zarr         | .zarr       | [Repo](https://github.com/bioio-devs/bioio-ome-zarr)           |
+| bioio-qptiff \*        | .qptiff     | [Repo](https://github.com/rtubelleza/bioio-qptiff)           |
 | bioio-sldy             | .sldy, .dir | [Repo](https://github.com/bioio-devs/bioio-sldy)           |
 | bioio-tifffile         | .tif , .tiff| [Repo](https://github.com/bioio-devs/bioio-tifffile)           |
 | bioio-tiff-glob        | .tiff (glob)| [Repo](https://github.com/bioio-devs/bioio-tiff-glob)           |

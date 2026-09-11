@@ -99,7 +99,7 @@ OmeTiffWriter.save(image, "file.ome.tiff", dim_order="ZCYX")
 
 ## Citation
 
-If you use BioIO in your research, please cite the core bioio package. This applies whether you are using `bioio` directly or any bioio plugin (`bioio-czi`, `bioio-tifffile`, etc.) — plugins do not require separate citations.
+If you use BioIO in your research, please cite the core bioio package via the DOI.
 
 [![DOI](https://zenodo.org/badge/524159605.svg)](https://zenodo.org/badge/latestdoi/524159605)
 
@@ -114,6 +114,8 @@ If you use BioIO in your research, please cite the core bioio package. This appl
 ```
 
 For other citation formats, use the **Cite this repository** button at the top of this page (powered by the `CITATION.cff` file).
+
+*Note: BioIO's various plugins each carry their own license.*
 
 ## Issues
 [_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)

@@ -609,7 +609,7 @@ class BioImage(biob.image_container.ImageContainer):
         return self.reader.resolution_level_dims
 
     @property
-    def _stitching_mosaic(self) -> bool:
+    def _is_stitching_mosaic(self) -> bool:
         """
         Whether will attempt mosaic stitching.
         """
@@ -633,7 +633,7 @@ class BioImage(biob.image_container.ImageContainer):
         If the image contains mosaic tiles, data is returned already stitched together.
         """
         if self._xarray_dask_data is None:
-            if self._stitching_mosaic:
+            if self._is_stitching_mosaic:
                 try:
                     self._xarray_dask_data = (
                         self._transform_data_array_to_bioio_image_standard(
@@ -672,7 +672,7 @@ class BioImage(biob.image_container.ImageContainer):
         Recommended to use `xarray_dask_data` for large mosaic images.
         """
         if self._xarray_data is None:
-            if self._stitching_mosaic:
+            if self._is_stitching_mosaic:
                 try:
                     self._xarray_data = (
                         self._transform_data_array_to_bioio_image_standard(
@@ -741,9 +741,6 @@ class BioImage(biob.image_container.ImageContainer):
         dtype: np.dtype
             Data-type of the image array's elements.
         """
-        if self._xarray_dask_data is not None:
-            return self._xarray_dask_data.dtype
-
         return self.reader.dtype
 
     @property
@@ -765,8 +762,15 @@ class BioImage(biob.image_container.ImageContainer):
             Object with the paired dimension names and their sizes.
         """
         if self._dims is None:
-            if self._xarray_dask_data is None and not self._stitching_mosaic:
-                # Fetch from reader and reorder dims to desired pattern
+            if self._xarray_dask_data is None and not self._is_stitching_mosaic:
+                # Without stitching, standardization is purely a reorder of the
+                # reader's dims plus size-1 padding for the missing standard
+                # dims -- exactly what `_transform_data_array_to_bioio_image_standard`
+                # asks `reshape_data` to do -- so the reader's dims fully
+                # determine the standardized dims and we can skip building the
+                # array. Mosaic stitching is the one transform that changes
+                # sizes (it drops M and grows Y/X), and only the stitched array
+                # can report the result.
                 reader_dims = self.reader.dims
 
                 order = self._select_standard_dim_order(reader_dims.order)
@@ -776,8 +780,6 @@ class BioImage(biob.image_container.ImageContainer):
                     shape=tuple(sizes.get(dim, 1) for dim in order),
                 )
             else:
-                # Mosaic stitching alters shape in ways only the constructed
-                # array can report.
                 self._dims = biob.dimensions.Dimensions(
                     dims=self.xarray_dask_data.dims,
                     shape=self.xarray_dask_data.shape,
@@ -859,7 +861,7 @@ class BioImage(biob.image_container.ImageContainer):
         # reader.
         if (
             self._xarray_dask_data is None
-            and not self._stitching_mosaic
+            and not self._is_stitching_mosaic
             and set(self.reader.dims.order) <= set(self.dims.order)
         ):
             biob.transforms.compute_dim_specs(
@@ -952,7 +954,7 @@ class BioImage(biob.image_container.ImageContainer):
         # Defer the reshape / sub-region read directly to the reader.
         if (
             self._xarray_data is None
-            and not self._stitching_mosaic
+            and not self._is_stitching_mosaic
             and set(self.reader.dims.order) <= set(self.dims.order)
         ):
             biob.transforms.compute_dim_specs(

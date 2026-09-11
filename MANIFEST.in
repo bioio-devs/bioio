@@ -1,2 +1,3 @@
 recursive-include bioio *.toml
+include CITATION.cff
 exclude */tests  # Not needed for users

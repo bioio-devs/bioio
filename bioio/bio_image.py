@@ -497,24 +497,29 @@ class BioImage(biob.image_container.ImageContainer):
         self._xarray_data = None
         self._dims = None
 
+    @staticmethod
+    def _select_standard_dim_order(dims: Sequence[str]) -> str:
+        """
+        Select the BioImage dimension order to standardize the
+        provided dims into
+        """
+        if (
+            biob.dimensions.DimensionNames.Samples in dims
+            and biob.dimensions.DimensionNames.MosaicTile in dims
+        ):
+            return biob.dimensions.DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES_AND_SAMPLES
+        if biob.dimensions.DimensionNames.Samples in dims:
+            return biob.dimensions.DEFAULT_DIMENSION_ORDER_WITH_SAMPLES
+        if biob.dimensions.DimensionNames.MosaicTile in dims:
+            return biob.dimensions.DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES
+        return biob.dimensions.DEFAULT_DIMENSION_ORDER
+
     def _transform_data_array_to_bioio_image_standard(
         self,
         arr: xr.DataArray,
     ) -> xr.DataArray:
         # Determine if we need to add optionally-standard dims
-        if (
-            biob.dimensions.DimensionNames.Samples in arr.dims
-            and biob.dimensions.DimensionNames.MosaicTile in arr.dims
-        ):
-            return_dims = (
-                biob.dimensions.DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES_AND_SAMPLES
-            )
-        elif biob.dimensions.DimensionNames.Samples in arr.dims:
-            return_dims = biob.dimensions.DEFAULT_DIMENSION_ORDER_WITH_SAMPLES
-        elif biob.dimensions.DimensionNames.MosaicTile in arr.dims:
-            return_dims = biob.dimensions.DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES
-        else:
-            return_dims = biob.dimensions.DEFAULT_DIMENSION_ORDER
+        return_dims = self._select_standard_dim_order(arr.dims)
 
         # Pull the data with the appropriate dimensions
         data = biob.transforms.reshape_data(
@@ -604,6 +609,18 @@ class BioImage(biob.image_container.ImageContainer):
         return self.reader.resolution_level_dims
 
     @property
+    def _is_stitching_mosaic(self) -> bool:
+        """
+        Whether will attempt mosaic stitching.
+        """
+        return (
+            # Does the user want to get stitched mosaic
+            self._reconstruct_mosaic
+            # Does the data have a tile dim
+            and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
+        )
+
+    @property
     def xarray_dask_data(self) -> xr.DataArray:
         """
         Returns
@@ -616,12 +633,7 @@ class BioImage(biob.image_container.ImageContainer):
         If the image contains mosaic tiles, data is returned already stitched together.
         """
         if self._xarray_dask_data is None:
-            if (
-                # Does the user want to get stitched mosaic
-                self._reconstruct_mosaic
-                # Does the data have a tile dim
-                and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
-            ):
+            if self._is_stitching_mosaic:
                 try:
                     self._xarray_dask_data = (
                         self._transform_data_array_to_bioio_image_standard(
@@ -660,12 +672,7 @@ class BioImage(biob.image_container.ImageContainer):
         Recommended to use `xarray_dask_data` for large mosaic images.
         """
         if self._xarray_data is None:
-            if (
-                # Does the user want to get stitched mosaic
-                self._reconstruct_mosaic
-                # Does the data have a tile dim
-                and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
-            ):
+            if self._is_stitching_mosaic:
                 try:
                     self._xarray_data = (
                         self._transform_data_array_to_bioio_image_standard(
@@ -734,7 +741,7 @@ class BioImage(biob.image_container.ImageContainer):
         dtype: np.dtype
             Data-type of the image array's elements.
         """
-        return self.xarray_dask_data.dtype
+        return self.reader.dtype
 
     @property
     def shape(self) -> Tuple[int, ...]:
@@ -744,7 +751,7 @@ class BioImage(biob.image_container.ImageContainer):
         shape: Tuple[int, ...]
             Tuple of the image array's dimensions.
         """
-        return self.xarray_dask_data.shape
+        return self.dims.shape
 
     @property
     def dims(self) -> biob.dimensions.Dimensions:
@@ -755,9 +762,28 @@ class BioImage(biob.image_container.ImageContainer):
             Object with the paired dimension names and their sizes.
         """
         if self._dims is None:
-            self._dims = biob.dimensions.Dimensions(
-                dims=self.xarray_dask_data.dims, shape=self.shape
-            )
+            if self._xarray_dask_data is None and not self._is_stitching_mosaic:
+                # Without stitching, standardization is purely a reorder of the
+                # reader's dims plus size-1 padding for the missing standard
+                # dims -- exactly what `_transform_data_array_to_bioio_image_standard`
+                # asks `reshape_data` to do -- so the reader's dims fully
+                # determine the standardized dims and we can skip building the
+                # array. Mosaic stitching is the one transform that changes
+                # sizes (it drops M and grows Y/X), and only the stitched array
+                # can report the result.
+                reader_dims = self.reader.dims
+
+                order = self._select_standard_dim_order(reader_dims.order)
+                sizes = dict(zip(reader_dims.order, reader_dims.shape))
+                self._dims = biob.dimensions.Dimensions(
+                    dims=order,
+                    shape=tuple(sizes.get(dim, 1) for dim in order),
+                )
+            else:
+                self._dims = biob.dimensions.Dimensions(
+                    dims=self.xarray_dask_data.dims,
+                    shape=self.xarray_dask_data.shape,
+                )
 
         return self._dims
 
@@ -826,11 +852,27 @@ class BioImage(biob.image_container.ImageContainer):
 
         See `bioio_base.transforms.reshape_data` for more details.
         """
-        # If no out orientation, simply return current data as dask array
-        if dimension_order_out is None and not kwargs:
-            return self.dask_data
+        if dimension_order_out is None:
+            if not kwargs:
+                return self.dask_data
+            dimension_order_out = self.dims.order
 
-        # Transform and return
+        # Defer the delayed reshape / sub-region selection directly to the
+        # reader.
+        if (
+            self._xarray_dask_data is None
+            and not self._is_stitching_mosaic
+            and set(self.reader.dims.order) <= set(self.dims.order)
+        ):
+            biob.transforms.compute_dim_specs(
+                self.dims.shape,
+                self.dims.order,
+                dimension_order_out,
+                **kwargs,
+            )
+            return self.reader.get_image_dask_data(dimension_order_out, **kwargs)
+
+        # Otherwise reshape/slice the delayed image.
         return biob.transforms.reshape_data(
             data=self.dask_data,
             given_dims=self.dims.order,
@@ -904,20 +946,26 @@ class BioImage(biob.image_container.ImageContainer):
 
         See `bioio_base.transforms.reshape_data` for more details.
         """
+        if dimension_order_out is None:
+            if not kwargs:
+                return self.data
+            dimension_order_out = self.dims.order
 
-        # Determine if image needs to be stitched
-        stitching_mosaic = (
-            self._reconstruct_mosaic
-            and biob.dimensions.DimensionNames.MosaicTile in self.reader.dims.order
-        )
-        # direct reader sub-region read for kwarg slice. The only accepted kwargs
-        # is slice definitions so we can assert directly on their presence.
-        if dimension_order_out is not None and kwargs and not stitching_mosaic:
+        # Defer the reshape / sub-region read directly to the reader.
+        if (
+            self._xarray_data is None
+            and not self._is_stitching_mosaic
+            and set(self.reader.dims.order) <= set(self.dims.order)
+        ):
+            biob.transforms.compute_dim_specs(
+                self.dims.shape,
+                self.dims.order,
+                dimension_order_out,
+                **kwargs,
+            )
             return self.reader.get_image_data(dimension_order_out, **kwargs)
 
-        # Otherwise read the full image: return it as-is, or reshape/slice it.
-        if dimension_order_out is None and not kwargs:
-            return self.data
+        # Otherwise read the full image and reshape/slice it.
         return biob.transforms.reshape_data(
             data=self.data,
             given_dims=self.dims.order,
@@ -1052,10 +1100,21 @@ class BioImage(biob.image_container.ImageContainer):
         channel_names: List[str]
             Using available metadata, the list of strings representing channel names.
         """
-        # Unlike the base readers, the BioImage guarantees a Channel dim
-        return list(
-            self.xarray_dask_data[biob.dimensions.DimensionNames.Channel].values
-        )
+        if self._xarray_dask_data is not None:
+            return list(
+                self._xarray_dask_data[biob.dimensions.DimensionNames.Channel].values
+            )
+
+        reader_channel_names = self.reader.channel_names
+        if reader_channel_names is not None:
+            return list(reader_channel_names)
+
+        return [
+            generate_ome_channel_id(
+                image_id=self.current_scene,
+                channel_id=0,
+            )
+        ]
 
     @property
     def physical_pixel_sizes(self) -> biob.types.PhysicalPixelSizes:

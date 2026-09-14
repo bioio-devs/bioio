@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio.bio_image - bioio 3.5.0 documentation</title>
+        <title>bioio.bio_image - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -281,10 +281,10 @@
 <div class="viewcode-block" id="BioImage">
 <a class="viewcode-back" href="../../generated/bioio.BioImage.html#bioio.bio_image.BioImage">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">BioImage</span><span class="p">(</span><span class="n">biob</span><span class="o">.</span><span class="n">image_container</span><span class="o">.</span><span class="n">ImageContainer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    BioImage takes microscopy image data types (files or arrays) of varying</span>
-<span class="sd">    dimensions (&quot;ZYX&quot;, &quot;TCZYX&quot;, &quot;CYX&quot;) and reads them as consistent 5D &quot;TCZYX&quot;</span>
-<span class="sd">    (&quot;Time-Channel-Z-Y-X&quot;) ordered array(s). The data and metadata are lazy</span>
+<span class="sd">    dimensions ("ZYX", "TCZYX", "CYX") and reads them as consistent 5D "TCZYX"</span>
+<span class="sd">    ("Time-Channel-Z-Y-X") ordered array(s). The data and metadata are lazy</span>
 <span class="sd">    loaded and can be accessed as needed.</span>
 
 <span class="sd">    Parameters</span>
@@ -319,11 +319,11 @@
 <span class="sd">        Default: True (reconstruct the mosaic image from tiles)</span>
 <span class="sd">        Notes: If True and image is a mosaic, data will be fully reconstructed and</span>
 <span class="sd">        stitched array.</span>
-<span class="sd">        If True and base reader doesn&#39;t support tile stitching, data won&#39;t be stitched</span>
+<span class="sd">        If True and base reader doesn't support tile stitching, data won't be stitched</span>
 <span class="sd">        and instead will have an `M` dimension for tiles.</span>
-<span class="sd">        If False and image is a mosaic, data won&#39;t be stitched and instead will have an</span>
+<span class="sd">        If False and image is a mosaic, data won't be stitched and instead will have an</span>
 <span class="sd">        `M` dimension for tiles.</span>
-<span class="sd">        If image is not a mosaic, data won&#39;t be stitched or have an `M` dimension for</span>
+<span class="sd">        If image is not a mosaic, data won't be stitched or have an `M` dimension for</span>
 <span class="sd">        tiles.</span>
 <span class="sd">    use_plugin_cache: bool default False</span>
 <span class="sd">        Boolean for setting whether to use a plugin of the installed caches rather than</span>
@@ -341,14 +341,14 @@
 <span class="sd">    Initialize an image then read the file and return specified slices as a numpy</span>
 <span class="sd">    array.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;my_file.tiff&quot;)</span>
-<span class="sd">    ... zstack_t8 = img.get_image_data(&quot;ZYX&quot;, T=8, C=0)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("my_file.tiff")</span>
+<span class="sd">    ... zstack_t8 = img.get_image_data("ZYX", T=8, C=0)</span>
 
 <span class="sd">    Initialize an image, construct a delayed dask array for certain slices, then</span>
 <span class="sd">    read only the specified chunk of data.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;my_file.czi&quot;)</span>
-<span class="sd">    ... zstack_t8 = img.get_image_dask_data(&quot;ZYX&quot;, T=8, C=0)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("my_file.czi")</span>
+<span class="sd">    ... zstack_t8 = img.get_image_dask_data("ZYX", T=8, C=0)</span>
 <span class="sd">    ... zstack_t8_data = zstack_t8.compute()</span>
 
 <span class="sd">    Initialize an image with a dask or numpy array.</span>
@@ -358,23 +358,23 @@
 
 <span class="sd">    Initialize an image from S3 with s3fs.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;s3://my_bucket/my_file.tiff&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("s3://my_bucket/my_file.tiff")</span>
 
 <span class="sd">    Initialize an image and pass arguments to the reader using kwargs.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;my_file.czi&quot;, chunk_dims=[&quot;T&quot;, &quot;Y&quot;, &quot;X&quot;])</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("my_file.czi", chunk_dims=["T", "Y", "X"])</span>
 
 <span class="sd">    Initialize an image, change scene, read data to numpy.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;my_many_scene.czi&quot;)</span>
-<span class="sd">    ... img.set_scene(&quot;Image:3&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("my_many_scene.czi")</span>
+<span class="sd">    ... img.set_scene("Image:3")</span>
 <span class="sd">    ... img.data</span>
 
 <span class="sd">    Initialize an image with a specific reader. This is useful if you know the file</span>
 <span class="sd">    type in advance or would like to skip a few of the file format checks we do</span>
 <span class="sd">    internally. Useful when reading from remote sources to reduce network round trips.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;malformed_metadata.ome.tiff&quot;, reader=readers.TiffReader)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("malformed_metadata.ome.tiff", reader=readers.TiffReader)</span>
 
 <span class="sd">    Initialize an image and override plugin selection order when multiple readers</span>
 <span class="sd">    support the same extension.</span>
@@ -382,24 +382,24 @@
 <span class="sd">    &gt;&gt;&gt; from bioio_tifffile import Reader as TiffReader</span>
 <span class="sd">    &gt;&gt;&gt; from bioio_ome_tiff import Reader as OmeTiffReader</span>
 <span class="sd">    &gt;&gt;&gt; img = BioImage(</span>
-<span class="sd">    ...     &quot;multi_plugin_file.ome.tiff&quot;,</span>
+<span class="sd">    ...     "multi_plugin_file.ome.tiff",</span>
 <span class="sd">    ...     reader=[TiffReader, OmeTiffReader],</span>
 <span class="sd">    ... )</span>
 <span class="sd">    ... # TiffReader will be tried before OmeTiffReader for this instance.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;big_mosaic.czi&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("big_mosaic.czi")</span>
 <span class="sd">    ... img.dims  # &lt;Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]&gt;</span>
 
 <span class="sd">    Data for mosaic file can be explicitly returned as tiles.</span>
 <span class="sd">    This is the same data as a reconstructed mosaic except that the tiles are</span>
 <span class="sd">    stored in their own dimension (M).</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;big_mosaic.czi&quot;, reconstruct_mosaic=False)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("big_mosaic.czi", reconstruct_mosaic=False)</span>
 <span class="sd">    ... img.dims  # &lt;Dimensions [M: 150, T: 40, C: 3, Z: 1, Y: 200, X: 300]&gt;</span>
 
-<span class="sd">    Data is mosaic file but reader doesn&#39;t support tile stitching.</span>
+<span class="sd">    Data is mosaic file but reader doesn't support tile stitching.</span>
 
-<span class="sd">    &gt;&gt;&gt; img = BioImage(&quot;unsupported_mosaic.ext&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; img = BioImage("unsupported_mosaic.ext")</span>
 <span class="sd">    ... img.dims  # &lt;Dimensions [M: 100, T: 1, C: 2, Z: 1, Y: 400, X: 400]&gt;</span>
 
 <span class="sd">    Notes</span>
@@ -409,7 +409,7 @@
 
 <span class="sd">    If you do not want the image pre-stitched together, you can use the base reader</span>
 <span class="sd">    by either instantiating the reader independently or using the `.reader` property.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="BioImage.determine_plugin">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.determine_plugin">[docs]</a>
@@ -420,7 +420,7 @@
         <span class="n">use_plugin_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginEntry</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Determine the appropriate plugin to read a given image.</span>
 
 <span class="sd">        This function identifies the most suitable plugin to read the provided image</span>
@@ -475,7 +475,7 @@
 <span class="sd">        --------</span>
 <span class="sd">        To determine the appropriate plugin for a given image file:</span>
 
-<span class="sd">        &gt;&gt;&gt; image_path = &quot;example_image.tif&quot;</span>
+<span class="sd">        &gt;&gt;&gt; image_path = "example_image.tif"</span>
 <span class="sd">        &gt;&gt;&gt; plugin = BioImage.determine_plugin(image_path)</span>
 <span class="sd">        &gt;&gt;&gt; print(plugin)</span>
 
@@ -486,7 +486,7 @@
 <span class="sd">        &gt;&gt;&gt; plugin = BioImage.determine_plugin(image_array)</span>
 <span class="sd">        &gt;&gt;&gt; print(plugin)</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Fetch updated mapping of plugins</span>
         <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">)</span>
 
@@ -494,7 +494,7 @@
         <span class="n">image_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
             <span class="n">image_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-            <span class="c1"># we do not enforce_exists because it&#39;s possible</span>
+            <span class="c1"># we do not enforce_exists because it's possible</span>
             <span class="c1"># the path is a directory on a HTTP filesystem</span>
             <span class="c1"># which is impossible to check for existence</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">pathlike_to_fs</span><span class="p">(</span>
@@ -515,52 +515,52 @@
                             <span class="k">raise</span> <span class="n">fe</span>
                         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                             <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Attempted file (</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">) load with reader: &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ReaderClass</span><span class="si">}</span><span class="s2"> failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Attempted file (</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">) load with reader: "</span>
+                                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ReaderClass</span><span class="si">}</span><span class="s2"> failed with error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span>
                             <span class="p">)</span>
 
         <span class="c1"># Use built-in ArrayLikeReader if type MetaArrayLike</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">get_args</span><span class="p">(</span><span class="n">MetaArrayLike</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">list</span><span class="p">,)):</span>
             <span class="k">return</span> <span class="n">get_array_like_plugin</span><span class="p">()</span>
 
-        <span class="c1"># If we haven&#39;t hit anything yet, we likely don&#39;t support this file / object</span>
+        <span class="c1"># If we haven't hit anything yet, we likely don't support this file / object</span>
         <span class="c1"># with the current plugins installed</span>
         <span class="k">raise</span> <span class="n">biob</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">UnsupportedFileFormatError</span><span class="p">(</span>
-            <span class="s2">&quot;BioImage&quot;</span><span class="p">,</span>
+            <span class="s2">"BioImage"</span><span class="p">,</span>
             <span class="n">image_str</span><span class="p">,</span>
             <span class="n">msg_extra</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;You may need to install an extra format dependency. &quot;</span>
-                <span class="s2">&quot;See our list of known plugins in the bioio README here: &quot;</span>
-                <span class="s2">&quot;https://github.com/bioio-devs/bioio for a list of known plugins. &quot;</span>
-                <span class="s2">&quot;You can also call the &#39;bioio.plugins.dump_plugins()&#39; method to &quot;</span>
-                <span class="s2">&quot;report information about currently installed plugins or the &quot;</span>
-                <span class="s2">&quot;&#39;bioio.plugin_feasibility_report(image)&#39; method to check if a &quot;</span>
-                <span class="s2">&quot;specific image can be handled by the available plugins.&quot;</span>
+                <span class="s2">"You may need to install an extra format dependency. "</span>
+                <span class="s2">"See our list of known plugins in the bioio README here: "</span>
+                <span class="s2">"https://github.com/bioio-devs/bioio for a list of known plugins. "</span>
+                <span class="s2">"You can also call the 'bioio.plugins.dump_plugins()' method to "</span>
+                <span class="s2">"report information about currently installed plugins or the "</span>
+                <span class="s2">"'bioio.plugin_feasibility_report(image)' method to check if a "</span>
+                <span class="s2">"specific image can be handled by the available plugins."</span>
             <span class="p">),</span>
         <span class="p">)</span></div>
 
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_path_has_extension</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extension</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension(&quot;https://example.com/file.czi&quot;, &quot;.czi&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension("https://example.com/file.czi", ".czi")</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension(&quot;https://example.com/file.czi?x=123&quot;, &quot;.czi&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension("https://example.com/file.czi?x=123", ".czi")</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension(&quot;./file.ome.zarr&quot;, &quot;.ome.zarr&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension("./file.ome.zarr", ".ome.zarr")</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension(&quot;./file.ome.zarr&quot;, &quot;.zarr&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension("./file.ome.zarr", ".zarr")</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension(&quot;./file.ome.zarr&quot;, &quot;.ome&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; BioImage._path_has_extension("./file.ome.zarr", ".ome")</span>
 <span class="sd">        False</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">ends_with_ext</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">extension</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ends_with_ext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ends_with_ext</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">ends_with_ext</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ends_with_ext</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"?"</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_reader</span><span class="p">(</span>
@@ -570,7 +570,7 @@
         <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Select and initialize a reader for the provided image.</span>
 
 <span class="sd">        Behavior</span>
@@ -582,7 +582,7 @@
 <span class="sd">        * If ``reader`` is a sequence of Reader subclasses, BioImage attempts to</span>
 <span class="sd">        initialize each reader in order and returns the first one that successfully</span>
 <span class="sd">        constructs. No other readers or plugins are considered.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="c1"># Case 1: Default Priority</span>
         <span class="k">if</span> <span class="n">readers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -600,30 +600,30 @@
             <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">readers</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;BioImage(reader=...) must be a Reader subclass, &quot;</span>
-                <span class="s2">&quot;a non-empty sequence of Reader subclasses, or None.&quot;</span>
+                <span class="s2">"BioImage(reader=...) must be a Reader subclass, "</span>
+                <span class="s2">"a non-empty sequence of Reader subclasses, or None."</span>
             <span class="p">)</span>
 
         <span class="n">failures</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">ReaderClass</span> <span class="ow">in</span> <span class="n">readers</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ReaderClass</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">ReaderClass</span><span class="p">))</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ReaderClass</span><span class="p">,</span> <span class="s2">"__name__"</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">ReaderClass</span><span class="p">))</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">ReaderClass</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="kc">None</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s2">&quot;Exclusive reader attempt failed. reader=</span><span class="si">%s</span><span class="s2"> image=</span><span class="si">%r</span><span class="s2"> error=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"Exclusive reader attempt failed. reader=</span><span class="si">%s</span><span class="s2"> image=</span><span class="si">%r</span><span class="s2"> error=</span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                     <span class="n">name</span><span class="p">,</span>
                     <span class="n">image</span><span class="p">,</span>
                     <span class="n">e</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="n">failures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">failures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">raise</span> <span class="n">biob</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">UnsupportedFileFormatError</span><span class="p">(</span>
-            <span class="s2">&quot;BioImage&quot;</span><span class="p">,</span>
+            <span class="s2">"BioImage"</span><span class="p">,</span>
             <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">))</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">)),</span>
             <span class="n">msg_extra</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;None of the specified readers were able to read this image.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;Readers attempted:</span><span class="se">\n</span><span class="s2">  - &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  - &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">failures</span><span class="p">)</span>
+                <span class="s2">"None of the specified readers were able to read this image.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Readers attempted:</span><span class="se">\n</span><span class="s2">  - "</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">  - "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">failures</span><span class="p">)</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
@@ -659,14 +659,14 @@
             <span class="c1"># When reading from S3 if we failed trying to read</span>
             <span class="c1"># try reading as an anonymous user otherwise re-raise</span>
             <span class="c1"># the error</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;s3://&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"s3://"</span><span class="p">):</span>
                 <span class="k">raise</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_reader</span><span class="p">(</span>
                 <span class="n">image</span><span class="p">,</span>
                 <span class="n">reader</span><span class="p">,</span>
                 <span class="n">use_plugin_cache</span><span class="p">,</span>
-                <span class="n">fs_kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;anon&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+                <span class="n">fs_kwargs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">"anon"</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -681,19 +681,19 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">reader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">Reader</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        reader: Reader</span>
 <span class="sd">            The object created to read the image file type.</span>
-<span class="sd">            The intent is that if the BioImage class doesn&#39;t provide a raw enough</span>
+<span class="sd">            The intent is that if the BioImage class doesn't provide a raw enough</span>
 <span class="sd">            interface then the base class can be used directly.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">scenes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        scenes: Tuple[str, ...]</span>
@@ -710,33 +710,33 @@
 <span class="sd">        and not:</span>
 
 <span class="sd">        &gt;&gt;&gt; for i in range(len(image.scenes))</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">scenes</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">current_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        scene: str</span>
 <span class="sd">            The current operating scene.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">current_scene</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">current_scene_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        scene_index: int</span>
 <span class="sd">            The current operating scene index in the file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BioImage.set_scene">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.set_scene">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the operating scene.</span>
 
 <span class="sd">        Parameters</span>
@@ -750,10 +750,10 @@
 <span class="sd">        IndexError</span>
 <span class="sd">            The provided scene id or index is not found in the available scene id list.</span>
 <span class="sd">        TypeError</span>
-<span class="sd">            The provided value wasn&#39;t a string (scene id) or integer (scene index).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            The provided value wasn't a string (scene id) or integer (scene index).</span>
+<span class="sd">        """</span>
         <span class="c1"># Update current scene on the base Reader</span>
-        <span class="c1"># This clears the base Reader&#39;s cache</span>
+        <span class="c1"># This clears the base Reader's cache</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="n">scene_id</span><span class="p">)</span>
 
         <span class="c1"># Reset the data stored in the BioImage object</span>
@@ -762,29 +762,34 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_standard_dim_order</span><span class="p">(</span><span class="n">dims</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Select the BioImage dimension order to standardize the</span>
+<span class="sd">        provided dims into</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Samples</span> <span class="ow">in</span> <span class="n">dims</span>
+            <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="n">dims</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES_AND_SAMPLES</span>
+        <span class="k">if</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Samples</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span>
+        <span class="k">if</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES</span>
+        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_transform_data_array_to_bioio_image_standard</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">arr</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
         <span class="c1"># Determine if we need to add optionally-standard dims</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Samples</span> <span class="ow">in</span> <span class="n">arr</span><span class="o">.</span><span class="n">dims</span>
-            <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="n">arr</span><span class="o">.</span><span class="n">dims</span>
-        <span class="p">):</span>
-            <span class="n">return_dims</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES_AND_SAMPLES</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Samples</span> <span class="ow">in</span> <span class="n">arr</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
-            <span class="n">return_dims</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span>
-        <span class="k">elif</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="n">arr</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
-            <span class="n">return_dims</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">return_dims</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER</span>
+        <span class="n">return_dims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_standard_dim_order</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
 
         <span class="c1"># Pull the data with the appropriate dimensions</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">reshape_data</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">arr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-            <span class="n">given_dims</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dims</span><span class="p">),</span>
+            <span class="n">given_dims</span><span class="o">=</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">dims</span><span class="p">),</span>
             <span class="n">return_dims</span><span class="o">=</span><span class="n">return_dims</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -812,28 +817,28 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolution_levels</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        resolution_levels: Tuple[int, ...]</span>
 <span class="sd">            A tuple of valid resolution levels in the file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">resolution_levels</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">current_resolution_level</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        current_resolution_level: int</span>
 <span class="sd">            The currently selected resolution level.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">current_resolution_level</span>
 
 <div class="viewcode-block" id="BioImage.set_resolution_level">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.set_resolution_level">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_resolution_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resolution_level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Set the operating resolution level.</span>
 
 <span class="sd">        Parameters</span>
@@ -845,11 +850,11 @@
 <span class="sd">        ------</span>
 <span class="sd">        IndexError</span>
 <span class="sd">            The provided level is not found in the available list of resolution levels.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">resolution_level</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Resolution level </span><span class="si">{</span><span class="n">resolution_level</span><span class="si">}</span><span class="s2"> not found in available &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;resolution levels </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Resolution level </span><span class="si">{</span><span class="n">resolution_level</span><span class="si">}</span><span class="s2"> not found in available "</span>
+                <span class="sa">f</span><span class="s2">"resolution levels </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution_levels</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">resolution_level</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_resolution_level</span><span class="p">:</span>
             <span class="k">return</span>
@@ -863,17 +868,29 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">resolution_level_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        resolution_level_dims: Dict[int, Tuple[int, ...]]</span>
 <span class="sd">            resolution level dictionary of shapes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">resolution_level_dims</span>
 
     <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_stitching_mosaic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Whether will attempt mosaic stitching.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="c1"># Does the user want to get stitched mosaic</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_mosaic</span>
+            <span class="c1"># Does the data have a tile dim</span>
+            <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">xarray_dask_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        xarray_dask_data: xr.DataArray</span>
@@ -882,14 +899,9 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        If the image contains mosaic tiles, data is returned already stitched together.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="c1"># Does the user want to get stitched mosaic</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_mosaic</span>
-                <span class="c1"># Does the data have a tile dim</span>
-                <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
-            <span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stitching_mosaic</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_transform_data_array_to_bioio_image_standard</span><span class="p">(</span>
@@ -916,7 +928,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">xarray_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        xarray_data: xr.DataArray</span>
@@ -926,14 +938,9 @@
 <span class="sd">        -----</span>
 <span class="sd">        If the image contains mosaic tiles, data is returned already stitched together.</span>
 <span class="sd">        Recommended to use `xarray_dask_data` for large mosaic images.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="c1"># Does the user want to get stitched mosaic</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_mosaic</span>
-                <span class="c1"># Does the data have a tile dim</span>
-                <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
-            <span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stitching_mosaic</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_transform_data_array_to_bioio_image_standard</span><span class="p">(</span>
@@ -967,7 +974,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dask_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dask_data: da.Array</span>
@@ -976,12 +983,12 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        If the image contains mosaic tiles, data is returned already stitched together.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="o">.</span><span class="n">data</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        data: np.ndarray</span>
@@ -991,41 +998,60 @@
 <span class="sd">        -----</span>
 <span class="sd">        If the image contains mosaic tiles, data is returned already stitched together.</span>
 <span class="sd">        Recommended to use `dask_data` for large mosaic images.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xarray_data</span><span class="o">.</span><span class="n">data</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dtype: np.dtype</span>
-<span class="sd">            Data-type of the image array&#39;s elements.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="o">.</span><span class="n">dtype</span>
+<span class="sd">            Data-type of the image array's elements.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dtype</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        shape: Tuple[int, ...]</span>
-<span class="sd">            Tuple of the image array&#39;s dimensions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="o">.</span><span class="n">shape</span>
+<span class="sd">            Tuple of the image array's dimensions.</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">shape</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dims: dimensions.Dimensions</span>
 <span class="sd">            Object with the paired dimension names and their sizes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">(</span>
-                <span class="n">dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
-            <span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stitching_mosaic</span><span class="p">:</span>
+                <span class="c1"># Without stitching, standardization is purely a reorder of the</span>
+                <span class="c1"># reader's dims plus size-1 padding for the missing standard</span>
+                <span class="c1"># dims -- exactly what `_transform_data_array_to_bioio_image_standard`</span>
+                <span class="c1"># asks `reshape_data` to do -- so the reader's dims fully</span>
+                <span class="c1"># determine the standardized dims and we can skip building the</span>
+                <span class="c1"># array. Mosaic stitching is the one transform that changes</span>
+                <span class="c1"># sizes (it drops M and grows Y/X), and only the stitched array</span>
+                <span class="c1"># can report the result.</span>
+                <span class="n">reader_dims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span>
+
+                <span class="n">order</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_standard_dim_order</span><span class="p">(</span><span class="n">reader_dims</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+                <span class="n">sizes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">reader_dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span> <span class="n">reader_dims</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">(</span>
+                    <span class="n">dims</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">sizes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">order</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span> <span class="o">=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">(</span>
+                    <span class="n">dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dims</span>
 
@@ -1034,7 +1060,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_image_dask_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dimension_order_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get specific dimension image data out of an image as a dask array.</span>
 
 <span class="sd">        Parameters</span>
@@ -1066,28 +1092,28 @@
 <span class="sd">        --------</span>
 <span class="sd">        Specific index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... c1 = img.get_image_dask_data(&quot;ZYX&quot;, C=1)</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... c1 = img.get_image_dask_data("ZYX", C=1)</span>
 
 <span class="sd">        List of index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... first_and_second = img.get_image_dask_data(&quot;CZYX&quot;, C=[0, 1])</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... first_and_second = img.get_image_dask_data("CZYX", C=[0, 1])</span>
 
 <span class="sd">        Tuple of index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... first_and_last = img.get_image_dask_data(&quot;CZYX&quot;, C=(0, -1))</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... first_and_last = img.get_image_dask_data("CZYX", C=(0, -1))</span>
 
 <span class="sd">        Range of index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... first_three = img.get_image_dask_data(&quot;CZYX&quot;, C=range(3))</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... first_three = img.get_image_dask_data("CZYX", C=range(3))</span>
 
 <span class="sd">        Slice selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... every_other = img.get_image_dask_data(&quot;CZYX&quot;, C=slice(0, -1, 2))</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... every_other = img.get_image_dask_data("CZYX", C=slice(0, -1, 2))</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -1095,12 +1121,28 @@
 <span class="sd">        added with a depth of 1.</span>
 
 <span class="sd">        See `bioio_base.transforms.reshape_data` for more details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># If no out orientation, simply return current data as dask array</span>
-        <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dask_data</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dask_data</span>
+            <span class="n">dimension_order_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
 
-        <span class="c1"># Transform and return</span>
+        <span class="c1"># Defer the delayed reshape / sub-region selection directly to the</span>
+        <span class="c1"># reader.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stitching_mosaic</span>
+            <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">compute_dim_specs</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
+                <span class="n">dimension_order_out</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="n">dimension_order_out</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Otherwise reshape/slice the delayed image.</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">reshape_data</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dask_data</span><span class="p">,</span>
             <span class="n">given_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
@@ -1114,7 +1156,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_image_data</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">dimension_order_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Read the image as a numpy array then return specific dimension image data.</span>
 
 <span class="sd">        Parameters</span>
@@ -1146,28 +1188,28 @@
 <span class="sd">        --------</span>
 <span class="sd">        Specific index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... c1 = img.get_image_data(&quot;ZYX&quot;, C=1)</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... c1 = img.get_image_data("ZYX", C=1)</span>
 
 <span class="sd">        List of index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... first_and_second = img.get_image_data(&quot;CZYX&quot;, C=[0, 1])</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... first_and_second = img.get_image_data("CZYX", C=[0, 1])</span>
 
 <span class="sd">        Tuple of index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... first_and_last = img.get_image_data(&quot;CZYX&quot;, C=(0, -1))</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... first_and_last = img.get_image_data("CZYX", C=(0, -1))</span>
 
 <span class="sd">        Range of index selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... first_three = img.get_image_dask_data(&quot;CZYX&quot;, C=range(3))</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... first_three = img.get_image_dask_data("CZYX", C=range(3))</span>
 
 <span class="sd">        Slice selection</span>
 
-<span class="sd">        &gt;&gt;&gt; img = BioImage(&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;)</span>
-<span class="sd">        ... every_other = img.get_image_data(&quot;CZYX&quot;, C=slice(0, -1, 2))</span>
+<span class="sd">        &gt;&gt;&gt; img = BioImage("s_1_t_1_c_10_z_20.ome.tiff")</span>
+<span class="sd">        ... every_other = img.get_image_data("CZYX", C=slice(0, -1, 2))</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -1176,21 +1218,27 @@
 <span class="sd">        * This will preload the entire image before returning the requested data.</span>
 
 <span class="sd">        See `bioio_base.transforms.reshape_data` for more details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">dimension_order_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
 
-        <span class="c1"># Determine if image needs to be stitched</span>
-        <span class="n">stitching_mosaic</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_reconstruct_mosaic</span>
-            <span class="ow">and</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>
-        <span class="p">)</span>
-        <span class="c1"># direct reader sub-region read for kwarg slice. The only accepted kwargs</span>
-        <span class="c1"># is slice definitions so we can assert directly on their presence.</span>
-        <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">kwargs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">stitching_mosaic</span><span class="p">:</span>
+        <span class="c1"># Defer the reshape / sub-region read directly to the reader.</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stitching_mosaic</span>
+            <span class="ow">and</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">compute_dim_specs</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
+                <span class="n">dimension_order_out</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="n">dimension_order_out</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="c1"># Otherwise read the full image: return it as-is, or reshape/slice it.</span>
-        <span class="k">if</span> <span class="n">dimension_order_out</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="c1"># Otherwise read the full image and reshape/slice it.</span>
         <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">reshape_data</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
             <span class="n">given_dims</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span><span class="p">,</span>
@@ -1202,7 +1250,7 @@
 <div class="viewcode-block" id="BioImage.get_stack">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_stack">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
 <span class="sd">        Returns</span>
@@ -1218,14 +1266,14 @@
 <span class="sd">        --------</span>
 <span class="sd">        bioio_base.transforms.generate_stack:</span>
 <span class="sd">            Underlying function for generating various scene stacks.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BioImage.get_dask_stack">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_dask_stack">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_dask_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
 <span class="sd">        Returns</span>
@@ -1241,14 +1289,14 @@
 <span class="sd">        --------</span>
 <span class="sd">        bioio_base.transforms.generate_stack:</span>
 <span class="sd">            Underlying function for generating various scene stacks.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;dask_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"dask_data"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BioImage.get_xarray_stack">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_xarray_stack">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_xarray_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
 <span class="sd">        Returns</span>
@@ -1267,16 +1315,16 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        When requesting an xarray stack, the first scene&#39;s coordinate planes</span>
+<span class="sd">        When requesting an xarray stack, the first scene's coordinate planes</span>
 <span class="sd">        are used for the returned xarray DataArray object coordinate planes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;xarray_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"xarray_data"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BioImage.get_xarray_dask_stack">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_xarray_dask_stack">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_xarray_dask_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get all scenes stacked in to a single array.</span>
 
 <span class="sd">        Returns</span>
@@ -1295,57 +1343,68 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        When requesting an xarray stack, the first scene&#39;s coordinate planes</span>
+<span class="sd">        When requesting an xarray stack, the first scene's coordinate planes</span>
 <span class="sd">        are used for the returned xarray DataArray object coordinate planes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;xarray_dask_data&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="n">biob</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">generate_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"xarray_dask_data"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        metadata: Any</span>
 <span class="sd">            Passthrough to the base image reader metadata property.</span>
 <span class="sd">            For more information, see the specific image format reader you are using</span>
 <span class="sd">            for details on its metadata property.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">metadata</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ome_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OME</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        metadata: OME</span>
 <span class="sd">            The original metadata transformed into the OME specfication.</span>
-<span class="sd">            This likely isn&#39;t a complete transformation but is guarenteed to</span>
+<span class="sd">            This likely isn't a complete transformation but is guarenteed to</span>
 <span class="sd">            be a valid transformation.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        NotImplementedError</span>
 <span class="sd">            No metadata transformer available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">ome_metadata</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">channel_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        channel_names: List[str]</span>
 <span class="sd">            Using available metadata, the list of strings representing channel names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Unlike the base readers, the BioImage guarantees a Channel dim</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">xarray_dask_data</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Channel</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_dask_data</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Channel</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="p">)</span>
+
+        <span class="n">reader_channel_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">channel_names</span>
+        <span class="k">if</span> <span class="n">reader_channel_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">reader_channel_names</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">generate_ome_channel_id</span><span class="p">(</span>
+                <span class="n">image_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_scene</span><span class="p">,</span>
+                <span class="n">channel_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">physical_pixel_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PhysicalPixelSizes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        sizes: PhysicalPixelSizes</span>
@@ -1356,39 +1415,39 @@
 <span class="sd">        -----</span>
 <span class="sd">        We currently do not handle unit attachment to these values. Please see the file</span>
 <span class="sd">        metadata for unit information.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">physical_pixel_sizes</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Scale</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        scale: Scale</span>
-<span class="sd">            A Scale object constructed from the Reader&#39;s time_interval and</span>
+<span class="sd">            A Scale object constructed from the Reader's time_interval and</span>
 <span class="sd">            physical_pixel_sizes.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        * Combines temporal and spatial scaling information into a single object.</span>
 <span class="sd">        * The channel scaling (`C`) is not derived from metadata and defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">scale</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">dimension_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">DimensionProperties</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dimension_properties: DimensionProperties</span>
 <span class="sd">            Per-dimension properties (value, type, unit) derived from the</span>
 <span class="sd">            underlying reader.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">dimension_properties</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">time_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">TimeInterval</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        sizes: Time Interval</span>
@@ -1399,15 +1458,15 @@
 <span class="sd">        -----</span>
 <span class="sd">        We currently do not handle unit attachment to these values. Please see the file</span>
 <span class="sd">        metadata for unit information.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">time_interval</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">standard_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StandardMetadata</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return a set of standardized metadata. The possible</span>
 <span class="sd">        fields are predefined by the StandardMetadata dataclass.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">standard_metadata</span>
 
         <span class="k">return</span> <span class="n">replace</span><span class="p">(</span>
@@ -1432,7 +1491,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mosaic_tile_position</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">mosaic_tile_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">int</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the absolute position of the top left point for a single mosaic tile.</span>
 
 <span class="sd">        Parameters</span>
@@ -1444,8 +1503,8 @@
 <span class="sd">            to match. If you under-specify the constraints you can easily</span>
 <span class="sd">            end up with a massive image stack.</span>
 <span class="sd">                       Z = 1   # The Z-dimension.</span>
-<span class="sd">                       C = 2   # The C-dimension (&quot;channel&quot;).</span>
-<span class="sd">                       T = 3   # The T-dimension (&quot;time&quot;).</span>
+<span class="sd">                       C = 2   # The C-dimension ("channel").</span>
+<span class="sd">                       T = 3   # The T-dimension ("time").</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1458,14 +1517,14 @@
 <span class="sd">        ------</span>
 <span class="sd">        UnexpectedShapeError</span>
 <span class="sd">            The image has no mosaic dimension available.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">get_mosaic_tile_position</span><span class="p">(</span><span class="n">mosaic_tile_index</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BioImage.get_mosaic_tile_positions">
 <a class="viewcode-back" href="../../bioio.html#bioio.bio_image.BioImage.get_mosaic_tile_positions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_mosaic_tile_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get the absolute positions of the top left points for each mosaic tile</span>
 <span class="sd">        matching the specified dimensions and current scene.</span>
 
@@ -1476,8 +1535,8 @@
 <span class="sd">            to match. If you under-specify the constraints you can easily</span>
 <span class="sd">            end up with a massive image stack.</span>
 <span class="sd">                       Z = 1   # The Z-dimension.</span>
-<span class="sd">                       C = 2   # The C-dimension (&quot;channel&quot;).</span>
-<span class="sd">                       T = 3   # The T-dimension (&quot;time&quot;).</span>
+<span class="sd">                       C = 2   # The C-dimension ("channel").</span>
+<span class="sd">                       T = 3   # The T-dimension ("time").</span>
 <span class="sd">                       M = 4   # The mosaic tile index</span>
 
 <span class="sd">        Returns</span>
@@ -1492,9 +1551,9 @@
 <span class="sd">        NotImplementedError</span>
 <span class="sd">            Unable to combine M dimension with other dimensions when finding</span>
 <span class="sd">            tiles matching kwargs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="c1"># Don&#39;t support getting positions by M + another dim</span>
+            <span class="c1"># Don't support getting positions by M + another dim</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">other_keys</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="n">key</span>
@@ -1502,9 +1561,9 @@
                     <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">MosaicTile</span>
                 <span class="p">}</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                    <span class="s2">&quot;Unable to determine appropriate position using mosaic tile &quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;index (M) combined with other dimensions &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;(including </span><span class="si">{</span><span class="n">other_keys</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="s2">"Unable to determine appropriate position using mosaic tile "</span>
+                    <span class="o">+</span> <span class="s2">"index (M) combined with other dimensions "</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">"(including </span><span class="si">{</span><span class="n">other_keys</span><span class="si">}</span><span class="s2">)"</span>
                 <span class="p">)</span>
 
             <span class="k">return</span> <span class="p">[</span>
@@ -1518,13 +1577,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">mosaic_tile_dims</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">biob</span><span class="o">.</span><span class="n">dimensions</span><span class="o">.</span><span class="n">Dimensions</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tile_dims: Optional[Dimensions]</span>
 <span class="sd">            The dimensions for each tile in the mosaic image.</span>
 <span class="sd">            If the image is not a mosaic image, returns None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">mosaic_tile_dims</span>
 
 <div class="viewcode-block" id="BioImage.save">
@@ -1534,7 +1593,7 @@
         <span class="n">uri</span><span class="p">:</span> <span class="n">biob</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
         <span class="n">select_scenes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Saves the file data to OME-TIFF format with general naive best practices.</span>
 <span class="sd">        (Requires bioio-ome-tiff plugin installed)</span>
 
@@ -1556,18 +1615,18 @@
 <span class="sd">        When reading in the produced OME-TIFF file, scenes IDs may have changed.</span>
 <span class="sd">        This is due to how certain file and metadata formats do or do-not have IDs</span>
 <span class="sd">        and simply names. In converting to OME-TIFF we will always store the scene</span>
-<span class="sd">        ids in each Image&#39;s name attribute but IDs will be generated. The order of the</span>
+<span class="sd">        ids in each Image's name attribute but IDs will be generated. The order of the</span>
 <span class="sd">        scenes will be the same (or whatever order was specified / provided).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">bioio.writers</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_writers</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
-        <span class="n">OmeTiffWriter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_writers</span><span class="p">,</span> <span class="s2">&quot;OmeTiffWriter&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">OmeTiffWriter</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_writers</span><span class="p">,</span> <span class="s2">"OmeTiffWriter"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">OmeTiffWriter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;TIFF writing support (OmeTiffWriter) is not available. &quot;</span>
-                <span class="s2">&quot;To enable it, install the plugin:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;    pip install bioio-ome-tiff&quot;</span>
+                <span class="s2">"TIFF writing support (OmeTiffWriter) is not available. "</span>
+                <span class="s2">"To enable it, install the plugin:</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"    pip install bioio-ome-tiff"</span>
             <span class="p">)</span>
             <span class="k">return</span>
 
@@ -1605,24 +1664,24 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Summary of this BioImage.</span>
 
 <span class="sd">        Reports the plugin entrypoint name if the reader was selected via the</span>
 <span class="sd">        plugin system; otherwise reports the explicit reader name in use.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">in_memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_xarray_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;plugin: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;]&gt;&quot;</span>
+                <span class="sa">f</span><span class="s2">"&lt;BioImage ["</span>
+                <span class="sa">f</span><span class="s2">"plugin: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"]&gt;"</span>
             <span class="p">)</span>
 
-        <span class="n">reader_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;BioImage [reader: </span><span class="si">{</span><span class="n">reader_name</span><span class="si">}</span><span class="s2">, image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">]&gt;&quot;</span>
+        <span class="n">reader_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">"None"</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;BioImage [reader: </span><span class="si">{</span><span class="n">reader_name</span><span class="si">}</span><span class="s2">, image-in-memory: </span><span class="si">{</span><span class="n">in_memory</span><span class="si">}</span><span class="s2">]&gt;"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
@@ -1649,7 +1708,7 @@
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read image as a delayed xarray DataArray.</span>
 
 <span class="sd">    Parameters</span>
@@ -1667,7 +1726,7 @@
 <span class="sd">    data: xr.DataArray</span>
 <span class="sd">        The image read, scene selected, and returned as an BioIO standard shaped delayed</span>
 <span class="sd">        xarray DataArray.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">xarray_dask_data</span></div>
 
 
@@ -1679,7 +1738,7 @@
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">da</span><span class="o">.</span><span class="n">Array</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read image as a delayed dask array.</span>
 
 <span class="sd">    Parameters</span>
@@ -1697,7 +1756,7 @@
 <span class="sd">    data: da.core.Array</span>
 <span class="sd">        The image read, scene selected, and returned as an BioIO standard shaped delayed</span>
 <span class="sd">        dask array.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">dask_data</span></div>
 
@@ -1710,7 +1769,7 @@
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read image as an in-memory xarray DataArray.</span>
 
 <span class="sd">    Parameters</span>
@@ -1728,7 +1787,7 @@
 <span class="sd">    data: xr.DataArray</span>
 <span class="sd">        The image read, scene selected, and returned as an BioIO standard shaped</span>
 <span class="sd">        in-memory DataArray.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">xarray_data</span></div>
 
 
@@ -1740,7 +1799,7 @@
     <span class="n">scene_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Read image as a numpy array.</span>
 
 <span class="sd">    Parameters</span>
@@ -1758,7 +1817,7 @@
 <span class="sd">    data: np.ndarray</span>
 <span class="sd">        The image read, scene selected, and returned as an bioio standard shaped</span>
 <span class="sd">        np.ndarray.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_construct_img</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scene_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">data</span></div>
 
 </pre></div>
@@ -1793,7 +1852,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

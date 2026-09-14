@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio_base.dimensions - bioio 3.5.0 documentation</title>
+        <title>bioio_base.dimensions - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -264,13 +264,13 @@
 <div class="viewcode-block" id="DimensionNames">
 <a class="viewcode-back" href="../../generated/bioio.DimensionNames.html#bioio.DimensionNames">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DimensionNames</span><span class="p">:</span>
-    <span class="n">Time</span> <span class="o">=</span> <span class="s2">&quot;T&quot;</span>
-    <span class="n">Channel</span> <span class="o">=</span> <span class="s2">&quot;C&quot;</span>
-    <span class="n">SpatialZ</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span>
-    <span class="n">SpatialY</span> <span class="o">=</span> <span class="s2">&quot;Y&quot;</span>
-    <span class="n">SpatialX</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span>
-    <span class="n">Samples</span> <span class="o">=</span> <span class="s2">&quot;S&quot;</span>
-    <span class="n">MosaicTile</span> <span class="o">=</span> <span class="s2">&quot;M&quot;</span></div>
+    <span class="n">Time</span> <span class="o">=</span> <span class="s2">"T"</span>
+    <span class="n">Channel</span> <span class="o">=</span> <span class="s2">"C"</span>
+    <span class="n">SpatialZ</span> <span class="o">=</span> <span class="s2">"Z"</span>
+    <span class="n">SpatialY</span> <span class="o">=</span> <span class="s2">"Y"</span>
+    <span class="n">SpatialX</span> <span class="o">=</span> <span class="s2">"X"</span>
+    <span class="n">Samples</span> <span class="o">=</span> <span class="s2">"S"</span>
+    <span class="n">MosaicTile</span> <span class="o">=</span> <span class="s2">"M"</span></div>
 
 
 
@@ -293,14 +293,14 @@
     <span class="o">+</span> <span class="p">[</span><span class="n">DimensionNames</span><span class="o">.</span><span class="n">Samples</span><span class="p">]</span>
 <span class="p">)</span>
 
-<span class="n">DEFAULT_DIMENSION_ORDER</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DEFAULT_DIMENSION_ORDER_LIST</span><span class="p">)</span>
-<span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="n">DEFAULT_DIMENSION_ORDER</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DEFAULT_DIMENSION_ORDER_LIST</span><span class="p">)</span>
+<span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="n">DEFAULT_DIMENSION_ORDER_LIST_WITH_SAMPLES</span>
 <span class="p">)</span>
-<span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="n">DEFAULT_DIMENSION_ORDER_LIST_WITH_MOSAIC_TILES</span>
 <span class="p">)</span>
-<span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES_AND_SAMPLES</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="n">DEFAULT_DIMENSION_ORDER_WITH_MOSAIC_TILES_AND_SAMPLES</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="n">DEFAULT_DIMENSION_ORDER_LIST_WITH_MOSAIC_TILES_AND_SAMPLES</span>
 <span class="p">)</span>
 
@@ -326,7 +326,7 @@
 <div class="viewcode-block" id="Dimensions.__init__">
 <a class="viewcode-back" href="../../generated/bioio.Dimensions.html#bioio.Dimensions.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dims</span><span class="p">:</span> <span class="n">Collection</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        A general object for managing the pairing of dimension name and dimension size.</span>
 
 <span class="sd">        Parameters</span>
@@ -338,27 +338,27 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; dims = Dimensions(&quot;TCZYX&quot;, (1, 4, 75, 624, 924))</span>
+<span class="sd">        &gt;&gt;&gt; dims = Dimensions("TCZYX", (1, 4, 75, 624, 924))</span>
 <span class="sd">        ... dims.X</span>
-<span class="sd">        ... dims[&#39;T&#39;, &#39;X&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        ... dims['T', 'X']</span>
+<span class="sd">        """</span>
         <span class="c1"># zip(strict=True) only in Python 3.10</span>
         <span class="c1"># Check equal length dims and shape</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Number of dimensions provided (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2"> -- &#39;</span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">&#39;) &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;does not match shape size provided (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2"> -- &#39;</span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2">&#39;).&quot;</span>
+                <span class="sa">f</span><span class="s2">"Number of dimensions provided (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span><span class="si">}</span><span class="s2"> -- '</span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">') "</span>
+                <span class="sa">f</span><span class="s2">"does not match shape size provided (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2"> -- '</span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2">')."</span>
             <span class="p">)</span>
 
         <span class="c1"># Make dims a string</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">]):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;When providing a list of dimension strings, &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;each dimension may only be a single character long &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(received: &#39;</span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">&#39;).&quot;</span>
+                    <span class="sa">f</span><span class="s2">"When providing a list of dimension strings, "</span>
+                    <span class="sa">f</span><span class="s2">"each dimension may only be a single character long "</span>
+                    <span class="sa">f</span><span class="s2">"(received: '</span><span class="si">{</span><span class="n">dims</span><span class="si">}</span><span class="s2">')."</span>
                 <span class="p">)</span>
-            <span class="n">dims</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+            <span class="n">dims</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
 
         <span class="c1"># Store order and shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_order</span> <span class="o">=</span> <span class="n">dims</span>
@@ -372,22 +372,22 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        order: str</span>
 <span class="sd">            The natural order of the dimensions as a single string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        shape: Tuple[int, ...]</span>
 <span class="sd">            The dimension sizes in their natural order.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
 
 <div class="viewcode-block" id="Dimensions.items">
@@ -397,8 +397,8 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">dims_string</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;Dimensions [</span><span class="si">{</span><span class="n">dims_string</span><span class="si">}</span><span class="s2">]&gt;&quot;</span>
+        <span class="n">dims_string</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">dim</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;Dimensions [</span><span class="si">{</span><span class="n">dims_string</span><span class="si">}</span><span class="s2">]&gt;"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -406,7 +406,7 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dims_shape</span><span class="p">[</span><span class="n">key</span><span class="p">],)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">seq</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">key</span><span class="p">):</span>
             <span class="n">invalid_dims</span> <span class="o">=</span> <span class="p">[]</span>
@@ -416,10 +416,10 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">invalid_dims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dims_shape</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">key</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invalid_dims</span><span class="p">)</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invalid_dims</span><span class="p">)</span><span class="si">}</span><span class="s2"> not in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Key must be a string or list of strings but got type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Key must be a string or list of strings but got type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">__value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -461,7 +461,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

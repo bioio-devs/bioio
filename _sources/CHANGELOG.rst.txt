@@ -2,6 +2,26 @@ Changelog
 =========
 
 
+v3.5.1 (2026-09-14)
+-------------------
+- comment responses [Brian Whitney]
+- Prefer reader fast paths for metadata and sub-region reads [Brian
+  Whitney, Claude Fable 5]
+- update cit message [Brian Whitney]
+- update based on legal advice [Brian Whitney]
+- docs: add community contributed plugins to registry [Brian Whitney,
+  Claude Fable 5]
+- Use repo-ID Zenodo badge so it self-updates on release [Brian Whitney,
+  Claude Opus 5 (1M context)]
+- Remove hardcoded version from CITATION.cff and README citation [Brian
+  Whitney, Claude Opus 5 (1M context)]
+- Add CITATION.cff to MANIFEST.in [Brian Whitney, Claude Sonnet 4.6]
+- ci(dependabot): bump actions/setup-python from 6 to 7
+  [dependabot[bot]]
+- Add CITATION.cff and citation section to README [Brian Whitney, Claude
+  Sonnet 4.6]
+
+
 v3.5.0 (2026-07-30)
 -------------------
 - ci(dependabot): bump actions/checkout from 6 to 7 [dependabot[bot]]

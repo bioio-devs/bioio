@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio.ome_utils - bioio 3.5.0 documentation</title>
+        <title>bioio.ome_utils - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -271,7 +271,7 @@
 <div class="viewcode-block" id="generate_ome_channel_id">
 <a class="viewcode-back" href="../../bioio.html#bioio.ome_utils.generate_ome_channel_id">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_ome_channel_id</span><span class="p">(</span><span class="n">image_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">channel_id</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Naively generates the standard OME channel ID using a provided ID.</span>
 
 <span class="sd">    Parameters</span>
@@ -291,20 +291,20 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    ImageIds are usually: &quot;Image:0&quot;, &quot;Image:1&quot;, or &quot;Image:N&quot;,</span>
+<span class="sd">    ImageIds are usually: "Image:0", "Image:1", or "Image:N",</span>
 <span class="sd">    ChannelIds are usually the combination of image index + channel index --</span>
-<span class="sd">    &quot;Channel:0:0&quot; for the first channel of the first image for example.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Remove the prefix &#39;Image:&#39; to get just the index</span>
-    <span class="n">image_index</span> <span class="o">=</span> <span class="n">image_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Image:&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Channel:</span><span class="si">{</span><span class="n">image_index</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">channel_id</span><span class="si">}</span><span class="s2">&quot;</span></div>
+<span class="sd">    "Channel:0:0" for the first channel of the first image for example.</span>
+<span class="sd">    """</span>
+    <span class="c1"># Remove the prefix 'Image:' to get just the index</span>
+    <span class="n">image_index</span> <span class="o">=</span> <span class="n">image_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"Image:"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Channel:</span><span class="si">{</span><span class="n">image_index</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">channel_id</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 
 <div class="viewcode-block" id="generate_ome_image_id">
 <a class="viewcode-back" href="../../bioio.html#bioio.ome_utils.generate_ome_image_id">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_ome_image_id</span><span class="p">(</span><span class="n">image_id</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Naively generates the standard OME image ID using a provided ID.</span>
 
 <span class="sd">    Parameters</span>
@@ -318,15 +318,15 @@
 <span class="sd">    -------</span>
 <span class="sd">    ome_image_id: str</span>
 <span class="sd">        The OME standard for image IDs.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Image:</span><span class="si">{</span><span class="n">image_id</span><span class="si">}</span><span class="s2">&quot;</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"Image:</span><span class="si">{</span><span class="n">image_id</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 
 <div class="viewcode-block" id="dtype_to_ome_type">
 <a class="viewcode-back" href="../../bioio.html#bioio.ome_utils.dtype_to_ome_type">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dtype_to_ome_type</span><span class="p">(</span><span class="n">npdtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PixelType</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convert numpy dtype to OME PixelType</span>
 
 <span class="sd">    Parameters</span>
@@ -343,7 +343,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        No matching pixel type for provided numpy type.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">ometypedict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">):</span> <span class="n">PixelType</span><span class="o">.</span><span class="n">INT8</span><span class="p">,</span>
         <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">):</span> <span class="n">PixelType</span><span class="o">.</span><span class="n">INT16</span><span class="p">,</span>
@@ -358,7 +358,7 @@
     <span class="p">}</span>
     <span class="n">ptype</span> <span class="o">=</span> <span class="n">ometypedict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">npdtype</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">ptype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ome utils can&#39;t resolve pixel type: </span><span class="si">{</span><span class="n">npdtype</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ome utils can't resolve pixel type: </span><span class="si">{</span><span class="n">npdtype</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ptype</span></div>
 
 
@@ -366,7 +366,7 @@
 <div class="viewcode-block" id="ome_to_numpy_dtype">
 <a class="viewcode-back" href="../../bioio.html#bioio.ome_utils.ome_to_numpy_dtype">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">ome_to_numpy_dtype</span><span class="p">(</span><span class="n">ome_type</span><span class="p">:</span> <span class="n">PixelType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Convert OME PixelType to numpy dtype</span>
 
 <span class="sd">    Parameters</span>
@@ -383,7 +383,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        No matching numpy type for the provided pixel type.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">ometypedict</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="n">PixelType</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">PixelType</span><span class="o">.</span><span class="n">INT8</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">),</span>
         <span class="n">PixelType</span><span class="o">.</span><span class="n">INT16</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">),</span>
@@ -398,7 +398,7 @@
     <span class="p">}</span>
     <span class="n">nptype</span> <span class="o">=</span> <span class="n">ometypedict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ome_type</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">nptype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ome utils can&#39;t resolve pixel type: </span><span class="si">{</span><span class="n">ome_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ome utils can't resolve pixel type: </span><span class="si">{</span><span class="n">ome_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">nptype</span></div>
 
 </pre></div>
@@ -433,7 +433,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

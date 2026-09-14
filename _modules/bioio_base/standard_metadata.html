@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio_base.standard_metadata - bioio 3.5.0 documentation</title>
+        <title>bioio_base.standard_metadata - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -267,7 +267,7 @@
 <a class="viewcode-back" href="../../generated/bioio.StandardMetadata.html#bioio.StandardMetadata">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StandardMetadata</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A simple container for embedded metadata fields.</span>
 
 <span class="sd">    Attributes</span>
@@ -338,7 +338,7 @@
 
 <span class="sd">    FIELD_LABELS: dict[str, str]</span>
 <span class="sd">        Mapping of the above attribute names to readable labels.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">binning</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">column</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -363,39 +363,39 @@
     <span class="n">total_time_duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">FIELD_LABELS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;binning&quot;</span><span class="p">:</span> <span class="s2">&quot;Binning&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;Column&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;dimensions_present&quot;</span><span class="p">:</span> <span class="s2">&quot;Dimensions Present&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;image_size_c&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size C&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;image_size_t&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size T&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;image_size_x&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size X&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;image_size_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size Y&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;image_size_z&quot;</span><span class="p">:</span> <span class="s2">&quot;Image Size Z&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;imaged_by&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaged By&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;imaging_datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;Imaging Datetime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;objective&quot;</span><span class="p">:</span> <span class="s2">&quot;Objective&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pixel_size_x&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size X&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pixel_size_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size Y&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pixel_size_z&quot;</span><span class="p">:</span> <span class="s2">&quot;Pixel Size Z&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;position_index&quot;</span><span class="p">:</span> <span class="s2">&quot;Position Index&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="s2">&quot;Row&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;stage_position_x&quot;</span><span class="p">:</span> <span class="s2">&quot;Stage Position X&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;stage_position_y&quot;</span><span class="p">:</span> <span class="s2">&quot;Stage Position Y&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;timelapse&quot;</span><span class="p">:</span> <span class="s2">&quot;Timelapse&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;timelapse_interval&quot;</span><span class="p">:</span> <span class="s2">&quot;Timelapse Interval&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;total_time_duration&quot;</span><span class="p">:</span> <span class="s2">&quot;Total Time Duration&quot;</span><span class="p">,</span>
+        <span class="s2">"binning"</span><span class="p">:</span> <span class="s2">"Binning"</span><span class="p">,</span>
+        <span class="s2">"column"</span><span class="p">:</span> <span class="s2">"Column"</span><span class="p">,</span>
+        <span class="s2">"dimensions_present"</span><span class="p">:</span> <span class="s2">"Dimensions Present"</span><span class="p">,</span>
+        <span class="s2">"image_size_c"</span><span class="p">:</span> <span class="s2">"Image Size C"</span><span class="p">,</span>
+        <span class="s2">"image_size_t"</span><span class="p">:</span> <span class="s2">"Image Size T"</span><span class="p">,</span>
+        <span class="s2">"image_size_x"</span><span class="p">:</span> <span class="s2">"Image Size X"</span><span class="p">,</span>
+        <span class="s2">"image_size_y"</span><span class="p">:</span> <span class="s2">"Image Size Y"</span><span class="p">,</span>
+        <span class="s2">"image_size_z"</span><span class="p">:</span> <span class="s2">"Image Size Z"</span><span class="p">,</span>
+        <span class="s2">"imaged_by"</span><span class="p">:</span> <span class="s2">"Imaged By"</span><span class="p">,</span>
+        <span class="s2">"imaging_datetime"</span><span class="p">:</span> <span class="s2">"Imaging Datetime"</span><span class="p">,</span>
+        <span class="s2">"objective"</span><span class="p">:</span> <span class="s2">"Objective"</span><span class="p">,</span>
+        <span class="s2">"pixel_size_x"</span><span class="p">:</span> <span class="s2">"Pixel Size X"</span><span class="p">,</span>
+        <span class="s2">"pixel_size_y"</span><span class="p">:</span> <span class="s2">"Pixel Size Y"</span><span class="p">,</span>
+        <span class="s2">"pixel_size_z"</span><span class="p">:</span> <span class="s2">"Pixel Size Z"</span><span class="p">,</span>
+        <span class="s2">"position_index"</span><span class="p">:</span> <span class="s2">"Position Index"</span><span class="p">,</span>
+        <span class="s2">"row"</span><span class="p">:</span> <span class="s2">"Row"</span><span class="p">,</span>
+        <span class="s2">"stage_position_x"</span><span class="p">:</span> <span class="s2">"Stage Position X"</span><span class="p">,</span>
+        <span class="s2">"stage_position_y"</span><span class="p">:</span> <span class="s2">"Stage Position Y"</span><span class="p">,</span>
+        <span class="s2">"timelapse"</span><span class="p">:</span> <span class="s2">"Timelapse"</span><span class="p">,</span>
+        <span class="s2">"timelapse_interval"</span><span class="p">:</span> <span class="s2">"Timelapse Interval"</span><span class="p">,</span>
+        <span class="s2">"total_time_duration"</span><span class="p">:</span> <span class="s2">"Total Time Duration"</span><span class="p">,</span>
     <span class="p">}</span>
 
 <div class="viewcode-block" id="StandardMetadata.to_dict">
 <a class="viewcode-back" href="../../bioio.html#bioio.StandardMetadata.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Convert the metadata into a dictionary using readable labels.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            dict: A mapping where keys are the readable labels defined in FIELD_LABELS,</span>
 <span class="sd">                  and values are the corresponding metadata values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">FIELD_LABELS</span><span class="p">[</span><span class="n">field</span><span class="p">]:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FIELD_LABELS</span>
@@ -405,14 +405,14 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">binning</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extracts the binning setting from the OME metadata.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Optional[str]</span>
 <span class="sd">        The binning setting as a string. Returns None if not found.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1"># DetectorSettings under each Channel holds the binning info</span>
         <span class="n">channels</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">channels</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -421,19 +421,19 @@
             <span class="k">if</span> <span class="n">ds</span> <span class="ow">and</span> <span class="n">ds</span><span class="o">.</span><span class="n">binning</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">binning</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Binning setting: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Failed to extract Binning setting: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">imaged_by</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extracts the name of the experimenter (user who imaged the sample).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Optional[str]</span>
 <span class="sd">        The username of the experimenter. Returns None if not found.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="c1"># Prefer explicit ExperimenterRef if present</span>
@@ -447,12 +447,12 @@
         <span class="k">if</span> <span class="n">ome</span><span class="o">.</span><span class="n">experimenters</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ome</span><span class="o">.</span><span class="n">experimenters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">user_name</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Imaged By: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Failed to extract Imaged By: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">imaging_datetime</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extracts the acquisition datetime from the OME metadata.</span>
 
 <span class="sd">    Returns</span>
@@ -462,26 +462,26 @@
 <span class="sd">        including its original timezone.</span>
 
 <span class="sd">        None: if the acquisition datetime is not found or cannot be parsed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">acq</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">acquisition_date</span>
         <span class="k">return</span> <span class="n">acq</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Acquisition Datetime: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Failed to extract Acquisition Datetime: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Extracts the microscope objective details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Optional[str]</span>
 <span class="sd">        The formatted objective magnification and numerical aperture.</span>
-<span class="sd">        Returns the raw string (e.g. &quot;40x/1.2W&quot;).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Returns the raw string (e.g. "40x/1.2W").</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">img</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">instrs</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">instruments</span> <span class="ow">or</span> <span class="p">[]</span>
@@ -496,41 +496,41 @@
             <span class="n">obj</span> <span class="o">=</span> <span class="n">instr</span><span class="o">.</span><span class="n">objectives</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">mag</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">nominal_magnification</span><span class="p">))</span>
             <span class="n">na</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">lens_na</span>
-            <span class="n">imm</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">immersion</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">immersion</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">raw_obj</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mag</span><span class="si">}</span><span class="s2">x/</span><span class="si">{</span><span class="n">na</span><span class="si">}{</span><span class="n">imm</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">imm</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">immersion</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">immersion</span> <span class="k">else</span> <span class="s2">""</span>
+            <span class="n">raw_obj</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">mag</span><span class="si">}</span><span class="s2">x/</span><span class="si">{</span><span class="n">na</span><span class="si">}{</span><span class="n">imm</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">return</span> <span class="n">raw_obj</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed to extract Objective: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Failed to extract Objective: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_convert_to_timedelta</span><span class="p">(</span><span class="n">delta_t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">UnitsTime</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">timedelta</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Converts delta_t to a timedelta object based on the provided unit.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Assume seconds if unit is None</span>
         <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">delta_t</span><span class="p">)</span>
 
     <span class="n">unit_value</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># Access the string representation of the enum</span>
 
-    <span class="k">if</span> <span class="n">unit_value</span> <span class="o">==</span> <span class="s2">&quot;ms&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">unit_value</span> <span class="o">==</span> <span class="s2">"ms"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">milliseconds</span><span class="o">=</span><span class="n">delta_t</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">unit_value</span> <span class="o">==</span> <span class="s2">&quot;µs&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">unit_value</span> <span class="o">==</span> <span class="s2">"µs"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">microseconds</span><span class="o">=</span><span class="n">delta_t</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">unit_value</span> <span class="o">==</span> <span class="s2">&quot;ns&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">unit_value</span> <span class="o">==</span> <span class="s2">"ns"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">microseconds</span><span class="o">=</span><span class="n">delta_t</span> <span class="o">/</span> <span class="mf">1000.0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Default to seconds for unrecognized units</span>
-        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No units found for timedelta, defaulting to seconds.&quot;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No units found for timedelta, defaulting to seconds."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">delta_t</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">total_time_duration</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">,</span> <span class="n">scene_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Computes the total time duration from the beginning of the first</span>
 <span class="sd">    timepoint to the beginning of the final timepoint.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="n">scene_index</span><span class="p">]</span>
         <span class="n">planes</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">planes</span>
@@ -554,9 +554,9 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">timelapse_interval</span><span class="p">(</span><span class="n">ome</span><span class="p">:</span> <span class="n">OME</span><span class="p">,</span> <span class="n">scene_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Computes the average time interval between consecutive timepoints.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">ome</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="n">scene_index</span><span class="p">]</span>
         <span class="n">size_t</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">pixels</span><span class="o">.</span><span class="n">size_t</span>
@@ -602,7 +602,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

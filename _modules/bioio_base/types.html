@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio_base.types - bioio 3.5.0 documentation</title>
+        <title>bioio_base.types - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -301,9 +301,9 @@
 <div class="viewcode-block" id="PhysicalPixelSizes">
 <a class="viewcode-back" href="../../generated/bioio.PhysicalPixelSizes.html#bioio.PhysicalPixelSizes">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">PhysicalPixelSizes</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Physical pixel sizes along the Z, Y, and X axes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">Z</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">Y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
@@ -317,9 +317,9 @@
 <div class="viewcode-block" id="Scale">
 <a class="viewcode-back" href="../../generated/bioio.Scale.html#bioio.Scale">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Scale</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Per-dimension scale factors for T, C, Z, Y, X.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">T</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">C</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
@@ -330,19 +330,19 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">DimensionProperty</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Per-dimension metadata descriptor.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    type:</span>
-<span class="sd">        Semantic meaning of the dimension (e.g. &quot;space&quot;, &quot;time&quot;, &quot;channel&quot;).</span>
+<span class="sd">        Semantic meaning of the dimension (e.g. "space", "time", "channel").</span>
 <span class="sd">        This module does not enforce a fixed vocabulary.</span>
 
 <span class="sd">    unit:</span>
 <span class="sd">        A `pint.Unit` from the shared OME/BioIO unit registry (`ureg`),</span>
 <span class="sd">        or None if the dimension unknown.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">unit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Unit</span><span class="p">]</span>
@@ -351,11 +351,11 @@
 <div class="viewcode-block" id="DimensionProperties">
 <a class="viewcode-back" href="../../generated/bioio.DimensionProperties.html#bioio.DimensionProperties">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DimensionProperties</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for dimension properties for all supported dims.</span>
 
 <span class="sd">    These align with the standard bioio dimension order (T, C, Z, Y, X).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">T</span><span class="p">:</span> <span class="n">DimensionProperty</span>
     <span class="n">C</span><span class="p">:</span> <span class="n">DimensionProperty</span>
@@ -395,7 +395,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

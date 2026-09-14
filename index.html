@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="BioIO" href="OVERVIEW.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio 3.5.0 documentation</title>
+        <title>bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="#"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -456,14 +456,14 @@ BioIO will then determine which reader to use for which file automatically.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.tiff"</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
 <span class="n">img</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># returns 5D TCZYX numpy array</span>
 <span class="n">img</span><span class="o">.</span><span class="n">xarray_data</span>  <span class="c1"># returns 5D TCZYX xarray data array backed by numpy</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># returns a Dimensions object</span>
-<span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># returns string &quot;TCZYX&quot;</span>
+<span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># returns string "TCZYX"</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">X</span>  <span class="c1"># returns size of X dimension</span>
 <span class="n">img</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># returns tuple of dimension sizes in TCZYX order</span>
-<span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns 4D CZYX numpy array</span>
+<span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns 4D CZYX numpy array</span>
 
 <span class="c1"># Get the id of the current operating scene</span>
 <span class="n">img</span><span class="o">.</span><span class="n">current_scene</span>
@@ -472,7 +472,7 @@ BioIO will then determine which reader to use for which file automatically.</p>
 <span class="n">img</span><span class="o">.</span><span class="n">scenes</span>
 
 <span class="c1"># Change scene using name</span>
-<span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">&quot;Image:1&quot;</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">"Image:1"</span><span class="p">)</span>
 <span class="c1"># Or by scene index</span>
 <span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -493,16 +493,16 @@ the specified chunk.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.tiff"</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dask_data</span>  <span class="c1"># returns 5D TCZYX dask array</span>
 <span class="n">img</span><span class="o">.</span><span class="n">xarray_dask_data</span>  <span class="c1"># returns 5D TCZYX xarray data array backed by dask array</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># returns a Dimensions object</span>
-<span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># returns string &quot;TCZYX&quot;</span>
+<span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># returns string "TCZYX"</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">X</span>  <span class="c1"># returns size of X dimension</span>
 <span class="n">img</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># returns tuple of dimension sizes in TCZYX order</span>
 
 <span class="c1"># Pull only a specific chunk in-memory</span>
-<span class="n">lazy_t0</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns out-of-memory 4D dask array</span>
+<span class="n">lazy_t0</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># returns out-of-memory 4D dask array</span>
 <span class="n">t0</span> <span class="o">=</span> <span class="n">lazy_t0</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>  <span class="c1"># returns in-memory 4D numpy array</span>
 
 <span class="c1"># Get the id of the current operating scene</span>
@@ -512,7 +512,7 @@ the specified chunk.</p>
 <span class="n">img</span><span class="o">.</span><span class="n">scenes</span>
 
 <span class="c1"># Change scene using name</span>
-<span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">&quot;Image:1&quot;</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">"Image:1"</span><span class="p">)</span>
 <span class="c1"># Or by scene index</span>
 <span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -540,20 +540,20 @@ selected chunk in-memory.</p>
 <h4>BioImage<a class="headerlink" href="#bioimage" title="Link to this heading">¶</a></h4>
 <p>If the file format reader supports stitching mosaic tiles together, the
 <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object will default to stitching the tiles back together.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;very-large-mosaic.lif&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"very-large-mosaic.lif"</span><span class="p">)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># T, C, Z, big Y, big X, (S optional)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dask_data</span>  <span class="c1"># Dask chunks fall on tile boundaries, pull YX chunks out of the image</span>
 </pre></div>
 </div>
 <p>This behavior can be manually turned off:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;very-large-mosaic.lif&quot;</span><span class="p">,</span> <span class="n">reconstruct_mosaic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"very-large-mosaic.lif"</span><span class="p">,</span> <span class="n">reconstruct_mosaic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># M (tile index), T, C, Z, small Y, small X, (S optional)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dask_data</span>  <span class="c1"># Chunks use normal ZYX</span>
 </pre></div>
 </div>
 <p>If the reader does not support stitching tiles together the M tile index will be
 available on the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;some-unsupported-mosaic-stitching-format.ext&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"some-unsupported-mosaic-stitching-format.ext"</span><span class="p">)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># M (tile index), T, C, Z, small Y, small X, (S optional)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">dask_data</span>  <span class="c1"># Chunks use normal ZYX</span>
 </pre></div>
@@ -564,7 +564,7 @@ available on the <code class="docutils literal notranslate"><span class="pre">Bi
 <p>If the file format reader detects mosaic tiles in the image, the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object
 will store the tiles as a dimension.</p>
 <p>If tile stitching is implemented, the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> can also return the stitched image.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reader</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;ver-large-mosaic.lif&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">reader</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"ver-large-mosaic.lif"</span><span class="p">)</span>
 <span class="n">reader</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">order</span>  <span class="c1"># M, T, C, Z, tile size Y, tile size X, (S optional)</span>
 <span class="n">reader</span><span class="o">.</span><span class="n">dask_data</span>  <span class="c1"># normal operations, can use M dimension to select individual tiles</span>
 <span class="n">reader</span><span class="o">.</span><span class="n">mosaic_dask_data</span>  <span class="c1"># returns stitched mosaic - T, C, Z, big Y, big, X, (S optional)</span>
@@ -575,7 +575,7 @@ will store the tiles as a dimension.</p>
 <h4>Single Tile Absolute Positioning<a class="headerlink" href="#single-tile-absolute-positioning" title="Link to this heading">¶</a></h4>
 <p>There are functions available on the <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> object
 to help with single tile positioning:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;very-large-mosaic.lif&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"very-large-mosaic.lif"</span><span class="p">)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">mosaic_tile_dims</span>  <span class="c1"># Returns a Dimensions object with just Y and X dim sizes</span>
 <span class="n">img</span><span class="o">.</span><span class="n">mosaic_tile_dims</span><span class="o">.</span><span class="n">Y</span>  <span class="c1"># 512 (for example)</span>
 
@@ -590,7 +590,7 @@ to help with single tile positioning:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.tiff"</span><span class="p">)</span>  <span class="c1"># selects the first scene found</span>
 <span class="n">img</span><span class="o">.</span><span class="n">metadata</span>  <span class="c1"># returns the metadata object for this file format (XML, JSON, etc.)</span>
 <span class="n">img</span><span class="o">.</span><span class="n">channel_names</span>  <span class="c1"># returns a list of string channel names found in the metadata</span>
 <span class="n">img</span><span class="o">.</span><span class="n">physical_pixel_sizes</span><span class="o">.</span><span class="n">Z</span>  <span class="c1"># returns the Z dimension pixel size as found in the metadata</span>
@@ -607,7 +607,7 @@ the image in metadata, you can use
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.ome.tiff&quot;</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.ome.tiff"</span><span class="p">)</span>
 
 <span class="c1"># Get the first ten seconds (not frames)</span>
 <span class="n">first_ten_seconds</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">xarray_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>  <span class="c1"># returns an xarray.DataArray</span>
@@ -636,13 +636,13 @@ the specification is installed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
 <span class="c1"># Get a BioImage object</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;http://my-website.com/my_file.tiff&quot;</span><span class="p">)</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s3://my-bucket/my_file.tiff&quot;</span><span class="p">)</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;gcs://my-bucket/my_file.tiff&quot;</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"http://my-website.com/my_file.tiff"</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s3://my-bucket/my_file.tiff"</span><span class="p">)</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"gcs://my-bucket/my_file.tiff"</span><span class="p">)</span>
 
 <span class="c1"># Or read with specific filesystem creation arguments</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s3://my-bucket/my_file.tiff&quot;</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;gcs://my-bucket/my_file.tiff&quot;</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s3://my-bucket/my_file.tiff"</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"gcs://my-bucket/my_file.tiff"</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">anon</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 
 <span class="c1"># All other normal operations work just fine</span>
 </pre></div>
@@ -662,7 +662,7 @@ metadata is to use the <code class="docutils literal notranslate"><span class="p
 plugin installed</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio</span><span class="w"> </span><span class="kn">import</span> <span class="n">BioImage</span>
 
-<span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.czi&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;my_file.ome.tiff&quot;</span><span class="p">)</span>
+<span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.czi"</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"my_file.ome.tiff"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Note:</strong> By default <code class="docutils literal notranslate"><span class="pre">BioImage</span></code> will generate only a portion of metadata to pass
@@ -674,7 +674,7 @@ as an OME-TIFF, the writer class can also be used to customize as needed.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">bioio.writers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OmeTiffWriter</span> <span class="c1"># with bioio-ome-tiff installed</span>
 
 <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">)</span>
-<span class="n">OmeTiffWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.ome.tiff&quot;</span><span class="p">,</span> <span class="n">dim_order</span><span class="o">=</span><span class="s2">&quot;ZCYX&quot;</span><span class="p">)</span>
+<span class="n">OmeTiffWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"file.ome.tiff"</span><span class="p">,</span> <span class="n">dim_order</span><span class="o">=</span><span class="s2">"ZCYX"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>See
@@ -776,7 +776,7 @@ for information related to developing the code.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="_static/documentation_options.js?v=654eae90"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

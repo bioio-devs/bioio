@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio package - bioio 3.5.0 documentation</title>
+        <title>bioio package - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -340,8 +340,8 @@ None. I.E.</p>
 <span class="gp">... </span><span class="n">some_dask</span> <span class="o">=</span> <span class="o">...</span>
 <span class="gp">... </span><span class="n">reader</span> <span class="o">=</span> <span class="n">ArrayLikeReader</span><span class="p">(</span>
 <span class="gp">... </span>    <span class="n">image</span><span class="o">=</span><span class="p">[</span><span class="n">some_metadata_attached_xr</span><span class="p">,</span> <span class="n">some_np</span><span class="p">,</span> <span class="n">some_dask</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">dim_order</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;CTYX&quot;</span><span class="p">,</span> <span class="s2">&quot;ZTYX&quot;</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">channel_names</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">C</span><span class="s2">&quot;], None],</span>
+<span class="gp">... </span>    <span class="n">dim_order</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"CTYX"</span><span class="p">,</span> <span class="s2">"ZTYX"</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">channel_names</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">,</span> <span class="n">C</span><span class="s2">"], None],</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
@@ -483,14 +483,14 @@ by either instantiating the reader independently or using the <cite>.reader</cit
 <p class="rubric">Examples</p>
 <p>Initialize an image then read the file and return specified slices as a numpy
 array.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Initialize an image, construct a delayed dask array for certain slices, then
 read only the specified chunk of data.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.czi&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.czi"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">zstack_t8_data</span> <span class="o">=</span> <span class="n">zstack_t8</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -500,23 +500,23 @@ read only the specified chunk of data.</p>
 </pre></div>
 </div>
 <p>Initialize an image from S3 with s3fs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s3://my_bucket/my_file.tiff&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s3://my_bucket/my_file.tiff"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Initialize an image and pass arguments to the reader using kwargs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.czi&quot;</span><span class="p">,</span> <span class="n">chunk_dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.czi"</span><span class="p">,</span> <span class="n">chunk_dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"T"</span><span class="p">,</span> <span class="s2">"Y"</span><span class="p">,</span> <span class="s2">"X"</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Initialize an image, change scene, read data to numpy.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_many_scene.czi&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">&quot;Image:3&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_many_scene.czi"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">"Image:3"</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
 <p>Initialize an image with a specific reader. This is useful if you know the file
 type in advance or would like to skip a few of the file format checks we do
 internally. Useful when reading from remote sources to reduce network round trips.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;malformed_metadata.ome.tiff&quot;</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">readers</span><span class="o">.</span><span class="n">TiffReader</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"malformed_metadata.ome.tiff"</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">readers</span><span class="o">.</span><span class="n">TiffReader</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Initialize an image and override plugin selection order when multiple readers
@@ -524,25 +524,25 @@ support the same extension.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_tifffile</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">TiffReader</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_ome_tiff</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">OmeTiffReader</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;multi_plugin_file.ome.tiff&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">"multi_plugin_file.ome.tiff"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">reader</span><span class="o">=</span><span class="p">[</span><span class="n">TiffReader</span><span class="p">,</span> <span class="n">OmeTiffReader</span><span class="p">],</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">... </span><span class="c1"># TiffReader will be tried before OmeTiffReader for this instance.</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;big_mosaic.czi&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"big_mosaic.czi"</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]&gt;</span>
 </pre></div>
 </div>
 <p>Data for mosaic file can be explicitly returned as tiles.
 This is the same data as a reconstructed mosaic except that the tiles are
 stored in their own dimension (M).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;big_mosaic.czi&quot;</span><span class="p">,</span> <span class="n">reconstruct_mosaic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"big_mosaic.czi"</span><span class="p">,</span> <span class="n">reconstruct_mosaic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [M: 150, T: 40, C: 3, Z: 1, Y: 200, X: 300]&gt;</span>
 </pre></div>
 </div>
 <p>Data is mosaic file but reader doesn’t support tile stitching.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;unsupported_mosaic.ext&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"unsupported_mosaic.ext"</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [M: 100, T: 1, C: 2, Z: 1, Y: 400, X: 400]&gt;</span>
 </pre></div>
 </div>
@@ -685,7 +685,7 @@ ArrayLike reader plugin.
 description of BioIO’s default selection policy.</p>
 <p class="rubric">Examples</p>
 <p>To determine the appropriate plugin for a given image file:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;example_image.tif&quot;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_path</span> <span class="o">=</span> <span class="s2">"example_image.tif"</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 </pre></div>
@@ -804,28 +804,28 @@ added with a depth of 1.</p>
 <p>See <cite>bioio_base.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -873,28 +873,28 @@ added with a depth of 1.</p></li>
 <p>See <cite>bioio_base.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1735,14 +1735,14 @@ by either instantiating the reader independently or using the <cite>.reader</cit
 <p class="rubric">Examples</p>
 <p>Initialize an image then read the file and return specified slices as a numpy
 array.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Initialize an image, construct a delayed dask array for certain slices, then
 read only the specified chunk of data.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.czi&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.czi"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">zstack_t8</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">zstack_t8_data</span> <span class="o">=</span> <span class="n">zstack_t8</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1752,23 +1752,23 @@ read only the specified chunk of data.</p>
 </pre></div>
 </div>
 <p>Initialize an image from S3 with s3fs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s3://my_bucket/my_file.tiff&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s3://my_bucket/my_file.tiff"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Initialize an image and pass arguments to the reader using kwargs.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_file.czi&quot;</span><span class="p">,</span> <span class="n">chunk_dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_file.czi"</span><span class="p">,</span> <span class="n">chunk_dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"T"</span><span class="p">,</span> <span class="s2">"Y"</span><span class="p">,</span> <span class="s2">"X"</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Initialize an image, change scene, read data to numpy.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;my_many_scene.czi&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">&quot;Image:3&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"my_many_scene.czi"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">set_scene</span><span class="p">(</span><span class="s2">"Image:3"</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">data</span>
 </pre></div>
 </div>
 <p>Initialize an image with a specific reader. This is useful if you know the file
 type in advance or would like to skip a few of the file format checks we do
 internally. Useful when reading from remote sources to reduce network round trips.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;malformed_metadata.ome.tiff&quot;</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">readers</span><span class="o">.</span><span class="n">TiffReader</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"malformed_metadata.ome.tiff"</span><span class="p">,</span> <span class="n">reader</span><span class="o">=</span><span class="n">readers</span><span class="o">.</span><span class="n">TiffReader</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Initialize an image and override plugin selection order when multiple readers
@@ -1776,25 +1776,25 @@ support the same extension.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_tifffile</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">TiffReader</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">bioio_ome_tiff</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader</span> <span class="k">as</span> <span class="n">OmeTiffReader</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s2">&quot;multi_plugin_file.ome.tiff&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">"multi_plugin_file.ome.tiff"</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">reader</span><span class="o">=</span><span class="p">[</span><span class="n">TiffReader</span><span class="p">,</span> <span class="n">OmeTiffReader</span><span class="p">],</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="gp">... </span><span class="c1"># TiffReader will be tried before OmeTiffReader for this instance.</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;big_mosaic.czi&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"big_mosaic.czi"</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [T: 40, C: 3, Z: 1, Y: 30000, X: 45000]&gt;</span>
 </pre></div>
 </div>
 <p>Data for mosaic file can be explicitly returned as tiles.
 This is the same data as a reconstructed mosaic except that the tiles are
 stored in their own dimension (M).</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;big_mosaic.czi&quot;</span><span class="p">,</span> <span class="n">reconstruct_mosaic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"big_mosaic.czi"</span><span class="p">,</span> <span class="n">reconstruct_mosaic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [M: 150, T: 40, C: 3, Z: 1, Y: 200, X: 300]&gt;</span>
 </pre></div>
 </div>
 <p>Data is mosaic file but reader doesn’t support tile stitching.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;unsupported_mosaic.ext&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"unsupported_mosaic.ext"</span><span class="p">)</span>
 <span class="gp">... </span><span class="n">img</span><span class="o">.</span><span class="n">dims</span>  <span class="c1"># &lt;Dimensions [M: 100, T: 1, C: 2, Z: 1, Y: 400, X: 400]&gt;</span>
 </pre></div>
 </div>
@@ -1937,7 +1937,7 @@ ArrayLike reader plugin.
 description of BioIO’s default selection policy.</p>
 <p class="rubric">Examples</p>
 <p>To determine the appropriate plugin for a given image file:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_path</span> <span class="o">=</span> <span class="s2">&quot;example_image.tif&quot;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image_path</span> <span class="o">=</span> <span class="s2">"example_image.tif"</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plugin</span> <span class="o">=</span> <span class="n">BioImage</span><span class="o">.</span><span class="n">determine_plugin</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 </pre></div>
@@ -2056,28 +2056,28 @@ added with a depth of 1.</p>
 <p>See <cite>bioio_base.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2125,28 +2125,28 @@ added with a depth of 1.</p></li>
 <p>See <cite>bioio_base.transforms.reshape_data</cite> for more details.</p>
 <p class="rubric">Examples</p>
 <p>Specific index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">c1</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"ZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>List of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_second</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Tuple of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_and_last</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Range of index selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">first_three</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_dask_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Slice selection</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">&quot;s_1_t_1_c_10_z_20.ome.tiff&quot;</span><span class="p">)</span>
-<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">&quot;CZYX&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">BioImage</span><span class="p">(</span><span class="s2">"s_1_t_1_c_10_z_20.ome.tiff"</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">every_other</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">(</span><span class="s2">"CZYX"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -2694,9 +2694,9 @@ Recommended to use <cite>xarray_dask_data</cite> for large mosaic images.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dims</span> <span class="o">=</span> <span class="n">Dimensions</span><span class="p">(</span><span class="s2">&quot;TCZYX&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">624</span><span class="p">,</span> <span class="mi">924</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dims</span> <span class="o">=</span> <span class="n">Dimensions</span><span class="p">(</span><span class="s2">"TCZYX"</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">624</span><span class="p">,</span> <span class="mi">924</span><span class="p">))</span>
 <span class="gp">... </span><span class="n">dims</span><span class="o">.</span><span class="n">X</span>
-<span class="gp">... </span><span class="n">dims</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="s1">&#39;X&#39;</span><span class="p">]</span>
+<span class="gp">... </span><span class="n">dims</span><span class="p">[</span><span class="s1">'T'</span><span class="p">,</span> <span class="s1">'X'</span><span class="p">]</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -3000,11 +3000,11 @@ time point to the beginning of the final time point.</p>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">])</span>
-<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.ome.tif&quot;</span><span class="p">,</span> <span class="s2">&quot;TCZYX&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"file.ome.tif"</span><span class="p">,</span> <span class="s2">"TCZYX"</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
-<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;file.png&quot;</span><span class="p">,</span> <span class="s2">&quot;CYX&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="n">DerivedWriter</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">"file.png"</span><span class="p">,</span> <span class="s2">"CYX"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -3272,7 +3272,7 @@ but the user may explicitly choose it via the <cite>reader=</cite> parameter.</p
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="_static/documentation_options.js?v=654eae90"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio_base.writer - bioio 3.5.0 documentation</title>
+        <title>bioio_base.writer - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -266,9 +266,9 @@
 <div class="viewcode-block" id="Writer">
 <a class="viewcode-back" href="../../generated/bioio.Writer.html#bioio.Writer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Writer</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A small class to build standardized image writer functions.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Writer.save">
 <a class="viewcode-back" href="../../bioio.html#bioio.Writer.save">[docs]</a>
@@ -280,7 +280,7 @@
         <span class="n">dim_order</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dimensions</span><span class="o">.</span><span class="n">DEFAULT_DIMENSION_ORDER</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Write a data array to a file.</span>
 
 <span class="sd">        Parameters</span>
@@ -295,11 +295,11 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; image = numpy.ndarray([1, 10, 3, 1024, 2048])</span>
-<span class="sd">        ... DerivedWriter.save(image, &quot;file.ome.tif&quot;, &quot;TCZYX&quot;)</span>
+<span class="sd">        ... DerivedWriter.save(image, "file.ome.tif", "TCZYX")</span>
 
 <span class="sd">        &gt;&gt;&gt; image = dask.array.ones((4, 100, 100))</span>
-<span class="sd">        ... DerivedWriter.save(image, &quot;file.png&quot;, &quot;CYX&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
+<span class="sd">        ... DerivedWriter.save(image, "file.png", "CYX")</span>
+<span class="sd">        """</span></div>
 </div>
 
         <span class="c1"># There are no requirements for n-dimensions of data.</span>
@@ -336,7 +336,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

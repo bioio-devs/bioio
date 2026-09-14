@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio.plugins - bioio 3.5.0 documentation</title>
+        <title>bioio.plugins - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -277,8 +277,8 @@
 
 <span class="c1">###############################################################################</span>
 
-<span class="n">BIOIO_DIST_NAME</span> <span class="o">=</span> <span class="s2">&quot;bioio&quot;</span>
-<span class="n">BIOIO_BASE_DIST_NAME</span> <span class="o">=</span> <span class="s2">&quot;bioio-base&quot;</span>
+<span class="n">BIOIO_DIST_NAME</span> <span class="o">=</span> <span class="s2">"bioio"</span>
+<span class="n">BIOIO_BASE_DIST_NAME</span> <span class="o">=</span> <span class="s2">"bioio-base"</span>
 
 
 <div class="viewcode-block" id="PluginEntry">
@@ -294,20 +294,20 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_extensions</span><span class="p">(</span><span class="n">exts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Normalize and deduplicate a sequence of extensions.</span>
 
 <span class="sd">    - Lowercases all entries</span>
-<span class="sd">    - Ensures each extension starts with &#39;.&#39;</span>
+<span class="sd">    - Ensures each extension starts with '.'</span>
 <span class="sd">    - Removes duplicates while preserving first-seen order</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">normalized</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
         <span class="n">e</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-            <span class="n">e</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">e</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"."</span><span class="p">):</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="s2">"."</span> <span class="o">+</span> <span class="n">e</span>
 
         <span class="k">if</span> <span class="n">e</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
             <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -317,17 +317,17 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_count_extension_families</span><span class="p">(</span><span class="n">exts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Given a list of *normalized* extensions (lowercase, leading &#39;.&#39;), compute</span>
-<span class="sd">    how many distinct &#39;families&#39; of extensions this plugin effectively supports.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Given a list of *normalized* extensions (lowercase, leading '.'), compute</span>
+<span class="sd">    how many distinct 'families' of extensions this plugin effectively supports.</span>
 
 <span class="sd">    Two extensions belong to the same family if one is a suffix of the other.</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
-<span class="sd">    [&quot;.ome.tiff&quot;, &quot;.tiff&quot;, &quot;.ome.tif&quot;, &quot;.tif&quot;] -&gt; 2 families:</span>
-<span class="sd">        {&quot;.ome.tiff&quot;, &quot;.tiff&quot;}, {&quot;.ome.tif&quot;, &quot;.tif&quot;}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    [".ome.tiff", ".tiff", ".ome.tif", ".tif"] -&gt; 2 families:</span>
+<span class="sd">        {".ome.tiff", ".tiff"}, {".ome.tif", ".tif"}</span>
+<span class="sd">    """</span>
     <span class="n">families</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">exts</span><span class="p">:</span>
@@ -357,13 +357,13 @@
 <div class="viewcode-block" id="get_array_like_plugin">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_array_like_plugin">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_array_like_plugin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PluginEntry</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create and return a PluginEntry for ArrayLikeReader.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">entrypoint</span> <span class="o">=</span> <span class="n">EntryPoint</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ArrayLikeReader&quot;</span><span class="p">,</span>
-        <span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="s2">&quot;bioio.array_like_reader:ArrayLikeReader&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"ArrayLikeReader"</span><span class="p">,</span>
+        <span class="n">group</span><span class="o">=</span><span class="s2">"bioio.readers"</span><span class="p">,</span>
+        <span class="n">value</span><span class="o">=</span><span class="s2">"bioio.array_like_reader:ArrayLikeReader"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="n">ArrayLikeReaderMetadata</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">PluginEntry</span><span class="p">(</span><span class="n">entrypoint</span><span class="o">=</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span></div>
@@ -375,52 +375,52 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_dependency_version_range_for_distribution</span><span class="p">(</span>
     <span class="n">distribution_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dependency_name</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Retrieves the minimum and maximum versions of the dependency as specified</span>
 <span class="sd">    by the given distribution.</span>
 <span class="sd">    `None` as the minimum or maximum represents no minimum or maximum (respectively)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">all_distribution_deps</span> <span class="o">=</span> <span class="n">requires</span><span class="p">(</span><span class="n">distribution_name</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
     <span class="n">matching_distribution_deps</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">dep</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">all_distribution_deps</span> <span class="k">if</span> <span class="n">dep</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">dependency_name</span><span class="p">)</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_distribution_deps</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Expected to find 1 `</span><span class="si">{</span><span class="n">dependency_name</span><span class="si">}</span><span class="s2">` dependency for &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">distribution_name</span><span class="si">}</span><span class="s2">`, instead found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_distribution_deps</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Expected to find 1 `</span><span class="si">{</span><span class="n">dependency_name</span><span class="si">}</span><span class="s2">` dependency for "</span>
+            <span class="sa">f</span><span class="s2">"`</span><span class="si">{</span><span class="n">distribution_name</span><span class="si">}</span><span class="s2">`, instead found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">matching_distribution_deps</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
-    <span class="c1"># Versions from importlib are formatted like &quot;&lt;dependency name&gt; (&lt;0.19,&gt;=0.18)&quot;</span>
+    <span class="c1"># Versions from importlib are formatted like "&lt;dependency name&gt; (&lt;0.19,&gt;=0.18)"</span>
     <span class="c1"># so this regex needs to find the inner part of the parentheses to get the</span>
     <span class="c1"># version specifications</span>
-    <span class="n">version_specification_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\(.*?\)&quot;</span><span class="p">,</span> <span class="n">matching_distribution_deps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">version_specification_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\(.*?\)"</span><span class="p">,</span> <span class="n">matching_distribution_deps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="n">minimum_dependency_version</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">maximum_dependency_version</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">version_specification_match</span><span class="p">:</span>
         <span class="c1"># A distribution can specify a minimum and maximum (or force an exact) version</span>
         <span class="c1"># so multiple versions need to be parsed here</span>
-        <span class="n">version_specifications</span> <span class="o">=</span> <span class="n">version_specification_match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">version_specifications</span> <span class="o">=</span> <span class="n">version_specification_match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">version_specification</span> <span class="ow">in</span> <span class="n">version_specifications</span><span class="p">:</span>
-            <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                 <span class="p">[</span>
                     <span class="n">char</span>
                     <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">version_specification</span>
-                    <span class="k">if</span> <span class="n">char</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span> <span class="ow">or</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span>
+                    <span class="k">if</span> <span class="n">char</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">()</span> <span class="ow">or</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">"."</span>
                 <span class="p">]</span>
             <span class="p">)</span>
 
             <span class="c1"># Unfortunately not all versions are specified in full SemVer format</span>
-            <span class="c1"># and instead can be like &quot;0.19&quot; and the &quot;semver&quot; package does not</span>
+            <span class="c1"># and instead can be like "0.19" and the "semver" package does not</span>
             <span class="c1"># handle these well so we can just fill in the missing .0</span>
             <span class="c1"># to make 0.19 -&gt; 0.19.0</span>
-            <span class="k">while</span> <span class="n">version</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">version</span> <span class="o">+=</span> <span class="s2">&quot;.0&quot;</span>
+            <span class="k">while</span> <span class="n">version</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">version</span> <span class="o">+=</span> <span class="s2">".0"</span>
 
-            <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span> <span class="ow">or</span> <span class="s2">&quot;==&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"&lt;"</span> <span class="ow">in</span> <span class="n">version_specification</span> <span class="ow">or</span> <span class="s2">"=="</span> <span class="ow">in</span> <span class="n">version_specification</span><span class="p">:</span>
                 <span class="n">maximum_dependency_version</span> <span class="o">=</span> <span class="n">version</span>
 
-            <span class="k">if</span> <span class="s2">&quot;&gt;&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span> <span class="ow">or</span> <span class="s2">&quot;==&quot;</span> <span class="ow">in</span> <span class="n">version_specification</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"&gt;"</span> <span class="ow">in</span> <span class="n">version_specification</span> <span class="ow">or</span> <span class="s2">"=="</span> <span class="ow">in</span> <span class="n">version_specification</span><span class="p">:</span>
                 <span class="n">minimum_dependency_version</span> <span class="o">=</span> <span class="n">version</span>
 
     <span class="k">return</span> <span class="n">minimum_dependency_version</span><span class="p">,</span> <span class="n">maximum_dependency_version</span></div>
@@ -430,7 +430,7 @@
 <div class="viewcode-block" id="get_plugins">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_plugins">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Gather a ordered mapping from supported file extensions to installed plugins.</span>
 
 <span class="sd">    The return value is an OrderedDict:</span>
@@ -438,7 +438,7 @@
 <span class="sd">        { normalized_extension (str) -&gt; [PluginEntry, ...] }</span>
 
 <span class="sd">    where both the **extension keys** and the **plugin lists** are ordered to</span>
-<span class="sd">    encode BioIO&#39;s default selection policy.</span>
+<span class="sd">    encode BioIO's default selection policy.</span>
 
 <span class="sd">    Ordering semantics</span>
 <span class="sd">    ------------------</span>
@@ -450,13 +450,13 @@
 <span class="sd">       under each key.</span>
 
 <span class="sd">       Example:</span>
-<span class="sd">         Keys: [&quot;.ome.tiff&quot;, &quot;.tiff&quot;, &quot;.tif&quot;]</span>
-<span class="sd">         Ordered as: [&quot;.ome.tiff&quot;, &quot;.tiff&quot;, &quot;.tif&quot;]</span>
+<span class="sd">         Keys: [".ome.tiff", ".tiff", ".tif"]</span>
+<span class="sd">         Ordered as: [".ome.tiff", ".tiff", ".tif"]</span>
 
-<span class="sd">       For a path ending with &quot;file.ome.tiff&quot;, we will:</span>
-<span class="sd">         * first consider plugins registered under the &quot;.ome.tiff&quot; key</span>
-<span class="sd">         * then, if needed, fall back to the &quot;.tiff&quot; key</span>
-<span class="sd">         * and finally &quot;.tif&quot;, etc.</span>
+<span class="sd">       For a path ending with "file.ome.tiff", we will:</span>
+<span class="sd">         * first consider plugins registered under the ".ome.tiff" key</span>
+<span class="sd">         * then, if needed, fall back to the ".tiff" key</span>
+<span class="sd">         * and finally ".tif", etc.</span>
 
 <span class="sd">       This ordering is purely about the suffix string itself; it does **not**</span>
 <span class="sd">       depend on how many extensions any plugin declares.</span>
@@ -469,14 +469,14 @@
 <span class="sd">         * ``family_count`` — the number of **extension families** supported by</span>
 <span class="sd">           that plugin, using ``_count_extension_families`` on its normalized</span>
 <span class="sd">           extension list. Two extensions are in the same family if the</span>
-<span class="sd">           dot-separated segment list of one is a suffix of the other&#39;s.</span>
+<span class="sd">           dot-separated segment list of one is a suffix of the other's.</span>
 
 <span class="sd">           Examples (normalized):</span>
-<span class="sd">             [&quot;.ome.tiff&quot;, &quot;.tiff&quot;]  -&gt; 1 family   ({&quot;.ome.tiff&quot;, &quot;.tiff&quot;})</span>
-<span class="sd">             [&quot;.ome.tif&quot;, &quot;.tif&quot;]    -&gt; 1 family   ({&quot;.ome.tif&quot;,  &quot;.tif&quot;})</span>
-<span class="sd">             [&quot;.tif&quot;, &quot;.tiff&quot;]       -&gt; 2 families ({&quot;.tif&quot;}, {&quot;.tiff&quot;})</span>
-<span class="sd">             [&quot;.a.b&quot;, &quot;.b&quot;]          -&gt; 1 family   ({&quot;.a.b&quot;, &quot;.b&quot;})</span>
-<span class="sd">             [&quot;.ab&quot;, &quot;.a&quot;]           -&gt; 2 families ({&quot;.ab&quot;},  {&quot;.a&quot;})</span>
+<span class="sd">             [".ome.tiff", ".tiff"]  -&gt; 1 family   ({".ome.tiff", ".tiff"})</span>
+<span class="sd">             [".ome.tif", ".tif"]    -&gt; 1 family   ({".ome.tif",  ".tif"})</span>
+<span class="sd">             [".tif", ".tiff"]       -&gt; 2 families ({".tif"}, {".tiff"})</span>
+<span class="sd">             [".a.b", ".b"]          -&gt; 1 family   ({".a.b", ".b"})</span>
+<span class="sd">             [".ab", ".a"]           -&gt; 2 families ({".ab"},  {".a"})</span>
 
 <span class="sd">         * ``raw_ext_count`` — the number of extensions returned directly by</span>
 <span class="sd">           ``ReaderMetadata.get_supported_extensions()`` (before normalization).</span>
@@ -495,14 +495,14 @@
 <span class="sd">    * Before including a plugin, we check its declared ``bioio-base`` version</span>
 <span class="sd">      range against the version required by the core ``bioio`` distribution and</span>
 <span class="sd">      skip plugins that are incompatible.</span>
-<span class="sd">    * This default ordering controls BioIO&#39;s automatic choice of reader based</span>
+<span class="sd">    * This default ordering controls BioIO's automatic choice of reader based</span>
 <span class="sd">      on extension. A user can still override the order of candidate plugins</span>
 <span class="sd">      for a given file via the ``reader`` argument on ``BioImage``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">use_cache</span> <span class="ow">and</span> <span class="n">plugins_by_ext_cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="n">eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;bioio.readers&quot;</span><span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">"bioio.readers"</span><span class="p">)</span>
 
     <span class="c1"># Mapping of extension -&gt; list[PluginEntry]</span>
     <span class="n">plugins_by_ext</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -536,9 +536,9 @@
             <span class="o">&lt;</span> <span class="mi">0</span>
         <span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Plugin `</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` does not meet &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;minimum `</span><span class="si">{</span><span class="n">BIOIO_BASE_DIST_NAME</span><span class="si">}</span><span class="s2">` of &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">min_compatible_bioio_base_version</span><span class="si">}</span><span class="s2">, ignoring&quot;</span>
+                <span class="sa">f</span><span class="s2">"Plugin `</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` does not meet "</span>
+                <span class="sa">f</span><span class="s2">"minimum `</span><span class="si">{</span><span class="n">BIOIO_BASE_DIST_NAME</span><span class="si">}</span><span class="s2">` of "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">min_compatible_bioio_base_version</span><span class="si">}</span><span class="s2">, ignoring"</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -575,7 +575,7 @@
         <span class="p">)</span>
 
     <span class="c1"># Order the extension keys by length (descending) so more specific suffixes</span>
-    <span class="c1"># (e.g., &quot;.ome.tiff&quot;) are checked before shorter ones (e.g., &quot;.tiff&quot;).</span>
+    <span class="c1"># (e.g., ".ome.tiff") are checked before shorter ones (e.g., ".tiff").</span>
     <span class="n">plugins_by_ext_ordered</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span>
         <span class="nb">sorted</span><span class="p">(</span>
             <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
@@ -595,14 +595,14 @@
 <div class="viewcode-block" id="dump_plugins">
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.dump_plugins">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dump_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Report information about plugins currently installed</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    use_cache : bool</span>
 <span class="sd">        Whether to use the cached plugins list. Mainly exposed for testing purposes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">)</span>
     <span class="n">plugin_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -615,12 +615,12 @@
         <span class="c1"># Unpack dist</span>
         <span class="n">dist</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">dist</span>
         <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">author</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;author&quot;</span><span class="p">)</span>
-            <span class="n">license</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;license&quot;</span><span class="p">)</span>
+            <span class="n">author</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"author"</span><span class="p">)</span>
+            <span class="n">license</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"license"</span><span class="p">)</span>
 
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Author  : </span><span class="si">{</span><span class="n">author</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">author</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Not Specified&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Version : </span><span class="si">{</span><span class="n">dist</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  License : </span><span class="si">{</span><span class="n">license</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">license</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Not Specified&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Author  : </span><span class="si">{</span><span class="n">author</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">author</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Not Specified'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Version : </span><span class="si">{</span><span class="n">dist</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  License : </span><span class="si">{</span><span class="n">license</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">license</span><span class="w"> </span><span class="ow">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="kc">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Not Specified'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
             <span class="c1"># Unpack files</span>
             <span class="n">files</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">files</span>
@@ -629,18 +629,18 @@
                 <span class="n">t</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span>
                     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">firstfile</span><span class="o">.</span><span class="n">locate</span><span class="p">())</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
                 <span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Date    : </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Date    : </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  No Distribution Found...&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"  No Distribution Found..."</span><span class="p">)</span>
 
         <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span>
-        <span class="n">exts</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reader_meta</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Supported Extensions : </span><span class="si">{</span><span class="n">exts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plugins for extensions:&quot;</span><span class="p">)</span>
+        <span class="n">exts</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reader_meta</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Supported Extensions : </span><span class="si">{</span><span class="n">exts</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Plugins for extensions:"</span><span class="p">)</span>
     <span class="n">sorted_exts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">sorted_exts</span><span class="p">:</span>
         <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plugins</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plugins</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
@@ -648,7 +648,7 @@
 <a class="viewcode-back" href="../../bioio.html#bioio.plugins.PluginSupport">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginSupport</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dataclass for reporting a plugins support for a specific image.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dataclass for reporting a plugins support for a specific image."""</span>
 
     <span class="n">supported</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span></div>
@@ -658,7 +658,7 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_check_plugin_support</span><span class="p">(</span>
     <span class="n">plugin</span><span class="p">:</span> <span class="n">PluginEntry</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="n">ImageLike</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PluginSupport</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to check if a plugin supports the given image.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Helper function to check if a plugin supports the given image."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
         <span class="n">supported</span> <span class="o">=</span> <span class="n">ReaderClass</span><span class="o">.</span><span class="n">is_supported_image</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">)</span>
@@ -675,7 +675,7 @@
     <span class="n">use_plugin_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PluginSupport</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generate a feasibility report for each plugin,</span>
 <span class="sd">    determining if it can handle the specified image.</span>
 
@@ -687,14 +687,14 @@
 <span class="sd">    extension is NOT listed in that plugin’s advertised supported extensions.</span>
 <span class="sd">    In such cases, BioImage will NOT auto-select that plugin for the file,</span>
 <span class="sd">    but the user may explicitly choose it via the `reader=` parameter.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">)</span>
     <span class="n">feasibility_report</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PluginSupport</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">ext</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
         <span class="c1"># Strip any query parameters, then extract suffix</span>
-        <span class="n">clean_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">clean_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"?"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">ext</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">clean_path</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="c1"># Check each plugin for support</span>
@@ -713,28 +713,28 @@
                     <span class="n">ReaderClass</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_reader</span><span class="p">()</span>
 
                     <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Plugin &#39;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">&#39; CAN read the file &#39;</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">&#39;, &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;but the file extension &#39;</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">&#39; is NOT listed in its &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;get_supported_extensions(): </span><span class="si">{</span><span class="n">advertised_exts</span><span class="si">}</span><span class="s2">.  BioImage &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;will NOT auto-select this reader based on extension.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;To use this reader manually, instantiate BioImage with:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;    BioImage(&#39;</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">&#39;, reader=</span><span class="si">{</span><span class="n">ReaderClass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">)&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Plugin '</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">' CAN read the file '</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">', "</span>
+                        <span class="sa">f</span><span class="s2">"but the file extension '</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">' is NOT listed in its "</span>
+                        <span class="sa">f</span><span class="s2">"get_supported_extensions(): </span><span class="si">{</span><span class="n">advertised_exts</span><span class="si">}</span><span class="s2">.  BioImage "</span>
+                        <span class="sa">f</span><span class="s2">"will NOT auto-select this reader based on extension.</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"To use this reader manually, instantiate BioImage with:</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"    BioImage('</span><span class="si">{</span><span class="n">image</span><span class="si">}</span><span class="s2">', reader=</span><span class="si">{</span><span class="n">ReaderClass</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">)"</span>
                     <span class="p">)</span>
 
     <span class="c1"># Additional check for ArrayLike support</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">supported</span> <span class="o">=</span> <span class="n">ArrayLikeReader</span><span class="o">.</span><span class="n">is_supported_image</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="o">=</span><span class="n">fs_kwargs</span><span class="p">)</span>
-        <span class="n">feasibility_report</span><span class="p">[</span><span class="s2">&quot;ArrayLike&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="n">supported</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">feasibility_report</span><span class="p">[</span><span class="s2">"ArrayLike"</span><span class="p">]</span> <span class="o">=</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="n">supported</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">feasibility_report</span><span class="p">[</span><span class="s2">&quot;ArrayLike&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">feasibility_report</span><span class="p">[</span><span class="s2">"ArrayLike"</span><span class="p">]</span> <span class="o">=</span> <span class="n">PluginSupport</span><span class="p">(</span><span class="n">supported</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
     <span class="c1"># Log feasibility report in a readable format</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feasibility Report Summary:&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Feasibility Report Summary:"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">feasibility_report</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">status</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Unsupported - Error: </span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: Unsupported - Error: </span><span class="si">{</span><span class="n">status</span><span class="o">.</span><span class="n">error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;Supported&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">status</span><span class="o">.</span><span class="n">supported</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Unsupported&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">'Supported'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">status</span><span class="o">.</span><span class="n">supported</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Unsupported'</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">feasibility_report</span></div>
 
@@ -770,7 +770,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

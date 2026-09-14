@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio.array_like_reader - bioio 3.5.0 documentation</title>
+        <title>bioio.array_like_reader - bioio 3.5.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.0 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.0 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -283,7 +283,7 @@
 <div class="viewcode-block" id="ArrayLikeReader">
 <a class="viewcode-back" href="../../bioio.html#bioio.array_like_reader.ArrayLikeReader">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ArrayLikeReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    A catch all for numpy, dask, or xarray to Reader interface.</span>
 
 <span class="sd">    See Notes for more details.</span>
@@ -303,7 +303,7 @@
 <span class="sd">    dim_order: Optional[Union[List[str], str]]</span>
 <span class="sd">        A string of dimensions to be applied to all array(s) or a</span>
 <span class="sd">        list of string dimension names to be mapped onto the list of arrays</span>
-<span class="sd">        provided to image. I.E. &quot;TYX&quot;.</span>
+<span class="sd">        provided to image. I.E. "TYX".</span>
 <span class="sd">        Default: None (guess dimensions for single array or multiple arrays)</span>
 
 <span class="sd">    channel_names: Optional[Union[List[str], List[List[str]]]]</span>
@@ -315,9 +315,9 @@
 <span class="sd">    physical_pixel_sizes: Optional[</span>
 <span class="sd">        Union[List[float], Dict[str, float], PhysicalPixelSizes]</span>
 <span class="sd">    ]</span>
-<span class="sd">        A specification of this image&#39;s physical pixel sizes. Can be provided as</span>
+<span class="sd">        A specification of this image's physical pixel sizes. Can be provided as</span>
 <span class="sd">        a list, dict or PhysicalPixelSizes object. If a list is passed, the assumed</span>
-<span class="sd">        order is [Z, Y, X]. If a dict is passed, it must contain &quot;Z&quot;, &quot;Y&quot; and &quot;X&quot;</span>
+<span class="sd">        order is [Z, Y, X]. If a dict is passed, it must contain "Z", "Y" and "X"</span>
 <span class="sd">        as keys.</span>
 <span class="sd">        Default: None</span>
 
@@ -350,15 +350,15 @@
 <span class="sd">    ... some_dask = ...</span>
 <span class="sd">    ... reader = ArrayLikeReader(</span>
 <span class="sd">    ...     image=[some_metadata_attached_xr, some_np, some_dask],</span>
-<span class="sd">    ...     dim_order=[None, &quot;CTYX&quot;, &quot;ZTYX&quot;],</span>
-<span class="sd">    ...     channel_names=[None, [&quot;A&quot;, &quot;B&quot;, C&quot;], None],</span>
+<span class="sd">    ...     dim_order=[None, "CTYX", "ZTYX"],</span>
+<span class="sd">    ...     channel_names=[None, ["A", "B", C"], None],</span>
 <span class="sd">    ... )</span>
 
 <span class="sd">    Will create a three scene ArrayLikeReader with the metadata and coordinate</span>
 <span class="sd">    information filled xarray DataArray as the first scene, a numpy array with CTYX as</span>
-<span class="sd">    the dimensions and [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;] as the channel names, and a dask array with ZTYX</span>
+<span class="sd">    the dimensions and ["A", "B", "C"] as the channel names, and a dask array with ZTYX</span>
 <span class="sd">    as the dimensions and no channel names (as there is no channel dimension).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">_scenes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -375,23 +375,23 @@
                 <span class="k">continue</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">UnsupportedFileFormatError</span><span class="p">(</span>
-                    <span class="s2">&quot;ArrayLikeReader&quot;</span><span class="p">,</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unsupported image type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;ArrayLikeReader supported types are numpy ndarray, dask Array,&quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;or xarray DataArray.&quot;</span><span class="p">,</span>
+                    <span class="s2">"ArrayLikeReader"</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">"Unsupported image type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="si">}</span><span class="s2">. "</span>
+                    <span class="o">+</span> <span class="s2">"ArrayLikeReader supported types are numpy ndarray, dask Array,"</span>
+                    <span class="o">+</span> <span class="s2">"or xarray DataArray."</span><span class="p">,</span>
                 <span class="p">)</span>
         <span class="c1"># If we got here, we have a supported image type</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_guess_dim_order</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Given an image shape attempts to guess the dimension order.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        shape: Tuple[int, ...]</span>
-<span class="sd">            Tuple of the image array&#39;s dimensions.</span>
+<span class="sd">            Tuple of the image array's dimensions.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -403,13 +403,13 @@
 <span class="sd">        exceptions.InvalidDimensionOrderingError</span>
 <span class="sd">            Raised when the shape has more than dimensions than the ArrayLikeReader</span>
 <span class="sd">            has a default order available to support.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">DEFAULT_DIMENSION_ORDER</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidDimensionOrderingError</span><span class="p">(</span>
-                    <span class="s2">&quot;Unable to guess dimension order for array-like images with &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;more than </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span><span class="p">)</span><span class="si">}</span><span class="s2"> &quot;</span>
-                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;dimensions. Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2"> dimensions.&quot;</span>
+                    <span class="s2">"Unable to guess dimension order for array-like images with "</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">"more than </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span><span class="p">)</span><span class="si">}</span><span class="s2"> "</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">"dimensions. Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2"> dimensions."</span>
                 <span class="p">)</span>
 
             <span class="k">return</span> <span class="n">DEFAULT_DIMENSION_ORDER_WITH_SAMPLES</span><span class="p">[</span>
@@ -432,7 +432,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_supported_image</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
         <span class="c1"># General note</span>
-        <span class="c1"># Any time we do a `channel_names[0]` it&#39;s because the type check for</span>
+        <span class="c1"># Any time we do a `channel_names[0]` it's because the type check for</span>
         <span class="c1"># channel names is a List[List[str]], so by checking the first element we should</span>
         <span class="c1"># be getting back a list or a string. Anything else will error.</span>
 
@@ -448,12 +448,12 @@
                 <span class="c1"># Check dim order</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dim_order</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">ConflictingArgumentsError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;ArrayLikeReader received a list of arrays to use as scenes &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;but the provided list of dimension order strings is of &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;different length. &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Number of provided scenes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Number of provided dimension order strings: &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dim_order</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"ArrayLikeReader received a list of arrays to use as scenes "</span>
+                        <span class="sa">f</span><span class="s2">"but the provided list of dimension order strings is of "</span>
+                        <span class="sa">f</span><span class="s2">"different length. "</span>
+                        <span class="sa">f</span><span class="s2">"Number of provided scenes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="si">}</span><span class="s2">, "</span>
+                        <span class="sa">f</span><span class="s2">"Number of provided dimension order strings: "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dim_order</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
 
             <span class="c1"># Check channel names</span>
@@ -461,12 +461,12 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">channel_names</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">channel_names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
                         <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">ConflictingArgumentsError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;ArrayLikeReader received a list of arrays to use as &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;scenes but the provided list of channel names is &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;of different length. &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;Number of provided scenes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="si">}</span><span class="s2">, &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;Number of provided channel names: &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">channel_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                            <span class="sa">f</span><span class="s2">"ArrayLikeReader received a list of arrays to use as "</span>
+                            <span class="sa">f</span><span class="s2">"scenes but the provided list of channel names is "</span>
+                            <span class="sa">f</span><span class="s2">"of different length. "</span>
+                            <span class="sa">f</span><span class="s2">"Number of provided scenes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="si">}</span><span class="s2">, "</span>
+                            <span class="sa">f</span><span class="s2">"Number of provided channel names: "</span>
+                            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">channel_names</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
                         <span class="p">)</span>
 
         <span class="c1"># If metadata is attached as singles</span>
@@ -504,17 +504,17 @@
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">this_scene</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
                     <span class="c1"># Guess for xarray when they guessed</span>
                     <span class="c1"># http://xarray.pydata.org/en/stable/data-structures.html?highlight=dim_n#creating-a-dataarray</span>
-                    <span class="c1"># See &quot;dim_N&quot;</span>
-                    <span class="k">if</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dim_0&quot;</span><span class="p">:</span>
+                    <span class="c1"># See "dim_N"</span>
+                    <span class="k">if</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"dim_0"</span><span class="p">:</span>
                         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                            <span class="s2">&quot;Overrode the default xarray dimensions for AICSImage &quot;</span>
-                            <span class="s2">&quot;guessed dimensions.&quot;</span>
+                            <span class="s2">"Overrode the default xarray dimensions for AICSImage "</span>
+                            <span class="s2">"guessed dimensions."</span>
                         <span class="p">)</span>
-                        <span class="c1"># Rename the dimensions from &quot;dim_N&quot; to just the guess dim</span>
+                        <span class="c1"># Rename the dimensions from "dim_N" to just the guess dim</span>
                         <span class="c1"># Update scene list in place</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_all_scenes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
                             <span class="p">{</span>
-                                <span class="sa">f</span><span class="s2">&quot;dim_</span><span class="si">{</span><span class="n">d_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">d</span>
+                                <span class="sa">f</span><span class="s2">"dim_</span><span class="si">{</span><span class="n">d_index</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">d</span>
                                 <span class="k">for</span> <span class="n">d_index</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">_guess_dim_order</span><span class="p">(</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
                                 <span class="p">)</span>
@@ -531,17 +531,17 @@
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">this_scene</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">):</span>
                         <span class="c1"># Guess for xarray when they guessed</span>
                         <span class="c1"># http://xarray.pydata.org/en/stable/data-structures.html?highlight=dim_n#creating-a-dataarray</span>
-                        <span class="c1"># See &quot;dim_N&quot;</span>
-                        <span class="k">if</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dim_0&quot;</span><span class="p">:</span>
+                        <span class="c1"># See "dim_N"</span>
+                        <span class="k">if</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"dim_0"</span><span class="p">:</span>
                             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                                <span class="s2">&quot;Overrode the default xarray dimensions for AICSImage &quot;</span>
-                                <span class="s2">&quot;provided dimensions.&quot;</span>
+                                <span class="s2">"Overrode the default xarray dimensions for AICSImage "</span>
+                                <span class="s2">"provided dimensions."</span>
                             <span class="p">)</span>
-                            <span class="c1"># Rename the dimensions from &quot;dim_N&quot; to just the guess dim</span>
+                            <span class="c1"># Rename the dimensions from "dim_N" to just the guess dim</span>
                             <span class="c1"># Update scene list in place</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_all_scenes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
                                 <span class="p">{</span>
-                                    <span class="sa">f</span><span class="s2">&quot;dim_</span><span class="si">{</span><span class="n">d_index</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">d</span>
+                                    <span class="sa">f</span><span class="s2">"dim_</span><span class="si">{</span><span class="n">d_index</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">d</span>
                                     <span class="k">for</span> <span class="n">d_index</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dims_string</span><span class="p">)</span>
                                 <span class="p">}</span>
                             <span class="p">)</span>
@@ -549,10 +549,10 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">_scene_dims_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dims_string</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided dimension string does not have the same amount of &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;dimensions as the matching provided array. &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided array shape: </span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided dimension string: </span><span class="si">{</span><span class="n">dims_string</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Provided dimension string does not have the same amount of "</span>
+                        <span class="sa">f</span><span class="s2">"dimensions as the matching provided array. "</span>
+                        <span class="sa">f</span><span class="s2">"Provided array shape: </span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, "</span>
+                        <span class="sa">f</span><span class="s2">"Provided dimension string: </span><span class="si">{</span><span class="n">dims_string</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
 
         <span class="c1"># Validate and store channel_names</span>
@@ -611,24 +611,24 @@
                         <span class="o">!=</span> <span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">channel_dim_index</span><span class="p">]</span>
                     <span class="p">):</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Provided channel names list does not match the size of &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;channel dimension for the provided array. &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;Provided array shape: </span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;Channel dimension size: &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">channel_dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">, &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;Provided channel names: </span><span class="si">{</span><span class="n">this_scene_channel_names</span><span class="si">}</span><span class="s2">&quot;</span>
+                            <span class="sa">f</span><span class="s2">"Provided channel names list does not match the size of "</span>
+                            <span class="sa">f</span><span class="s2">"channel dimension for the provided array. "</span>
+                            <span class="sa">f</span><span class="s2">"Provided array shape: </span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, "</span>
+                            <span class="sa">f</span><span class="s2">"Channel dimension size: "</span>
+                            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">channel_dim_index</span><span class="p">]</span><span class="si">}</span><span class="s2">, "</span>
+                            <span class="sa">f</span><span class="s2">"Provided channel names: </span><span class="si">{</span><span class="n">this_scene_channel_names</span><span class="si">}</span><span class="s2">"</span>
                         <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_scene_channel_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_scene_channel_names</span><span class="p">)</span>
 
-            <span class="c1"># Raise error when channel names were provided when they shouldn&#39;t have been</span>
+            <span class="c1"># Raise error when channel names were provided when they shouldn't have been</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">this_scene_channel_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Received channel names for array without channel dimension. &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided array shape: </span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided (or guessed) dimensions: </span><span class="si">{</span><span class="n">this_scene_dims</span><span class="si">}</span><span class="s2">, &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Provided channel names: </span><span class="si">{</span><span class="n">this_scene_channel_names</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Received channel names for array without channel dimension. "</span>
+                        <span class="sa">f</span><span class="s2">"Provided array shape: </span><span class="si">{</span><span class="n">this_scene</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, "</span>
+                        <span class="sa">f</span><span class="s2">"Provided (or guessed) dimensions: </span><span class="si">{</span><span class="n">this_scene_dims</span><span class="si">}</span><span class="s2">, "</span>
+                        <span class="sa">f</span><span class="s2">"Provided channel names: </span><span class="si">{</span><span class="n">this_scene_channel_names</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_scene_channel_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_scene_channel_names</span><span class="p">)</span>
@@ -705,7 +705,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">physical_pixel_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PhysicalPixelSizes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        sizes: PhysicalPixelSizes</span>
@@ -716,7 +716,7 @@
 <span class="sd">        -----</span>
 <span class="sd">        We currently do not handle unit attachment to these values. Please see the file</span>
 <span class="sd">        metadata for unit information.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_physical_pixel_sizes</span></div>
 
 
@@ -772,7 +772,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=c1362a89"></script>
+</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

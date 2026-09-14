@@ -10,6 +10,7 @@ authors:
 repository-code: https://github.com/bioio-devs/bioio
 url: https://bioio-devs.github.io/bioio
 license: BSD-3-Clause
+doi: 10.5281/zenodo.22755965
 abstract: >-
   BioIO is a plugin-based Python library for reading, writing,
   and converting microscopy image data. It provides a unified

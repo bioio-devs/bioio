@@ -108,7 +108,7 @@ If you use BioIO in your research, please cite the core bioio package via the DO
   author    = {BioIO Contributors},
   title     = {{BioIO}},
   url       = {https://github.com/bioio-devs/bioio},
-  doi       = {10.5281/zenodo.XXXXXXX},
+  doi       = {10.5281/zenodo.22755965},
   year      = {2023},
 }
 ```

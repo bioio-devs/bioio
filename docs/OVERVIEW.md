@@ -79,6 +79,16 @@ This is a list of currently known and maintained reader plug-ins available, howe
   </tr>
   <tr>
     <td>
+        <a class="reference external" href="https://github.com/bioio-devs/bioio-imagexpress">bioio-imagexpress</a>
+    </td>
+    <td>
+        <code class="docutils literal notranslate">
+            <span class="pre">ImageXpress</span>
+        </code> (<code class="docutils literal notranslate"><span class="pre">.jdce</span></code> multifile directory)
+    </td>
+  </tr>
+  <tr>
+    <td>
         <a class="reference external" href="https://github.com/bioio-devs/bioio-lif">bioio-lif</a>
     </td>
     <td>

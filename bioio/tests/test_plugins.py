@@ -1,10 +1,13 @@
+import logging
+import pathlib
+
 import numpy as np
-from pytest import CaptureFixture
+from pytest import CaptureFixture, LogCaptureFixture
 
 import bioio
 from bioio.tests.helpers.mock_reader import PluginFactoryFixture
 
-from ..plugins import dump_plugins, get_plugins
+from ..plugins import dump_plugins, get_directory_image_plugins, get_plugins
 from .conftest import TestPluginSpec
 
 
@@ -183,3 +186,96 @@ def test_get_plugins_normalizes_extensions(
     # Assert: plugin appears under normalized key
     tif_plugins = plugins_by_ext[".tif"]
     assert any(p.entrypoint.name == "norm_plugin" for p in tif_plugins)
+
+
+def test_get_directory_image_plugins_collects_only_declaring_plugins(
+    plugin_factory: PluginFactoryFixture,
+) -> None:
+    # Arrange
+    specs = [
+        TestPluginSpec(
+            name="dir_b",
+            supported_extensions=[".b"],
+            supports_directory_images=True,
+        ),
+        TestPluginSpec(
+            name="dir_a",
+            supported_extensions=[".a"],
+            supports_directory_images=True,
+        ),
+        TestPluginSpec(
+            name="regular",
+            supported_extensions=[".txt"],
+        ),
+    ]
+    plugin_factory(specs)
+
+    # Act
+    directory_image_plugins = get_directory_image_plugins(use_cache=False)
+    plugins_by_ext = get_plugins(use_cache=True)
+
+    # Assert: only opted-in plugins, ordered alphabetically on tie
+    assert [p.entrypoint.name for p in directory_image_plugins] == ["dir_a", "dir_b"]
+
+    # Assert: directory image support does not affect extension registration
+    assert [p.entrypoint.name for p in plugins_by_ext[".a"]] == ["dir_a"]
+    assert [p.entrypoint.name for p in plugins_by_ext[".txt"]] == ["regular"]
+
+
+def test_dump_plugins_reports_directory_support(
+    plugin_factory: PluginFactoryFixture,
+    capsys: CaptureFixture[str],
+) -> None:
+    # Arrange
+    specs = [
+        TestPluginSpec(
+            name="dir_plugin",
+            supported_extensions=[".jdce"],
+            supports_directory_images=True,
+        )
+    ]
+    plugin_factory(specs)
+
+    # Act
+    dump_plugins(use_cache=False)
+    output = capsys.readouterr().out
+
+    # Assert
+    assert "Supports Directory Images : True" in output
+    assert "Plugins for directory images:" in output
+    assert "dir_plugin" in output.split("Plugins for directory images:")[1]
+
+
+def test_plugin_feasibility_report_for_directory_plugin(
+    plugin_factory: PluginFactoryFixture,
+    tmp_path: pathlib.Path,
+    caplog: LogCaptureFixture,
+) -> None:
+    # Arrange
+    specs = [
+        TestPluginSpec(
+            name="dir_plugin",
+            supported_extensions=[".jdce"],
+            supports_directory_images=True,
+        ),
+        TestPluginSpec(
+            name="regular",
+            supported_extensions=[".txt"],
+        ),
+    ]
+    plugin_factory(specs)
+    acquisition_dir = tmp_path / "experiment_z_stack"
+    acquisition_dir.mkdir()
+
+    # Act
+    with caplog.at_level(logging.WARNING, logger="bioio.plugins"):
+        report = bioio.plugin_feasibility_report(acquisition_dir)
+
+    # Assert: both are reported supported
+    assert report["dir_plugin"].supported is True
+    assert report["regular"].supported is True
+
+    # Assert: only the regular plugin gets the "will NOT auto-select" warning
+    warnings = [r.getMessage() for r in caplog.records]
+    assert any("'regular' CAN read" in w for w in warnings)
+    assert not any("'dir_plugin' CAN read" in w for w in warnings)

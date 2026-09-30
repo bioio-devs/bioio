@@ -41,6 +41,11 @@ class TestPluginSpec:
     check_anon_in_init:
         If True, the synthetic Reader’s `__init__` will require
         `fs_kwargs["anon"] == True` and raise otherwise.
+
+    supports_directory_images:
+        If True, the synthetic ReaderMetadata defines
+        `supports_directory_images()` returning True, declaring that the format
+        stores an image as a directory of files.
     """
 
     name: str
@@ -48,6 +53,7 @@ class TestPluginSpec:
     fail_on_is_supported: bool = False
     fail_message: str = "missing 1 required positional argument: 'path'"
     check_anon_in_init: bool = False
+    supports_directory_images: bool = False
 
 
 class PluginFactoryFixture(Protocol):
@@ -78,10 +84,13 @@ class _TestReaderMetadata:
         name: str,
         exts: List[str],
         reader_cls: Type[BaseReader],
+        supports_directory_images: bool = False,
     ) -> None:
         self._name = name
         self._exts = list(exts)
         self._reader_cls = reader_cls
+        if supports_directory_images:
+            self.supports_directory_images = lambda: True
 
     def get_supported_extensions(self) -> List[str]:
         return list(self._exts)
@@ -172,6 +181,7 @@ def _install_ephemeral_module(spec: TestPluginSpec) -> str:
         name=spec.name,
         exts=spec.supported_extensions,
         reader_cls=reader_cls,
+        supports_directory_images=spec.supports_directory_images,
     )
 
     setattr(mod, "Reader", reader_cls)
@@ -293,6 +303,7 @@ def plugin_factory(
 
         # Ensure a clean plugin resolution per test
         plugins.plugins_by_ext_cache.clear()
+        plugins.directory_image_plugins_cache.clear()
         return created_eps
 
     return factory

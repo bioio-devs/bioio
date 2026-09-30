@@ -35,6 +35,9 @@ class PluginEntry(NamedTuple):
 # global cache of plugins
 plugins_by_ext_cache: OrderedDict[str, List[PluginEntry]] = OrderedDict()
 
+# global cache of plugins for formats that store an image as a directory of files
+directory_image_plugins_cache: List[PluginEntry] = []
+
 
 def _normalize_extensions(exts: Sequence[str]) -> List[str]:
     """
@@ -233,6 +236,8 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
     * This default ordering controls BioIO's automatic choice of reader based
       on extension. A user can still override the order of candidate plugins
       for a given file via the ``reader`` argument on ``BioImage``.
+    * Some formats store an image as a directory of files, where the directory
+      path denotes the image.
     """
     if use_cache and plugins_by_ext_cache:
         return plugins_by_ext_cache.copy()
@@ -241,6 +246,9 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
 
     # Mapping of extension -> list[PluginEntry]
     plugins_by_ext: Dict[str, List[PluginEntry]] = {}
+
+    # Plugins for formats that store an image as a directory of files
+    directory_image_plugins: List[PluginEntry] = []
 
     # Per-plugin specificity metrics
     plugin_family_counts: Dict[PluginEntry, int] = {}
@@ -296,11 +304,18 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
         for ext in normalized_exts:
             plugins_by_ext.setdefault(ext, []).append(plugin_entry)
 
+        # fallback support
+        supports_directory_images = getattr(
+            reader_meta, "supports_directory_images", None
+        )
+        if supports_directory_images is not None and supports_directory_images():
+            directory_image_plugins.append(plugin_entry)
+
     # Order plugins within each extension:
     #   1) fewer extension families (more specific)
     #   2) fewer raw declared extensions
     #   3) alphabetical entrypoint name
-    for ext, plugin_list in plugins_by_ext.items():
+    for plugin_list in [*plugins_by_ext.values(), directory_image_plugins]:
         plugin_list.sort(
             key=lambda p: (
                 plugin_family_counts[p],
@@ -322,8 +337,18 @@ def get_plugins(use_cache: bool) -> Dict[str, List[PluginEntry]]:
     # Save copy of plugins to cache then return
     plugins_by_ext_cache.clear()
     plugins_by_ext_cache.update(plugins_by_ext_ordered)
+    directory_image_plugins_cache.clear()
+    directory_image_plugins_cache.extend(directory_image_plugins)
 
     return plugins_by_ext_ordered
+
+
+def get_directory_image_plugins(use_cache: bool) -> List[PluginEntry]:
+    """
+    Gather the ordered list of installed plugins that read directory images
+    """
+    get_plugins(use_cache=use_cache)
+    return list(directory_image_plugins_cache)
 
 
 def dump_plugins(use_cache: bool = True) -> None:
@@ -336,7 +361,8 @@ def dump_plugins(use_cache: bool = True) -> None:
         Whether to use the cached plugins list. Mainly exposed for testing purposes.
     """
     plugins_by_ext = get_plugins(use_cache=use_cache)
-    plugin_set = set()
+    directory_image_plugins = get_directory_image_plugins(use_cache=True)
+    plugin_set = set(directory_image_plugins)
     for _, plugins in plugins_by_ext.items():
         plugin_set.update(plugins)
 
@@ -368,11 +394,13 @@ def dump_plugins(use_cache: bool = True) -> None:
         reader_meta = plugin.metadata
         exts = ", ".join(reader_meta.get_supported_extensions())
         print(f"  Supported Extensions : {exts}")
+        print(f"  Supports Directory Images : {plugin in directory_image_plugins}")
     print("Plugins for extensions:")
     sorted_exts = sorted(plugins_by_ext.keys())
     for ext in sorted_exts:
         plugins = plugins_by_ext[ext]
         print(f"{ext}: {plugins}")
+    print(f"Plugins for directory images: {directory_image_plugins}")
 
 
 @dataclass
@@ -415,6 +443,7 @@ def plugin_feasibility_report(
     but the user may explicitly choose it via the `reader=` parameter.
     """
     plugins_by_ext = get_plugins(use_cache=use_plugin_cache)
+    directory_image_plugins = get_directory_image_plugins(use_cache=True)
     feasibility_report: Dict[str, PluginSupport] = {}
 
     ext = None
@@ -424,13 +453,17 @@ def plugin_feasibility_report(
         ext = Path(clean_path).suffix.lower()
 
     # Check each plugin for support
-    for plugins in plugins_by_ext.values():
+    for plugins in [*plugins_by_ext.values(), directory_image_plugins]:
         for plugin in plugins:
             plugin_name = plugin.entrypoint.name
             support = _check_plugin_support(plugin, image, fs_kwargs)
             feasibility_report[plugin_name] = support
 
-            if support.supported and ext is not None:
+            if (
+                support.supported
+                and ext is not None
+                and plugin not in directory_image_plugins
+            ):
                 advertised_exts = _normalize_extensions(
                     plugin.metadata.get_supported_extensions()
                 )

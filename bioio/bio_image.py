@@ -15,7 +15,12 @@ from bioio_base.types import MetaArrayLike
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
-from .plugins import PluginEntry, get_array_like_plugin, get_plugins
+from .plugins import (
+    PluginEntry,
+    get_array_like_plugin,
+    get_directory_image_plugins,
+    get_plugins,
+)
 
 ###############################################################################
 
@@ -205,9 +210,12 @@ class BioImage(biob.image_container.ImageContainer):
            plugin based on the file extension.
         3. For matching extensions, tries candidate readers in the order provided by
         the plugin mapping, returning the first constructed plugin whose reader.
-        4. If `image` is array-like (or a list of array-like), returns the built-in
+        4. If no extension-matched reader accepted the path and the path is a
+           directory, treats the directory itself as the image and tries the
+           readers of directory-based formats.
+        5. If `image` is array-like (or a list of array-like), returns the built-in
         ArrayLike reader plugin.
-        5. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
+        6. If no suitable plugin is found, raises an `UnsupportedFileFormatError`.
 
         Extension ordering and plugin ordering are defined by
         :func:`bioio.plugins.get_plugins`. See that function for the
@@ -239,27 +247,39 @@ class BioImage(biob.image_container.ImageContainer):
             # we do not enforce_exists because it's possible
             # the path is a directory on a HTTP filesystem
             # which is impossible to check for existence
-            _, path = biob.io.pathlike_to_fs(
+            fs, path = biob.io.pathlike_to_fs(
                 image, enforce_exists=False, fs_kwargs=fs_kwargs
             )
 
-            # Check for extension in plugins_by_ext
+            tried_plugins: List[PluginEntry] = []
+
+            # 1 Check for extension in plugins_by_ext
             for format_ext, plugins in plugins_by_ext.items():
                 if BioImage._path_has_extension(path, format_ext):
-                    for plugin in plugins:
-                        ReaderClass = plugin.metadata.get_reader()
-                        try:
-                            if ReaderClass.is_supported_image(
-                                image, fs_kwargs=fs_kwargs
-                            ):
-                                return plugin
-                        except FileNotFoundError as fe:
-                            raise fe
-                        except Exception as e:
-                            log.warning(
-                                f"Attempted file ({path}) load with reader: "
-                                f"{ReaderClass} failed with error: {e}"
-                            )
+                    plugin = BioImage._first_supporting_plugin(
+                        plugins, image, path, fs_kwargs
+                    )
+                    if plugin is not None:
+                        return plugin
+                    tried_plugins.extend(plugins)
+
+            # 2 look for directory like images
+            directory_image_plugins = [
+                p
+                for p in get_directory_image_plugins(use_cache=use_plugin_cache)
+                if p not in tried_plugins
+            ]
+            if directory_image_plugins:
+                try:
+                    is_dir = fs.isdir(path)
+                except Exception:
+                    is_dir = False
+                if is_dir:
+                    plugin = BioImage._first_supporting_plugin(
+                        directory_image_plugins, image, path, fs_kwargs
+                    )
+                    if plugin is not None:
+                        return plugin
 
         # Use built-in ArrayLikeReader if type MetaArrayLike
         elif isinstance(image, get_args(MetaArrayLike) + (list,)):
@@ -280,6 +300,32 @@ class BioImage(biob.image_container.ImageContainer):
                 "specific image can be handled by the available plugins."
             ),
         )
+
+    @staticmethod
+    def _first_supporting_plugin(
+        plugins: Sequence[PluginEntry],
+        image: biob.types.ImageLike,
+        path: str,
+        fs_kwargs: Dict[str, Any],
+    ) -> Optional[PluginEntry]:
+        """
+        Return the first plugin whose reader reports support for the image,
+        or None if no plugin does. Support-check errors other than
+        FileNotFoundError are logged and treated as unsupported.
+        """
+        for plugin in plugins:
+            ReaderClass = plugin.metadata.get_reader()
+            try:
+                if ReaderClass.is_supported_image(image, fs_kwargs=fs_kwargs):
+                    return plugin
+            except FileNotFoundError as fe:
+                raise fe
+            except Exception as e:
+                log.warning(
+                    f"Attempted file ({path}) load with reader: "
+                    f"{ReaderClass} failed with error: {e}"
+                )
+        return None
 
     @staticmethod
     def _path_has_extension(path: str, extension: str) -> bool:

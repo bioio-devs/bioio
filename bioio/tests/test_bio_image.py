@@ -1,6 +1,8 @@
+import logging
 import pathlib
 from importlib import import_module
 from importlib.metadata import EntryPoint
+from typing import List, Optional
 
 import bioio_base as biob
 import numpy as np
@@ -257,3 +259,133 @@ def test_bioimage_reader_list_aggregates_failures_when_all_fail(
     msg = str(err.value)
     assert "unsupported - A" in msg
     assert "unsupported - B" in msg
+
+
+REGULAR_PLUGIN = TestPluginSpec(name="regular", supported_extensions=[".txt"])
+DIR_IMAGE_PLUGIN = TestPluginSpec(
+    name="dir_plugin",
+    supported_extensions=[".jdce"],
+    supports_directory_images=True,
+)
+ZARR_PLUGIN = TestPluginSpec(name="zarr_plugin", supported_extensions=[".zarr"])
+REJECTING_ZARR_PLUGIN = TestPluginSpec(
+    name="zarr_plugin",
+    supported_extensions=[".zarr"],
+    fail_on_is_supported=True,
+)
+# e.g. bioio-ome-zarr: registers extensions AND reads directory images
+ZARR_DIR_IMAGE_PLUGIN = TestPluginSpec(
+    name="zarr_plugin",
+    supported_extensions=[".zarr", ".ome.zarr"],
+    supports_directory_images=True,
+)
+
+
+@pytest.mark.parametrize(
+    "specs, path_name, is_dir, expected_plugin",
+    [
+        pytest.param(
+            [REGULAR_PLUGIN, DIR_IMAGE_PLUGIN],
+            "experiment_z_stack",
+            True,
+            "dir_plugin",
+            id="extensionless-dir-uses-directory-image-plugin",
+        ),
+        pytest.param(
+            [REGULAR_PLUGIN],
+            "experiment_z_stack",
+            True,
+            None,
+            id="extensionless-dir-without-directory-image-plugins-unsupported",
+        ),
+        # dir_plugin sorts first alphabetically, so it would win if the
+        # directory fallback ran before or alongside extension matching.
+        pytest.param(
+            [ZARR_PLUGIN, DIR_IMAGE_PLUGIN],
+            "image.ome.zarr",
+            True,
+            "zarr_plugin",
+            id="dir-with-extension-prefers-extension-match",
+        ),
+        pytest.param(
+            [REJECTING_ZARR_PLUGIN, DIR_IMAGE_PLUGIN],
+            "image.zarr",
+            True,
+            "dir_plugin",
+            id="dir-falls-back-after-extension-plugins-reject",
+        ),
+        pytest.param(
+            [DIR_IMAGE_PLUGIN],
+            "not_an_image.xyz",
+            False,
+            None,
+            id="file-without-matching-extension-skips-directory-image-plugins",
+        ),
+        pytest.param(
+            [ZARR_DIR_IMAGE_PLUGIN],
+            "image.ome.zarr",
+            True,
+            "zarr_plugin",
+            id="same-plugin-routes-by-extension",
+        ),
+        pytest.param(
+            [ZARR_DIR_IMAGE_PLUGIN],
+            "myplate",
+            True,
+            "zarr_plugin",
+            id="same-plugin-routes-as-directory-image",
+        ),
+    ],
+)
+def test_determine_plugin_directory_images(
+    plugin_factory: PluginFactoryFixture,
+    tmp_path: pathlib.Path,
+    specs: List[TestPluginSpec],
+    path_name: str,
+    is_dir: bool,
+    expected_plugin: Optional[str],
+) -> None:
+    # Arrange
+    plugin_factory(specs)
+    path = tmp_path / path_name
+    if is_dir:
+        path.mkdir()
+    else:
+        path.write_text("nope")
+
+    # Act / Assert
+    if expected_plugin is None:
+        with pytest.raises(biob.exceptions.UnsupportedFileFormatError):
+            BioImage.determine_plugin(path)
+    else:
+        assert BioImage.determine_plugin(path).entrypoint.name == expected_plugin
+
+
+def test_determine_plugin_with_ext_doesnt_probe_all_dir_supporting_plugins(
+    plugin_factory: PluginFactoryFixture,
+    tmp_path: pathlib.Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    # Arrange
+    plugin_factory(
+        [
+            TestPluginSpec(
+                name="zarr_plugin",
+                supported_extensions=[".zarr"],
+                supports_directory_images=True,
+                fail_on_is_supported=True,
+            ),
+        ]
+    )
+    zarr_dir = tmp_path / "image.zarr"
+    zarr_dir.mkdir()
+
+    # Act
+    with caplog.at_level(logging.WARNING, logger="bioio.bio_image"):
+        with pytest.raises(biob.exceptions.UnsupportedFileFormatError):
+            BioImage.determine_plugin(zarr_dir)
+
+    # Assert: the extension match already probed this plugin, so the directory
+    # fallback must not probe it a second time
+    failures = [r for r in caplog.records if "failed with error" in r.getMessage()]
+    assert len(failures) == 1

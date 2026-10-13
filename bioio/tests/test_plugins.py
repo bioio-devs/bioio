@@ -10,6 +10,12 @@ from bioio.tests.helpers.mock_reader import PluginFactoryFixture
 from ..plugins import dump_plugins, get_directory_image_plugins, get_plugins
 from .conftest import TestPluginSpec
 
+DIRECTORY_PLUGIN_SPEC = TestPluginSpec(
+    name="dir_plugin",
+    supported_extensions=[".jdce"],
+    supports_directory_images=True,
+)
+
 
 def test_dump_plugins(
     plugin_factory: PluginFactoryFixture,
@@ -227,14 +233,7 @@ def test_dump_plugins_reports_directory_support(
     capsys: CaptureFixture[str],
 ) -> None:
     # Arrange
-    specs = [
-        TestPluginSpec(
-            name="dir_plugin",
-            supported_extensions=[".jdce"],
-            supports_directory_images=True,
-        )
-    ]
-    plugin_factory(specs)
+    plugin_factory([DIRECTORY_PLUGIN_SPEC])
 
     # Act
     dump_plugins(use_cache=False)
@@ -253,11 +252,7 @@ def test_plugin_feasibility_report_for_directory_plugin(
 ) -> None:
     # Arrange
     specs = [
-        TestPluginSpec(
-            name="dir_plugin",
-            supported_extensions=[".jdce"],
-            supports_directory_images=True,
-        ),
+        DIRECTORY_PLUGIN_SPEC,
         TestPluginSpec(
             name="regular",
             supported_extensions=[".txt"],

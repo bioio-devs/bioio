@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+v3.6.0 (2026-10-13)
+-------------------
+- Share directory plugin spec across plugin tests [Brian Whitney, Claude
+  Sonnet 5.5]
+- Detect directory images via ReaderMetadata.supports_directory_images
+  [Brian Whitney, Claude Fable 5.1]
+- Add Zenodo concept DOI to README citation and CITATION.cff [Brian
+  Whitney, Claude Fable 5.1]
+
+
 v3.5.1 (2026-09-14)
 -------------------
 - comment responses [Brian Whitney]

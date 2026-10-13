@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio.plugins - bioio 3.5.1 documentation</title>
+        <title>bioio.plugins - bioio 3.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -161,7 +161,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
+      <a href="../../index.html"><div class="brand">bioio 3.6.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -182,7 +182,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.6.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -291,6 +291,9 @@
 
 <span class="c1"># global cache of plugins</span>
 <span class="n">plugins_by_ext_cache</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+<span class="c1"># global cache of plugins for formats that store an image as a directory of files</span>
+<span class="n">directory_image_plugins_cache</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_extensions</span><span class="p">(</span><span class="n">exts</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -498,6 +501,8 @@
 <span class="sd">    * This default ordering controls BioIO's automatic choice of reader based</span>
 <span class="sd">      on extension. A user can still override the order of candidate plugins</span>
 <span class="sd">      for a given file via the ``reader`` argument on ``BioImage``.</span>
+<span class="sd">    * Some formats store an image as a directory of files, where the directory</span>
+<span class="sd">      path denotes the image.</span>
 <span class="sd">    """</span>
     <span class="k">if</span> <span class="n">use_cache</span> <span class="ow">and</span> <span class="n">plugins_by_ext_cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -506,6 +511,9 @@
 
     <span class="c1"># Mapping of extension -&gt; list[PluginEntry]</span>
     <span class="n">plugins_by_ext</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Plugins for formats that store an image as a directory of files</span>
+    <span class="n">directory_image_plugins</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># Per-plugin specificity metrics</span>
     <span class="n">plugin_family_counts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -561,11 +569,18 @@
         <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">normalized_exts</span><span class="p">:</span>
             <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_entry</span><span class="p">)</span>
 
+        <span class="c1"># fallback support</span>
+        <span class="n">supports_directory_images</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">reader_meta</span><span class="p">,</span> <span class="s2">"supports_directory_images"</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">supports_directory_images</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">supports_directory_images</span><span class="p">():</span>
+            <span class="n">directory_image_plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_entry</span><span class="p">)</span>
+
     <span class="c1"># Order plugins within each extension:</span>
     <span class="c1">#   1) fewer extension families (more specific)</span>
     <span class="c1">#   2) fewer raw declared extensions</span>
     <span class="c1">#   3) alphabetical entrypoint name</span>
-    <span class="k">for</span> <span class="n">ext</span><span class="p">,</span> <span class="n">plugin_list</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">plugin_list</span> <span class="ow">in</span> <span class="p">[</span><span class="o">*</span><span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">directory_image_plugins</span><span class="p">]:</span>
         <span class="n">plugin_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
             <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">plugin_family_counts</span><span class="p">[</span><span class="n">p</span><span class="p">],</span>
@@ -587,8 +602,21 @@
     <span class="c1"># Save copy of plugins to cache then return</span>
     <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="n">plugins_by_ext_cache</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">plugins_by_ext_ordered</span><span class="p">)</span>
+    <span class="n">directory_image_plugins_cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">directory_image_plugins_cache</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">directory_image_plugins</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">plugins_by_ext_ordered</span></div>
+
+
+
+<div class="viewcode-block" id="get_directory_image_plugins">
+<a class="viewcode-back" href="../../bioio.html#bioio.plugins.get_directory_image_plugins">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_directory_image_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">PluginEntry</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Gather the ordered list of installed plugins that read directory images</span>
+<span class="sd">    """</span>
+    <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">directory_image_plugins_cache</span><span class="p">)</span></div>
 
 
 
@@ -604,7 +632,8 @@
 <span class="sd">        Whether to use the cached plugins list. Mainly exposed for testing purposes.</span>
 <span class="sd">    """</span>
     <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_cache</span><span class="p">)</span>
-    <span class="n">plugin_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">directory_image_plugins</span> <span class="o">=</span> <span class="n">get_directory_image_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plugin_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">directory_image_plugins</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">plugin_set</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span>
 
@@ -636,11 +665,13 @@
         <span class="n">reader_meta</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span>
         <span class="n">exts</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reader_meta</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">())</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Supported Extensions : </span><span class="si">{</span><span class="n">exts</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Supports Directory Images : </span><span class="si">{</span><span class="n">plugin</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">directory_image_plugins</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">"Plugins for extensions:"</span><span class="p">)</span>
     <span class="n">sorted_exts</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">sorted_exts</span><span class="p">:</span>
         <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_by_ext</span><span class="p">[</span><span class="n">ext</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plugins</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">plugins</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Plugins for directory images: </span><span class="si">{</span><span class="n">directory_image_plugins</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
@@ -689,6 +720,7 @@
 <span class="sd">    but the user may explicitly choose it via the `reader=` parameter.</span>
 <span class="sd">    """</span>
     <span class="n">plugins_by_ext</span> <span class="o">=</span> <span class="n">get_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="n">use_plugin_cache</span><span class="p">)</span>
+    <span class="n">directory_image_plugins</span> <span class="o">=</span> <span class="n">get_directory_image_plugins</span><span class="p">(</span><span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">feasibility_report</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PluginSupport</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">ext</span> <span class="o">=</span> <span class="kc">None</span>
@@ -698,13 +730,17 @@
         <span class="n">ext</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">clean_path</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="c1"># Check each plugin for support</span>
-    <span class="k">for</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">plugins</span> <span class="ow">in</span> <span class="p">[</span><span class="o">*</span><span class="n">plugins_by_ext</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">directory_image_plugins</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
             <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">name</span>
             <span class="n">support</span> <span class="o">=</span> <span class="n">_check_plugin_support</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">fs_kwargs</span><span class="p">)</span>
             <span class="n">feasibility_report</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">support</span>
 
-            <span class="k">if</span> <span class="n">support</span><span class="o">.</span><span class="n">supported</span> <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">support</span><span class="o">.</span><span class="n">supported</span>
+                <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="n">plugin</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">directory_image_plugins</span>
+            <span class="p">):</span>
                 <span class="n">advertised_exts</span> <span class="o">=</span> <span class="n">_normalize_extensions</span><span class="p">(</span>
                     <span class="n">plugin</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get_supported_extensions</span><span class="p">()</span>
                 <span class="p">)</span>
@@ -770,7 +806,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=654eae90"></script>
+</div><script src="../../_static/documentation_options.js?v=5349f462"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

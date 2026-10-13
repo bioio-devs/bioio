@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>bioio package - bioio 3.5.1 documentation</title>
+        <title>bioio package - bioio 3.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -162,7 +162,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">bioio 3.5.1 documentation</div></a>
+      <a href="index.html"><div class="brand">bioio 3.6.0 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -183,7 +183,7 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  <span class="sidebar-brand-text">bioio 3.5.1 documentation</span>
+  <span class="sidebar-brand-text">bioio 3.6.0 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -677,9 +677,14 @@ plugin based on the file extension.</p></li>
 </ol>
 <p>3. For matching extensions, tries candidate readers in the order provided by
 the plugin mapping, returning the first constructed plugin whose reader.
-4. If <cite>image</cite> is array-like (or a list of array-like), returns the built-in
+4. If no extension-matched reader accepted the path and the path is a</p>
+<blockquote>
+<div><p>directory, treats the directory itself as the image and tries the
+readers of directory-based formats.</p>
+</div></blockquote>
+<p>5. If <cite>image</cite> is array-like (or a list of array-like), returns the built-in
 ArrayLike reader plugin.
-5. If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p>
+6. If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p>
 <p>Extension ordering and plugin ordering are defined by
 <a class="reference internal" href="#bioio.plugins.get_plugins" title="bioio.plugins.get_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins()</span></code></a>. See that function for the
 description of BioIO’s default selection policy.</p>
@@ -1624,6 +1629,12 @@ by the given distribution.
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="bioio.plugins.get_directory_image_plugins">
+<span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">get_directory_image_plugins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#get_directory_image_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.get_directory_image_plugins" title="Link to this definition">¶</a></dt>
+<dd><p>Gather the ordered list of installed plugins that read directory images</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="bioio.plugins.get_plugins">
 <span class="sig-prename descclassname"><span class="pre">bioio.plugins.</span></span><span class="sig-name descname"><span class="pre">get_plugins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#bioio.plugins.PluginEntry" title="bioio.plugins.PluginEntry"><span class="pre">PluginEntry</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/bioio/plugins.html#get_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bioio.plugins.get_plugins" title="Link to this definition">¶</a></dt>
 <dd><p>Gather a ordered mapping from supported file extensions to installed plugins.</p>
@@ -1641,6 +1652,8 @@ skip plugins that are incompatible.</p></li>
 <li><p>This default ordering controls BioIO’s automatic choice of reader based
 on extension. A user can still override the order of candidate plugins
 for a given file via the <code class="docutils literal notranslate"><span class="pre">reader</span></code> argument on <code class="docutils literal notranslate"><span class="pre">BioImage</span></code>.</p></li>
+<li><p>Some formats store an image as a directory of files, where the directory
+path denotes the image.</p></li>
 </ul>
 </dd></dl>
 
@@ -1929,9 +1942,14 @@ plugin based on the file extension.</p></li>
 </ol>
 <p>3. For matching extensions, tries candidate readers in the order provided by
 the plugin mapping, returning the first constructed plugin whose reader.
-4. If <cite>image</cite> is array-like (or a list of array-like), returns the built-in
+4. If no extension-matched reader accepted the path and the path is a</p>
+<blockquote>
+<div><p>directory, treats the directory itself as the image and tries the
+readers of directory-based formats.</p>
+</div></blockquote>
+<p>5. If <cite>image</cite> is array-like (or a list of array-like), returns the built-in
 ArrayLike reader plugin.
-5. If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p>
+6. If no suitable plugin is found, raises an <cite>UnsupportedFileFormatError</cite>.</p>
 <p>Extension ordering and plugin ordering are defined by
 <a class="reference internal" href="#bioio.plugins.get_plugins" title="bioio.plugins.get_plugins"><code class="xref py py-func docutils literal notranslate"><span class="pre">bioio.plugins.get_plugins()</span></code></a>. See that function for the
 description of BioIO’s default selection policy.</p>
@@ -3147,6 +3165,7 @@ but the user may explicitly choose it via the <cite>reader=</cite> parameter.</p
 <li><a class="reference internal" href="#bioio.plugins.dump_plugins"><code class="docutils literal notranslate"><span class="pre">dump_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_array_like_plugin"><code class="docutils literal notranslate"><span class="pre">get_array_like_plugin()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_dependency_version_range_for_distribution"><code class="docutils literal notranslate"><span class="pre">get_dependency_version_range_for_distribution()</span></code></a></li>
+<li><a class="reference internal" href="#bioio.plugins.get_directory_image_plugins"><code class="docutils literal notranslate"><span class="pre">get_directory_image_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.get_plugins"><code class="docutils literal notranslate"><span class="pre">get_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#bioio.plugins.plugin_feasibility_report"><code class="docutils literal notranslate"><span class="pre">plugin_feasibility_report()</span></code></a></li>
 </ul>
@@ -3272,7 +3291,7 @@ but the user may explicitly choose it via the <cite>reader=</cite> parameter.</p
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=654eae90"></script>
+</div><script src="_static/documentation_options.js?v=5349f462"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

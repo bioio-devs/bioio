@@ -12,6 +12,7 @@ import numpy as np
 import xarray as xr
 from bioio_base.standard_metadata import StandardMetadata
 from bioio_base.types import MetaArrayLike
+from fsspec.implementations.http import HTTPFileSystem
 from ome_types import OME
 
 from .ome_utils import generate_ome_channel_id
@@ -274,7 +275,8 @@ class BioImage(biob.image_container.ImageContainer):
                     is_dir = fs.isdir(path)
                 except Exception:
                     is_dir = False
-                if is_dir:
+                # HTTP(S) can't report directories, so the readers decide
+                if is_dir or isinstance(fs, HTTPFileSystem):
                     plugin = BioImage._first_supporting_plugin(
                         directory_image_plugins, image, path, fs_kwargs
                     )

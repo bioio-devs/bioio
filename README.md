@@ -59,6 +59,7 @@ this registry. Plug-ins marked with * are community contributed and are maintain
 | bioio-czi              | .czi        | [Repo](https://github.com/bioio-devs/bioio-czi)           |
 | bioio-dv               | .dv, .r3d   | [Repo](https://github.com/bioio-devs/bioio-dv)           |
 | bioio-imageio          | .jpg, .png, [Full List](https://github.com/bioio-devs/bioio-imageio/blob/6829370644b9780cfde35fa9d2cd5cea9f743681/bioio_imageio/reader_metadata.py#L26)  | [Repo](https://github.com/bioio-devs/bioio-imageio)           |
+| bioio-imagexpress      | .jdce (ImageXpress directory) | [Repo](https://github.com/bioio-devs/bioio-imagexpress)           |
 | bioio-imzml \*         | .imzml      | [Repo](https://github.com/DBP008/bioio-imzml)           |
 | bioio-lif              | .lif        | [Repo](https://github.com/bioio-devs/bioio-lif)           |
 | bioio-nd2              | .nd2        | [Repo](https://github.com/bioio-devs/bioio-nd2)           |

@@ -11,6 +11,7 @@ from bioio_base import exceptions
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
 from bioio_base.types import ImageLike
+from fsspec.implementations.http import HTTPFileSystem
 
 from bioio import BioImage
 from bioio.array_like_reader import ArrayLikeReader
@@ -389,3 +390,41 @@ def test_determine_plugin_with_ext_doesnt_probe_all_dir_supporting_plugins(
     # fallback must not probe it a second time
     failures = [r for r in caplog.records if "failed with error" in r.getMessage()]
     assert len(failures) == 1
+
+
+def test_determine_plugin_offers_http_url_to_directory_image_plugins(
+    plugin_factory: PluginFactoryFixture,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Arrange
+    plugin_factory([DIR_IMAGE_PLUGIN])
+    # A cached instance would keep its own bound exists()
+    HTTPFileSystem.clear_instance_cache()
+    monkeypatch.setattr(HTTPFileSystem, "exists", lambda self, path, **kwargs: True)
+
+    # Act / Assert: HTTP can't report a directory, so the plugin decides
+    plugin = BioImage.determine_plugin("http://127.0.0.1:9/myplate")
+    assert plugin.entrypoint.name == "dir_plugin"
+
+
+def test_http_url_unsupported_by_directory_image_plugins_raises(
+    plugin_factory: PluginFactoryFixture,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # Arrange
+    plugin_factory(
+        [
+            TestPluginSpec(
+                name="dir_plugin",
+                supported_extensions=[".jdce"],
+                supports_directory_images=True,
+                fail_on_is_supported=True,
+            )
+        ]
+    )
+    HTTPFileSystem.clear_instance_cache()
+    monkeypatch.setattr(HTTPFileSystem, "exists", lambda self, path, **kwargs: True)
+
+    # Act / Assert
+    with pytest.raises(exceptions.UnsupportedFileFormatError):
+        BioImage.determine_plugin("http://127.0.0.1:9/myplate")

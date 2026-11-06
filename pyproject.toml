@@ -33,6 +33,7 @@ dependencies = [
   # each release so that we avoid bioio + bioio-base misalignment.
   "bioio-base~=3.6.0",
   "dask[array]>=2021.4.1",
+  "fsspec[http]>=2022.8.0",
   "numpy>=1.21.0",
   "ome-types[lxml]>=0.4.0",
   "semver>=3.0.1",
@@ -52,7 +53,6 @@ lint = [
 ]
 test = [
   "coverage>=5.1",
-  "fsspec[http]>=2022.8.0",
   "pytest>=5.4.3",
   "pytest-cov>=2.9.0",
   "pytest-raises>=0.11",

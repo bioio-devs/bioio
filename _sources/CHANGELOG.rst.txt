@@ -2,6 +2,21 @@ Changelog
 =========
 
 
+v3.7.1 (2026-11-09)
+-------------------
+- Admin: move fsspec[http] to core dependencies [Brian Whitney, Claude
+  Sonnet 5.5]
+
+
+v3.7.0 (2026-11-06)
+-------------------
+- Add bioio-imagexpress to reader plug-in registry [Brian Whitney,
+  Claude Fable 5.1]
+- Admin: bump bioio-base to 3.6.0 [Brian Whitney, Claude Sonnet 5.5]
+- Offer HTTP(S) URLs to directory image readers [Brian Whitney, Claude
+  Sonnet 5.5]
+
+
 v3.6.0 (2026-10-13)
 -------------------
 - Share directory plugin spec across plugin tests [Brian Whitney, Claude

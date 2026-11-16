@@ -13,7 +13,7 @@ name = "bioio"
 description = "Image reading, metadata management, and image writing for Microscopy images in Python"
 keywords = []
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { text = "BSD License" }
 authors = [
   { email = "evamaxfieldbrown@gmail.com", name = "Eva Maxfield Brown" },
@@ -22,7 +22,6 @@ authors = [
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Natural Language :: English",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
@@ -92,7 +91,7 @@ exclude = ["*docs/*", "*tests/*"]
 # tools
 [tool.ruff]
 line-length = 88
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]

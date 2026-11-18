@@ -385,8 +385,11 @@ class ArrayLikeReader(Reader):
         ):
             # Handle simple case of provided a DataArray
             if isinstance(scene_data, xr.DataArray):
-                # Set metadata to point at existing attrs
-                scene_data.attrs[constants.METADATA_UNPROCESSED] = scene_data.attrs
+                # Preserve reader metadata already present on a wrapped DataArray.
+                if constants.METADATA_UNPROCESSED not in scene_data.attrs:
+                    scene_data = scene_data.assign_attrs(
+                        {constants.METADATA_UNPROCESSED: dict(scene_data.attrs)}
+                    )
 
                 # If the data backing the xarray is dask
                 # just append

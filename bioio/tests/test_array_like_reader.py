@@ -8,10 +8,24 @@ import dask.array as da
 import numpy as np
 import pytest
 import xarray as xr
-from bioio_base import dimensions, exceptions, test_utilities, types
+from bioio_base import constants, dimensions, exceptions, test_utilities, types
 
 from ..array_like_reader import ArrayLikeReader
 from ..bio_image import BioImage
+
+
+@pytest.mark.parametrize("has_unprocessed_metadata", [False, True])
+def test_rewrap_xarray_preserves_metadata(has_unprocessed_metadata):
+    metadata = {"instrument": "microscope"}
+    key = constants.METADATA_UNPROCESSED
+    attrs = {key: metadata} if has_unprocessed_metadata else metadata
+    source = xr.DataArray(np.ones((2, 3)), dims=list("YX"), attrs=attrs)
+
+    image = BioImage(source)
+
+    assert image.metadata == metadata
+    assert source.attrs == attrs
+    np.testing.assert_array_equal(image.get_image_data("YX"), source.values)
 
 
 @pytest.mark.parametrize(

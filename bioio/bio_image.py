@@ -3,6 +3,7 @@
 
 import logging
 from dataclasses import replace
+from numbers import Integral
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type, Union, get_args
 
@@ -990,7 +991,8 @@ class BioImage(biob.image_container.ImageContainer):
         -----
         * If a requested dimension is not present in the data the dimension is
           added with a depth of 1.
-        * This will preload the entire image before returning the requested data.
+        * For a stitched mosaic with lazy stitching support, integer and slice
+          selections are applied before loading pixel data.
 
         See `bioio_base.transforms.reshape_data` for more details.
         """
@@ -1012,6 +1014,22 @@ class BioImage(biob.image_container.ImageContainer):
                 **kwargs,
             )
             return self.reader.get_image_data(dimension_order_out, **kwargs)
+
+        # Slice the lazy mosaic before computing so Dask only reads needed chunks.
+        if (
+            self._xarray_data is None
+            and kwargs
+            and all(isinstance(index, (Integral, slice)) for index in kwargs.values())
+            and self._is_stitching_mosaic
+        ):
+            try:
+                # Verify that the reader can build a stitched graph. The lazy
+                # BioImage path otherwise falls back to unstitched tiles.
+                self.reader.mosaic_xarray_dask_data
+            except NotImplementedError:
+                pass
+            else:
+                return self.get_image_dask_data(dimension_order_out, **kwargs).compute()
 
         # Otherwise read the full image and reshape/slice it.
         return biob.transforms.reshape_data(

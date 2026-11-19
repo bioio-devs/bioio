@@ -5,8 +5,11 @@ from importlib.metadata import EntryPoint
 from typing import List, Optional
 
 import bioio_base as biob
+import dask.array as da
 import numpy as np
 import pytest
+import xarray as xr
+from _pytest.monkeypatch import MonkeyPatch
 from bioio_base import exceptions
 from bioio_base.reader import Reader
 from bioio_base.reader_metadata import ReaderMetadata
@@ -43,6 +46,57 @@ def test_bioimage_determine_arraylike() -> None:
     assert isinstance(result.metadata, ReaderMetadata)
     assert issubclass(result.metadata.get_reader(), Reader)
     assert result.metadata.get_reader() is ArrayLikeReader
+
+
+@pytest.mark.parametrize("dimension_order_out", ["YX", None])
+def test_get_image_data_reads_only_requested_mosaic_tiles(
+    monkeypatch: MonkeyPatch, dimension_order_out: Optional[str]
+) -> None:
+    mosaic = np.arange(64, dtype=np.uint16).reshape(8, 8)
+    tiles_read = []
+
+    def read_tile(tile: np.ndarray, block_info: dict) -> np.ndarray:
+        tiles_read.append(block_info[None]["chunk-location"])
+        return tile
+
+    lazy_mosaic = da.from_array(mosaic, chunks=(4, 4)).map_blocks(
+        read_tile, dtype=mosaic.dtype, meta=np.empty((0, 0), dtype=mosaic.dtype)
+    )
+    monkeypatch.setattr(
+        ArrayLikeReader,
+        "_get_stitched_dask_mosaic",
+        lambda self: xr.DataArray(lazy_mosaic, dims=("Y", "X")),
+    )
+    monkeypatch.setattr(
+        ArrayLikeReader,
+        "_get_stitched_mosaic",
+        lambda self: xr.DataArray(lazy_mosaic.compute(), dims=("Y", "X")),
+    )
+    image = BioImage(np.zeros((4, 4, 4), dtype=mosaic.dtype), dim_order="MYX")
+
+    window = image.get_image_data(dimension_order_out, Y=slice(1, 3), X=slice(5, 7))
+
+    expected = mosaic[1:3, 5:7]
+    if dimension_order_out is None:
+        expected = expected[None, None, None, :, :]
+    np.testing.assert_array_equal(window, expected)
+    assert tiles_read == [(0, 1)]
+
+
+def test_get_image_data_preserves_eager_only_mosaic_stitching(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    mosaic = np.arange(64, dtype=np.uint16).reshape(8, 8)
+    monkeypatch.setattr(
+        ArrayLikeReader,
+        "_get_stitched_mosaic",
+        lambda self: xr.DataArray(mosaic, dims=("Y", "X")),
+    )
+    image = BioImage(np.zeros((4, 4, 4), dtype=mosaic.dtype), dim_order="MYX")
+
+    window = image.get_image_data("YX", Y=slice(1, 3), X=slice(5, 7))
+
+    np.testing.assert_array_equal(window, mosaic[1:3, 5:7])
 
 
 @pytest.mark.parametrize(
